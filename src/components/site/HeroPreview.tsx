@@ -1,4 +1,5 @@
 import { TODAY } from "@/lib/mock-data";
+import heroLibrary from "@/assets/hero-library.jpg";
 
 export function HeroPreview() {
   return (
@@ -12,13 +13,22 @@ export function HeroPreview() {
         }}
       />
       <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-[0_20px_60px_-30px_rgba(60,45,20,0.35)]">
-        <div className="flex items-center gap-2 border-b border-border/60 bg-secondary/40 px-4 py-2.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-          <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
-          <span className="ml-3 text-[11px] uppercase tracking-widest text-muted-foreground">
-            Today's Journey
-          </span>
+        <div className="relative aspect-[16/10] w-full overflow-hidden">
+          <img
+            src={heroLibrary}
+            alt="Warm library scene with olive branches"
+            width={1280}
+            height={960}
+            className="h-full w-full object-cover"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--ivory) 85%, transparent) 100%)",
+            }}
+          />
         </div>
         <div className="grid gap-6 p-6 md:grid-cols-[1.1fr_1fr]">
           <div className="space-y-3">

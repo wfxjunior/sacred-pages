@@ -4,6 +4,7 @@ import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { BrandMark } from "./BrandMark";
 
 export function Header() {
   const { t } = useI18n();
@@ -19,9 +20,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-6">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2.5">
           <BrandMark />
-          <span className="font-serif text-lg tracking-tight">{t("brand.name")}</span>
+          <span className="font-serif text-[15px] font-semibold uppercase tracking-[0.15em] leading-tight">
+            {t("brand.name")}
+          </span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex">
           {nav.map((n) => {
@@ -82,17 +85,5 @@ export function Header() {
         </div>
       )}
     </header>
-  );
-}
-
-function BrandMark() {
-  return (
-    <span
-      aria-hidden
-      className="inline-flex h-8 w-8 items-center justify-center rounded-md"
-      style={{ background: "linear-gradient(135deg, oklch(0.635 0.115 70), oklch(0.45 0.05 45))" }}
-    >
-      <span className="font-serif text-sm text-primary-foreground">L</span>
-    </span>
   );
 }
