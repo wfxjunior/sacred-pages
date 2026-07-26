@@ -1,0 +1,16 @@
+{
+  "name": "Jornadas da Palavra",
+  "short_name": "Jornadas",
+  "description": "Sua jornada diária pela Palavra — devocionais, caça-palavras bíblico e reflexões.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8F6F2",
+  "theme_color": "#B88A3B",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
