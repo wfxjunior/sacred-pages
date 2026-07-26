@@ -390,10 +390,37 @@ function detect(): Locale {
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
+  // Lazy init so the first client render already reflects the stored / detected locale.
+  const [locale, setLocaleState] = useState<Locale>(() => detect());
+  const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
-    setLocaleState(detect());
+    // Re-run detect on mount in case SSR produced "en" while the client prefers pt/es.
+    setLocaleState((prev) => {
+      const d = detect();
+      return d === prev ? prev : d;
+    });
+    setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = locale;
+    }
+  }, [locale]);
+
+  // Keep locale consistent across tabs / route changes using storage events.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "locale" && e.newValue && e.newValue in dictionaries) {
+        setLocaleState(e.newValue as Locale);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   const setLocale = (l: Locale) => {
     setLocaleState(l);
     if (typeof window !== "undefined") window.localStorage.setItem("locale", l);
@@ -404,7 +431,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       setLocale,
       t: (k) => dictionaries[locale][k] ?? dictionaries.en[k] ?? k,
     }),
-    [locale],
+    [locale, hydrated],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
