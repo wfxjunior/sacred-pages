@@ -5,7 +5,7 @@ export type Locale = "en" | "pt" | "es";
 type Dict = Record<string, string>;
 
 const en: Dict = {
-  "brand.name": "Lumen Verse",
+  "brand.name": "Jornadas da Palavra",
   "brand.tagline": "Your daily journey through God's Word.",
   "nav.home": "Home",
   "nav.today": "Today's Journey",

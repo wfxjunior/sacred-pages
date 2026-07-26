@@ -1,3 +1,7 @@
+import colJesus from "@/assets/col-jesus.jpg";
+import colPsalms from "@/assets/col-psalms.jpg";
+import colFamily from "@/assets/col-family.jpg";
+
 export type Collection = {
   slug: string;
   title: string;
@@ -5,14 +9,15 @@ export type Collection = {
   count: number;
   hue: string; // css color
   progress?: number;
+  image?: string;
 };
 
 export const COLLECTIONS: Collection[] = [
-  { slug: "life-of-jesus", title: "The Life of Jesus", description: "Walk through the ministry and miracles of Christ.", count: 24, hue: "oklch(0.55 0.06 250)", progress: 0.35 },
-  { slug: "psalms", title: "Psalms", description: "Ancient songs of trust, lament, and praise.", count: 30, hue: "oklch(0.6 0.05 130)", progress: 0.6 },
+  { slug: "life-of-jesus", title: "The Life of Jesus", description: "Walk through the ministry and miracles of Christ.", count: 24, hue: "oklch(0.55 0.06 250)", progress: 0.35, image: colJesus },
+  { slug: "psalms", title: "Psalms", description: "Ancient songs of trust, lament, and praise.", count: 30, hue: "oklch(0.6 0.05 130)", progress: 0.6, image: colPsalms },
+  { slug: "family", title: "Family", description: "Scripture for marriage, parenting, and home.", count: 14, hue: "oklch(0.58 0.06 250)", image: colFamily },
   { slug: "proverbs", title: "Proverbs", description: "Everyday wisdom for a thoughtful life.", count: 18, hue: "oklch(0.635 0.115 70)", progress: 0.1 },
   { slug: "faith", title: "Faith", description: "Journeys about trust, courage, and belief.", count: 12, hue: "oklch(0.45 0.05 45)" },
-  { slug: "family", title: "Family", description: "Scripture for marriage, parenting, and home.", count: 14, hue: "oklch(0.58 0.06 250)" },
   { slug: "women", title: "Women of the Bible", description: "Stories of courage, wisdom, and faith.", count: 16, hue: "oklch(0.55 0.07 20)" },
   { slug: "men", title: "Men of the Bible", description: "Lives that still shape ours today.", count: 16, hue: "oklch(0.48 0.05 60)" },
   { slug: "prayer", title: "Prayer", description: "Learning to speak and listen to God.", count: 10, hue: "oklch(0.6 0.06 210)" },

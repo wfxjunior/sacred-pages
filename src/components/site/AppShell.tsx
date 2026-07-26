@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
 import { BookOpen, Compass, Heart, Home, Sparkles, User } from "lucide-react";
+import { BrandMark } from "./BrandMark";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { t } = useI18n();
@@ -20,15 +21,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="mx-auto flex max-w-[1400px] flex-col md:flex-row">
         <aside className="hidden w-60 shrink-0 border-r border-border/60 md:block">
           <div className="sticky top-0 flex h-screen flex-col">
-            <Link to="/my-journey" className="flex items-center gap-2 px-6 py-6">
-              <span
-                aria-hidden
-                className="inline-flex h-8 w-8 items-center justify-center rounded-md"
-                style={{ background: "linear-gradient(135deg, oklch(0.635 0.115 70), oklch(0.45 0.05 45))" }}
-              >
-                <span className="font-serif text-sm text-primary-foreground">L</span>
+            <Link to="/my-journey" className="flex items-center gap-2.5 px-6 py-6">
+              <BrandMark />
+              <span className="font-serif text-[13px] font-semibold uppercase tracking-[0.15em] leading-tight">
+                {t("brand.name")}
               </span>
-              <span className="font-serif text-base">{t("brand.name")}</span>
             </Link>
             <nav className="flex-1 space-y-1 px-3">
               {items.map((i) => {
@@ -62,7 +59,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="flex items-center justify-between border-b border-border/60 px-6 py-4 md:hidden">
-            <Link to="/my-journey" className="font-serif text-base">{t("brand.name")}</Link>
+            <Link to="/my-journey" className="flex items-center gap-2">
+              <BrandMark size={28} />
+              <span className="font-serif text-[12px] font-semibold uppercase tracking-[0.15em]">
+                {t("brand.name")}
+              </span>
+            </Link>
             <LanguageSelector />
           </header>
           <main className="min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12">{children}</main>
