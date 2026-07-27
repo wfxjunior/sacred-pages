@@ -279,27 +279,29 @@ export function HeroMockup() {
         <div className="grid gap-4 p-4 sm:gap-5 sm:p-5 md:gap-6 md:p-6 lg:grid-cols-[1.15fr_1fr] lg:p-7">
           {/* Word search grid */}
           <div
-            className="relative mx-auto grid w-full max-w-[440px] gap-1 rounded-2xl border border-border/60 p-2 sm:p-3 lg:mx-0 lg:max-w-none"
-            style={{
-              gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
-              background: "color-mix(in oklab, var(--ivory) 60%, transparent)",
-            }}
+            className="mx-auto w-full max-w-[440px] rounded-2xl border border-border/60 p-2 sm:p-3 lg:mx-0 lg:max-w-none"
+            style={{ background: "color-mix(in oklab, var(--ivory) 60%, transparent)" }}
           >
-            <FoundWordLines
-              placements={placements}
-              foundWords={foundWords}
-              wordColor={wordColor}
-              size={size}
-            />
-            {grid.map((row, r) =>
-              row.map((letter, c) => (
-                <Cell
-                  key={`${r}-${c}`}
-                  letter={letter}
-                  color={highlighted.get(`${r},${c}`)}
-                />
-              )),
-            )}
+            <div
+              className="relative grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${size}, minmax(0,1fr))` }}
+            >
+              <FoundWordLines
+                placements={placements}
+                foundWords={foundWords}
+                wordColor={wordColor}
+                size={size}
+              />
+              {grid.map((row, r) =>
+                row.map((letter, c) => (
+                  <Cell
+                    key={`${r}-${c}`}
+                    letter={letter}
+                    color={highlighted.get(`${r},${c}`)}
+                  />
+                )),
+              )}
+            </div>
           </div>
 
           {/* Side panel */}
