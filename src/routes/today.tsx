@@ -111,7 +111,7 @@ function MobileHeader({
         </p>
         <h1 className="mt-0.5 truncate font-serif text-lg leading-tight">{TODAY.title}</h1>
         <p className="mt-0.5 text-[10px] text-muted-foreground">
-          {TODAY.words.length} {TODAY.words.length === 1 ? "word" : "words"} · {t(`diff.${difficulty}`)}
+          {TODAY.words.length} {TODAY.words.length === 1 ? "word" : "words"} · {difficultyLabel}
         </p>
       </div>
       <div className="flex shrink-0 items-center gap-1.5">
