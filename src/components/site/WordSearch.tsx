@@ -4,13 +4,22 @@ import { SELECTION_COLORS } from "@/lib/mock-data";
 
 type Cell = { r: number; c: number };
 
-export function WordSearch({ words, size = 12 }: { words: string[]; size?: number }) {
+export function WordSearch({
+  words,
+  size = 12,
+  fullBleed = false,
+}: {
+  words: string[];
+  size?: number;
+  fullBleed?: boolean;
+}) {
   const { grid, placements } = useMemo(() => buildGrid(words, size), [words, size]);
   const [colorKey, setColorKey] = useState("gold");
   const color = SELECTION_COLORS.find((c) => c.key === colorKey)!.value;
   const [start, setStart] = useState<Cell | null>(null);
   const [end, setEnd] = useState<Cell | null>(null);
   const [found, setFound] = useState<string[]>([]);
+  const [selecting, setSelecting] = useState(false);
 
   function cellsBetween(a: Cell, b: Cell): Cell[] {
     const dr = Math.sign(b.r - a.r);
@@ -46,10 +55,28 @@ export function WordSearch({ words, size = 12 }: { words: string[]; size?: numbe
     setEnd(null);
   }
 
+  function begin(r: number, c: number) {
+    setSelecting(true);
+    setStart({ r, c });
+    setEnd({ r, c });
+  }
+
+  function move(r: number, c: number) {
+    if (!selecting || !start) return;
+    setEnd({ r, c });
+  }
+
+  function endSelection() {
+    setSelecting(false);
+    commit();
+  }
+
   return (
-    <div className="space-y-6">
+    <div className={`flex flex-col ${fullBleed ? "h-full min-h-0" : "space-y-6"}`}>
       <div
-        className="grid select-none gap-1 rounded-lg border border-border bg-card p-3"
+        className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
+          fullBleed ? "h-full w-full p-2" : "p-3"
+        }`}
         style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
         onMouseLeave={() => {
           setStart(null);
@@ -63,15 +90,35 @@ export function WordSearch({ words, size = 12 }: { words: string[]; size?: numbe
             return (
               <button
                 key={`${r}-${c}`}
-                onMouseDown={() => {
-                  setStart({ r, c });
-                  setEnd({ r, c });
+                onMouseDown={() => begin(r, c)}
+                onMouseEnter={() => move(r, c)}
+                onMouseUp={endSelection}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  begin(r, c);
                 }}
-                onMouseEnter={() => {
-                  if (start) setEnd({ r, c });
+                onTouchMove={(e) => {
+                  e.preventDefault();
+                  const touch = e.touches[0];
+                  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+                  const btn = target?.closest("button[data-r]");
+                  if (btn) {
+                    const rr = Number(btn.getAttribute("data-r"));
+                    const cc = Number(btn.getAttribute("data-c"));
+                    move(rr, cc);
+                  }
                 }}
-                onMouseUp={commit}
-                className="aspect-square rounded-sm text-xs font-medium uppercase transition sm:text-sm"
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  endSelection();
+                }}
+                data-r={r}
+                data-c={c}
+                className={`aspect-square rounded-sm font-medium uppercase transition ${
+                  fullBleed
+                    ? "text-[10px] xs:text-xs sm:text-sm"
+                    : "text-xs sm:text-sm"
+                }`}
                 style={{
                   background: isFound
                     ? `color-mix(in oklab, ${color} 22%, transparent)`
@@ -89,48 +136,46 @@ export function WordSearch({ words, size = 12 }: { words: string[]; size?: numbe
           }),
         )}
       </div>
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">Selection</span>
-          <div className="flex items-center gap-1.5">
-            {SELECTION_COLORS.map((c) => (
-              <button
-                key={c.key}
-                onClick={() => setColorKey(c.key)}
-                aria-label={c.label}
-                className="h-5 w-5 rounded-full border-2 transition"
-                style={{
-                  background: c.value,
-                  borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
-                }}
-              />
-            ))}
+      {!fullBleed && (
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Selection</span>
+            <div className="flex items-center gap-1.5">
+              {SELECTION_COLORS.map((c) => (
+                <button
+                  key={c.key}
+                  onClick={() => setColorKey(c.key)}
+                  aria-label={c.label}
+                  className="h-5 w-5 rounded-full border-2 transition"
+                  style={{
+                    background: c.value,
+                    borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {words.map((w) => {
+              const done = found.includes(w.toUpperCase());
+              return (
+                <span
+                  key={w}
+                  className={`rounded-full border px-3 py-1 text-xs uppercase tracking-wider transition ${
+                    done ? "border-transparent line-through" : "border-border text-muted-foreground"
+                  }`}
+                  style={{
+                    color: done ? "var(--sage)" : undefined,
+                    background: done ? "color-mix(in oklab, var(--sage) 12%, transparent)" : undefined,
+                  }}
+                >
+                  {w}
+                </span>
+              );
+            })}
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {words.map((w) => {
-            const done = found.includes(w.toUpperCase());
-            return (
-              <span
-                key={w}
-                className={`rounded-full border px-3 py-1 text-xs uppercase tracking-wider transition ${
-                  done ? "border-transparent line-through" : "border-border text-muted-foreground"
-                }`}
-                style={
-                  done
-                    ? {
-                        color: "var(--sage)",
-                        background: "color-mix(in oklab, var(--sage) 12%, transparent)",
-                      }
-                    : undefined
-                }
-              >
-                {w}
-              </span>
-            );
-          })}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -5,7 +5,13 @@ import { LanguageSelector } from "./LanguageSelector";
 import { BookOpen, Compass, Heart, Home, Sparkles, User } from "lucide-react";
 import { BrandMark } from "./BrandMark";
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  mainClassName,
+}: {
+  children: ReactNode;
+  mainClassName?: string;
+}) {
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const items = [
@@ -67,7 +73,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
             <LanguageSelector />
           </header>
-          <main className="min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12">{children}</main>
+          <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>{children}</main>
           <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">
             {items.slice(0, 5).map((i) => {
               const active = pathname === i.to;
