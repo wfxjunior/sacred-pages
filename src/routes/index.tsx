@@ -116,7 +116,7 @@ function Landing() {
               </Button>
             </div>
           </div>
-          <HeroPreview />
+          <HeroMockup />
         </div>
       </section>
 
