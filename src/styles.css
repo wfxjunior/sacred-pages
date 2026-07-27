@@ -71,6 +71,49 @@
   }
 }
 
+@keyframes cell-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes chip-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes toast-in {
+  0% {
+    transform: translateY(-8px) scale(0.96);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-out {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-8px) scale(0.96);
+    opacity: 0;
+  }
+}
+
 :root {
   --radius: 0.5rem;
   /* Warm Ivory #F8F6F2 */
