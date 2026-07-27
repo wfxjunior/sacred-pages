@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Check } from "lucide-react";
-import { buildGrid, WordPlacement } from "@/lib/word-search";
+import { buildGrid, type Placement } from "@/lib/word-search";
 import { TODAY } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 
