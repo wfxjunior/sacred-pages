@@ -78,7 +78,7 @@ function Today() {
       {/* Mobile full-bleed layout */}
       <div className="flex h-full flex-col md:hidden">
         <MobileHeader
-          difficulty={difficulty}
+          difficultyLabel={t(`diff.${difficulty}`)}
           onComplete={() => setComplete(true)}
         />
 
