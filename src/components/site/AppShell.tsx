@@ -5,7 +5,13 @@ import { LanguageSelector } from "./LanguageSelector";
 import { BookOpen, Compass, Heart, Home, Sparkles, User } from "lucide-react";
 import { BrandMark } from "./BrandMark";
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  mainClassName,
+}: {
+  children: ReactNode;
+  mainClassName?: string;
+}) {
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const items = [
