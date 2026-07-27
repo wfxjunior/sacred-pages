@@ -55,9 +55,6 @@
 }
 
 @keyframes draw-line {
-  from {
-    stroke-dashoffset: var(--draw-length, 100);
-  }
   to {
     stroke-dashoffset: 0;
   }
