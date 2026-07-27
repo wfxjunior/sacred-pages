@@ -97,10 +97,10 @@ function Today() {
 }
 
 function MobileHeader({
-  difficulty,
+  difficultyLabel,
   onComplete,
 }: {
-  difficulty: "gentle" | "balanced" | "challenging" | "expert";
+  difficultyLabel: string;
   onComplete: () => void;
 }) {
   return (
