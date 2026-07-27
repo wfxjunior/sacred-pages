@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Section } from "@/components/site/Section";
-import { HeroPreview } from "@/components/site/HeroPreview";
 import { HeroMockup } from "@/components/site/HeroMockup";
 import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
