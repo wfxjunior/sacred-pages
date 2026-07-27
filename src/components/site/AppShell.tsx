@@ -73,7 +73,7 @@ export function AppShell({
             </Link>
             <LanguageSelector />
           </header>
-          <main className="min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12">{children}</main>
+          <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>{children}</main>
           <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">
             {items.slice(0, 5).map((i) => {
               const active = pathname === i.to;
