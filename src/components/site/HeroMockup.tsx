@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Check } from "lucide-react";
-import { buildGrid } from "@/lib/word-search";
+import { buildGrid, type Placement } from "@/lib/word-search";
 import { TODAY } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 
@@ -20,7 +20,7 @@ const Cell = memo(function Cell({ letter, color }: { letter: string; color?: str
     <div
       className="flex aspect-square items-center justify-center rounded-md text-[10px] font-medium uppercase sm:text-[11px]"
       style={{
-        backgroundColor: hit ? `color-mix(in oklab, ${color} 28%, transparent)` : "transparent",
+        backgroundColor: hit ? `color-mix(in oklab, ${color} 18%, transparent)` : "transparent",
         color: hit ? "var(--ink)" : "color-mix(in oklab, var(--ink) 70%, transparent)",
         transform: hit ? "scale(1)" : "scale(0.98)",
         transition: "transform 300ms ease-out, background-color 300ms ease-out",
@@ -31,6 +31,69 @@ const Cell = memo(function Cell({ letter, color }: { letter: string; color?: str
     </div>
   );
 });
+
+// Elegant drawn line over found words. SVG is percentage-based so it stays
+// locked to the grid at any size, and the path is animated with stroke-dashoffset.
+function FoundWordLines({
+  placements,
+  foundWords,
+  wordColor,
+  size,
+}: {
+  placements: Placement[];
+  foundWords: Set<string>;
+  wordColor: Map<string, string>;
+  size: number;
+}) {
+  const unit = 100 / size; // each cell occupies this % of the SVG viewport
+  const offset = unit / 2; // center of the cell
+
+  const paths = useMemo(() => {
+    return placements
+      .filter((p) => foundWords.has(p.word))
+      .map((p) => {
+        const color = wordColor.get(p.word) ?? "var(--gold)";
+        const x1 = p.col * unit + offset;
+        const y1 = p.row * unit + offset;
+        const x2 = (p.col + p.dc * (p.word.length - 1)) * unit + offset;
+        const y2 = (p.row + p.dr * (p.word.length - 1)) * unit + offset;
+        const length = Math.hypot(x2 - x1, y2 - y1);
+        return {
+          key: `${p.word}-${p.row}-${p.col}`,
+          d: `M ${x1} ${y1} L ${x2} ${y2}`,
+          color,
+          length: `${length}`,
+        };
+      });
+  }, [placements, foundWords, wordColor, unit, offset]);
+
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden
+    >
+      {paths.map(({ key, d, color, length }) => (
+        <path
+          key={key}
+          d={d}
+          fill="none"
+          stroke={color}
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+          style={{
+            strokeDasharray: `${length} ${length}`,
+            strokeDashoffset: `${length}`,
+            animation: "draw-line 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+            opacity: 0.9,
+          }}
+        />
+      ))}
+    </svg>
+  );
+}
 
 export function HeroMockup() {
   const { t } = useI18n();
@@ -216,21 +279,29 @@ export function HeroMockup() {
         <div className="grid gap-4 p-4 sm:gap-5 sm:p-5 md:gap-6 md:p-6 lg:grid-cols-[1.15fr_1fr] lg:p-7">
           {/* Word search grid */}
           <div
-            className="mx-auto grid w-full max-w-[440px] gap-1 rounded-2xl border border-border/60 p-2 sm:p-3 lg:mx-0 lg:max-w-none"
-            style={{
-              gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
-              background: "color-mix(in oklab, var(--ivory) 60%, transparent)",
-            }}
+            className="mx-auto w-full max-w-[440px] rounded-2xl border border-border/60 p-2 sm:p-3 lg:mx-0 lg:max-w-none"
+            style={{ background: "color-mix(in oklab, var(--ivory) 60%, transparent)" }}
           >
-            {grid.map((row, r) =>
-              row.map((letter, c) => (
-                <Cell
-                  key={`${r}-${c}`}
-                  letter={letter}
-                  color={highlighted.get(`${r},${c}`)}
-                />
-              )),
-            )}
+            <div
+              className="relative grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${size}, minmax(0,1fr))` }}
+            >
+              <FoundWordLines
+                placements={placements}
+                foundWords={foundWords}
+                wordColor={wordColor}
+                size={size}
+              />
+              {grid.map((row, r) =>
+                row.map((letter, c) => (
+                  <Cell
+                    key={`${r}-${c}`}
+                    letter={letter}
+                    color={highlighted.get(`${r},${c}`)}
+                  />
+                )),
+              )}
+            </div>
           </div>
 
           {/* Side panel */}

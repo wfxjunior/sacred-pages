@@ -54,6 +54,12 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 :root {
   --radius: 0.5rem;
   /* Warm Ivory #F8F6F2 */
