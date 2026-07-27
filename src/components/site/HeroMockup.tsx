@@ -109,11 +109,11 @@ export function HeroMockup() {
         </div>
 
         {/* Header */}
-        <div className="px-5 pt-5 sm:px-7 sm:pt-7">
+        <div className="px-5 pt-5 sm:px-6 sm:pt-6 md:px-7 md:pt-7">
           <p className="text-[10px] uppercase tracking-[0.25em]" style={{ color: "var(--gold)" }}>
             {TODAY.reference}
           </p>
-          <h3 className="mt-2 font-serif text-xl leading-tight sm:text-2xl md:text-[26px]">
+          <h3 className="mt-2 font-serif text-xl leading-tight sm:text-[22px] md:text-2xl lg:text-[26px]">
             {TODAY.title}
           </h3>
         </div>
@@ -122,7 +122,7 @@ export function HeroMockup() {
         <div
           role="tablist"
           aria-label={t("hero.label")}
-          className="mt-5 flex items-center gap-1 border-b border-border/50 px-3 sm:px-5"
+          className="mt-5 flex flex-wrap items-center gap-x-1 gap-y-0 border-b border-border/50 px-3 sm:px-5"
           onKeyDown={(e) => {
             if (e.key === "ArrowRight") { e.preventDefault(); focusTab(activeTab + 1); }
             else if (e.key === "ArrowLeft") { e.preventDefault(); focusTab(activeTab - 1); }
@@ -141,7 +141,7 @@ export function HeroMockup() {
                 aria-selected={active}
                 tabIndex={active ? 0 : -1}
                 onClick={() => { setActiveTab(i); setAutoPlay(false); }}
-                className={`rounded-t-md border-b-2 px-3 py-2.5 text-xs transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card ${
+                className={`rounded-t-md border-b-2 px-2.5 py-2.5 text-[11px] transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-card sm:px-3 sm:text-xs ${
                   active
                     ? "border-current font-medium"
                     : "border-transparent text-muted-foreground hover:text-foreground"
@@ -158,10 +158,10 @@ export function HeroMockup() {
         </div>
 
         {/* Body */}
-        <div className="grid gap-4 p-4 sm:gap-5 sm:p-6 md:grid-cols-[1.15fr_1fr] md:p-7">
+        <div className="grid gap-4 p-4 sm:gap-5 sm:p-5 md:gap-6 md:p-6 lg:grid-cols-[1.15fr_1fr] lg:p-7">
           {/* Word search grid */}
           <div
-            className="grid gap-1 rounded-2xl border border-border/60 p-2 sm:p-3"
+            className="mx-auto grid w-full max-w-[440px] gap-1 rounded-2xl border border-border/60 p-2 sm:p-3 lg:mx-0 lg:max-w-none"
             style={{
               gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
               background: "color-mix(in oklab, var(--ivory) 60%, transparent)",
