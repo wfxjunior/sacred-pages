@@ -258,7 +258,7 @@ Object.assign(pt, {
   "journey.difficulty": "Dificuldade",
   "wordsearch.found": "Palavra encontrada!",
   "wordsearch.foundAll": "Todas as palavras encontradas! 🎉",
-  "wordsearch.words": "Palabras",
+  "wordsearch.words": "Palavras",
   "help.revealLetter": "Revelar primeira letra",
   "help.showDirection": "Mostrar direção",
   "help.revealWord": "Revelar uma palavra",
