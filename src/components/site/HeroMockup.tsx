@@ -40,7 +40,7 @@ function FoundWordLines({
   wordColor,
   size,
 }: {
-  placements: WordPlacement[];
+  placements: Placement[];
   foundWords: Set<string>;
   wordColor: Map<string, string>;
   size: number;
