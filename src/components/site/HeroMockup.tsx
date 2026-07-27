@@ -484,7 +484,7 @@ export function HeroMockup() {
           {/* Sheet */}
           <div
             ref={sheetRef}
-            className="relative w-full rounded-t-[2.5rem] bg-[var(--ivory)] shadow-2xl animate-slide-up"
+            className="relative w-full rounded-t-[2.5rem] bg-[var(--ivory)] shadow-2xl animate-[slide-up_0.35s_cubic-bezier(0.22,1,0.36,1)_forwards]"
             style={{
               boxShadow: "0 -20px 60px -20px rgba(43,43,43,0.25)",
               maxHeight: "85vh",
