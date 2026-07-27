@@ -16,16 +16,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TODAY } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
-import { CheckCircle2, HelpCircle } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle2, HelpCircle, X, BookOpen } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/today")({
   head: () => ({
     meta: [
-      { title: "Today's Journey — Lumen Verse" },
+      { title: "Today's Journey — Jornadas da Palavra" },
       { name: "description", content: "A quiet daily journey through Scripture with a devotional, word search, reflection and prayer." },
-      { property: "og:title", content: "Today's Journey — Lumen Verse" },
+      { property: "og:title", content: "Today's Journey — Jornadas da Palavra" },
       { property: "og:description", content: "A daily Bible journey with devotional, word search, reflection and prayer." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Today,
@@ -40,8 +42,9 @@ function Today() {
   if (complete) return <Completion onReset={() => setComplete(false)} />;
 
   return (
-    <AppShell>
-      <div className="mx-auto max-w-6xl space-y-8">
+    <AppShell mainClassName="p-0 md:px-10 md:py-12">
+      {/* Desktop layout */}
+      <div className="mx-auto hidden max-w-6xl space-y-8 md:block">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
@@ -55,7 +58,7 @@ function Today() {
           <div className="flex items-center gap-2">
             <HelpMenu />
             <Button onClick={() => setComplete(true)} variant="outline" size="sm">
-              <CheckCircle2 className="mr-1.5 h-4 w-4" /> Mark complete
+              <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
             </Button>
           </div>
         </div>
@@ -67,59 +70,225 @@ function Today() {
             <WordSearch words={TODAY.words} size={sizes[difficulty]} />
           </div>
           <div className="rounded-xl border border-border bg-card">
-            <Tabs defaultValue="scripture" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 rounded-none border-b border-border bg-transparent p-0">
-                {[
-                  ["scripture", t("journey.scripture")],
-                  ["devotional", t("journey.devotional")],
-                  ["reflection", t("journey.reflection")],
-                  ["prayer", t("journey.prayer")],
-                ].map(([k, l]) => (
-                  <TabsTrigger
-                    key={k}
-                    value={k}
-                    className="rounded-none border-b-2 border-transparent bg-transparent py-3 text-sm data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-                  >
-                    {l}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              <div className="p-6 md:p-8">
-                <TabsContent value="scripture" className="mt-0 space-y-3">
-                  <p className="text-xs uppercase tracking-widest" style={{ color: "var(--walnut)" }}>{TODAY.reference}</p>
-                  <p className="font-serif text-xl leading-relaxed">"{TODAY.scripture}"</p>
-                </TabsContent>
-                <TabsContent value="devotional" className="mt-0 text-base leading-relaxed text-foreground/90">
-                  {TODAY.devotional}
-                </TabsContent>
-                <TabsContent value="reflection" className="mt-0 space-y-4">
-                  <p className="text-base leading-relaxed text-foreground/90">{TODAY.reflection}</p>
-                  <textarea
-                    placeholder="Write your reflection…"
-                    className="min-h-32 w-full rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
-                  />
-                </TabsContent>
-                <TabsContent value="prayer" className="mt-0 font-serif text-lg leading-relaxed">
-                  {TODAY.prayer}
-                </TabsContent>
-              </div>
-            </Tabs>
+            <JourneyTabs />
           </div>
         </div>
       </div>
+
+      {/* Mobile full-bleed layout */}
+      <div className="flex h-full flex-col md:hidden">
+        <MobileHeader
+          difficulty={difficulty}
+          onComplete={() => setComplete(true)}
+        />
+
+        <div className="flex-none px-4 py-2">
+          <DifficultyPicker value={difficulty} onChange={setDifficulty} compact />
+        </div>
+
+        <div className="min-h-0 flex-1 px-3 pb-3">
+          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed />
+        </div>
+
+        <MobileContentSheet />
+      </div>
     </AppShell>
+  );
+}
+
+function MobileHeader({
+  difficulty,
+  onComplete,
+}: {
+  difficulty: "gentle" | "balanced" | "challenging" | "expert";
+  onComplete: () => void;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+      <div className="min-w-0">
+        <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+          {TODAY.reference}
+        </p>
+        <h1 className="mt-0.5 truncate font-serif text-lg leading-tight">{TODAY.title}</h1>
+        <p className="mt-0.5 text-[10px] text-muted-foreground">
+          {TODAY.words.length} {TODAY.words.length === 1 ? "word" : "words"} · {TODAY.difficultyLabel}
+        </p>
+      </div>
+      <div className="flex shrink-0 items-center gap-1.5">
+        <HelpMenu />
+        <Button onClick={onComplete} variant="outline" size="icon" className="h-9 w-9">
+          <CheckCircle2 className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function MobileContentSheet() {
+  const { t } = useI18n();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-expanded={open}
+        className="absolute bottom-16 right-4 z-20 flex h-12 w-12 items-center justify-center rounded-full shadow-lg outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2"
+        style={{
+          background: "var(--gold)",
+          color: "var(--ivory)",
+          ["--tw-ring-color" as string]: "var(--walnut)",
+          boxShadow: "0 10px 28px -10px rgba(43,43,43,0.35)",
+        }}
+      >
+        <BookOpen className="h-5 w-5" />
+      </button>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col justify-end"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="today-sheet-title"
+        >
+          <div
+            className="absolute inset-0 bg-ink/20 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            className="relative w-full overflow-hidden rounded-t-[2.5rem] bg-[var(--ivory)] shadow-2xl animate-[slide-up_0.35s_cubic-bezier(0.22,1,0.36,1)_forwards]"
+            style={{ maxHeight: "90vh", boxShadow: "0 -20px 60px -20px rgba(43,43,43,0.25)" }}
+          >
+            <div className="flex justify-center px-5 pt-4">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="h-1.5 w-14 rounded-full bg-ink/15 transition-colors hover:bg-ink/25"
+                aria-label="Close"
+              />
+            </div>
+            <div className="max-h-[90vh] overflow-y-auto px-6 pb-8 pt-2">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "var(--gold)" }}>
+                    {TODAY.reference}
+                  </p>
+                  <h2 id="today-sheet-title" className="mt-1 font-serif text-2xl leading-tight">
+                    {t("today.title")}
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-ink/10 text-ink/60 hover:bg-ink/5 hover:text-ink"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <JourneyTabs />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function JourneyTabs() {
+  const { t } = useI18n();
+  return (
+    <Tabs defaultValue="scripture" className="w-full">
+      <TabsList className="mt-4 grid w-full grid-cols-4 rounded-none border-b border-border bg-transparent p-0">
+        {[
+          ["scripture", t("journey.scripture")],
+          ["devotional", t("journey.devotional")],
+          ["reflection", t("journey.reflection")],
+          ["prayer", t("journey.prayer")],
+        ].map(([k, l]) => (
+          <TabsTrigger
+            key={k}
+            value={k}
+            className="rounded-none border-b-2 border-transparent bg-transparent py-3 text-[11px] data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none md:text-sm"
+          >
+            {l}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      <div className="p-5 md:p-8">
+        <TabsContent value="scripture" className="mt-0 space-y-3">
+          <p className="text-xs uppercase tracking-widest" style={{ color: "var(--walnut)" }}>
+            {TODAY.reference}
+          </p>
+          <p className="font-serif text-lg leading-relaxed md:text-xl">"{TODAY.scripture}"</p>
+        </TabsContent>
+        <TabsContent value="devotional" className="mt-0 text-sm leading-relaxed text-foreground/90 md:text-base">
+          {TODAY.devotional}
+        </TabsContent>
+        <TabsContent value="reflection" className="mt-0 space-y-4">
+          <p className="text-sm leading-relaxed text-foreground/90 md:text-base">{TODAY.reflection}</p>
+          <textarea
+            placeholder="Write your reflection…"
+            className="min-h-32 w-full rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
+          />
+        </TabsContent>
+        <TabsContent value="prayer" className="mt-0 font-serif text-lg leading-relaxed">
+          {TODAY.prayer}
+        </TabsContent>
+      </div>
+    </Tabs>
   );
 }
 
 function DifficultyPicker({
   value,
   onChange,
+  compact = false,
 }: {
   value: "gentle" | "balanced" | "challenging" | "expert";
   onChange: (v: "gentle" | "balanced" | "challenging" | "expert") => void;
+  compact?: boolean;
 }) {
   const { t } = useI18n();
   const opts = ["gentle", "balanced", "challenging", "expert"] as const;
+  if (compact) {
+    return (
+      <div className="grid grid-cols-4 gap-1.5">
+        {opts.map((o) => {
+          const active = value === o;
+          return (
+            <button
+              key={o}
+              onClick={() => onChange(o)}
+              className={`rounded-md border px-2 py-2 text-center text-[10px] font-medium uppercase tracking-wider transition ${
+                active ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/40"
+              }`}
+            >
+              {t(`diff.${o}`)}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
   return (
     <div className="grid gap-2 sm:grid-cols-4">
       {opts.map((o) => {
@@ -145,10 +314,10 @@ function HelpMenu() {
   const { t } = useI18n();
   return (
     <AlertDialog>
-      <Button variant="ghost" size="sm" asChild>
+      <Button variant="ghost" size="sm" asChild className="h-9 px-2">
         <AlertDialogTrigger>
           <HelpCircle className="mr-1.5 h-4 w-4" />
-          {t("journey.help")}
+          <span className="hidden sm:inline">{t("journey.help")}</span>
         </AlertDialogTrigger>
       </Button>
       <AlertDialogContent>
