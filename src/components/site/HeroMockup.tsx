@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import { buildGrid } from "@/lib/word-search";
 import { TODAY } from "@/lib/mock-data";
@@ -12,6 +12,25 @@ const WORD_COLORS = [
   "var(--walnut)",
   "var(--gold)",
 ];
+
+// Memoized cell — re-renders only when its highlight color changes.
+const Cell = memo(function Cell({ letter, color }: { letter: string; color?: string }) {
+  const hit = Boolean(color);
+  return (
+    <div
+      className="flex aspect-square items-center justify-center rounded-md text-[10px] font-medium uppercase sm:text-[11px]"
+      style={{
+        backgroundColor: hit ? `color-mix(in oklab, ${color} 28%, transparent)` : "transparent",
+        color: hit ? "var(--ink)" : "color-mix(in oklab, var(--ink) 70%, transparent)",
+        transform: hit ? "scale(1)" : "scale(0.98)",
+        transition: "transform 300ms ease-out, background-color 300ms ease-out",
+        willChange: "transform",
+      }}
+    >
+      {letter}
+    </div>
+  );
+});
 
 export function HeroMockup() {
   const { t } = useI18n();
@@ -31,16 +50,32 @@ export function HeroMockup() {
     [t],
   );
 
-  // Cycle through tabs to make the mockup feel alive
+  // Cycle through tabs to make the mockup feel alive.
+  // Uses rAF-driven timing and respects prefers-reduced-motion.
   const [activeTab, setActiveTab] = useState(1); // start on Word Search
   const [autoPlay, setAutoPlay] = useState(true);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   useEffect(() => {
     if (!autoPlay) return;
-    const id = setInterval(() => {
-      setActiveTab((i) => (i + 1) % tabs.length);
-    }, 3800);
-    return () => clearInterval(id);
+    if (typeof window === "undefined") return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      if (document.hidden) {
+        last = now;
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      if (now - last >= 3800) {
+        last = now;
+        setActiveTab((i) => (i + 1) % tabs.length);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [tabs.length, autoPlay]);
 
   const focusTab = (i: number) => {
@@ -50,29 +85,49 @@ export function HeroMockup() {
     requestAnimationFrame(() => tabRefs.current[next]?.focus());
   };
 
-  // Progressively "find" words while on the Search tab
-  const orderedWords = TODAY.words.slice(0, 5);
+  // Progressively "find" words while on the Search tab (rAF-based)
+  const orderedWords = useMemo(() => TODAY.words.slice(0, 5), []);
   const [foundCount, setFoundCount] = useState(3);
   useEffect(() => {
     if (tabs[activeTab].key !== "search") return;
+    if (typeof window === "undefined") return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setFoundCount(2);
-    const id = setInterval(() => {
-      setFoundCount((c) => (c >= orderedWords.length ? 2 : c + 1));
-    }, 900);
-    return () => clearInterval(id);
+    if (reduce) return;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      if (document.hidden) {
+        last = now;
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      if (now - last >= 900) {
+        last = now;
+        setFoundCount((c) => (c >= orderedWords.length ? 2 : c + 1));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [activeTab, tabs, orderedWords.length]);
 
-  const foundWords = new Set(orderedWords.slice(0, foundCount));
-  const wordColor = new Map(orderedWords.map((w, i) => [w, WORD_COLORS[i % WORD_COLORS.length]]));
-  const highlighted = new Map<string, string>();
-  placements
-    .filter((p) => foundWords.has(p.word))
-    .forEach((p) => {
+  const wordColor = useMemo(
+    () => new Map(orderedWords.map((w, i) => [w, WORD_COLORS[i % WORD_COLORS.length]])),
+    [orderedWords],
+  );
+  const { foundWords, highlighted } = useMemo(() => {
+    const set = new Set(orderedWords.slice(0, foundCount));
+    const map = new Map<string, string>();
+    for (const p of placements) {
+      if (!set.has(p.word)) continue;
       const color = wordColor.get(p.word) ?? "var(--gold)";
       for (let i = 0; i < p.word.length; i++) {
-        highlighted.set(`${p.row + p.dr * i},${p.col + p.dc * i}`, color);
+        map.set(`${p.row + p.dr * i},${p.col + p.dc * i}`, color);
       }
-    });
+    }
+    return { foundWords: set, highlighted: map };
+  }, [foundCount, orderedWords, placements, wordColor]);
 
   const progressPct = Math.round((foundCount / orderedWords.length) * 100);
 
@@ -168,27 +223,13 @@ export function HeroMockup() {
             }}
           >
             {grid.map((row, r) =>
-              row.map((letter, c) => {
-                const color = highlighted.get(`${r},${c}`);
-                const hit = Boolean(color);
-                return (
-                  <div
-                    key={`${r}-${c}`}
-                    className="flex aspect-square items-center justify-center rounded-md text-[10px] font-medium uppercase transition-all duration-500 sm:text-[11px]"
-                    style={{
-                      background: hit
-                        ? `color-mix(in oklab, ${color} 28%, transparent)`
-                        : "transparent",
-                      color: hit
-                        ? "var(--ink)"
-                        : "color-mix(in oklab, var(--ink) 70%, transparent)",
-                      transform: hit ? "scale(1)" : "scale(0.98)",
-                    }}
-                  >
-                    {letter}
-                  </div>
-                );
-              }),
+              row.map((letter, c) => (
+                <Cell
+                  key={`${r}-${c}`}
+                  letter={letter}
+                  color={highlighted.get(`${r},${c}`)}
+                />
+              )),
             )}
           </div>
 
@@ -232,10 +273,13 @@ export function HeroMockup() {
                 className="mt-2 h-1.5 w-full overflow-hidden rounded-full"
                 style={{ background: "color-mix(in oklab, var(--walnut) 12%, transparent)" }}
               >
+                {/* GPU-friendly progress: animate transform: scaleX instead of width */}
                 <div
-                  className="h-full rounded-full transition-all duration-700 ease-out"
+                  className="h-full w-full origin-left rounded-full"
                   style={{
-                    width: `${progressPct}%`,
+                    transform: `scaleX(${progressPct / 100})`,
+                    transition: "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+                    willChange: "transform",
                     background:
                       "linear-gradient(90deg, var(--gold), color-mix(in oklab, var(--gold) 55%, var(--sage)))",
                   }}
@@ -268,25 +312,6 @@ export function HeroMockup() {
         </div>
       </div>
 
-      {/* Floating streak badge */}
-      <div
-        className="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-2xl border border-border/60 bg-card px-4 py-3 md:flex animate-fade-in"
-        style={{ boxShadow: "0 20px 40px -20px rgba(43,43,43,0.25)" }}
-      >
-        <div
-          className="grid h-9 w-9 place-items-center rounded-full font-serif text-base"
-          style={{
-            background: "color-mix(in oklab, var(--gold) 22%, transparent)",
-            color: "var(--ink)",
-          }}
-        >
-          12
-        </div>
-        <div className="leading-tight">
-          <p className="text-[10px] uppercase tracking-wider" style={{ color: "var(--walnut)" }}>day streak</p>
-          <p className="font-serif text-sm">{t("mock.progress")}</p>
-        </div>
-      </div>
     </div>
   );
 }
