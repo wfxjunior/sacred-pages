@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Section } from "@/components/site/Section";
-import { HeroPreview } from "@/components/site/HeroPreview";
+import { HeroMockup } from "@/components/site/HeroMockup";
 import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { COLLECTIONS, TODAY } from "@/lib/mock-data";
-import { ArrowRight, BookOpen, Compass, Heart, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Compass, Heart, Play, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -17,37 +17,62 @@ function Landing() {
   return (
     <SiteLayout>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden" style={{ background: "color-mix(in oklab, var(--ivory) 60%, white)" }}>
         <div
           aria-hidden
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(80% 60% at 20% 0%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 60%), radial-gradient(60% 50% at 90% 30%, color-mix(in oklab, var(--sage) 8%, transparent), transparent 60%)",
+              "radial-gradient(70% 55% at 15% 10%, color-mix(in oklab, var(--gold) 6%, transparent), transparent 60%), radial-gradient(55% 45% at 95% 40%, color-mix(in oklab, var(--sage) 5%, transparent), transparent 60%)",
           }}
         />
-        <div className="mx-auto grid max-w-7xl gap-16 px-6 py-20 md:grid-cols-[1.05fr_1fr] md:py-32">
-          <div className="flex flex-col justify-center">
-            <p className="mb-5 text-xs font-medium uppercase tracking-[0.25em]" style={{ color: "var(--walnut)" }}>
-              {t("brand.tagline")}
+        <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-20 md:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] md:gap-16 md:py-28">
+          <div className="flex flex-col">
+            <span
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-card/70 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] backdrop-blur"
+              style={{ color: "var(--walnut)" }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--gold)" }} />
+              {t("hero.label")}
+            </span>
+            <h1 className="mt-6 font-serif text-4xl leading-[1.05] tracking-tight md:text-[56px]">
+              {t("hero.h1a")}
+              <br />
+              <span style={{ color: "var(--gold)" }}>{t("hero.h1b")}</span>
+            </h1>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+              {t("hero.sub2")}
             </p>
-            <h1 className="font-serif text-4xl leading-[1.05] md:text-6xl">{t("hero.title")}</h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              {t("hero.sub")}
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg">
-                <Link to="/signup">
-                  {t("cta.startJourney")} <ArrowRight className="ml-1 h-4 w-4" />
+                <Link to="/today">
+                  {t("hero.ctaPrimary")} <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="ghost">
-                <Link to="/today">{t("cta.exploreToday")}</Link>
+                <Link to="/today">
+                  <Play className="mr-1 h-4 w-4" /> {t("hero.ctaSecondary")}
+                </Link>
               </Button>
             </div>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {[
+                t("hero.chip.time"),
+                t("hero.chip.devotional"),
+                t("hero.chip.wordsearch"),
+                t("hero.chip.reflection"),
+              ].map((c) => (
+                <span
+                  key={c}
+                  className="rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="flex items-center">
-            <HeroPreview />
+          <div className="md:pl-6">
+            <HeroMockup />
           </div>
         </div>
       </section>
@@ -91,7 +116,7 @@ function Landing() {
               </Button>
             </div>
           </div>
-          <HeroPreview />
+          <HeroMockup />
         </div>
       </section>
 
