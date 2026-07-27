@@ -80,7 +80,7 @@ function FoundWordLines({
           d={d}
           fill="none"
           stroke={color}
-          strokeWidth="0.9"
+          strokeWidth="1.2"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
           style={{
