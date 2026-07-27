@@ -26,7 +26,7 @@ function Landing() {
               "radial-gradient(70% 55% at 15% 10%, color-mix(in oklab, var(--gold) 6%, transparent), transparent 60%), radial-gradient(55% 45% at 95% 40%, color-mix(in oklab, var(--sage) 5%, transparent), transparent 60%)",
           }}
         />
-        <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-20 md:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] md:gap-16 md:py-28">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 py-14 sm:px-6 sm:py-20 md:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] md:gap-16 md:py-28">
           <div className="flex flex-col">
             <span
               className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-card/70 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.22em] backdrop-blur"
@@ -35,21 +35,21 @@ function Landing() {
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--gold)" }} />
               {t("hero.label")}
             </span>
-            <h1 className="mt-6 font-serif text-4xl leading-[1.05] tracking-tight md:text-[56px]">
+            <h1 className="mt-6 font-serif text-[34px] leading-[1.05] tracking-tight sm:text-4xl md:text-[56px]">
               {t("hero.h1a")}
               <br />
               <span style={{ color: "var(--gold)" }}>{t("hero.h1b")}</span>
             </h1>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted-foreground sm:mt-6 sm:text-base">
               {t("hero.sub2")}
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button asChild size="lg">
+            <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-8">
+              <Button asChild size="lg" className="w-full sm:w-auto">
                 <Link to="/today">
                   {t("hero.ctaPrimary")} <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="ghost">
+              <Button asChild size="lg" variant="ghost" className="w-full sm:w-auto">
                 <Link to="/today">
                   <Play className="mr-1 h-4 w-4" /> {t("hero.ctaSecondary")}
                 </Link>
@@ -98,7 +98,7 @@ function Landing() {
 
       {/* Today's Journey preview */}
       <section className="border-y border-border/60 bg-secondary/30">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-[1fr_1.1fr]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 sm:py-24 md:grid-cols-[1fr_1.1fr]">
           <div className="flex flex-col justify-center">
             <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
               {t("today.title")}
