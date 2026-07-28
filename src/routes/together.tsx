@@ -10,7 +10,7 @@ import { SharedReflection } from "@/components/site/SharedReflection";
 import { COMPANIONS, ENCOURAGE_OPTIONS } from "@/lib/mock/companions";
 import { GROUPS } from "@/lib/mock/groups";
 import { Button } from "@/components/ui/button";
-import { Heart, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive } from "lucide-react";
+import { Heart, Lock, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
