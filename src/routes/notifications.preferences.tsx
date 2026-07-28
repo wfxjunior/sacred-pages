@@ -22,7 +22,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/notifications/preferences")({
   head: () => ({
@@ -95,12 +94,7 @@ function PrefsPage() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Keep my settings</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => {
-                  reset();
-                  toast.success("Preferences restored to defaults");
-                }}
-              >
+              <AlertDialogAction onClick={() => reset()}>
                 Restore defaults
               </AlertDialogAction>
             </AlertDialogFooter>
