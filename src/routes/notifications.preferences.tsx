@@ -12,6 +12,8 @@ import { NOTIFICATIONS } from "@/lib/mock/notifications";
 import { Bell, BellOff, Mail, Smartphone, Moon, Volume2, VolumeX, ChevronLeft } from "lucide-react";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
+import { useMemo } from "react";
+import { useNotifPrefs as _useNotifPrefs } from "@/lib/notification-preferences";
 import {
   AlertDialog,
   AlertDialogAction,
