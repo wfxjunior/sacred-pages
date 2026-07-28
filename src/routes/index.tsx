@@ -54,7 +54,7 @@ function Landing() {
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 lg:px-12">
           <div className="grid items-center gap-10 pb-16 pt-6 sm:gap-12 sm:pb-20 sm:pt-8 md:grid-cols-2 md:gap-14 md:pb-24 md:pt-10 lg:gap-16 lg:pb-28 lg:pt-12">
             {/* Text column */}
-            <div className="order-1 text-center md:text-left">
+            <div className="order-2 text-center md:order-2 md:text-left">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#E4E0D6] bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C] shadow-sm sm:text-[11px]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
                 {t("hero.eyebrow")}
@@ -117,7 +117,7 @@ function Landing() {
             </div>
 
             {/* Word search illustration */}
-            <div className="order-2 mx-auto w-full max-w-sm md:mx-0 md:max-w-none">
+            <div className="order-1 mx-auto w-full max-w-sm md:order-1 md:mx-0 md:max-w-none">
               <HeroWordGrid />
             </div>
           </div>
