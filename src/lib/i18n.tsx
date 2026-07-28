@@ -388,6 +388,8 @@ Object.assign(pt, {
   "fs.enter": "Entrar em tela cheia",
   "fs.exit": "Sair da tela cheia",
   "header.lightMode": "Modo claro",
+  "fs.enter": "Pantalla completa",
+  "fs.exit": "Salir de pantalla completa",
   "final.sub": "Junte-se a milhares construindo um ritmo diário com a Palavra de Deus.",
   "overview.eyebrow": "Tudo em um espaço tranquilo",
   "overview.title": "Feito para um ritmo diário com as Escrituras.",
