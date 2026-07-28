@@ -2,8 +2,9 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
-import { BookOpen, Compass, Heart, Home, Sparkles, User } from "lucide-react";
+import { BookOpen, Compass, Heart, Home, Sparkles, User, Users } from "lucide-react";
 import { BrandMark } from "./BrandMark";
+import { NotificationsMenu } from "./NotificationsMenu";
 
 export function AppShell({
   children,
@@ -18,6 +19,7 @@ export function AppShell({
     { to: "/my-journey", label: t("nav.myJourney"), icon: Home },
     { to: "/today", label: t("nav.today"), icon: Sparkles },
     { to: "/collections", label: t("nav.collections"), icon: BookOpen },
+    { to: "/together", label: "Together", icon: Users },
     { to: "/progress", label: t("nav.progress"), icon: Compass },
     { to: "/favorites", label: t("nav.favorites"), icon: Heart },
     { to: "/profile", label: t("nav.profile"), icon: User },
@@ -72,6 +74,7 @@ export function AppShell({
               </span>
             </Link>
             <LanguageSelector />
+            <NotificationsMenu />
           </header>
           <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>{children}</main>
           <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">

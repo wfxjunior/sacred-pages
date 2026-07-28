@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { BrandMark } from "./BrandMark";
 import { DarkModeToggle } from "./DarkModeToggle";
+import { NotificationsMenu } from "./NotificationsMenu";
 
 type NavItem = { href: string; label: string; type: "route" | "hash" };
 
@@ -17,6 +18,7 @@ export function Header() {
   const nav: NavItem[] = [
     { href: "/", label: t("nav.home"), type: "route" },
     { href: "/features", label: t("nav.features"), type: "route" },
+    { href: "/together", label: "Together", type: "route" },
     { href: "/today", label: t("nav.today"), type: "route" },
     { href: "/collections", label: t("nav.collections"), type: "route" },
     { href: "/pricing", label: t("nav.pricing"), type: "route" },
@@ -63,6 +65,7 @@ export function Header() {
 
         <div className="hidden items-center gap-2 lg:flex">
           <LanguageSelector />
+          <NotificationsMenu />
           <DarkModeToggle />
           <Link
             to="/signin"
@@ -76,6 +79,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
+          <NotificationsMenu />
           <DarkModeToggle />
           <LanguageSelector />
           <button
