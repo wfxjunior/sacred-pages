@@ -171,26 +171,7 @@ function PrefsPage() {
               />
             </div>
             {prefs.quietHours.enabled && (
-              <div className="mt-3 flex flex-wrap items-center gap-3 text-[12px] text-muted-foreground">
-                <label className="inline-flex items-center gap-2">
-                  From
-                  <input
-                    type="time"
-                    value={prefs.quietHours.from}
-                    onChange={(e) => update({ quietHours: { ...prefs.quietHours, from: e.target.value } })}
-                    className="rounded-md border border-border/60 bg-background px-2 py-1 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                </label>
-                <label className="inline-flex items-center gap-2">
-                  To
-                  <input
-                    type="time"
-                    value={prefs.quietHours.to}
-                    onChange={(e) => update({ quietHours: { ...prefs.quietHours, to: e.target.value } })}
-                    className="rounded-md border border-border/60 bg-background px-2 py-1 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
-                </label>
-              </div>
+              <QuietHoursEditor />
             )}
           </div>
         </section>
