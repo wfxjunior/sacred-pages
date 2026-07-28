@@ -10,6 +10,19 @@ import {
 } from "@/lib/notification-preferences";
 import { NOTIFICATIONS } from "@/lib/mock/notifications";
 import { Bell, BellOff, Mail, Smartphone, Moon, Volume2, VolumeX, ChevronLeft } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/notifications/preferences")({
   head: () => ({
@@ -31,6 +44,7 @@ const CHANNELS: { key: Channel; label: string; icon: typeof Bell }[] = [
 
 function PrefsPage() {
   const { prefs, setCategory, setChannel, update, reset } = useNotifPrefs();
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   // Mirror the header dropdown badge so users see the sync visually.
   const visibleCount = NOTIFICATIONS.filter((n) => {
@@ -59,10 +73,39 @@ function PrefsPage() {
               Choose what reaches you and how. Header updates the moment you toggle — this is the same source of truth.
             </p>
           </div>
-          <Button variant="ghost" className="rounded-full text-muted-foreground" onClick={reset}>
-            Reset to defaults
+          <Button
+            variant="ghost"
+            className="rounded-full text-muted-foreground gap-1.5"
+            onClick={() => setConfirmOpen(true)}
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            Restore defaults
           </Button>
         </div>
+
+        <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Restore default preferences?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Every category, channel, quiet hours and digest setting returns to the
+                original quiet-by-default state. This only affects your notification
+                preferences — history and account settings stay intact.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Keep my settings</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  reset();
+                  toast.success("Preferences restored to defaults");
+                }}
+              >
+                Restore defaults
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
         {/* Sync preview */}
         <div className="mt-6 flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-4">
