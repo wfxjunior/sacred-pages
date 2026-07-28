@@ -141,21 +141,6 @@ function Landing() {
         </a>
       </section>
 
-      <ProductOverview />
-      <HowItWorks />
-
-      {/* Journey Preview */}
-      <LandingSection
-        tone="surface"
-        eyebrow={t("journeyPreview.eyebrow")}
-        title={t("journeyPreview.title")}
-        sub={t("journeyPreview.sub")}
-      >
-        <div className="mx-auto max-w-4xl">
-          <HeroMockup />
-        </div>
-      </LandingSection>
-
       {/* Collections */}
       <LandingSection
         eyebrow="Collections"
