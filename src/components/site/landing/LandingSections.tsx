@@ -565,21 +565,38 @@ export function FAQ() {
 export function FinalCTA() {
   const { t } = useI18n();
   return (
-    <section className="border-t border-border/60">
-      <div className="mx-auto max-w-3xl px-5 py-24 text-center sm:px-6 md:py-32">
-        <h2 className="font-serif text-3xl leading-tight md:text-5xl">
-          {t("final.title")}
-        </h2>
-        <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
-          {t("final.sub")}
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button asChild size="lg" className="rounded-full px-6">
-            <Link to="/signup">{t("cta.startFree")}</Link>
-          </Button>
-          <Button asChild size="lg" variant="ghost" className="rounded-full px-6">
-            <Link to="/today">{t("cta.exploreToday")}</Link>
-          </Button>
+    <section className="px-5 pb-24 pt-8 sm:px-6 md:pb-32">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-[#2D2926] p-12 text-center text-white md:rounded-[4rem] md:p-24">
+        {/* Colored aurora accents inside dark card */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-purple-500/20 blur-[80px]" />
+          <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-orange-400/20 blur-[80px]" />
+          <div className="absolute right-1/3 top-1/2 h-56 w-56 rounded-full bg-teal-400/10 blur-[80px]" />
+        </div>
+        <div className="relative z-10">
+          <h2 className="font-serif text-3xl leading-tight md:text-5xl">
+            {t("final.title")}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base text-white/60 md:text-lg">
+            {t("final.sub")}
+          </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Button
+              asChild
+              size="lg"
+              className="rounded-full bg-[#FCFBF8] px-8 text-[#2D2926] hover:bg-white"
+            >
+              <Link to="/signup">{t("cta.startFree")}</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="ghost"
+              className="rounded-full px-6 text-white/80 hover:bg-white/10 hover:text-white"
+            >
+              <Link to="/today">{t("cta.exploreToday")}</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
