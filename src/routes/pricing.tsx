@@ -176,23 +176,23 @@ function Pricing() {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(60% 50% at 20% 10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 85% 30%, color-mix(in oklab, var(--sage) 6%, transparent), transparent 60%)",
+              "radial-gradient(60% 50% at 20% 10%, color-mix(in oklab, var(--brand) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 85% 30%, color-mix(in oklab, var(--sage) 6%, transparent), transparent 60%)",
           }}
         />
         <div className="mx-auto max-w-4xl px-5 py-24 text-center sm:px-6 md:py-32">
           <span
             className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur"
-            style={{ color: "var(--gold)" }}
+            style={{ color: "var(--brand)" }}
           >
             <span
               className="h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--gold)" }}
+              style={{ background: "var(--brand)" }}
             />
             Membership
           </span>
           <h1 className="mt-6 font-serif text-[40px] leading-[1.05] tracking-tight sm:text-[52px] md:text-[64px]">
             Choose the journey that fits your{" "}
-            <span style={{ color: "var(--gold)" }}>season.</span>
+            season.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">
             Start free and upgrade whenever you're ready for deeper study,
@@ -212,7 +212,7 @@ function Pricing() {
                       ? "text-white shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
-                  style={active ? { background: "var(--gold)" } : undefined}
+                  style={active ? { background: "var(--brand)" } : undefined}
                 >
                   {c === "monthly" ? "Monthly" : "Yearly"}
                   {c === "yearly" && !active && (
@@ -271,22 +271,22 @@ function Pricing() {
               className="relative flex flex-col rounded-3xl border bg-card p-8 md:p-10"
               style={{
                 boxShadow:
-                  "0 0 0 1px color-mix(in oklab, var(--gold) 50%, transparent), 0 40px 100px -60px rgba(184,138,59,0.55)",
+                  "0 0 0 1px color-mix(in oklab, var(--brand) 50%, transparent), 0 40px 100px -60px rgba(37,99,235,0.55)",
                 borderColor: "transparent",
               }}
             >
               <span
                 className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white"
-                style={{ background: "var(--gold)" }}
+                style={{ background: "var(--brand)" }}
               >
                 Recommended
               </span>
               <div className="flex items-center gap-2">
                 <Sparkles
                   className="h-4 w-4"
-                  style={{ color: "var(--gold)" }}
+                  style={{ color: "var(--brand)" }}
                 />
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--gold)" }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
                   Premium
                 </p>
               </div>
@@ -310,7 +310,7 @@ function Pricing() {
                   <li key={f} className="flex items-start gap-2.5">
                     <Check
                       className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: "var(--gold)" }}
+                      style={{ color: "var(--brand)" }}
                     />
                     {f}
                   </li>
@@ -325,7 +325,7 @@ function Pricing() {
       <section className="border-t border-border/60 bg-[color:var(--surface-2)]">
         <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 md:py-28">
           <div className="mb-12 max-w-2xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--gold)" }}>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
               Compare plans
             </p>
             <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
@@ -337,7 +337,7 @@ function Pricing() {
             <div className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border/60 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8">
               <span>Feature</span>
               <span className="text-center" style={{ color: "var(--sage)" }}>Free</span>
-              <span className="text-center" style={{ color: "var(--gold)" }}>Premium</span>
+              <span className="text-center" style={{ color: "var(--brand)" }}>Premium</span>
             </div>
             {COMPARISON.map((sec) => (
               <div key={sec.section}>
@@ -371,7 +371,7 @@ function Pricing() {
       <section className="border-t border-border/60">
         <div className="mx-auto max-w-4xl px-5 py-24 sm:px-6 md:py-32">
           <div className="max-w-2xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--gold)" }}>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
               Why Premium
             </p>
             <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
@@ -415,10 +415,10 @@ function Pricing() {
           <div className="grid gap-14 md:grid-cols-[1fr_1.1fr] md:items-center">
             <div>
               <div className="flex items-center gap-2">
-                <Users className="h-4 w-4" style={{ color: "var(--gold)" }} />
+                <Users className="h-4 w-4" style={{ color: "var(--brand)" }} />
                 <p
                   className="text-[11px] font-semibold uppercase tracking-[0.22em]"
-                  style={{ color: "var(--gold)" }}
+                  style={{ color: "var(--brand)" }}
                 >
                   Journey Together
                 </p>
@@ -447,7 +447,7 @@ function Pricing() {
                   <li key={f} className="flex items-start gap-2.5 text-[14px] text-foreground/85">
                     <Check
                       className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: "var(--gold)" }}
+                      style={{ color: "var(--brand)" }}
                     />
                     {f}
                   </li>
@@ -469,8 +469,8 @@ function Pricing() {
                 <span
                   className="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
                   style={{
-                    background: "color-mix(in oklab, var(--gold) 14%, transparent)",
-                    color: "var(--gold)",
+                    background: "color-mix(in oklab, var(--brand) 14%, transparent)",
+                    color: "var(--brand)",
                   }}
                 >
                   Shared
@@ -478,7 +478,7 @@ function Pricing() {
               </div>
               <div className="mt-6 space-y-4">
                 {[
-                  { n: "Ana (you)", pct: 100, c: "var(--gold)", note: "Completed today's journey" },
+                  { n: "Ana (you)", pct: 100, c: "var(--brand)", note: "Completed today's journey" },
                   { n: "Lucas", pct: 100, c: "var(--sage)", note: "Left a reflection" },
                   { n: "Sofia", pct: 60, c: "var(--dusty-blue)", note: "Reading now" },
                   { n: "Miguel", pct: 20, c: "var(--walnut)", note: "Starts later today" },
@@ -520,7 +520,7 @@ function Pricing() {
       <section className="border-t border-border/60">
         <div className="mx-auto max-w-3xl px-5 py-24 sm:px-6 md:py-28">
           <div className="mb-12 max-w-2xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--gold)" }}>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
               Frequently asked
             </p>
             <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
@@ -570,7 +570,7 @@ function CellMark({ v, highlight }: { v: Cell; highlight?: boolean }) {
     return (
       <Check
         className="h-4.5 w-4.5"
-        style={{ color: highlight ? "var(--gold)" : "var(--sage)" }}
+        style={{ color: highlight ? "var(--brand)" : "var(--sage)" }}
         strokeWidth={2.2}
       />
     );

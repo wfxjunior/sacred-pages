@@ -39,7 +39,7 @@ export function LandingSection({
             {eyebrow && (
               <p
                 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
-                style={{ color: "var(--gold)" }}
+                style={{ color: "var(--brand)" }}
               >
                 {eyebrow}
               </p>
@@ -88,8 +88,8 @@ export function ProductOverview() {
             <div
               className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-xl"
               style={{
-                background: "color-mix(in oklab, var(--gold) 12%, transparent)",
-                color: "var(--gold)",
+                background: "color-mix(in oklab, var(--brand) 12%, transparent)",
+                color: "var(--brand)",
               }}
             >
               <Icon className="h-5 w-5" strokeWidth={1.6} />
@@ -122,7 +122,7 @@ export function HowItWorks() {
           className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px md:block"
           style={{
             background:
-              "linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 30%, transparent), transparent)",
+              "linear-gradient(90deg, transparent, color-mix(in oklab, var(--brand) 30%, transparent), transparent)",
           }}
         />
         {steps.map((s) => (
@@ -130,9 +130,9 @@ export function HowItWorks() {
             <div
               className="mx-auto mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full border md:mx-0"
               style={{
-                borderColor: "color-mix(in oklab, var(--gold) 40%, transparent)",
+                borderColor: "color-mix(in oklab, var(--brand) 40%, transparent)",
                 background: "var(--background)",
-                color: "var(--gold)",
+                color: "var(--brand)",
                 fontFamily: "var(--font-serif)",
                 fontSize: 14,
               }}
@@ -168,7 +168,7 @@ export function Personalization() {
         <div>
           <p
             className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
-            style={{ color: "var(--gold)" }}
+            style={{ color: "var(--brand)" }}
           >
             {t("personalize.eyebrow")}
           </p>
@@ -263,7 +263,7 @@ export function JourneyTogether() {
             </div>
             <div
               className="flex items-center gap-1.5 text-sm font-medium"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               <Flame className="h-4 w-4" />
               12 · {t("together.sharedStreak")}
@@ -333,7 +333,7 @@ export function ProgressShowcase() {
             </div>
             <div
               className="flex items-center gap-1.5 text-sm font-medium"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               <Flame className="h-4 w-4" /> 12 {t("app.days")}
             </div>
@@ -347,7 +347,7 @@ export function ProgressShowcase() {
                     style={{
                       height: `${v}%`,
                       background:
-                        "linear-gradient(180deg, var(--gold), color-mix(in oklab, var(--gold) 45%, var(--sage)))",
+                        "linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand) 55%, var(--sage)))",
                     }}
                   />
                 </div>
@@ -407,7 +407,7 @@ export function Testimonials() {
             <span
               aria-hidden
               className="font-serif text-5xl leading-none"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               “
             </span>
@@ -473,14 +473,14 @@ export function PricingPreview() {
             key={p.name}
             className={`relative flex flex-col rounded-2xl border p-8 ${
               p.featured
-                ? "border-transparent bg-card shadow-[0_40px_100px_-50px_rgba(184,138,59,0.5)]"
+                ? "border-transparent bg-card shadow-[0_40px_100px_-50px_rgba(37,99,235,0.35)]"
                 : "border-border/60 bg-card"
             }`}
             style={
               p.featured
                 ? {
                     boxShadow:
-                      "0 0 0 1px color-mix(in oklab, var(--gold) 45%, transparent), 0 40px 100px -60px rgba(184,138,59,0.5)",
+                      "0 0 0 1px color-mix(in oklab, var(--brand) 45%, transparent), 0 40px 100px -60px rgba(37,99,235,0.35)",
                   }
                 : undefined
             }
@@ -505,7 +505,7 @@ export function PricingPreview() {
                 <li key={f} className="flex items-start gap-2.5">
                   <Check
                     className="mt-0.5 h-4 w-4 shrink-0"
-                    style={{ color: "var(--gold)" }}
+                    style={{ color: "var(--brand)" }}
                     strokeWidth={2}
                   />
                   {f}

@@ -6,8 +6,8 @@ export function BrandMark({ size = 32 }: { size?: number }) {
       style={{
         width: size,
         height: size,
-        background: "color-mix(in oklab, var(--gold) 14%, var(--ivory))",
-        border: "1px solid color-mix(in oklab, var(--gold) 35%, transparent)",
+        background: "color-mix(in oklab, var(--brand) 10%, var(--card))",
+        border: "1px solid color-mix(in oklab, var(--brand) 28%, transparent)",
       }}
     >
       <svg
@@ -15,8 +15,8 @@ export function BrandMark({ size = 32 }: { size?: number }) {
         height={size * 0.62}
         viewBox="0 0 24 24"
         fill="none"
-        stroke="var(--gold)"
-        strokeWidth="1.6"
+        stroke="var(--brand)"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
