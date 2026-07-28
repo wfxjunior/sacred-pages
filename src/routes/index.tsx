@@ -49,19 +49,27 @@ function Landing() {
   const { t } = useI18n();
   return (
     <SiteLayout>
-      {/* Hero — editorial monumental with word search illustration */}
+      {/* Hero — Aurora Editorial: mesh gradient + floating word search */}
       <section className="relative overflow-hidden bg-[#FCFBF8] pt-28 sm:pt-32 md:pt-36 lg:pt-40">
-        <div className="mx-auto w-full max-w-4xl px-5 sm:px-8 md:px-10 lg:px-12">
+        {/* Mesh gradient aurora blobs */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="aurora-blob-1 absolute -right-[10%] -top-[10%] h-[60%] w-[60%] rounded-full bg-purple-200/40 blur-[120px]" />
+          <div className="aurora-blob-2 absolute -left-[5%] top-[20%] h-[50%] w-[40%] rounded-full bg-orange-100/60 blur-[100px]" />
+          <div className="aurora-blob-3 absolute bottom-[10%] right-[10%] h-[50%] w-[50%] rounded-full bg-teal-100/50 blur-[120px]" />
+        </div>
+        <div className="relative mx-auto w-full max-w-4xl px-5 sm:px-8 md:px-10 lg:px-12">
           <div className="flex flex-col items-center gap-12 pb-16 pt-6 text-center sm:gap-14 sm:pb-20 sm:pt-8 md:gap-16 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
             {/* Text column */}
             <div className="w-full">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#E4E0D6] bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C] shadow-sm sm:text-[11px]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C] shadow-sm backdrop-blur-md sm:text-[11px]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
                 {t("hero.eyebrow")}
               </span>
 
-              <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2B2B2B] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
-                {t("brand.name")}
+              <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2D2926] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
+                <span className="bg-gradient-to-tr from-purple-600 via-[#2D2926] to-orange-500 bg-clip-text text-transparent">
+                  {t("brand.name")}
+                </span>
               </h1>
 
               <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.55] text-[#6B665C] sm:mt-6 sm:max-w-lg sm:text-[17px] md:max-w-xl md:text-[18px] lg:text-[19px] lg:leading-[1.5]">
@@ -116,9 +124,14 @@ function Landing() {
               </div>
             </div>
 
-            {/* Word search illustration — below hero text */}
+            {/* Word search illustration — floating glass container */}
             <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
-              <HeroWordGrid />
+              <div className="relative">
+                <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-purple-200/50 via-orange-100/50 to-teal-100/50 blur-2xl" />
+                <div className="relative rounded-[2rem] border border-white/70 bg-white/40 p-3 shadow-[0_32px_64px_-16px_rgba(45,41,38,0.18)] backdrop-blur-xl sm:p-4">
+                  <HeroWordGrid />
+                </div>
+              </div>
             </div>
           </div>
         </div>
