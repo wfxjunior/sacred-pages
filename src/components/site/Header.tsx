@@ -102,15 +102,13 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <NotificationsMenu variant="default" />
-          <DarkModeToggle variant="default" />
-          <LanguageSelector variant="default" />
           <button
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 text-foreground transition hover:bg-secondary"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur transition hover:bg-secondary"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
+            aria-expanded={open}
           >
-            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
@@ -125,6 +123,13 @@ export function Header() {
                 () => setOpen(false),
               ),
             )}
+            <div className="mt-3 flex items-center justify-between gap-2 border-t border-border/50 pt-3">
+              <LanguageSelector variant="default" />
+              <div className="flex items-center gap-2">
+                <NotificationsMenu variant="default" />
+                <DarkModeToggle variant="default" />
+              </div>
+            </div>
             <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
               <Button asChild variant="ghost" size="sm" className="flex-1">
                 <Link to="/signin">{t("cta.signin")}</Link>
