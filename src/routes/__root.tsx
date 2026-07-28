@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "../lib/i18n";
 import { ThemeProvider } from "../lib/theme";
+import { NotifPrefsProvider } from "../lib/notification-preferences";
 
 function NotFoundComponent() {
   return (
@@ -136,7 +137,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <ThemeProvider>
-          <Outlet />
+          <NotifPrefsProvider>
+            <Outlet />
+          </NotifPrefsProvider>
         </ThemeProvider>
       </I18nProvider>
     </QueryClientProvider>
