@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { CollectionCard } from "@/components/site/CollectionCard";
 import { COLLECTIONS } from "@/lib/mock-data";
@@ -6,8 +6,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X, SlidersHorizontal, BookOpen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { z } from "zod";
+
+const DIFFS = ["Any", "Gentle", "Balanced", "Challenging"] as const;
+const ACCESS = ["Any", "Free", "Premium"] as const;
+const LANGUAGES = ["Any", "English", "Português", "Español"] as const;
+
+const searchSchema = z.object({
+  q: z.string().optional().catch(undefined),
+  category: z.string().optional().catch(undefined),
+  difficulty: z.enum(DIFFS).optional().catch(undefined),
+  access: z.enum(ACCESS).optional().catch(undefined),
+  language: z.enum(LANGUAGES).optional().catch(undefined),
+});
+
+type CollectionsSearch = z.infer<typeof searchSchema>;
 
 export const Route = createFileRoute("/collections")({
+  validateSearch: (input: Record<string, unknown>): CollectionsSearch =>
+    searchSchema.parse(input),
   head: () => ({
     meta: [
       { title: "Collections — Lumen Verse" },
@@ -31,22 +48,55 @@ const CATEGORY_FILTERS: { label: string; slug: string | null }[] = [
   { label: "Men", slug: "men" },
   { label: "Purpose", slug: "purpose" },
 ];
-const DIFFS = ["Any", "Gentle", "Balanced", "Challenging"] as const;
-const ACCESS = ["Any", "Free", "Premium"] as const;
-const LANGUAGES = ["Any", "English", "Português", "Español"] as const;
 
 function CollectionsPage() {
-  const [q, setQ] = useState("");
-  const [category, setCategory] = useState<string | null>(null);
-  const [difficulty, setDifficulty] = useState<(typeof DIFFS)[number]>("Any");
-  const [access, setAccess] = useState<(typeof ACCESS)[number]>("Any");
-  const [language, setLanguage] = useState<(typeof LANGUAGES)[number]>("Any");
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: Route.fullPath });
+
+  const q = search.q ?? "";
+  const category = search.category ?? null;
+  const difficulty = search.difficulty ?? "Any";
+  const access = search.access ?? "Any";
+  const language = search.language ?? "Any";
+
   const [loading, setLoading] = useState(true);
+  // Local text state for a snappy input; debounced into the URL.
+  const [qInput, setQInput] = useState(q);
+
+  const updateSearch = (patch: Partial<CollectionsSearch>) => {
+    navigate({
+      search: (prev) => {
+        const next: CollectionsSearch = { ...prev, ...patch };
+        // Drop empty/default values so URLs stay clean and shareable.
+        if (!next.q) delete next.q;
+        if (!next.category) delete next.category;
+        if (!next.difficulty || next.difficulty === "Any") delete next.difficulty;
+        if (!next.access || next.access === "Any") delete next.access;
+        if (!next.language || next.language === "Any") delete next.language;
+        return next;
+      },
+      replace: true,
+    });
+  };
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 450);
     return () => clearTimeout(t);
   }, []);
+
+  // Debounce text input into the URL.
+  useEffect(() => {
+    if (qInput === q) return;
+    const t = setTimeout(() => updateSearch({ q: qInput || undefined }), 250);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qInput]);
+
+  // Keep local input in sync when URL changes externally (back/forward, shared link).
+  useEffect(() => {
+    setQInput(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q]);
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase();
@@ -67,11 +117,8 @@ function CollectionsPage() {
     (language !== "Any" ? 1 : 0);
 
   const clearAll = () => {
-    setQ("");
-    setCategory(null);
-    setDifficulty("Any");
-    setAccess("Any");
-    setLanguage("Any");
+    setQInput("");
+    navigate({ search: {} as CollectionsSearch, replace: true });
   };
 
   return (
@@ -89,8 +136,8 @@ function CollectionsPage() {
           <div className="relative max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
+              value={qInput}
+              onChange={(e) => setQInput(e.target.value)}
               placeholder="Search collections…"
               className="pl-9 pr-9"
               aria-label="Search collections"
@@ -98,7 +145,10 @@ function CollectionsPage() {
             {q && (
               <button
                 type="button"
-                onClick={() => setQ("")}
+                onClick={() => {
+                  setQInput("");
+                  updateSearch({ q: undefined });
+                }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
                 aria-label="Clear search"
               >
@@ -113,7 +163,7 @@ function CollectionsPage() {
                 <button
                   key={f.label}
                   type="button"
-                  onClick={() => setCategory(f.slug)}
+                  onClick={() => updateSearch({ category: f.slug ?? undefined })}
                   aria-pressed={active}
                   className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 ${
                     active
@@ -127,9 +177,9 @@ function CollectionsPage() {
             })}
           </div>
           <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-            <FilterGroup label="Difficulty" value={difficulty} options={DIFFS} onChange={(v) => setDifficulty(v as typeof difficulty)} />
-            <FilterGroup label="Access" value={access} options={ACCESS} onChange={(v) => setAccess(v as typeof access)} />
-            <FilterGroup label="Language" value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as typeof language)} />
+            <FilterGroup label="Difficulty" value={difficulty} options={DIFFS} onChange={(v) => updateSearch({ difficulty: v as (typeof DIFFS)[number] })} />
+            <FilterGroup label="Access" value={access} options={ACCESS} onChange={(v) => updateSearch({ access: v as (typeof ACCESS)[number] })} />
+            <FilterGroup label="Language" value={language} options={LANGUAGES} onChange={(v) => updateSearch({ language: v as (typeof LANGUAGES)[number] })} />
           </div>
         </div>
 
