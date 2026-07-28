@@ -192,41 +192,6 @@ function EncourageAndPray() {
   );
 }
 
-function PrivacySection() {
-  const [choice, setChoice] = useState("private");
-  return (
-    <section className="rounded-2xl border border-border/60 bg-card p-6 md:p-8">
-      <div className="flex items-center gap-2">
-        <Lock className="h-4 w-4" style={{ color: "var(--sage)" }} />
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
-          Reflection sharing
-        </p>
-      </div>
-      <h3 className="mt-2 font-serif text-2xl">Private by default</h3>
-      <p className="mt-1 max-w-xl text-[13px] text-muted-foreground">
-        Your reflections belong to you. Choose per companion what to share — nothing is shared unless you say so.
-      </p>
-      <div className="mt-6 grid gap-3 md:grid-cols-3">
-        {REFLECTION_VISIBILITY.map((v) => {
-          const active = choice === v.key;
-          return (
-            <button
-              key={v.key}
-              onClick={() => setChoice(v.key)}
-              className={`rounded-xl border p-4 text-left transition ${
-                active ? "border-primary bg-primary/5" : "border-border/60 bg-background/60 hover:border-border"
-              }`}
-            >
-              <p className="text-[13px] font-medium">{v.label}</p>
-              <p className="mt-1 text-[12px] text-muted-foreground">{v.hint}</p>
-            </button>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
 function PendingSection({ pending }: { pending: typeof COMPANIONS }) {
   return (
     <section>
