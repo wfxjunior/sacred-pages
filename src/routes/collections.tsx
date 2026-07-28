@@ -3,8 +3,9 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { CollectionCard } from "@/components/site/CollectionCard";
 import { COLLECTIONS } from "@/lib/mock-data";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Search, X, SlidersHorizontal, BookOpen } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 export const Route = createFileRoute("/collections")({
   head: () => ({
@@ -18,13 +19,61 @@ export const Route = createFileRoute("/collections")({
   component: CollectionsPage,
 });
 
-const FILTERS = ["All", "Jesus", "Psalms", "Proverbs", "Faith", "Prayer", "Family", "Women", "Men", "Purpose"];
-const DIFFS = ["Any", "Gentle", "Balanced", "Challenging"];
-const ACCESS = ["Any", "Free", "Premium"];
+const CATEGORY_FILTERS: { label: string; slug: string | null }[] = [
+  { label: "All", slug: null },
+  { label: "Jesus", slug: "life-of-jesus" },
+  { label: "Psalms", slug: "psalms" },
+  { label: "Proverbs", slug: "proverbs" },
+  { label: "Faith", slug: "faith" },
+  { label: "Prayer", slug: "prayer" },
+  { label: "Family", slug: "family" },
+  { label: "Women", slug: "women" },
+  { label: "Men", slug: "men" },
+  { label: "Purpose", slug: "purpose" },
+];
+const DIFFS = ["Any", "Gentle", "Balanced", "Challenging"] as const;
+const ACCESS = ["Any", "Free", "Premium"] as const;
+const LANGUAGES = ["Any", "English", "Português", "Español"] as const;
 
 function CollectionsPage() {
   const [q, setQ] = useState("");
-  const filtered = COLLECTIONS.filter((c) => c.title.toLowerCase().includes(q.toLowerCase()));
+  const [category, setCategory] = useState<string | null>(null);
+  const [difficulty, setDifficulty] = useState<(typeof DIFFS)[number]>("Any");
+  const [access, setAccess] = useState<(typeof ACCESS)[number]>("Any");
+  const [language, setLanguage] = useState<(typeof LANGUAGES)[number]>("Any");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 450);
+    return () => clearTimeout(t);
+  }, []);
+
+  const filtered = useMemo(() => {
+    const query = q.trim().toLowerCase();
+    return COLLECTIONS.filter((c) => {
+      if (query && !(`${c.title} ${c.description}`.toLowerCase().includes(query))) return false;
+      if (category && c.slug !== category) return false;
+      if (difficulty !== "Any" && c.difficulty !== difficulty) return false;
+      if (access !== "Any" && c.access !== access) return false;
+      if (language !== "Any" && !(c.languages ?? []).includes(language)) return false;
+      return true;
+    });
+  }, [q, category, difficulty, access, language]);
+
+  const activeFilterCount =
+    (category ? 1 : 0) +
+    (difficulty !== "Any" ? 1 : 0) +
+    (access !== "Any" ? 1 : 0) +
+    (language !== "Any" ? 1 : 0);
+
+  const clearAll = () => {
+    setQ("");
+    setCategory(null);
+    setDifficulty("Any");
+    setAccess("Any");
+    setLanguage("Any");
+  };
+
   return (
     <SiteLayout>
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
@@ -43,47 +92,168 @@ function CollectionsPage() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search collections…"
-              className="pl-9"
+              className="pl-9 pr-9"
+              aria-label="Search collections"
             />
+            {q && (
+              <button
+                type="button"
+                onClick={() => setQ("")}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
+                aria-label="Clear search"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
-            {FILTERS.map((f, i) => (
-              <button
-                key={f}
-                className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider transition ${
-                  i === 0 ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
+            {CATEGORY_FILTERS.map((f) => {
+              const active = f.slug === category;
+              return (
+                <button
+                  key={f.label}
+                  type="button"
+                  onClick={() => setCategory(f.slug)}
+                  aria-pressed={active}
+                  className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 ${
+                    active
+                      ? "border-transparent bg-foreground text-background"
+                      : "border-border text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
           </div>
           <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-            <FilterGroup label="Difficulty" options={DIFFS} />
-            <FilterGroup label="Access" options={ACCESS} />
-            <FilterGroup label="Language" options={["Any", "English", "Português", "Español"]} />
+            <FilterGroup label="Difficulty" value={difficulty} options={DIFFS} onChange={(v) => setDifficulty(v as typeof difficulty)} />
+            <FilterGroup label="Access" value={access} options={ACCESS} onChange={(v) => setAccess(v as typeof access)} />
+            <FilterGroup label="Language" value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as typeof language)} />
           </div>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((c) => (
-            <CollectionCard key={c.slug} c={c} />
-          ))}
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
+          <p className="text-sm text-muted-foreground">
+            {loading ? (
+              <span className="inline-block h-4 w-40 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
+            ) : (
+              <>
+                <span className="font-medium text-foreground">{filtered.length}</span>{" "}
+                {filtered.length === 1 ? "collection" : "collections"}
+                {(q || activeFilterCount > 0) && (
+                  <>
+                    {" "}· <span className="uppercase tracking-[0.16em] text-[color:var(--walnut)]">Filtered</span>
+                  </>
+                )}
+              </>
+            )}
+          </p>
+          {(q || activeFilterCount > 0) && !loading && (
+            <button
+              type="button"
+              onClick={clearAll}
+              className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5" />
+              Clear filters
+            </button>
+          )}
         </div>
+
+        {loading ? (
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-live="polite">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <EmptyState hasQuery={!!q || activeFilterCount > 0} onClear={clearAll} />
+        ) : (
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((c) => (
+              <CollectionCard key={c.slug} c={c} />
+            ))}
+          </div>
+        )}
       </div>
     </SiteLayout>
   );
 }
 
-function FilterGroup({ label, options }: { label: string; options: string[] }) {
+function FilterGroup({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: readonly string[];
+  onChange: (v: string) => void;
+}) {
   return (
     <div className="flex items-center gap-2">
       <span className="uppercase tracking-wider" style={{ color: "var(--walnut)" }}>{label}:</span>
-      <select className="rounded-md border border-border bg-background px-2 py-1 text-xs">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="rounded-md border border-border bg-background px-2 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
+        aria-label={label}
+      >
         {options.map((o) => (
           <option key={o}>{o}</option>
         ))}
       </select>
+    </div>
+  );
+}
+
+function CardSkeleton() {
+  return (
+    <div className="overflow-hidden rounded-xl border border-border bg-card">
+      <div
+        className="aspect-[4/3] w-full animate-pulse"
+        style={{
+          background:
+            "linear-gradient(110deg, color-mix(in oklab, var(--parchment) 55%, #FCFBF8) 0%, color-mix(in oklab, var(--parchment) 30%, #FCFBF8) 50%, color-mix(in oklab, var(--parchment) 55%, #FCFBF8) 100%)",
+        }}
+      />
+      <div className="space-y-3 p-5">
+        <div className="h-3 w-3/4 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
+        <div className="h-3 w-1/2 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
+        <div className="h-1 w-full animate-pulse rounded-full bg-[color:color-mix(in_oklab,var(--parchment)_45%,var(--card))]" />
+      </div>
+    </div>
+  );
+}
+
+function EmptyState({ hasQuery, onClear }: { hasQuery: boolean; onClear: () => void }) {
+  return (
+    <div
+      className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border px-6 py-20 text-center"
+      style={{
+        background:
+          "linear-gradient(160deg, color-mix(in oklab, var(--parchment) 40%, var(--card)) 0%, var(--card) 100%)",
+      }}
+    >
+      <div
+        className="flex h-14 w-14 items-center justify-center rounded-full"
+        style={{ background: "color-mix(in oklab, var(--parchment) 60%, var(--card))" }}
+      >
+        <BookOpen className="h-6 w-6" style={{ color: "var(--walnut)" }} aria-hidden />
+      </div>
+      <h2 className="mt-5 font-serif text-2xl">No collections match</h2>
+      <p className="mt-2 max-w-md text-sm text-muted-foreground">
+        {hasQuery
+          ? "Try loosening a filter or clearing your search. The library keeps growing — your next journey is close."
+          : "Nothing here yet. Check back soon — new collections are added regularly."}
+      </p>
+      {hasQuery && (
+        <Button variant="outline" className="mt-6" onClick={onClear}>
+          Clear filters
+        </Button>
+      )}
     </div>
   );
 }

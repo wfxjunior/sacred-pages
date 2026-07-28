@@ -16,18 +16,21 @@ export type Collection = {
   hue: string; // css color
   progress?: number;
   image?: string;
+  difficulty?: "Gentle" | "Balanced" | "Challenging";
+  access?: "Free" | "Premium";
+  languages?: ("English" | "Português" | "Español")[];
 };
 
 export const COLLECTIONS: Collection[] = [
-  { slug: "life-of-jesus", title: "The Life of Jesus", description: "Walk through the ministry and miracles of Christ.", count: 24, hue: "oklch(0.55 0.06 250)", progress: 0.35, image: colJesus },
-  { slug: "psalms", title: "Psalms", description: "Ancient songs of trust, lament, and praise.", count: 30, hue: "oklch(0.6 0.05 130)", progress: 0.6, image: colPsalms },
-  { slug: "family", title: "Family", description: "Scripture for marriage, parenting, and home.", count: 14, hue: "oklch(0.58 0.06 250)", image: colFamily },
-  { slug: "proverbs", title: "Proverbs", description: "Everyday wisdom for a thoughtful life.", count: 18, hue: "oklch(0.635 0.115 70)", progress: 0.1, image: colProverbs },
-  { slug: "faith", title: "Faith", description: "Journeys about trust, courage, and belief.", count: 12, hue: "oklch(0.45 0.05 45)", image: colFaith },
-  { slug: "women", title: "Women of the Bible", description: "Stories of courage, wisdom, and faith.", count: 16, hue: "oklch(0.55 0.07 20)", image: colWomen },
-  { slug: "men", title: "Men of the Bible", description: "Lives that still shape ours today.", count: 16, hue: "oklch(0.48 0.05 60)", image: colMen },
-  { slug: "prayer", title: "Prayer", description: "Learning to speak and listen to God.", count: 10, hue: "oklch(0.6 0.06 210)", image: colPrayer },
-  { slug: "purpose", title: "Purpose", description: "Discovering the good works prepared for you.", count: 8, hue: "oklch(0.62 0.09 90)", image: colPurpose },
+  { slug: "life-of-jesus", title: "The Life of Jesus", description: "Walk through the ministry and miracles of Christ.", count: 24, hue: "oklch(0.55 0.06 250)", progress: 0.35, image: colJesus, difficulty: "Balanced", access: "Free", languages: ["English", "Português", "Español"] },
+  { slug: "psalms", title: "Psalms", description: "Ancient songs of trust, lament, and praise.", count: 30, hue: "oklch(0.6 0.05 130)", progress: 0.6, image: colPsalms, difficulty: "Gentle", access: "Free", languages: ["English", "Português", "Español"] },
+  { slug: "family", title: "Family", description: "Scripture for marriage, parenting, and home.", count: 14, hue: "oklch(0.58 0.06 250)", image: colFamily, difficulty: "Gentle", access: "Free", languages: ["English", "Português"] },
+  { slug: "proverbs", title: "Proverbs", description: "Everyday wisdom for a thoughtful life.", count: 18, hue: "oklch(0.635 0.115 70)", progress: 0.1, image: colProverbs, difficulty: "Balanced", access: "Free", languages: ["English", "Español"] },
+  { slug: "faith", title: "Faith", description: "Journeys about trust, courage, and belief.", count: 12, hue: "oklch(0.45 0.05 45)", image: colFaith, difficulty: "Challenging", access: "Premium", languages: ["English", "Português", "Español"] },
+  { slug: "women", title: "Women of the Bible", description: "Stories of courage, wisdom, and faith.", count: 16, hue: "oklch(0.55 0.07 20)", image: colWomen, difficulty: "Balanced", access: "Premium", languages: ["English", "Português"] },
+  { slug: "men", title: "Men of the Bible", description: "Lives that still shape ours today.", count: 16, hue: "oklch(0.48 0.05 60)", image: colMen, difficulty: "Balanced", access: "Free", languages: ["English", "Español"] },
+  { slug: "prayer", title: "Prayer", description: "Learning to speak and listen to God.", count: 10, hue: "oklch(0.6 0.06 210)", image: colPrayer, difficulty: "Gentle", access: "Free", languages: ["English", "Português", "Español"] },
+  { slug: "purpose", title: "Purpose", description: "Discovering the good works prepared for you.", count: 8, hue: "oklch(0.62 0.09 90)", image: colPurpose, difficulty: "Challenging", access: "Premium", languages: ["English", "Português", "Español"] },
 ];
 
 export const TODAY = {
