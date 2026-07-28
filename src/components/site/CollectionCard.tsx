@@ -14,7 +14,8 @@ export function CollectionCard({ c }: { c: Collection }) {
     .toUpperCase();
   return (
     <Link
-      to="/collections"
+      to="/collections/$slug"
+      params={{ slug: c.slug }}
       className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[0_1px_2px_rgba(43,43,43,0.04)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:border-[color:var(--gold)]/40 hover:shadow-[0_18px_40px_-24px_rgba(110,88,71,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
     >
       <div
