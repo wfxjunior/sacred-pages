@@ -6,10 +6,11 @@ import { AppShell } from "@/components/site/AppShell";
 import { CompanionCard } from "@/components/site/CompanionCard";
 import { InviteCompanionModal } from "@/components/site/InviteCompanionModal";
 import { SharedJourneyProgress } from "@/components/site/SharedJourneyProgress";
-import { COMPANIONS, ENCOURAGE_OPTIONS, REFLECTION_VISIBILITY } from "@/lib/mock/companions";
+import { SharedReflection } from "@/components/site/SharedReflection";
+import { COMPANIONS, ENCOURAGE_OPTIONS } from "@/lib/mock/companions";
 import { GROUPS } from "@/lib/mock/groups";
 import { Button } from "@/components/ui/button";
-import { Heart, Lock, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive } from "lucide-react";
+import { Heart, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +43,7 @@ function TogetherPage() {
         <ActiveSection companions={active} />
         <SharedJourneyProgress companions={active} />
         <EncourageAndPray />
-        <PrivacySection />
+        <SharedReflection companions={active} />
         <PendingSection pending={pending} />
         <GroupsSection />
         <ArchivedSection archived={archived} />
