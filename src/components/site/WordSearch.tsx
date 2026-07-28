@@ -1,10 +1,29 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildGrid } from "@/lib/word-search";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { Check, Trophy } from "lucide-react";
 
 type Cell = { r: number; c: number };
+
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () =>
+      setReduced(mq.matches || document.documentElement.classList.contains("reduce-motion"));
+    update();
+    mq.addEventListener?.("change", update);
+    const obs = new MutationObserver(update);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => {
+      mq.removeEventListener?.("change", update);
+      obs.disconnect();
+    };
+  }, []);
+  return reduced;
+}
 
 export function WordSearch({
   words,
@@ -17,6 +36,7 @@ export function WordSearch({
 }) {
   const { t } = useI18n();
   const { grid, placements } = useMemo(() => buildGrid(words, size), [words, size]);
+  const reducedMotion = useReducedMotion();
 
   const [colorKey, setColorKey] = useState("gold");
   const selectionColor = SELECTION_COLORS.find((c) => c.key === colorKey)!.value;
@@ -27,6 +47,9 @@ export function WordSearch({
   const [selecting, setSelecting] = useState(false);
   const [recentlyFound, setRecentlyFound] = useState<string[]>([]);
   const [toast, setToast] = useState<{ word: string; all: boolean } | null>(null);
+  const [focus, setFocus] = useState<Cell>({ r: 0, c: 0 });
+  const [announcement, setAnnouncement] = useState("");
+  const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
 
   const wordColor = useMemo(() => {
@@ -118,8 +141,81 @@ export function WordSearch({
     commit();
   }
 
+  const focusCell = useCallback((r: number, c: number) => {
+    const btn = gridRef.current?.querySelector<HTMLButtonElement>(
+      `button[data-r="${r}"][data-c="${c}"]`
+    );
+    btn?.focus();
+  }, []);
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    const { r, c } = focus;
+    let nr = r;
+    let nc = c;
+    switch (e.key) {
+      case "ArrowUp":
+        nr = Math.max(0, r - 1);
+        break;
+      case "ArrowDown":
+        nr = Math.min(size - 1, r + 1);
+        break;
+      case "ArrowLeft":
+        nc = Math.max(0, c - 1);
+        break;
+      case "ArrowRight":
+        nc = Math.min(size - 1, c + 1);
+        break;
+      case "Home":
+        nc = 0;
+        break;
+      case "End":
+        nc = size - 1;
+        break;
+      case "PageUp":
+        nr = 0;
+        break;
+      case "PageDown":
+        nr = size - 1;
+        break;
+      case " ":
+      case "Enter":
+        e.preventDefault();
+        if (!selecting) {
+          setSelecting(true);
+          setStart({ r, c });
+          setEnd({ r, c });
+          setAnnouncement(t("wordsearch.selectionStarted"));
+        } else {
+          endSelection();
+        }
+        return;
+      case "Escape":
+        if (selecting) {
+          e.preventDefault();
+          setSelecting(false);
+          setStart(null);
+          setEnd(null);
+          setAnnouncement(t("wordsearch.selectionCleared"));
+        }
+        return;
+      default:
+        return;
+    }
+    e.preventDefault();
+    setFocus({ r: nr, c: nc });
+    if (selecting) setEnd({ r: nr, c: nc });
+    focusCell(nr, nc);
+  }
+
   return (
     <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0" : "space-y-6"}`}>
+      <p id="ws-instructions" className="sr-only">
+        {t("wordsearch.instructions")}
+      </p>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </span>
+
       {fullBleed && (
         <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
           {toast && (
@@ -142,6 +238,13 @@ export function WordSearch({
       )}
 
       <div
+        ref={gridRef}
+        role="grid"
+        aria-label={t("wordsearch.gridLabel")}
+        aria-describedby="ws-instructions"
+        aria-rowcount={size}
+        aria-colcount={size}
+        onKeyDown={handleKeyDown}
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
           fullBleed ? "h-full w-full p-2" : "p-3"
         }`}
@@ -164,9 +267,21 @@ export function WordSearch({
                 c: p.col + p.dc * i,
               })).some((cell) => cell.r === r && cell.c === c);
             });
+            const isFocus = focus.r === r && focus.c === c;
+            const stateLabel = isFound
+              ? `, ${t("wordsearch.cellFound")}`
+              : inActive
+                ? `, ${t("wordsearch.cellSelected")}`
+                : "";
             return (
               <button
                 key={`${r}-${c}`}
+                type="button"
+                role="gridcell"
+                tabIndex={isFocus ? 0 : -1}
+                aria-selected={inActive || isFound}
+                aria-label={`${letter}, ${t("wordsearch.gridLabel")} ${r + 1}·${c + 1}${stateLabel}`}
+                onFocus={() => setFocus({ r, c })}
                 onMouseDown={() => begin(r, c)}
                 onMouseEnter={() => move(r, c)}
                 onMouseUp={endSelection}
@@ -191,9 +306,9 @@ export function WordSearch({
                 }}
                 data-r={r}
                 data-c={c}
-                className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 ${
+                className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
                   fullBleed ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
-                } ${recently ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
+                } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   background: isFound
                     ? `color-mix(in oklab, ${foundColorValue} 22%, transparent)`
@@ -248,13 +363,16 @@ export function WordSearch({
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5" role="radiogroup" aria-label={t("journey.selectionColor")}>
                 {SELECTION_COLORS.map((c) => (
                   <button
                     key={c.key}
+                    type="button"
+                    role="radio"
+                    aria-checked={colorKey === c.key}
                     onClick={() => setColorKey(c.key)}
                     aria-label={c.label}
-                    className="h-5 w-5 rounded-full border-2 transition"
+                    className="h-5 w-5 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
                     style={{
                       background: c.value,
                       borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
@@ -263,16 +381,20 @@ export function WordSearch({
                 ))}
               </div>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <ul
+              className="flex flex-wrap gap-2"
+              aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+            >
               {words.map((w) => {
                 const done = found.includes(w.toUpperCase());
                 const color = done ? wordColor.get(w.toUpperCase()) : undefined;
                 return (
-                  <span
+                  <li
                     key={w}
+                    aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
                     className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs uppercase tracking-wider transition ${
                       done ? "border-transparent line-through" : "border-border text-muted-foreground"
-                    } ${done ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                    } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                     style={{
                       color: done ? "var(--ink)" : undefined,
                       background: done ? `color-mix(in oklab, ${color} 18%, transparent)` : undefined,
@@ -280,13 +402,13 @@ export function WordSearch({
                     }}
                   >
                     {done && (
-                      <Check className="h-3 w-3 shrink-0" style={{ color }} />
+                      <Check className="h-3 w-3 shrink-0" style={{ color }} aria-hidden="true" />
                     )}
                     {w}
-                  </span>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </div>
         </div>
       )}
@@ -299,27 +421,31 @@ export function WordSearch({
               {found.length}/{words.length}
             </span>
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <ul
+            className="flex flex-wrap gap-1.5"
+            aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+          >
             {words.map((w) => {
               const done = found.includes(w.toUpperCase());
               const color = done ? wordColor.get(w.toUpperCase()) : undefined;
               return (
-                <span
+                <li
                   key={w}
+                  aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
                   className={`pointer-events-auto inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider transition ${
                     done ? "border-transparent" : "border-border/60 text-muted-foreground"
-                  } ${done ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                  } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                   style={{
                     color: done ? "var(--ink)" : undefined,
                     background: done ? `color-mix(in oklab, ${color} 18%, transparent)` : undefined,
                   }}
                 >
-                  {done && <Check className="h-2.5 w-2.5 shrink-0" style={{ color }} />}
+                  {done && <Check className="h-2.5 w-2.5 shrink-0" style={{ color }} aria-hidden="true" />}
                   {w}
-                </span>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </div>
       )}
     </div>
