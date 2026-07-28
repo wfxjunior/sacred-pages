@@ -65,7 +65,7 @@ function CollectionsPage() {
 
   const updateSearch = (patch: Partial<CollectionsSearch>) => {
     navigate({
-      search: (prev) => {
+      search: (prev: CollectionsSearch) => {
         const next: CollectionsSearch = { ...prev, ...patch };
         // Drop empty/default values so URLs stay clean and shareable.
         if (!next.q) delete next.q;
