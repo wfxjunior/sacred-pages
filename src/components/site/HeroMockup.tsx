@@ -296,18 +296,8 @@ export function HeroMockup() {
 
   return (
     <div className="relative">
-      {/* Soft ambient glow */}
       <div
-        aria-hidden
-        className="absolute -inset-10 -z-10 rounded-[3rem] opacity-60 blur-2xl"
-        style={{
-          background:
-            "radial-gradient(55% 55% at 30% 20%, color-mix(in oklab, var(--gold) 22%, transparent), transparent 65%), radial-gradient(45% 45% at 80% 85%, color-mix(in oklab, var(--sage) 18%, transparent), transparent 65%)",
-        }}
-      />
-
-      <div
-        className="overflow-hidden rounded-[28px] border border-border/60 bg-card/95 backdrop-blur"
+        className="relative overflow-hidden rounded-[28px] border border-border/60 bg-card/95 backdrop-blur"
         style={{
           boxShadow:
             "0 40px 80px -40px rgba(43,43,43,0.28), 0 12px 32px -20px rgba(43,43,43,0.12)",
