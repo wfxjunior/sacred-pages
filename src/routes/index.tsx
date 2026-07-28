@@ -5,7 +5,8 @@ import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { COLLECTIONS } from "@/lib/mock-data";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, ChevronDown, Play } from "lucide-react";
+import heroAtmosphere from "@/assets/hero-atmosphere.jpg.asset.json";
 import {
   ProductOverview,
   HowItWorks,
