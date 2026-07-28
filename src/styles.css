@@ -116,86 +116,92 @@
 
 :root {
   --radius: 0.5rem;
-  /* Warm Ivory #F8F6F2 */
-  --background: #F8F6F2;
+  /* Primary background #FCFBF8 */
+  --background: #FCFBF8;
   /* Deep Ink #2B2B2B */
   --foreground: #2B2B2B;
-  --card: #FDFBF7;
+  --card: #FFFFFF;
   --card-foreground: var(--foreground);
-  --popover: #FDFBF7;
+  --popover: #FFFFFF;
   --popover-foreground: var(--foreground);
   /* Antique Gold #B88A3B */
   --primary: #B88A3B;
-  --primary-foreground: #FDFBF7;
+  --primary-foreground: #FFFFFF;
   /* Soft Parchment #EFE8DC */
   --secondary: #EFE8DC;
   --secondary-foreground: var(--foreground);
-  --muted: #EFE8DC;
-  --muted-foreground: #6E5847;
+  --muted: #F4EFE6;
+  --muted-foreground: #5F5B55;
   --accent: #EFE8DC;
   --accent-foreground: var(--foreground);
   --destructive: oklch(0.55 0.18 30);
-  --destructive-foreground: #FDFBF7;
-  --border: #E4DBCB;
-  --input: #E4DBCB;
+  --destructive-foreground: #FFFFFF;
+  --border: #ECE6D9;
+  --input: #ECE6D9;
   --ring: #B88A3B;
   --chart-1: #B88A3B;
   --chart-2: #78866B;
   --chart-3: #5E7FA3;
   --chart-4: #6E5847;
   --chart-5: #D4A85A;
-  --sidebar: #EFE8DC;
+  --sidebar: #F8F6F2;
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: #B88A3B;
-  --sidebar-primary-foreground: #FDFBF7;
+  --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F5EFE4;
   --sidebar-accent-foreground: var(--foreground);
-  --sidebar-border: #E4DBCB;
+  --sidebar-border: #ECE6D9;
   --sidebar-ring: #B88A3B;
   /* Extended tokens — exact brand palette */
-  --walnut: #6E5847;
+  --walnut: #5F5B55;
   --gold: #B88A3B;
   --sage: #78866B;
   --dusty-blue: #5E7FA3;
   --parchment: #EFE8DC;
   --ivory: #F8F6F2;
+  --surface-2: #F8F6F2;
   --ink: #2B2B2B;
+  --ink-2: #5F5B55;
 }
 
 .dark {
-  /* Quiet library at night */
-  --background: oklch(0.22 0.005 60);
-  --foreground: oklch(0.94 0.01 85);
-  --card: oklch(0.27 0.006 60);
-  --card-foreground: oklch(0.94 0.01 85);
-  --popover: oklch(0.27 0.006 60);
-  --popover-foreground: oklch(0.94 0.01 85);
-  --primary: oklch(0.72 0.11 75);
-  --primary-foreground: oklch(0.22 0.005 60);
-  --secondary: oklch(0.3 0.006 60);
-  --secondary-foreground: oklch(0.94 0.01 85);
-  --muted: oklch(0.3 0.006 60);
-  --muted-foreground: oklch(0.72 0.01 70);
-  --accent: oklch(0.3 0.006 60);
-  --accent-foreground: oklch(0.94 0.01 85);
+  /* Quiet library at night — refined near-black warm neutrals */
+  --background: #141311;
+  --foreground: #F1EDE4;
+  --card: #1B1A17;
+  --card-foreground: #F1EDE4;
+  --popover: #1B1A17;
+  --popover-foreground: #F1EDE4;
+  --primary: #D4A85A;
+  --primary-foreground: #141311;
+  --secondary: #22201C;
+  --secondary-foreground: #F1EDE4;
+  --muted: #22201C;
+  --muted-foreground: #B5AE9F;
+  --accent: #22201C;
+  --accent-foreground: #F1EDE4;
   --destructive: oklch(0.6 0.18 30);
-  --destructive-foreground: oklch(0.94 0.01 85);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.72 0.11 75);
-  --sidebar: oklch(0.27 0.006 60);
-  --sidebar-foreground: oklch(0.94 0.01 85);
-  --sidebar-primary: oklch(0.72 0.11 75);
-  --sidebar-primary-foreground: oklch(0.22 0.005 60);
-  --sidebar-accent: oklch(0.3 0.006 60);
-  --sidebar-accent-foreground: oklch(0.94 0.01 85);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.72 0.11 75);
-  --walnut: oklch(0.7 0.04 45);
-  --gold: oklch(0.72 0.11 75);
-  --sage: oklch(0.68 0.05 130);
-  --dusty-blue: oklch(0.68 0.06 250);
-  --parchment: oklch(0.3 0.006 60);
+  --destructive-foreground: #F1EDE4;
+  --border: rgba(255,255,255,0.08);
+  --input: rgba(255,255,255,0.10);
+  --ring: #D4A85A;
+  --sidebar: #1B1A17;
+  --sidebar-foreground: #F1EDE4;
+  --sidebar-primary: #D4A85A;
+  --sidebar-primary-foreground: #141311;
+  --sidebar-accent: #22201C;
+  --sidebar-accent-foreground: #F1EDE4;
+  --sidebar-border: rgba(255,255,255,0.08);
+  --sidebar-ring: #D4A85A;
+  --walnut: #B5AE9F;
+  --gold: #D4A85A;
+  --sage: #9BB18A;
+  --dusty-blue: #8FADD1;
+  --parchment: #22201C;
+  --ivory: #1B1A17;
+  --surface-2: #1B1A17;
+  --ink: #F1EDE4;
+  --ink-2: #B5AE9F;
 }
 
 @layer base {
