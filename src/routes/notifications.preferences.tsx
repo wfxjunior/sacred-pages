@@ -287,6 +287,147 @@ function RowToggle({
   );
 }
 
+const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
+const DAY_FULL = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+function useTimezones() {
+  return useMemo<string[]>(() => {
+    const anyIntl = Intl as unknown as { supportedValuesOf?: (k: string) => string[] };
+    const list = anyIntl.supportedValuesOf?.("timeZone");
+    if (list && list.length) return list;
+    return [
+      "UTC",
+      "America/Sao_Paulo",
+      "America/New_York",
+      "America/Los_Angeles",
+      "America/Mexico_City",
+      "Europe/London",
+      "Europe/Lisbon",
+      "Europe/Madrid",
+      "Europe/Paris",
+      "Europe/Berlin",
+      "Africa/Johannesburg",
+      "Asia/Jerusalem",
+      "Asia/Dubai",
+      "Asia/Kolkata",
+      "Asia/Singapore",
+      "Asia/Tokyo",
+      "Australia/Sydney",
+    ];
+  }, []);
+}
+
+function QuietHoursEditor() {
+  const { prefs, update } = useNotifPrefs();
+  const timezones = useTimezones();
+  const q = prefs.quietHours;
+
+  const toggleDay = (d: number) => {
+    const has = q.days.includes(d);
+    const next = has ? q.days.filter((x) => x !== d) : [...q.days, d].sort();
+    update({ quietHours: { ...q, days: next } });
+  };
+
+  const setPreset = (label: "every" | "week" | "weekend") => {
+    const days = label === "every" ? [0, 1, 2, 3, 4, 5, 6] : label === "week" ? [1, 2, 3, 4, 5] : [0, 6];
+    update({ quietHours: { ...q, days } });
+  };
+
+  return (
+    <div className="mt-3 space-y-4">
+      <div className="flex flex-wrap items-center gap-3 text-[12px] text-muted-foreground">
+        <label className="inline-flex items-center gap-2">
+          From
+          <input
+            type="time"
+            value={q.from}
+            onChange={(e) => update({ quietHours: { ...q, from: e.target.value } })}
+            className="rounded-md border border-border/60 bg-background px-2 py-1 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          />
+        </label>
+        <label className="inline-flex items-center gap-2">
+          To
+          <input
+            type="time"
+            value={q.to}
+            onChange={(e) => update({ quietHours: { ...q, to: e.target.value } })}
+            className="rounded-md border border-border/60 bg-background px-2 py-1 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          />
+        </label>
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            Repeat on
+          </p>
+          <div className="flex gap-1 text-[10.5px] uppercase tracking-[0.14em]">
+            {(["every", "week", "weekend"] as const).map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setPreset(p)}
+                className="rounded-full border border-border/60 px-2 py-0.5 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                {p === "every" ? "Every day" : p === "week" ? "Weekdays" : "Weekends"}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Days quiet hours apply">
+          {DAY_LABELS.map((lbl, i) => {
+            const active = q.days.includes(i);
+            return (
+              <button
+                key={i}
+                type="button"
+                aria-pressed={active}
+                aria-label={DAY_FULL[i]}
+                onClick={() => toggleDay(i)}
+                className={`h-9 w-9 rounded-full border text-[12px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  active
+                    ? "border-transparent text-background"
+                    : "border-border/60 text-muted-foreground hover:text-foreground"
+                }`}
+                style={active ? { background: "var(--gold)", color: "var(--ivory)" } : undefined}
+              >
+                {lbl}
+              </button>
+            );
+          })}
+        </div>
+        {q.days.length === 0 && (
+          <p className="mt-2 text-[11px] text-destructive">
+            Pick at least one day, or quiet hours will never apply.
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label className="flex flex-col gap-1.5">
+          <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+            Timezone
+          </span>
+          <select
+            value={q.timezone}
+            onChange={(e) => update({ quietHours: { ...q, timezone: e.target.value } })}
+            className="w-full max-w-sm rounded-md border border-border/60 bg-background px-2 py-1.5 text-[13px] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            {timezones.map((tz) => (
+              <option key={tz} value={tz}>
+                {tz.replace(/_/g, " ")}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p className="mt-1.5 text-[11px] text-muted-foreground">
+          Times above are interpreted in this timezone so quiet hours stay right when you travel.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function Switch({
   checked,
   onChange,
