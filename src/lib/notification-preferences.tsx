@@ -22,7 +22,15 @@ export type CategoryPref = {
 
 export type NotificationPrefs = {
   categories: Record<NotificationKind, CategoryPref>;
-  quietHours: { enabled: boolean; from: string; to: string };
+  quietHours: {
+    enabled: boolean;
+    from: string;
+    to: string;
+    /** 0 = Sunday … 6 = Saturday. Days on which quiet hours apply. */
+    days: number[];
+    /** IANA timezone id, e.g. "America/Sao_Paulo". */
+    timezone: string;
+  };
   weeklyDigest: boolean;
   sound: boolean;
   pauseAll: boolean;
@@ -56,7 +64,16 @@ const DEFAULTS: NotificationPrefs = {
       },
     ])
   ) as NotificationPrefs["categories"],
-  quietHours: { enabled: true, from: "21:30", to: "07:00" },
+  quietHours: {
+    enabled: true,
+    from: "21:30",
+    to: "07:00",
+    days: [0, 1, 2, 3, 4, 5, 6],
+    timezone:
+      (typeof Intl !== "undefined" &&
+        Intl.DateTimeFormat().resolvedOptions().timeZone) ||
+      "UTC",
+  },
   weeklyDigest: true,
   sound: true,
   pauseAll: false,
