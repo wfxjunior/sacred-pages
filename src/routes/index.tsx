@@ -82,6 +82,18 @@ function Landing() {
               {t("hero.subAtmospheric")}
             </p>
 
+            <figure className="mt-6 max-w-md sm:mt-7 sm:max-w-lg md:max-w-xl">
+              <div className="flex items-center gap-3">
+                <span aria-hidden className="h-px w-8 bg-[color:var(--gold)]/70" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold)]/90 sm:text-[11px]">
+                  {t("hero.verseRef")}
+                </span>
+              </div>
+              <blockquote className="mt-2 font-serif text-[17px] italic leading-[1.45] text-white/85 sm:text-[19px] md:text-[21px]">
+                &ldquo;{t("hero.verse")}&rdquo;
+              </blockquote>
+            </figure>
+
             <div className="mt-7 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
               <Button
                 asChild
