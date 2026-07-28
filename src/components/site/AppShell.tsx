@@ -25,7 +25,7 @@ export function AppShell({
     { to: "/profile", label: t("nav.profile"), icon: User },
   ];
   return (
-    <div className="min-h-screen bg-background">
+    <div className="journey-warm min-h-screen bg-background">
       <div className="mx-auto flex max-w-[1400px] flex-col md:flex-row">
         <aside className="hidden w-60 shrink-0 border-r border-border/60 md:block">
           <div className="sticky top-0 flex h-screen flex-col">

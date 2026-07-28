@@ -55,24 +55,23 @@ function Landing() {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(60% 50% at 15% 10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 90% 30%, color-mix(in oklab, var(--sage) 6%, transparent), transparent 60%), radial-gradient(50% 40% at 80% 90%, color-mix(in oklab, var(--dusty-blue) 5%, transparent), transparent 60%)",
+              "radial-gradient(60% 50% at 15% 10%, color-mix(in oklab, var(--brand) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 90% 30%, color-mix(in oklab, var(--brand) 5%, transparent), transparent 60%), radial-gradient(50% 40% at 80% 90%, color-mix(in oklab, var(--sage) 4%, transparent), transparent 60%)",
           }}
         />
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 sm:py-20 md:py-24 lg:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] lg:gap-16 lg:py-28">
           <div className="flex flex-col">
             <span
               className="inline-flex w-fit items-center gap-2 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--gold)" }}
+                style={{ background: "var(--brand)" }}
               />
               {t("hero.label")}
             </span>
             <h1 className="mt-6 font-serif text-[38px] leading-[1.04] tracking-tight sm:text-[46px] md:text-[52px] lg:text-[60px]">
-              Make God's Word part of your{" "}
-              <span style={{ color: "var(--gold)" }}>everyday life.</span>
+              Make God's Word part of your everyday life.
             </h1>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground sm:text-base md:max-w-lg md:text-[17px]">
               Daily devotionals, interactive Bible word searches, reflections and

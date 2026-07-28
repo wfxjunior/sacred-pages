@@ -39,7 +39,7 @@ export function LandingSection({
             {eyebrow && (
               <p
                 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
-                style={{ color: "var(--gold)" }}
+                style={{ color: "var(--brand)" }}
               >
                 {eyebrow}
               </p>
@@ -168,7 +168,7 @@ export function Personalization() {
         <div>
           <p
             className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
-            style={{ color: "var(--gold)" }}
+            style={{ color: "var(--brand)" }}
           >
             {t("personalize.eyebrow")}
           </p>
@@ -263,7 +263,7 @@ export function JourneyTogether() {
             </div>
             <div
               className="flex items-center gap-1.5 text-sm font-medium"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               <Flame className="h-4 w-4" />
               12 · {t("together.sharedStreak")}
@@ -333,7 +333,7 @@ export function ProgressShowcase() {
             </div>
             <div
               className="flex items-center gap-1.5 text-sm font-medium"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               <Flame className="h-4 w-4" /> 12 {t("app.days")}
             </div>
@@ -407,7 +407,7 @@ export function Testimonials() {
             <span
               aria-hidden
               className="font-serif text-5xl leading-none"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               “
             </span>
@@ -505,7 +505,7 @@ export function PricingPreview() {
                 <li key={f} className="flex items-start gap-2.5">
                   <Check
                     className="mt-0.5 h-4 w-4 shrink-0"
-                    style={{ color: "var(--gold)" }}
+                    style={{ color: "var(--brand)" }}
                     strokeWidth={2}
                   />
                   {f}
