@@ -116,6 +116,23 @@
   }
 }
 
+@keyframes cloud-drift {
+  0% {
+    transform: scale(1.12) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.12) translate(1.5%, -0.8%);
+  }
+  100% {
+    transform: scale(1.12) translate(0%, 0%);
+  }
+}
+
+.animate-cloud-drift {
+  animation: cloud-drift 70s ease-in-out infinite;
+}
+
+
 /* Reduced motion: honor OS preference and .reduce-motion opt-in (mock) */
 @media (prefers-reduced-motion: reduce) {
   *,

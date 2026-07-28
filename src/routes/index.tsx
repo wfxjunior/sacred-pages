@@ -56,7 +56,7 @@ function Landing() {
           alt=""
           aria-hidden
           loading="eager"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="animate-cloud-drift absolute inset-0 h-full w-full object-cover will-change-transform"
         />
         <div
           aria-hidden
