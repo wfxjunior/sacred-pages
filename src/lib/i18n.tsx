@@ -43,6 +43,8 @@ const en: Dict = {
   "hero.ctaStart": "Start Journey",
   "hero.ctaExplore": "Explore Themes",
   "hero.scrollHint": "Scroll to explore",
+  "hero.verse": "Your word is a lamp for my feet, a light on my path.",
+  "hero.verseRef": "Psalm 119:105",
   "mock.tab.read": "Read",
   "mock.tab.search": "Word Search",
   "mock.tab.reflect": "Reflect",
