@@ -96,7 +96,10 @@ export function HeroWordGrid() {
     [],
   );
 
-  const [foundCount, setFoundCount] = useState(1);
+  // Start with a few words already discovered so the hero never looks empty
+  // on first paint (and matches SSR to avoid hydration flashes).
+  const [foundCount, setFoundCount] = useState(3);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -107,15 +110,31 @@ export function HeroWordGrid() {
     }
     let raf = 0;
     let last = performance.now();
+    let holding = false;
     const tick = (now: number) => {
       if (document.hidden) {
         last = now;
         raf = requestAnimationFrame(tick);
         return;
       }
-      if (now - last >= 1600) {
+      const delta = now - last;
+      if (!holding && delta >= 1800) {
         last = now;
-        setFoundCount((c) => (c >= WORDS.length ? 1 : c + 1));
+        setFoundCount((c) => {
+          if (c >= WORDS.length) {
+            // Hold the complete state, then fade out and restart softly.
+            holding = true;
+            window.setTimeout(() => setFading(true), 2200);
+            window.setTimeout(() => {
+              setFading(false);
+              setFoundCount(1);
+              last = performance.now();
+              holding = false;
+            }, 3000);
+            return c;
+          }
+          return c + 1;
+        });
       }
       raf = requestAnimationFrame(tick);
     };
@@ -138,7 +157,13 @@ export function HeroWordGrid() {
 
   return (
     <div className="relative w-full">
-      <div className="relative overflow-hidden rounded-2xl border border-[#E4E0D6] bg-white p-3 shadow-[0_12px_40px_-12px_rgba(43,43,43,0.12)] sm:rounded-3xl sm:p-4 md:p-5">
+      <div
+        className="relative overflow-hidden rounded-2xl border border-[#E4E0D6] bg-white p-3 shadow-[0_12px_40px_-12px_rgba(43,43,43,0.12)] sm:rounded-3xl sm:p-4 md:p-5"
+        style={{
+          opacity: fading ? 0.35 : 1,
+          transition: "opacity 700ms ease-in-out",
+        }}
+      >
         <div className="mb-3 flex items-center justify-between sm:mb-4">
           <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C]">
             Daily word search
