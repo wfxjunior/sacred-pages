@@ -55,6 +55,7 @@ function Landing() {
           src={heroAtmosphere.url}
           alt=""
           aria-hidden
+          loading="eager"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div
