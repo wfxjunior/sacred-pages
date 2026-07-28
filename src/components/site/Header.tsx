@@ -160,10 +160,23 @@ export function Header() {
                 isHero ? "border-white/10" : "border-border/50"
               }`}
             >
-              <Button asChild variant="ghost" size="sm" className="flex-1">
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className={`flex-1 ${
+                  isHero ? "text-white/80 hover:bg-white/10 hover:text-white" : ""
+                }`}
+              >
                 <Link to="/signin">{t("cta.signin")}</Link>
               </Button>
-              <Button asChild size="sm" className="flex-1 rounded-full">
+              <Button
+                asChild
+                size="sm"
+                className={`flex-1 rounded-full ${
+                  isHero ? "bg-white text-zinc-950 hover:bg-white/90" : ""
+                }`}
+              >
                 <Link to="/signup">{t("cta.startFree")}</Link>
               </Button>
             </div>
