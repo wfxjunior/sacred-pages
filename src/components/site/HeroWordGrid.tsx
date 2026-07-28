@@ -1,88 +1,221 @@
-type Cell = { letter: string; color?: string; line?: "horizontal" | "vertical" | "diagonal" };
+import { memo, useEffect, useMemo, useState } from "react";
+import { Check } from "lucide-react";
+import { buildGrid, type Placement } from "@/lib/word-search";
+
+const WORDS = ["PEACE", "FAITH", "LIGHT", "GRACE", "HOPE"];
+const COLORS = ["#7A8F73", "#5E7FA3", "#C89F4F", "#6E5847", "#B88A3B"];
+
+const GridCell = memo(function GridCell({
+  letter,
+  color,
+}: {
+  letter: string;
+  color?: string;
+}) {
+  const hit = Boolean(color);
+  return (
+    <div
+      className="flex aspect-square items-center justify-center rounded-[3px] text-[10px] font-semibold sm:text-[11px] md:text-xs"
+      style={{
+        backgroundColor: hit ? `color-mix(in oklab, ${color} 22%, white)` : "white",
+        color: hit ? "#2B2B2B" : "rgba(43,43,43,0.55)",
+        transition: "background-color 400ms ease-out",
+      }}
+    >
+      {letter}
+    </div>
+  );
+});
+
+function FoundLines({
+  placements,
+  foundWords,
+  wordColor,
+  size,
+}: {
+  placements: Placement[];
+  foundWords: Set<string>;
+  wordColor: Map<string, string>;
+  size: number;
+}) {
+  const unit = 100 / size;
+  const offset = unit / 2;
+  const paths = useMemo(
+    () =>
+      placements
+        .filter((p) => foundWords.has(p.word))
+        .map((p) => {
+          const x1 = p.col * unit + offset;
+          const y1 = p.row * unit + offset;
+          const x2 = (p.col + p.dc * (p.word.length - 1)) * unit + offset;
+          const y2 = (p.row + p.dr * (p.word.length - 1)) * unit + offset;
+          const length = Math.hypot(x2 - x1, y2 - y1);
+          return {
+            key: p.word,
+            d: `M ${x1} ${y1} L ${x2} ${y2}`,
+            color: wordColor.get(p.word) ?? "#C89F4F",
+            length: `${length}`,
+          };
+        }),
+    [placements, foundWords, wordColor, unit, offset],
+  );
+
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden
+    >
+      {paths.map(({ key, d, color, length }) => (
+        <path
+          key={key}
+          d={d}
+          fill="none"
+          stroke={color}
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+          style={{
+            strokeDasharray: `${length} ${length}`,
+            strokeDashoffset: length,
+            animation: "draw-line 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+            opacity: 0.85,
+          }}
+        />
+      ))}
+    </svg>
+  );
+}
 
 export function HeroWordGrid() {
   const size = 12;
-
-  // Build a blank grid.
-  const grid: Cell[][] = Array.from({ length: size }, () =>
-    Array.from({ length: size }, () => ({ letter: randomLetter() })),
+  const { grid, placements } = useMemo(() => buildGrid(WORDS, size), []);
+  const wordColor = useMemo(
+    () => new Map(WORDS.map((w, i) => [w, COLORS[i % COLORS.length]])),
+    [],
   );
 
-  // Place words with their accent colors.
-  placeWord(grid, 0, 0, "horizontal", "PEACE", "#7A8F73"); // sage
-  placeWord(grid, 0, 0, "vertical", "FAITH", "#5E7FA3"); // dusty blue
-  placeWord(grid, 2, 2, "horizontal", "LIGHT", "#C89F4F"); // gold
-  placeWord(grid, 5, 6, "vertical", "GRACE", "#B88A3B"); // antique gold
+  const [foundCount, setFoundCount] = useState(1);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setFoundCount(WORDS.length);
+      return;
+    }
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      if (document.hidden) {
+        last = now;
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      if (now - last >= 1600) {
+        last = now;
+        setFoundCount((c) => (c >= WORDS.length ? 1 : c + 1));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const { foundWords, highlighted } = useMemo(() => {
+    const set = new Set(WORDS.slice(0, foundCount));
+    const map = new Map<string, string>();
+    for (const p of placements) {
+      if (!set.has(p.word)) continue;
+      const color = wordColor.get(p.word) ?? "#C89F4F";
+      for (let i = 0; i < p.word.length; i++) {
+        map.set(`${p.row + p.dr * i},${p.col + p.dc * i}`, color);
+      }
+    }
+    return { foundWords: set, highlighted: map };
+  }, [foundCount, placements, wordColor]);
 
   return (
     <div className="relative w-full">
       <div className="relative overflow-hidden rounded-2xl border border-[#E4E0D6] bg-white p-3 shadow-[0_12px_40px_-12px_rgba(43,43,43,0.12)] sm:rounded-3xl sm:p-4 md:p-5">
-        {/* Header label */}
         <div className="mb-3 flex items-center justify-between sm:mb-4">
           <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C]">
             Daily word search
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F1EC] px-2 py-1 text-[10px] font-medium text-[#2B2B2B]">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F1EC] px-2 py-1 text-[10px] font-medium text-[#2B2B2B] tabular-nums">
             <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
-            4 found
+            {foundCount}/{WORDS.length} found
           </span>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-12 gap-[1px] rounded-xl bg-[#E4E0D6] p-1 sm:gap-[2px] sm:p-1.5">
+        <div
+          className="relative grid gap-[2px] rounded-xl bg-[#E4E0D6] p-1.5"
+          style={{ gridTemplateColumns: `repeat(${size}, minmax(0,1fr))` }}
+        >
+          <FoundLines
+            placements={placements}
+            foundWords={foundWords}
+            wordColor={wordColor}
+            size={size}
+          />
           {grid.map((row, r) =>
-            row.map((cell, c) => {
-              const isWord = !!cell.color;
-              return (
-                <div
-                  key={`${r}-${c}`}
-                  className={`relative flex aspect-square items-center justify-center rounded-[2px] text-[10px] font-semibold sm:text-[11px] md:text-xs ${
-                    isWord ? "text-white" : "bg-white text-[#2B2B2B]/55"
-                  }`}
-                  style={{ backgroundColor: cell.color }}
-                >
-                  {cell.letter}
-                  {isWord && cell.line === "horizontal" && (
-                    <span className="absolute inset-x-1 top-1/2 h-[1.5px] -translate-y-1/2 rounded-full bg-white/30" />
-                  )}
-                  {isWord && cell.line === "vertical" && (
-                    <span className="absolute inset-y-1 left-1/2 w-[1.5px] -translate-x-1/2 rounded-full bg-white/30" />
-                  )}
-                  {isWord && cell.line === "diagonal" && (
-                    <span className="absolute left-1/2 top-1/2 h-[1.5px] w-[140%] -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-full bg-white/30" />
-                  )}
-                </div>
-              );
-            }),
+            row.map((letter, c) => (
+              <GridCell
+                key={`${r}-${c}`}
+                letter={letter}
+                color={highlighted.get(`${r},${c}`)}
+              />
+            )),
           )}
+        </div>
+
+        {/* Word chips below the grid */}
+        <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
+          {WORDS.map((w) => {
+            const found = foundWords.has(w);
+            const color = wordColor.get(w) ?? "#C89F4F";
+            return (
+              <span
+                key={w}
+                className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] transition-all duration-500 sm:text-[11px]"
+                style={
+                  found
+                    ? {
+                        color: "#2B2B2B",
+                        borderColor: `color-mix(in oklab, ${color} 55%, transparent)`,
+                        background: `color-mix(in oklab, ${color} 20%, white)`,
+                      }
+                    : {
+                        color: "#6B665C",
+                        borderColor: "#E4E0D6",
+                        background: "white",
+                      }
+                }
+              >
+                {found && <Check className="h-2.5 w-2.5" strokeWidth={3} />}
+                {w}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Progress bar */}
+        <div
+          className="mt-4 h-1 w-full overflow-hidden rounded-full sm:mt-5"
+          style={{ background: "#F3F1EC" }}
+        >
+          <div
+            className="h-full w-full origin-left rounded-full"
+            style={{
+              transform: `scaleX(${foundCount / WORDS.length})`,
+              transition: "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+              background:
+                "linear-gradient(90deg, #C89F4F, color-mix(in oklab, #C89F4F 60%, #7A8F73))",
+            }}
+          />
         </div>
       </div>
     </div>
   );
-}
-
-function randomLetter(): string {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  return letters[Math.floor(Math.random() * letters.length)];
-}
-
-function placeWord(
-  grid: Cell[][],
-  row: number,
-  col: number,
-  direction: "horizontal" | "vertical" | "diagonal",
-  word: string,
-  color: string,
-) {
-  for (let i = 0; i < word.length; i++) {
-    const r = direction === "horizontal" ? row : direction === "vertical" ? row + i : row + i;
-    const c = direction === "horizontal" ? col + i : direction === "vertical" ? col : col + i;
-    if (r < grid.length && c < grid[0].length) {
-      grid[r][c] = {
-        letter: word[i],
-        color,
-        line: direction,
-      };
-    }
-  }
 }
