@@ -666,9 +666,6 @@ function detect(): Locale {
   if (typeof window === "undefined") return "en";
   const stored = window.localStorage.getItem("locale") as Locale | null;
   if (stored && stored in dictionaries) return stored;
-  const nav = window.navigator?.language?.slice(0, 2).toLowerCase();
-  if (nav === "pt") return "pt";
-  if (nav === "es") return "es";
   return "en";
 }
 
