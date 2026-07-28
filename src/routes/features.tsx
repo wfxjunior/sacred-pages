@@ -64,8 +64,8 @@ function PlanBadge({ kind }: { kind: Badge }) {
       label: "Free",
     },
     Premium: {
-      bg: "color-mix(in oklab, var(--gold) 14%, transparent)",
-      fg: "var(--gold)",
+      bg: "color-mix(in oklab, var(--brand) 14%, transparent)",
+      fg: "var(--brand)",
       label: "Premium",
     },
     "Coming Soon": {
@@ -103,7 +103,7 @@ function PreviewFrame({ children }: { children: React.ReactNode }) {
       <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl"
         style={{
           background:
-            "radial-gradient(60% 60% at 20% 10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 70%)",
+            "radial-gradient(60% 60% at 20% 10%, color-mix(in oklab, var(--brand) 8%, transparent), transparent 70%)",
         }}
       />
       {children}
@@ -155,7 +155,7 @@ function DevotionalPreview() {
           <div
             key={s}
             className="rounded-xl border border-border/60 bg-background/60 py-3 text-[11px] uppercase tracking-wider"
-            style={{ color: i === 0 ? "var(--gold)" : "var(--muted-foreground)" }}
+            style={{ color: i === 0 ? "var(--brand)" : "var(--muted-foreground)" }}
           >
             {s}
           </div>
@@ -212,7 +212,7 @@ function PrayerPreview() {
 
 function CollectionsPreview() {
   const items = [
-    { t: "The Life of Jesus", n: "12 journeys", c: "var(--gold)" },
+    { t: "The Life of Jesus", n: "12 journeys", c: "var(--brand)" },
     { t: "Psalms of Peace", n: "8 journeys", c: "var(--sage)" },
     { t: "Proverbs Daily", n: "31 journeys", c: "var(--dusty-blue)" },
     { t: "Paul's Letters", n: "14 journeys", c: "var(--walnut)" },
@@ -255,7 +255,7 @@ function FavoritesPreview() {
             <div className="flex items-center gap-3">
               <Star
                 className="h-4 w-4"
-                style={{ color: "var(--gold)" }}
+                style={{ color: "var(--brand)" }}
                 fill="currentColor"
               />
               <span className="text-[14px]">{f}</span>
@@ -282,8 +282,8 @@ function ProgressPreview() {
         <span
           className="rounded-full px-3 py-1 text-[11px] font-medium"
           style={{
-            background: "color-mix(in oklab, var(--gold) 14%, transparent)",
-            color: "var(--gold)",
+            background: "color-mix(in oklab, var(--brand) 14%, transparent)",
+            color: "var(--brand)",
           }}
         >
           12 day streak
@@ -298,7 +298,7 @@ function ProgressPreview() {
                 style={{
                   height: `${v}%`,
                   background:
-                    "linear-gradient(180deg, var(--gold), color-mix(in oklab, var(--gold) 40%, var(--sage)))",
+                    "linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand) 40%, var(--sage)))",
                 }}
               />
             </div>
@@ -329,7 +329,7 @@ function MilestonesPreview() {
           >
             <Award
               className="mt-0.5 h-5 w-5 shrink-0"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             />
             <div>
               <p className="text-[14px] font-medium">{x.t}</p>
@@ -364,7 +364,7 @@ function DifficultyPreview() {
                 style={{
                   width: `${l.pct}%`,
                   background:
-                    "linear-gradient(90deg, var(--sage), var(--gold))",
+                    "linear-gradient(90deg, var(--sage), var(--brand))",
                 }}
               />
             </div>
@@ -459,7 +459,7 @@ function LanguagesPreview() {
             <div className="flex items-center justify-between">
               <span
                 className="font-serif text-lg"
-                style={{ color: "var(--gold)" }}
+                style={{ color: "var(--brand)" }}
               >
                 {l.code}
               </span>
@@ -479,7 +479,7 @@ function LanguagesPreview() {
 
 function TogetherPreview() {
   const m = [
-    { n: "Ana", pct: 92, c: "var(--gold)" },
+    { n: "Ana", pct: 92, c: "var(--brand)" },
     { n: "Lucas", pct: 78, c: "var(--sage)" },
     { n: "Sofia", pct: 64, c: "var(--dusty-blue)" },
   ];
@@ -494,7 +494,7 @@ function TogetherPreview() {
         </div>
         <span
           className="text-sm font-medium"
-          style={{ color: "var(--gold)" }}
+          style={{ color: "var(--brand)" }}
         >
           12 · shared streak
         </span>
@@ -626,7 +626,7 @@ function CrossDevicePreview() {
         <div className="col-span-2 rounded-2xl border border-border/60 bg-background p-5">
           <p
             className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-            style={{ color: "var(--gold)" }}
+            style={{ color: "var(--brand)" }}
           >
             Desktop
           </p>
@@ -638,7 +638,7 @@ function CrossDevicePreview() {
         <div className="rounded-[26px] border-4 border-border/70 bg-background p-3">
           <p
             className="text-[9px] font-semibold uppercase tracking-[0.22em]"
-            style={{ color: "var(--gold)" }}
+            style={{ color: "var(--brand)" }}
           >
             Mobile
           </p>
@@ -1164,23 +1164,23 @@ function FeaturesPage() {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(60% 50% at 20% 10%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 85% 30%, color-mix(in oklab, var(--sage) 6%, transparent), transparent 60%)",
+              "radial-gradient(60% 50% at 20% 10%, color-mix(in oklab, var(--brand) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 85% 30%, color-mix(in oklab, var(--sage) 6%, transparent), transparent 60%)",
           }}
         />
         <div className="mx-auto max-w-4xl px-5 py-24 text-center sm:px-6 md:py-32">
           <span
             className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur"
-            style={{ color: "var(--gold)" }}
+            style={{ color: "var(--brand)" }}
           >
             <span
               className="h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--gold)" }}
+              style={{ background: "var(--brand)" }}
             />
             Features
           </span>
           <h1 className="mt-6 font-serif text-[40px] leading-[1.05] tracking-tight sm:text-[52px] md:text-[64px]">
             Everything you need to build a daily habit in{" "}
-            <span style={{ color: "var(--gold)" }}>God's Word.</span>
+            <span style={{ color: "var(--brand)" }}>God's Word.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">
             Discover how every feature works together to create a peaceful,
@@ -1220,8 +1220,8 @@ function FeaturesPage() {
                       className="inline-flex h-9 w-9 items-center justify-center rounded-xl"
                       style={{
                         background:
-                          "color-mix(in oklab, var(--gold) 12%, transparent)",
-                        color: "var(--gold)",
+                          "color-mix(in oklab, var(--brand) 12%, transparent)",
+                        color: "var(--brand)",
                       }}
                     >
                       <Icon className="h-4.5 w-4.5" strokeWidth={1.6} />
@@ -1248,7 +1248,7 @@ function FeaturesPage() {
                       >
                         <Check
                           className="mt-0.5 h-4 w-4 shrink-0"
-                          style={{ color: "var(--gold)" }}
+                          style={{ color: "var(--brand)" }}
                         />
                         {b}
                       </li>
@@ -1273,7 +1273,7 @@ function FeaturesPage() {
           <div className="mb-14 max-w-2xl">
             <p
               className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
-              style={{ color: "var(--gold)" }}
+              style={{ color: "var(--brand)" }}
             >
               Feature guide
             </p>
@@ -1312,7 +1312,7 @@ function FeaturesPage() {
                           <div>
                             <p
                               className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-                              style={{ color: "var(--gold)" }}
+                              style={{ color: "var(--brand)" }}
                             >
                               What
                             </p>
@@ -1321,7 +1321,7 @@ function FeaturesPage() {
                           <div>
                             <p
                               className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-                              style={{ color: "var(--gold)" }}
+                              style={{ color: "var(--brand)" }}
                             >
                               Who
                             </p>
@@ -1330,7 +1330,7 @@ function FeaturesPage() {
                           <div>
                             <p
                               className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-                              style={{ color: "var(--gold)" }}
+                              style={{ color: "var(--brand)" }}
                             >
                               How
                             </p>
