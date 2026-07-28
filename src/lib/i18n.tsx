@@ -662,20 +662,29 @@ type I18nCtx = { locale: Locale; setLocale: (l: Locale) => void; t: (k: string) 
 
 const Ctx = createContext<I18nCtx | null>(null);
 
+const STORAGE_KEY = "locale_explicit";
+const LEGACY_KEY = "locale";
+
 function detect(): Locale {
   if (typeof window === "undefined") return "en";
-  const stored = window.localStorage.getItem("locale") as Locale | null;
-  if (stored && stored in dictionaries) return stored;
+  // Only honour an explicit user choice. Old/legacy values are ignored so the
+  // first visit (or a visit after this change) always defaults to English.
+  const explicit = window.localStorage.getItem(STORAGE_KEY) as Locale | null;
+  if (explicit && explicit in dictionaries) return explicit;
+  // Clean up the old key so it never leaks into future sessions.
+  if (window.localStorage.getItem(LEGACY_KEY) !== null) {
+    window.localStorage.removeItem(LEGACY_KEY);
+  }
   return "en";
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  // Lazy init so the first client render already reflects the stored / detected locale.
+  // Lazy init so the first client render already reflects the stored locale.
   const [locale, setLocaleState] = useState<Locale>(() => detect());
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    // Re-run detect on mount in case SSR produced "en" while the client prefers pt/es.
+    // Re-run detect on mount in case SSR produced "en" while the client has an explicit choice.
     setLocaleState((prev) => {
       const d = detect();
       return d === prev ? prev : d;
@@ -693,7 +702,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const onStorage = (e: StorageEvent) => {
-      if (e.key === "locale" && e.newValue && e.newValue in dictionaries) {
+      if (e.key === STORAGE_KEY && e.newValue && e.newValue in dictionaries) {
         setLocaleState(e.newValue as Locale);
       }
     };
@@ -703,7 +712,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const setLocale = (l: Locale) => {
     setLocaleState(l);
-    if (typeof window !== "undefined") window.localStorage.setItem("locale", l);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, l);
+      // Ensure the legacy key is never treated as an explicit choice again.
+      window.localStorage.removeItem(LEGACY_KEY);
+    }
   };
   const value = useMemo<I18nCtx>(
     () => ({
