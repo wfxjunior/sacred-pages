@@ -55,19 +55,15 @@ export function Header() {
   const headerBase = isHero
     ? `fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-zinc-950/70 backdrop-blur-xl border-b border-white/10"
-          : "bg-transparent"
+          ? "border-b border-[#E4E0D6] bg-white/80 backdrop-blur-xl"
+          : "bg-[#FCFBF8]/60"
       }`
     : "sticky top-0 z-40 w-full border-b border-border/50 bg-background/75 backdrop-blur-xl";
 
   const navLink = (active: boolean) =>
-    isHero
-      ? `text-[13px] font-medium transition ${
-          active ? "text-white" : "text-white/75 hover:text-white"
-        }`
-      : `text-[13px] font-medium transition ${
-          active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-        }`;
+    `text-[13px] font-medium transition ${
+      active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+    }`;
 
   return (
     <header className={headerBase}>
