@@ -1,32 +1,118 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
-import { CollectionCard } from "@/components/site/CollectionCard";
-import { COLLECTIONS } from "@/lib/mock-data";
+import { FAVORITES, FAVORITE_KINDS, type FavoriteKind } from "@/lib/mock/favorites";
+import { Input } from "@/components/ui/input";
+import { Search, BookOpen, Quote, Feather, Library, Sparkles, Heart } from "lucide-react";
+import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/favorites")({
   head: () => ({
     meta: [
-      { title: "Favorites — Lumen Verse" },
-      { name: "description", content: "Journeys and passages you've saved to return to." },
-      { property: "og:title", content: "Favorites — Lumen Verse" },
-      { property: "og:description", content: "Your saved Scripture journeys and collections." },
+      { title: "Favorites — Jornadas da Palavra" },
+      { name: "description", content: "Journeys, verses, devotionals and reflections you've saved." },
+      { property: "og:title", content: "Favorites — Jornadas da Palavra" },
+      { property: "og:description", content: "Your saved Scripture moments." },
     ],
   }),
   component: Favorites,
 });
 
+const KIND_META: Record<FavoriteKind, { icon: typeof BookOpen; color: string; label: string }> = {
+  journey: { icon: BookOpen, color: "#B88A3B", label: "Journey" },
+  verse: { icon: Quote, color: "#5E7FA3", label: "Verse" },
+  devotional: { icon: Sparkles, color: "#B88A3B", label: "Devotional" },
+  collection: { icon: Library, color: "#78866B", label: "Collection" },
+  reflection: { icon: Feather, color: "#6E5847", label: "Reflection" },
+  prayer: { icon: Heart, color: "#B76E79", label: "Prayer" },
+};
+
 function Favorites() {
-  const saved = COLLECTIONS.slice(0, 3);
+  const [q, setQ] = useState("");
+  const [kind, setKind] = useState<FavoriteKind | "all">("all");
+
+  const items = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    return FAVORITES.filter((f) => {
+      if (kind !== "all" && f.kind !== kind) return false;
+      if (!s) return true;
+      return (
+        f.title.toLowerCase().includes(s) ||
+        f.excerpt.toLowerCase().includes(s) ||
+        (f.reference?.toLowerCase().includes(s) ?? false)
+      );
+    });
+  }, [q, kind]);
+
   return (
     <AppShell>
-      <div className="mx-auto max-w-6xl space-y-8">
+      <div className="mx-auto max-w-5xl space-y-10">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>Favorites</p>
-          <h1 className="mt-2 font-serif text-4xl">Return to what moved you.</h1>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>Favorites</p>
+          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">Return to what moved you.</h1>
+          <p className="mt-2 max-w-xl text-[14px] text-muted-foreground">
+            A calm library of the journeys, verses, reflections and prayers you've saved.
+          </p>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {saved.map((c) => <CollectionCard key={c.slug} c={c} />)}
+
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="relative w-full md:max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search favorites…"
+              className="pl-9"
+              aria-label="Search favorites"
+            />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {FAVORITE_KINDS.map((f) => {
+              const active = kind === f.key;
+              return (
+                <button
+                  key={f.key}
+                  onClick={() => setKind(f.key)}
+                  className={`rounded-full border px-3 py-1.5 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    active ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
+
+        {items.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border/60 bg-card/40 p-12 text-center">
+            <p className="font-serif text-lg">Nothing saved yet in this view.</p>
+            <p className="mt-2 text-[13px] text-muted-foreground">Tap the heart on any journey, verse or reflection to keep it here.</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {items.map((f) => {
+              const meta = KIND_META[f.kind];
+              const Icon = meta.icon;
+              return (
+                <article key={f.id} className="group rounded-2xl border border-border/60 bg-card p-5 transition hover:shadow-sm">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg"
+                      style={{ background: `color-mix(in oklab, ${meta.color} 14%, transparent)`, color: meta.color }}
+                    >
+                      <Icon className="h-4 w-4" strokeWidth={1.6} />
+                    </span>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{meta.label}</span>
+                    <span className="ml-auto text-[11px] text-muted-foreground">{f.savedOn}</span>
+                  </div>
+                  <p className="mt-4 font-serif text-lg leading-snug">{f.title}</p>
+                  {f.reference && <p className="mt-0.5 text-[12px] text-muted-foreground">{f.reference}</p>}
+                  <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{f.excerpt}</p>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </div>
     </AppShell>
   );

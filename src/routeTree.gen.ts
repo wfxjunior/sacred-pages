@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TogetherRouteImport } from './routes/together'
 import { Route as TodayRouteImport } from './routes/today'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -17,6 +18,8 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MyJourneyRouteImport } from './routes/my-journey'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeaturesRouteImport } from './routes/features'
@@ -25,6 +28,11 @@ import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TogetherRoute = TogetherRouteImport.update({
+  id: '/together',
+  path: '/together',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TodayRoute = TodayRouteImport.update({
   id: '/today',
   path: '/today',
@@ -63,6 +71,16 @@ const ProfileRoute = ProfileRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MyJourneyRoute = MyJourneyRouteImport.update({
@@ -109,6 +127,8 @@ export interface FileRoutesByFullPath {
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
+  '/notifications': typeof NotificationsRoute
+  '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
@@ -117,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
+  '/together': typeof TogetherRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +147,8 @@ export interface FileRoutesByTo {
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
+  '/notifications': typeof NotificationsRoute
+  '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
@@ -134,6 +157,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
+  '/together': typeof TogetherRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -144,6 +168,8 @@ export interface FileRoutesById {
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
+  '/notifications': typeof NotificationsRoute
+  '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
@@ -152,6 +178,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
+  '/together': typeof TogetherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -163,6 +190,8 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot'
     | '/my-journey'
+    | '/notifications'
+    | '/onboarding'
     | '/pricing'
     | '/profile'
     | '/progress'
@@ -171,6 +200,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/today'
+    | '/together'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -180,6 +210,8 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot'
     | '/my-journey'
+    | '/notifications'
+    | '/onboarding'
     | '/pricing'
     | '/profile'
     | '/progress'
@@ -188,6 +220,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/today'
+    | '/together'
   id:
     | '__root__'
     | '/'
@@ -197,6 +230,8 @@ export interface FileRouteTypes {
     | '/features'
     | '/forgot'
     | '/my-journey'
+    | '/notifications'
+    | '/onboarding'
     | '/pricing'
     | '/profile'
     | '/progress'
@@ -205,6 +240,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/today'
+    | '/together'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -215,6 +251,8 @@ export interface RootRouteChildren {
   FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
   MyJourneyRoute: typeof MyJourneyRoute
+  NotificationsRoute: typeof NotificationsRoute
+  OnboardingRoute: typeof OnboardingRoute
   PricingRoute: typeof PricingRoute
   ProfileRoute: typeof ProfileRoute
   ProgressRoute: typeof ProgressRoute
@@ -223,10 +261,18 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TodayRoute: typeof TodayRoute
+  TogetherRoute: typeof TogetherRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/together': {
+      id: '/together'
+      path: '/together'
+      fullPath: '/together'
+      preLoaderRoute: typeof TogetherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/today': {
       id: '/today'
       path: '/today'
@@ -281,6 +327,20 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/my-journey': {
@@ -343,6 +403,8 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,
   MyJourneyRoute: MyJourneyRoute,
+  NotificationsRoute: NotificationsRoute,
+  OnboardingRoute: OnboardingRoute,
   PricingRoute: PricingRoute,
   ProfileRoute: ProfileRoute,
   ProgressRoute: ProgressRoute,
@@ -351,6 +413,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TodayRoute: TodayRoute,
+  TogetherRoute: TogetherRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

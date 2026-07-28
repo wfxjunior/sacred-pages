@@ -165,43 +165,43 @@
 }
 
 .dark {
-  /* Quiet library at night — refined near-black warm neutrals */
-  --background: #141311;
-  --foreground: #F1EDE4;
-  --card: #1B1A17;
-  --card-foreground: #F1EDE4;
-  --popover: #1B1A17;
-  --popover-foreground: #F1EDE4;
-  --primary: #D4A85A;
-  --primary-foreground: #141311;
-  --secondary: #22201C;
-  --secondary-foreground: #F1EDE4;
-  --muted: #22201C;
-  --muted-foreground: #B5AE9F;
-  --accent: #22201C;
-  --accent-foreground: #F1EDE4;
-  --destructive: oklch(0.6 0.18 30);
-  --destructive-foreground: #F1EDE4;
-  --border: rgba(255,255,255,0.08);
-  --input: rgba(255,255,255,0.10);
-  --ring: #D4A85A;
-  --sidebar: #1B1A17;
-  --sidebar-foreground: #F1EDE4;
-  --sidebar-primary: #D4A85A;
-  --sidebar-primary-foreground: #141311;
-  --sidebar-accent: #22201C;
-  --sidebar-accent-foreground: #F1EDE4;
-  --sidebar-border: rgba(255,255,255,0.08);
-  --sidebar-ring: #D4A85A;
-  --walnut: #B5AE9F;
-  --gold: #D4A85A;
-  --sage: #9BB18A;
-  --dusty-blue: #8FADD1;
-  --parchment: #22201C;
-  --ivory: #1B1A17;
-  --surface-2: #1B1A17;
-  --ink: #F1EDE4;
-  --ink-2: #B5AE9F;
+  /* Quiet library at night — refined warm near-black palette (spec) */
+  --background: #171817;
+  --foreground: #F5F2EB;
+  --card: #272927;
+  --card-foreground: #F5F2EB;
+  --popover: #272927;
+  --popover-foreground: #F5F2EB;
+  --primary: #C89F4F;
+  --primary-foreground: #171817;
+  --secondary: #1F211F;
+  --secondary-foreground: #F5F2EB;
+  --muted: #1F211F;
+  --muted-foreground: #BDB8AE;
+  --accent: #30332F;
+  --accent-foreground: #F5F2EB;
+  --destructive: oklch(0.62 0.18 30);
+  --destructive-foreground: #F5F2EB;
+  --border: #3B3E39;
+  --input: #3B3E39;
+  --ring: #C89F4F;
+  --sidebar: #1F211F;
+  --sidebar-foreground: #F5F2EB;
+  --sidebar-primary: #C89F4F;
+  --sidebar-primary-foreground: #171817;
+  --sidebar-accent: #30332F;
+  --sidebar-accent-foreground: #F5F2EB;
+  --sidebar-border: #3B3E39;
+  --sidebar-ring: #C89F4F;
+  --walnut: #BDB8AE;
+  --gold: #C89F4F;
+  --sage: #8E9A80;
+  --dusty-blue: #7892AE;
+  --parchment: #1F211F;
+  --ivory: #1F211F;
+  --surface-2: #1F211F;
+  --ink: #F5F2EB;
+  --ink-2: #BDB8AE;
 }
 
 @layer base {

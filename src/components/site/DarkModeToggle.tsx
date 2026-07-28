@@ -1,32 +1,15 @@
-import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
 
 export function DarkModeToggle() {
   const { t } = useI18n();
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    const prefers =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const dark = stored ? stored === "dark" : prefers;
-    setIsDark(dark);
-    document.documentElement.classList.toggle("dark", dark);
-  }, []);
-
-  const toggle = () => {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-  };
-
+  const { resolved, setMode } = useTheme();
+  const isDark = resolved === "dark";
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={() => setMode(isDark ? "light" : "dark")}
       aria-label={isDark ? t("header.lightMode") : t("header.darkMode")}
       className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/60 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
