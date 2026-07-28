@@ -5,6 +5,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { CompanionCard } from "@/components/site/CompanionCard";
 import { InviteCompanionModal } from "@/components/site/InviteCompanionModal";
+import { SharedJourneyProgress } from "@/components/site/SharedJourneyProgress";
 import { COMPANIONS, ENCOURAGE_OPTIONS, REFLECTION_VISIBILITY } from "@/lib/mock/companions";
 import { GROUPS } from "@/lib/mock/groups";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,7 @@ function TogetherPage() {
       <div className="mx-auto max-w-5xl space-y-16">
         <IntroBlock />
         <ActiveSection companions={active} />
+        <SharedJourneyProgress companions={active} />
         <EncourageAndPray />
         <PrivacySection />
         <PendingSection pending={pending} />
