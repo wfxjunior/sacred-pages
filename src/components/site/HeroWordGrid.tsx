@@ -96,9 +96,8 @@ export function HeroWordGrid() {
     [],
   );
 
-  // Start with a few words already discovered so the hero never looks empty
-  // on first paint (and matches SSR to avoid hydration flashes).
-  const [foundCount, setFoundCount] = useState(3);
+  // Start empty so each strike-through is drawn live, one after another.
+  const [foundCount, setFoundCount] = useState(0);
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
@@ -118,19 +117,19 @@ export function HeroWordGrid() {
         return;
       }
       const delta = now - last;
-      if (!holding && delta >= 1800) {
+      if (!holding && delta >= 1400) {
         last = now;
         setFoundCount((c) => {
           if (c >= WORDS.length) {
             // Hold the complete state, then fade out and restart softly.
             holding = true;
-            window.setTimeout(() => setFading(true), 2200);
+            window.setTimeout(() => setFading(true), 1800);
             window.setTimeout(() => {
               setFading(false);
-              setFoundCount(1);
+              setFoundCount(0);
               last = performance.now();
               holding = false;
-            }, 3000);
+            }, 2600);
             return c;
           }
           return c + 1;
