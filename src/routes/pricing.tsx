@@ -591,32 +591,3 @@ function CellMark({ v, highlight }: { v: Cell; highlight?: boolean }) {
   }
   return <Minus className="h-4 w-4 text-muted-foreground/50" />;
 }
-
-// Keep original block below to preserve any downstream cross-checks (dead).
-function _unused() {
-  return null as unknown as JSX.Element;
-  // legacy placeholder
-  return (
-    <div>
-      <p>legacy</p>
-          {[].map((p: any) => (
-            <div key={p.name}>
-              <p className="mt-2 font-serif text-4xl">{p.price}<span className="ml-1 text-sm text-muted-foreground">{t("pricing.month")}</span></p>
-              <ul className="mt-6 flex-1 space-y-3 text-sm">
-                {p.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "var(--gold)" }} />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Button asChild className="mt-8" variant={p.featured ? "default" : "outline"}>
-                <Link to="/signup">{p.featured ? t("cta.startJourney") : t("cta.startFree")}</Link>
-              </Button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </SiteLayout>
-  );
-}
