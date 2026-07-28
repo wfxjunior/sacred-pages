@@ -50,6 +50,8 @@
   --color-sage: var(--sage);
   --color-dusty-blue: var(--dusty-blue);
   --color-parchment: var(--parchment);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
@@ -136,53 +138,88 @@
 }
 
 :root {
-  --radius: 0.5rem;
-  /* Primary background #FCFBF8 */
-  --background: #FCFBF8;
-  /* Deep Ink #2B2B2B */
-  --foreground: #2B2B2B;
+  --radius: 0.625rem;
+  /* Public — premium SaaS palette (Apple / Linear / Notion register) */
+  --background: #FCFBF8;      /* warm white */
+  --foreground: #202124;      /* primary text */
   --card: #FFFFFF;
   --card-foreground: var(--foreground);
   --popover: #FFFFFF;
   --popover-foreground: var(--foreground);
-  /* Antique Gold #B88A3B */
-  --primary: #B88A3B;
+  /* Sophisticated blue — primary CTA / brand */
+  --primary: #2563EB;
   --primary-foreground: #FFFFFF;
-  /* Soft Parchment #EFE8DC */
-  --secondary: #EFE8DC;
+  --secondary: #F3F4F6;
   --secondary-foreground: var(--foreground);
-  --muted: #F4EFE6;
-  --muted-foreground: #5F5B55;
-  --accent: #EFE8DC;
-  --accent-foreground: var(--foreground);
-  --destructive: oklch(0.55 0.18 30);
+  --muted: #F5F6F8;
+  --muted-foreground: #6B7280;
+  --accent: #DBEAFE;
+  --accent-foreground: #1D4ED8;
+  --destructive: oklch(0.6 0.19 27);
   --destructive-foreground: #FFFFFF;
-  --border: #ECE6D9;
-  --input: #ECE6D9;
-  --ring: #B88A3B;
-  --chart-1: #B88A3B;
-  --chart-2: #78866B;
-  --chart-3: #5E7FA3;
-  --chart-4: #6E5847;
-  --chart-5: #D4A85A;
-  --sidebar: #F8F6F2;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #2563EB;
+  --chart-1: #2563EB;
+  --chart-2: #7A8F73;
+  --chart-3: #C89F4F;
+  --chart-4: #6B7280;
+  --chart-5: #93C5FD;
+  --sidebar: #FCFBF8;
   --sidebar-foreground: var(--foreground);
-  --sidebar-primary: #B88A3B;
+  --sidebar-primary: #2563EB;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F5EFE4;
+  --sidebar-accent: #F3F4F6;
   --sidebar-accent-foreground: var(--foreground);
-  --sidebar-border: #ECE6D9;
-  --sidebar-ring: #B88A3B;
-  /* Extended tokens — exact brand palette */
-  --walnut: #5F5B55;
-  --gold: #B88A3B;
-  --sage: #78866B;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #2563EB;
+  /* Extended brand tokens */
+  --brand: #2563EB;            /* scope-aware brand accent */
+  --brand-hover: #1D4ED8;
+  --brand-soft: #DBEAFE;
+  --gold: #C89F4F;             /* supporting accent — milestones, premium */
+  --sage: #7A8F73;
+  --walnut: #6B7280;
   --dusty-blue: #5E7FA3;
-  --parchment: #EFE8DC;
-  --ivory: #F8F6F2;
-  --surface-2: #F8F6F2;
+  --parchment: #F3F1EC;
+  --ivory: #FCFBF8;
+  --surface-2: #F5F6F8;
+  --ink: #202124;
+  --ink-2: #6B7280;
+  /* Soft, premium elevation */
+  --shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.04);
+  --shadow-sm: 0 1px 2px 0 rgba(16, 24, 40, 0.05), 0 1px 3px 0 rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(16, 24, 40, 0.06), 0 2px 4px -1px rgba(16, 24, 40, 0.04);
+  --shadow-lg: 0 12px 32px -8px rgba(16, 24, 40, 0.10), 0 4px 8px -2px rgba(16, 24, 40, 0.05);
+}
+
+/* Journey scope — warmer, calmer, gold accents. Applied on AppShell. */
+.journey-warm {
+  --background: #F3F1EC;       /* warm gray */
+  --card: #FFFFFF;
+  --secondary: #EDEAE2;
+  --muted: #EDEAE2;
+  --muted-foreground: #6B665C;
+  --accent: #EFE7D3;
+  --accent-foreground: #6B4E14;
+  --border: #E4E0D6;
+  --input: #E4E0D6;
+  --primary: #C89F4F;          /* warm gold primary inside journey */
+  --primary-foreground: #1B1A17;
+  --ring: #C89F4F;
+  --sidebar: #F8F6F0;
+  --sidebar-accent: #EDEAE2;
+  --sidebar-border: #E4E0D6;
+  --sidebar-primary: #C89F4F;
+  --sidebar-ring: #C89F4F;
+  --brand: #C89F4F;
+  --brand-hover: #B0873A;
+  --brand-soft: #F1E7CE;
+  --parchment: #EDEAE2;
+  --ivory: #F8F6F0;
+  --surface-2: #EDEAE2;
   --ink: #2B2B2B;
-  --ink-2: #5F5B55;
+  --ink-2: #6B665C;
 }
 
 .dark {
@@ -193,8 +230,8 @@
   --card-foreground: #F5F2EB;
   --popover: #272927;
   --popover-foreground: #F5F2EB;
-  --primary: #C89F4F;
-  --primary-foreground: #171817;
+  --primary: #60A5FA;
+  --primary-foreground: #0B1220;
   --secondary: #1F211F;
   --secondary-foreground: #F5F2EB;
   --muted: #1F211F;
@@ -205,15 +242,15 @@
   --destructive-foreground: #F5F2EB;
   --border: #3B3E39;
   --input: #3B3E39;
-  --ring: #C89F4F;
+  --ring: #60A5FA;
   --sidebar: #1F211F;
   --sidebar-foreground: #F5F2EB;
-  --sidebar-primary: #C89F4F;
-  --sidebar-primary-foreground: #171817;
+  --sidebar-primary: #60A5FA;
+  --sidebar-primary-foreground: #0B1220;
   --sidebar-accent: #30332F;
   --sidebar-accent-foreground: #F5F2EB;
   --sidebar-border: #3B3E39;
-  --sidebar-ring: #C89F4F;
+  --sidebar-ring: #60A5FA;
   --walnut: #BDB8AE;
   --gold: #C89F4F;
   --sage: #8E9A80;
@@ -223,6 +260,18 @@
   --surface-2: #1F211F;
   --ink: #F5F2EB;
   --ink-2: #BDB8AE;
+  --brand: #60A5FA;
+  --brand-hover: #3B82F6;
+  --brand-soft: #1E2A44;
+}
+
+.dark .journey-warm {
+  --primary: #D4B26A;
+  --primary-foreground: #171817;
+  --ring: #D4B26A;
+  --brand: #D4B26A;
+  --brand-hover: #C89F4F;
+  --brand-soft: #3A311D;
 }
 
 @layer base {
