@@ -73,8 +73,10 @@ export function AppShell({
                 {t("brand.name")}
               </span>
             </Link>
-            <LanguageSelector />
-            <NotificationsMenu />
+            <div className="flex items-center gap-2">
+              <LanguageSelector />
+              <NotificationsMenu />
+            </div>
           </header>
           <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>{children}</main>
           <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">
