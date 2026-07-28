@@ -1,7 +1,17 @@
 import type { Collection } from "@/lib/mock-data";
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 export function CollectionCard({ c }: { c: Collection }) {
+  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const showImage = c.image && !errored;
+  const initials = c.title
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
   return (
     <Link
       to="/collections"
@@ -14,22 +24,48 @@ export function CollectionCard({ c }: { c: Collection }) {
             "linear-gradient(160deg, color-mix(in oklab, var(--parchment) 70%, #FCFBF8) 0%, #FCFBF8 100%)",
         }}
       >
-        {c.image ? (
+        {showImage && (
           <img
             src={c.image}
             alt={c.title}
             loading="lazy"
             width={1024}
             height={1024}
-            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.045]"
+            onLoad={() => setLoaded(true)}
+            onError={() => setErrored(true)}
+            className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-[900ms] ease-out will-change-transform group-hover:scale-[1.045] ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
           />
-        ) : (
+        )}
+        {showImage && !loaded && (
           <div
-            className="h-full w-full"
+            aria-hidden
+            className="absolute inset-0 animate-pulse"
+            style={{
+              background:
+                "linear-gradient(110deg, color-mix(in oklab, var(--parchment) 60%, #FCFBF8) 0%, color-mix(in oklab, var(--parchment) 30%, #FCFBF8) 50%, color-mix(in oklab, var(--parchment) 60%, #FCFBF8) 100%)",
+            }}
+          />
+        )}
+        {!showImage && (
+          <div
+            className="relative flex h-full w-full items-center justify-center"
             style={{
               background: `linear-gradient(160deg, color-mix(in oklab, ${c.hue} 40%, var(--parchment)) 0%, color-mix(in oklab, ${c.hue} 15%, var(--background)) 100%)`,
             }}
-          />
+          >
+            <span
+              aria-hidden
+              className="font-serif text-5xl tracking-wide text-[color:var(--walnut)]/60"
+            >
+              {initials}
+            </span>
+            <span
+              aria-hidden
+              className="absolute inset-x-6 bottom-4 h-px bg-[color:var(--gold)]/40"
+            />
+          </div>
         )}
         <div
           aria-hidden
