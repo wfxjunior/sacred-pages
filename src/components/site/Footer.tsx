@@ -1,39 +1,55 @@
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
+import { BrandMark } from "./BrandMark";
 
 export function Footer() {
   const { t } = useI18n();
+  const heading =
+    "text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/80";
+  const item = "text-sm text-muted-foreground transition hover:text-foreground";
   return (
-    <footer className="border-t border-border/60 bg-secondary/40">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-4">
+    <footer className="border-t border-border/60 bg-[color:var(--surface-2)]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <p className="font-serif text-lg">{t("brand.name")}</p>
-          <p className="mt-2 max-w-xs text-sm text-muted-foreground">{t("brand.tagline")}</p>
+          <div className="flex items-center gap-2.5">
+            <BrandMark />
+            <span className="font-serif text-lg tracking-tight">
+              {t("brand.name")}
+            </span>
+          </div>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+            {t("brand.tagline")}
+          </p>
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-walnut">Product</p>
-          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/today" className="hover:text-foreground">{t("nav.today")}</Link></li>
-            <li><Link to="/collections" className="hover:text-foreground">{t("nav.collections")}</Link></li>
-            <li><Link to="/pricing" className="hover:text-foreground">{t("nav.pricing")}</Link></li>
+          <p className={heading}>{t("footer.product")}</p>
+          <ul className="mt-4 space-y-2.5">
+            <li><Link to="/today" className={item}>{t("nav.today")}</Link></li>
+            <li><Link to="/collections" className={item}>{t("nav.collections")}</Link></li>
+            <li><Link to="/pricing" className={item}>{t("nav.pricing")}</Link></li>
+            <li><a href="/#features" className={item}>{t("nav.features")}</a></li>
           </ul>
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-walnut">Company</p>
-          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about" className="hover:text-foreground">{t("nav.about")}</Link></li>
+          <p className={heading}>{t("footer.company")}</p>
+          <ul className="mt-4 space-y-2.5">
+            <li><Link to="/about" className={item}>{t("nav.about")}</Link></li>
+            <li><a href="/#faq" className={item}>{t("footer.help")}</a></li>
+            <li><a href="mailto:hello@journeys.app" className={item}>{t("footer.contact")}</a></li>
           </ul>
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-walnut">Account</p>
-          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/signin" className="hover:text-foreground">{t("cta.signin")}</Link></li>
-            <li><Link to="/signup" className="hover:text-foreground">{t("cta.startFree")}</Link></li>
+          <p className={heading}>{t("footer.account")}</p>
+          <ul className="mt-4 space-y-2.5">
+            <li><Link to="/signin" className={item}>{t("cta.signin")}</Link></li>
+            <li><Link to="/signup" className={item}>{t("cta.startFree")}</Link></li>
+            <li><a href="#" className={item}>{t("footer.privacy")}</a></li>
+            <li><a href="#" className={item}>{t("footer.terms")}</a></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-border/60">
-        <div className="mx-auto max-w-7xl px-6 py-5 text-xs text-muted-foreground">
+        <div className="mx-auto max-w-7xl px-5 py-5 text-xs text-muted-foreground sm:px-6">
           © {new Date().getFullYear()} {t("brand.name")}. {t("footer.rights")}
         </div>
       </div>

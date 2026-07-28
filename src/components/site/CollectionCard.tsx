@@ -40,7 +40,7 @@ export function CollectionCard({ c }: { c: Collection }) {
           </span>
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-2 p-5">
+      <div className="flex flex-1 flex-col gap-2 bg-card p-5">
         <p className="line-clamp-2 text-sm text-muted-foreground">{c.description}</p>
         {c.progress != null && (
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">
