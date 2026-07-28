@@ -1,10 +1,12 @@
 // TODO: Backend delivery for notifications (in-app, email, push). Mock display only.
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { NOTIFICATIONS } from "@/lib/mock/notifications";
 import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
+import { isCategoryVisible, useNotifPrefs } from "@/lib/notification-preferences";
+import { Settings2, BellOff } from "lucide-react";
 
 const FILTERS = [
   { key: "all", label: "All" },
@@ -29,11 +31,17 @@ export const Route = createFileRoute("/notifications")({
 
 function NotificationsPage() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("all");
+  const { prefs } = useNotifPrefs();
+  const allowed = useMemo(
+    () => NOTIFICATIONS.filter((n) => isCategoryVisible(prefs, n.kind)),
+    [prefs]
+  );
   const items = useMemo(() => {
-    if (filter === "all") return NOTIFICATIONS;
-    if (filter === "unread") return NOTIFICATIONS.filter((n) => !n.read);
-    return NOTIFICATIONS.filter((n) => n.kind === filter);
-  }, [filter]);
+    if (filter === "all") return allowed;
+    if (filter === "unread") return allowed.filter((n) => !n.read);
+    return allowed.filter((n) => n.kind === filter);
+  }, [filter, allowed]);
+  const hiddenCount = NOTIFICATIONS.length - allowed.length;
 
   return (
     <AppShell>
@@ -43,11 +51,34 @@ function NotificationsPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>Notification center</p>
             <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">Quiet updates</h1>
             <p className="mt-2 max-w-lg text-[14px] text-muted-foreground">
-              We keep things few and meaningful. You can turn each type on or off in Settings.
+              We keep things few and meaningful. Fine-tune categories and channels in preferences.
             </p>
           </div>
-          <Button variant="outline" className="rounded-full">Mark all read</Button>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/notifications/preferences"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border/60 px-3 py-1.5 text-[12px] font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <Settings2 className="h-3.5 w-3.5" /> Preferences
+            </Link>
+            <Button variant="outline" className="rounded-full">Mark all read</Button>
+          </div>
         </div>
+        {(prefs.pauseAll || hiddenCount > 0) && (
+          <div className="mt-4 flex items-center gap-2 rounded-xl border border-dashed border-border/60 bg-background/40 px-4 py-2.5 text-[12px] text-muted-foreground">
+            <BellOff className="h-3.5 w-3.5" style={{ color: "var(--walnut)" }} />
+            {prefs.pauseAll ? (
+              <span>All notifications are paused.</span>
+            ) : (
+              <span>
+                {hiddenCount} hidden by your preferences.
+              </span>
+            )}
+            <Link to="/notifications/preferences" className="ml-auto underline decoration-dotted" style={{ color: "var(--gold)" }}>
+              Adjust
+            </Link>
+          </div>
+        )}
         <div className="mt-8 flex flex-wrap gap-2">
           {FILTERS.map((f) => {
             const active = filter === f.key;

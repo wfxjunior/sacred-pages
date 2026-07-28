@@ -27,6 +27,7 @@ import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
 
 const TogetherRoute = TogetherRouteImport.update({
   id: '/together',
@@ -118,6 +119,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotificationsPreferencesRoute =
+  NotificationsPreferencesRouteImport.update({
+    id: '/preferences',
+    path: '/preferences',
+    getParentRoute: () => NotificationsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -127,7 +134,7 @@ export interface FileRoutesByFullPath {
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
-  '/notifications': typeof NotificationsRoute
+  '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/notifications/preferences': typeof NotificationsPreferencesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -147,7 +155,7 @@ export interface FileRoutesByTo {
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
-  '/notifications': typeof NotificationsRoute
+  '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
@@ -158,6 +166,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/notifications/preferences': typeof NotificationsPreferencesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -168,7 +177,7 @@ export interface FileRoutesById {
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
-  '/notifications': typeof NotificationsRoute
+  '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
@@ -179,6 +188,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/notifications/preferences': typeof NotificationsPreferencesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/notifications/preferences'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/notifications/preferences'
   id:
     | '__root__'
     | '/'
@@ -241,6 +253,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/notifications/preferences'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -251,7 +264,7 @@ export interface RootRouteChildren {
   FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
   MyJourneyRoute: typeof MyJourneyRoute
-  NotificationsRoute: typeof NotificationsRoute
+  NotificationsRoute: typeof NotificationsRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   PricingRoute: typeof PricingRoute
   ProfileRoute: typeof ProfileRoute
@@ -392,8 +405,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notifications/preferences': {
+      id: '/notifications/preferences'
+      path: '/preferences'
+      fullPath: '/notifications/preferences'
+      preLoaderRoute: typeof NotificationsPreferencesRouteImport
+      parentRoute: typeof NotificationsRoute
+    }
   }
 }
+
+interface NotificationsRouteChildren {
+  NotificationsPreferencesRoute: typeof NotificationsPreferencesRoute
+}
+
+const NotificationsRouteChildren: NotificationsRouteChildren = {
+  NotificationsPreferencesRoute: NotificationsPreferencesRoute,
+}
+
+const NotificationsRouteWithChildren = NotificationsRoute._addFileChildren(
+  NotificationsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -403,7 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,
   MyJourneyRoute: MyJourneyRoute,
-  NotificationsRoute: NotificationsRoute,
+  NotificationsRoute: NotificationsRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   PricingRoute: PricingRoute,
   ProfileRoute: ProfileRoute,

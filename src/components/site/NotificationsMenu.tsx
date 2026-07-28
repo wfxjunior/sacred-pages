@@ -1,26 +1,30 @@
 // TODO: Wire real notifications delivery (in-app, email, push). Mock only.
 
 import { Link } from "@tanstack/react-router";
-import { Bell } from "lucide-react";
+import { Bell, BellOff, Settings2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NOTIFICATIONS } from "@/lib/mock/notifications";
+import { isCategoryVisible, useNotifPrefs } from "@/lib/notification-preferences";
 
 export function NotificationsMenu() {
-  const unread = NOTIFICATIONS.filter((n) => !n.read).length;
+  const { prefs } = useNotifPrefs();
+  const visible = NOTIFICATIONS.filter((n) => isCategoryVisible(prefs, n.kind));
+  const unread = visible.filter((n) => !n.read).length;
+  const paused = prefs.pauseAll;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}
+          aria-label={paused ? "Notifications paused" : `Notifications${unread ? `, ${unread} unread` : ""}`}
           className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/60 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          <Bell className="h-4 w-4" />
-          {unread > 0 && (
+          {paused ? <BellOff className="h-4 w-4" /> : <Bell className="h-4 w-4" />}
+          {!paused && unread > 0 && (
             <span
               className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-background"
               style={{ background: "var(--gold)" }}
@@ -30,14 +34,44 @@ export function NotificationsMenu() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[360px] p-0">
-        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
-          <p className="text-[13px] font-semibold">Notifications</p>
-          <button className="text-[11px] font-medium text-muted-foreground hover:text-foreground">
-            Mark all read
-          </button>
+        <div className="flex items-center justify-between gap-2 border-b border-border/60 px-4 py-3">
+          <div className="min-w-0">
+            <p className="text-[13px] font-semibold">Notifications</p>
+            {paused && (
+              <p className="text-[10.5px]" style={{ color: "var(--walnut)" }}>All paused · resume in preferences</p>
+            )}
+          </div>
+          <div className="flex items-center gap-1">
+            <Link
+              to="/notifications/preferences"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              aria-label="Notification preferences"
+            >
+              <Settings2 className="h-3.5 w-3.5" />
+            </Link>
+            <button className="rounded-full px-2 py-1 text-[11px] font-medium text-muted-foreground hover:text-foreground">
+              Mark all read
+            </button>
+          </div>
         </div>
+        {visible.length === 0 ? (
+          <div className="px-6 py-10 text-center">
+            <BellOff className="mx-auto h-5 w-5 text-muted-foreground" />
+            <p className="mt-2 text-[13px] font-medium">A quiet inbox</p>
+            <p className="mt-1 text-[11.5px] text-muted-foreground">
+              {paused ? "You paused all notifications." : "No categories are turned on right now."}
+            </p>
+            <Link
+              to="/notifications/preferences"
+              className="mt-3 inline-block text-[11.5px] font-medium underline decoration-dotted"
+              style={{ color: "var(--gold)" }}
+            >
+              Adjust preferences
+            </Link>
+          </div>
+        ) : (
         <ul className="max-h-[380px] divide-y divide-border/60 overflow-y-auto">
-          {NOTIFICATIONS.slice(0, 5).map((n) => {
+          {visible.slice(0, 5).map((n) => {
             const Icon = n.icon;
             return (
               <li key={n.id} className={`flex gap-3 px-4 py-3 ${n.read ? "opacity-70" : ""}`}>
@@ -59,6 +93,7 @@ export function NotificationsMenu() {
             );
           })}
         </ul>
+        )}
         <div className="border-t border-border/60 p-2">
           <Link
             to="/notifications"
