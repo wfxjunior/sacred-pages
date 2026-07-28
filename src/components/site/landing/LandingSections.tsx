@@ -88,8 +88,8 @@ export function ProductOverview() {
             <div
               className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-xl"
               style={{
-                background: "color-mix(in oklab, var(--gold) 12%, transparent)",
-                color: "var(--gold)",
+                background: "color-mix(in oklab, var(--brand) 12%, transparent)",
+                color: "var(--brand)",
               }}
             >
               <Icon className="h-5 w-5" strokeWidth={1.6} />
@@ -122,7 +122,7 @@ export function HowItWorks() {
           className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px md:block"
           style={{
             background:
-              "linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 30%, transparent), transparent)",
+              "linear-gradient(90deg, transparent, color-mix(in oklab, var(--brand) 30%, transparent), transparent)",
           }}
         />
         {steps.map((s) => (
@@ -130,9 +130,9 @@ export function HowItWorks() {
             <div
               className="mx-auto mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full border md:mx-0"
               style={{
-                borderColor: "color-mix(in oklab, var(--gold) 40%, transparent)",
+                borderColor: "color-mix(in oklab, var(--brand) 40%, transparent)",
                 background: "var(--background)",
-                color: "var(--gold)",
+                color: "var(--brand)",
                 fontFamily: "var(--font-serif)",
                 fontSize: 14,
               }}
@@ -347,7 +347,7 @@ export function ProgressShowcase() {
                     style={{
                       height: `${v}%`,
                       background:
-                        "linear-gradient(180deg, var(--gold), color-mix(in oklab, var(--gold) 45%, var(--sage)))",
+                        "linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand) 55%, var(--sage)))",
                     }}
                   />
                 </div>
