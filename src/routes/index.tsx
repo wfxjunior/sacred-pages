@@ -67,22 +67,22 @@ function Landing() {
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-32 sm:px-6 sm:pb-20 sm:pt-36 md:pb-24 lg:pb-28">
-          <div className="max-w-4xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-32 md:px-10 md:pb-28 md:pt-36 lg:px-12 lg:pb-32 lg:pt-40">
+          <div className="max-w-[42rem] md:max-w-3xl lg:max-w-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur sm:text-[11px]">
               <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
               {t("hero.eyebrow")}
             </span>
 
-            <h1 className="mt-6 font-serif text-[clamp(44px,9vw,96px)] font-medium leading-[0.95] tracking-tight text-white">
+            <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-white sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(4rem,7vw,5.5rem)] md:leading-[0.96] lg:text-[clamp(4.75rem,6.5vw,6.5rem)] lg:leading-[0.94]">
               {t("brand.name")}
             </h1>
 
-            <p className="mt-6 max-w-xl text-[17px] leading-[1.5] text-white/70 sm:text-[19px] md:text-[21px]">
+            <p className="mt-5 max-w-md text-[15px] leading-[1.55] text-white/75 sm:mt-6 sm:max-w-lg sm:text-[17px] md:max-w-xl md:text-[19px] lg:text-[21px] lg:leading-[1.5]">
               {t("hero.subAtmospheric")}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
               <Button
                 asChild
                 size="lg"
@@ -104,12 +104,12 @@ function Landing() {
               </Button>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className="mt-7 flex flex-wrap gap-1.5 sm:mt-8 sm:gap-2">
               {[t("hero.chip.time"), t("hero.chip.devotional"), t("hero.chip.wordsearch"), t("hero.chip.reflection")].map(
                 (c) => (
                   <span
                     key={c}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] text-white/70 backdrop-blur"
+                    className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[10px] text-white/70 backdrop-blur sm:px-3 sm:text-[11px]"
                   >
                     {c}
                   </span>
@@ -121,7 +121,7 @@ function Landing() {
 
         <a
           href="#features"
-          className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 text-[11px] tracking-widest text-white/40 transition hover:text-white/70"
+          className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 text-[10px] tracking-widest text-white/40 transition hover:text-white/70 sm:bottom-6 sm:flex sm:text-[11px]"
           aria-label="Scroll to explore"
         >
           {t("hero.scrollHint")}
