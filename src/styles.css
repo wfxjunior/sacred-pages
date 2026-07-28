@@ -343,3 +343,16 @@
   ::-webkit-scrollbar { width: 0; height: 0; }
   * { scrollbar-width: none; }
 }
+
+/* Fullscreen mode — keep layout stable and respect safe areas on notched displays */
+:fullscreen {
+  background-color: hsl(var(--background));
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  overflow-y: auto;
+}
+:fullscreen::backdrop {
+  background-color: hsl(var(--background));
+}
