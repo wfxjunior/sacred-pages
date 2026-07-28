@@ -1,89 +1,49 @@
-# Redesign Premium — Design Only
+Objetivo: transformar a hero da landing page em uma composição clara, editorial e premium onde o caça-palavras é o protagonista visual — reforçando imediatamente o propósito do produto.
 
-Reinício visual completo. Nenhum backend, autenticação, Supabase, Stripe ou API será tocado. Apenas mock data e UI.
+O que será feito:
 
-## Sistema visual
+1. Nova estrutura da hero
+   - Remover a imagem de fundo atmosférica e o degradê escuro.
+   - Usar fundo no tom warm ivory (#FCFBF8) com textura sutil opcional (ruído ou grain de 2-3%).
+   - Layout em duas colunas no desktop: texto à esquerda, grade de caça-palavras como ilustração à direita.
+   - No mobile: empilhar verticalmente — título, subtítulo, CTA e grade logo abaixo, ocupando a largura segura.
 
-Tokens em `src/styles.css`:
-- `--bg` #FCFBF8 (primário), `--bg-2` #F8F6F2, `--surface` #EFE8DC (uso pontual)
-- `--ink` #2B2B2B, `--ink-2` #5F5B55
-- `--gold` #B88A3B, `--sage` #78866B, `--blue` #5E7FA3
-- Cards em branco puro (#FFFFFF) com borda 1px `oklch` neutra e sombra suave
-- Radius: 14–20px. Serif: Playfair Display (apenas headlines curtas). Sans: Inter (UI e corpo)
-- Dark mode refinado (não invertido cru): fundos `#141311 / #1B1A17`, gold levemente mais claro
+2. Grade de caça-palavras como ilustração
+   - Criar componente ilustrativo `HeroWordGrid` (estático, sem interação, apenas visual).
+   - Grade 10x10 ou 12x12 com letras em tom profundo suave (#2B2B2B / 35-50% opacity).
+   - Destacar 3-4 palavras em destaque com as cores de identidade: Sage (#78866B), Blue (#5E7FA3) e Gold (#B88A3B).
+   - Incluir linhas finas de "encontrado" sobre as palavras, como no mockup do HeroMockup.
+   - Aplicar sombra suave e bordas arredondadas para dar profundidade de cartão editorial.
 
-Tom Apple/Notion: muito ar, tipografia grande, hierarquia clara, micro-animações discretas, zero decoração.
+3. Tipografia monumental
+   - Título principal "Jornadas da Palavra" em fonte serif, muito grande, peso médio, leading apertado.
+   - Subtítulo em sans-serif, cor mais suave, largura máxima confortável para leitura.
+   - Mantém o versículo de assinatura (Salmos 119:105) com filete dourado, posicionado abaixo do subtítulo.
 
-## Header (novo)
+4. CTAs e chips
+   - Botão primário "Start your journey" com fundo escuro (#2B2B2B) e texto claro.
+   - Botão secundário "See how it works" como outline sutil.
+   - Chips mantidos abaixo dos CTAs, agora em cores escuras sobre fundo claro.
+   - Garantir tap targets mínimos de 48px no mobile.
 
-`src/components/site/Header.tsx` reescrito:
-- Sticky, translúcido com blur, borda inferior 1px muito sutil
-- Esquerda: BrandMark + wordmark
-- Centro: Home · Features · Today's Journey · Collections · Pricing · About · Help
-- Direita: LanguageSelector · DarkModeToggle · Sign in · Start Free (botão gold)
-- Mobile: menu drawer com as mesmas seções
-- Novo componente `DarkModeToggle` (persistência em localStorage, toggle `.dark` no `<html>`)
+5. Responsividade e breakpoints
+   - Desktop: 2 colunas, grade grande (40-45% da largura), texto com espaçamento generoso.
+   - Tablet: grade reduzida proporcionalmente, texto centralizado ou alinhado à esquerda.
+   - Mobile: texto centralizado, grade em largura total com margens seguras, sem quebras de layout.
 
-## Hero (novo)
+6. Transição para seções seguintes
+   - Adicionar divisor sutil ou mudança de background entre hero e a próxima seção (Journey Preview / Product Overview) para evitar contraste brusco.
+   - Ajustar o header para funcionar bem sobre fundo claro: logo escuro, navegação escura, estado transparente sólido ao scroll.
 
-Fora bookshelf/estoque. O produto é o herói.
-- Split 40/60 no desktop, empilhado no mobile
-- Eyebrow "Today's Journey" · Headline serif grande · Sub · 2 CTAs · 4 chips
-- Direita: novo `AppPreview.tsx` — janela do app em tamanho real mostrando:
-  - Barra superior falsa (dots + rota "today")
-  - Cabeçalho da jornada (referência, dificuldade, idioma, cor de seleção)
-  - Grid word search animado (reaproveita motor de animação do HeroMockup)
-  - Coluna lateral com abas Scripture · Devotional · Reflection · Prayer
-  - Barra de progresso e mini badges de status
-- Fundo com gradientes muito sutis de gold/sage
+7. Localização e acessibilidade
+   - Reutilizar chaves de tradução existentes (`hero.*`), ajustando apenas a chave de subtítulo se necessário.
+   - Garantir contraste mínimo WCAG AA para texto e elementos interativos.
+   - Preservar a animação de entrada suave e respeitar `prefers-reduced-motion`.
 
-O `HeroMockup` atual é substituído pelo `AppPreview` (mais rico e maior).
+8. Arquivos envolvidos
+   - `src/routes/index.tsx` — hero redesenhada.
+   - `src/components/site/HeroWordGrid.tsx` — novo componente ilustrativo (criar).
+   - `src/styles.css` — ajustes de tokens se necessário para fundo claro e sombras sutis.
+   - `src/components/site/Header.tsx` — ajuste de cor para fundo claro.
 
-## Novas seções da landing (`src/routes/index.tsx` reescrito)
-
-1. Hero
-2. Product Overview — 4 pilares em cards brancos com ícones lucide neutros
-3. How it Works — 3 passos com números serif grandes, linhas conectando
-4. Journey Preview — cartão grande replicando o AppPreview em variação compacta
-5. Collections — grid 3 colunas usando `CollectionCard` (mantido, refinado para card branco)
-6. Personalization — dois-colunas: mock de settings (cor de seleção, dificuldade, tamanho de fonte, tema, idioma) com controles visuais reais (não funcionais além de estado local)
-7. Journey Together Preview — cartão de "família/grupo" com avatares mock e progresso compartilhado, marcado "Coming soon"
-8. Progress — dashboard mock (streak, journeys, passages, weekly chart em SVG inline)
-9. Testimonials — 3 depoimentos em cards brancos, aspas serif
-10. Pricing Preview — Free vs Premium (cards limpos, um destacado)
-11. FAQ — accordion (shadcn) com 6 perguntas
-12. Final CTA — headline serif + botão gold
-13. Footer — reorganizado em 4 colunas
-
-## Novos componentes
-
-- `src/components/site/AppPreview.tsx` — hero product preview
-- `src/components/site/DarkModeToggle.tsx`
-- `src/components/site/FeatureCard.tsx`
-- `src/components/site/StepCard.tsx`
-- `src/components/site/TestimonialCard.tsx`
-- `src/components/site/FAQ.tsx` (usa `@/components/ui/accordion`)
-- `src/components/site/WeeklyChart.tsx` (SVG inline)
-- `src/components/site/JourneyTogetherPreview.tsx`
-- `src/components/site/PersonalizationPanel.tsx`
-
-`HeroMockup.tsx` mantido no arquivo mas não usado pela landing (evita quebrar `today.tsx` se referenciar).
-
-## i18n
-
-`src/lib/i18n.tsx`: adicionar chaves para todas as novas seções em EN/PT/ES:
-- nav.features, nav.help
-- overview.*, howItWorks.*, journeyPreview.*, personalization.*, together.*, progress.*, testimonials.*, faq.q1..q6/a1..a6, final.*
-- header.darkMode
-
-Idioma padrão do produto: EN (mantida detecção do navegador com fallback EN e preferência salva).
-
-## O que NÃO muda
-
-- Rotas existentes além de `/` (today, collections, pricing, about, signin, etc.) — sem alterações nesta rodada
-- Nenhuma lógica de negócio, nenhum backend
-- Motor do word search e i18n mantidos (só extensões de dicionário e chaves)
-
-## Entregável
-
-Landing page premium completa, responsiva, com dark mode, header novo, hero com AppPreview grande e todas as 13 seções acima usando mock data. Pronto para revisão visual antes de estender ao restante do produto.
+Critério de conclusão: a hero deve comunicar instantaneamente "caça-palavras bíblico" através da grade ilustrativa, manter a elegância premium e funcionar perfeitamente de mobile a desktop sem scroll horizontal.
