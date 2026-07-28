@@ -49,73 +49,83 @@ function Landing() {
   const { t } = useI18n();
   return (
     <SiteLayout>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
+      {/* Hero — atmospheric monumental */}
+      <section className="relative flex min-h-screen flex-col justify-end overflow-hidden bg-[#111113]">
+        <img
+          src={heroAtmosphere.url}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div
           aria-hidden
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(60% 50% at 15% 10%, color-mix(in oklab, var(--brand) 8%, transparent), transparent 60%), radial-gradient(50% 40% at 90% 30%, color-mix(in oklab, var(--brand) 5%, transparent), transparent 60%), radial-gradient(50% 40% at 80% 90%, color-mix(in oklab, var(--sage) 4%, transparent), transparent 60%)",
+              "linear-gradient(to bottom, rgba(17,17,19,0.35) 0%, rgba(17,17,19,0.45) 40%, rgba(17,17,19,0.72) 80%, rgba(17,17,19,0.90) 100%)",
           }}
         />
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-6 sm:py-20 md:py-24 lg:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] lg:gap-16 lg:py-28">
-          <div className="flex flex-col">
-            <span
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur"
-              style={{ color: "var(--brand)" }}
-            >
-              <span
-                className="h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--brand)" }}
-              />
-              {t("hero.label")}
+
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-32 sm:px-6 sm:pb-20 sm:pt-36 md:pb-24 lg:pb-28">
+          <div className="max-w-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur">
+              <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
+              {t("hero.eyebrow")}
             </span>
-            <h1 className="mt-6 font-serif text-[38px] leading-[1.04] tracking-tight sm:text-[46px] md:text-[52px] lg:text-[60px]">
-              Make God's Word part of your everyday life.
+
+            <h1 className="mt-6 font-serif text-[clamp(44px,9vw,96px)] font-medium leading-[0.95] tracking-tight text-white">
+              {t("brand.name")}
             </h1>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground sm:text-base md:max-w-lg md:text-[17px]">
-              Daily devotionals, interactive Bible word searches, reflections and
-              prayer — designed to help you grow through a few meaningful minutes
-              every day.
+
+            <p className="mt-6 max-w-xl text-[17px] leading-[1.5] text-white/70 sm:text-[19px] md:text-[21px]">
+              {t("hero.subAtmospheric")}
             </p>
+
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button asChild size="lg" className="w-full rounded-full sm:w-auto">
+              <Button
+                asChild
+                size="lg"
+                className="w-full rounded-full bg-white text-[#111113] hover:bg-white/90 sm:w-auto"
+              >
                 <Link to="/today">
-                  Start Today's Journey <ArrowRight className="ml-1 h-4 w-4" />
+                  {t("hero.ctaStart")} <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="ghost"
-                className="w-full rounded-full sm:w-auto"
+                className="w-full rounded-full border border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white sm:w-auto"
               >
                 <a href="#features">
-                  <Play className="mr-1 h-4 w-4" /> Explore the Experience
+                  <Play className="mr-1 h-4 w-4" /> {t("hero.ctaExplore")}
                 </a>
               </Button>
             </div>
+
             <div className="mt-8 flex flex-wrap gap-2">
-              {[
-                "5–10 Minutes",
-                "Daily Devotional",
-                "Interactive Word Search",
-                "Reflection & Prayer",
-              ].map((c) => (
-                <span
-                  key={c}
-                  className="rounded-full border border-border/60 bg-card/60 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur"
-                >
-                  {c}
-                </span>
-              ))}
+              {[t("hero.chip.time"), t("hero.chip.devotional"), t("hero.chip.wordsearch"), t("hero.chip.reflection")].map(
+                (c) => (
+                  <span
+                    key={c}
+                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] text-white/70 backdrop-blur"
+                  >
+                    {c}
+                  </span>
+                ),
+              )}
             </div>
           </div>
-          <div className="w-full max-w-2xl mx-auto lg:mx-0 lg:max-w-none">
-            <HeroMockup />
-          </div>
         </div>
+
+        <a
+          href="#features"
+          className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 text-[11px] tracking-widest text-white/40 transition hover:text-white/70"
+          aria-label="Scroll to explore"
+        >
+          {t("hero.scrollHint")}
+          <ChevronDown className="h-4 w-4 animate-bounce" />
+        </a>
       </section>
 
       <ProductOverview />
