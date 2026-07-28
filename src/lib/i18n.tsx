@@ -21,6 +21,8 @@ const en: Dict = {
   "nav.features": "Features",
   "header.darkMode": "Dark mode",
   "header.lightMode": "Light mode",
+  "fs.enter": "Enter fullscreen",
+  "fs.exit": "Exit fullscreen",
   "cta.signin": "Sign In",
   "cta.startFree": "Start Free",
   "cta.startJourney": "Start Your Journey",
