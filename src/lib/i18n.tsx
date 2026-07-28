@@ -603,6 +603,8 @@ const es: Dict = {
   "nav.features": "Funciones",
   "header.darkMode": "Modo oscuro",
   "header.lightMode": "Modo claro",
+  "fs.enter": "Pantalla completa",
+  "fs.exit": "Salir de pantalla completa",
   "final.sub": "Únete a miles construyendo un ritmo diario con la Palabra de Dios.",
   "overview.eyebrow": "Todo en un espacio tranquilo",
   "overview.title": "Hecho para un ritmo diario con las Escrituras.",
