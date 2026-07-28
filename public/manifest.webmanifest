@@ -3,13 +3,20 @@
   "short_name": "Jornadas",
   "description": "Your daily journey through Scripture — devotionals, biblical word search, and reflections.",
   "start_url": "/",
+  "id": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#FCFBF8",
   "theme_color": "#FCFBF8",
   "lang": "en",
   "categories": ["lifestyle", "education", "books"],
+  "shortcuts": [
+    { "name": "Today's Journey", "short_name": "Today", "url": "/today", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Collections", "short_name": "Library", "url": "/collections", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "My Journey", "short_name": "Journey", "url": "/my-journey", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ],
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
