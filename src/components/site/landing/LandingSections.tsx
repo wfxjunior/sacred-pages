@@ -473,14 +473,14 @@ export function PricingPreview() {
             key={p.name}
             className={`relative flex flex-col rounded-2xl border p-8 ${
               p.featured
-                ? "border-transparent bg-card shadow-[0_40px_100px_-50px_rgba(184,138,59,0.5)]"
+                ? "border-transparent bg-card shadow-[0_40px_100px_-50px_rgba(37,99,235,0.35)]"
                 : "border-border/60 bg-card"
             }`}
             style={
               p.featured
                 ? {
                     boxShadow:
-                      "0 0 0 1px color-mix(in oklab, var(--gold) 45%, transparent), 0 40px 100px -60px rgba(184,138,59,0.5)",
+                      "0 0 0 1px color-mix(in oklab, var(--brand) 45%, transparent), 0 40px 100px -60px rgba(37,99,235,0.35)",
                   }
                 : undefined
             }
