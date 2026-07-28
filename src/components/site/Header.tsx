@@ -16,7 +16,7 @@ export function Header() {
 
   const nav: NavItem[] = [
     { href: "/", label: t("nav.home"), type: "route" },
-    { href: "/#features", label: t("nav.features"), type: "hash" },
+    { href: "/features", label: t("nav.features"), type: "route" },
     { href: "/today", label: t("nav.today"), type: "route" },
     { href: "/collections", label: t("nav.collections"), type: "route" },
     { href: "/pricing", label: t("nav.pricing"), type: "route" },

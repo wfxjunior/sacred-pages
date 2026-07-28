@@ -19,6 +19,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as MyJourneyRouteImport } from './routes/my-journey'
 import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as AboutRouteImport } from './routes/about'
@@ -74,6 +75,11 @@ const ForgotRoute = ForgotRouteImport.update({
   path: '/forgot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/collections': typeof CollectionsRoute
   '/favorites': typeof FavoritesRoute
+  '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
   '/pricing': typeof PricingRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/collections': typeof CollectionsRoute
   '/favorites': typeof FavoritesRoute
+  '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
   '/pricing': typeof PricingRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/collections': typeof CollectionsRoute
   '/favorites': typeof FavoritesRoute
+  '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
   '/my-journey': typeof MyJourneyRoute
   '/pricing': typeof PricingRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/collections'
     | '/favorites'
+    | '/features'
     | '/forgot'
     | '/my-journey'
     | '/pricing'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/collections'
     | '/favorites'
+    | '/features'
     | '/forgot'
     | '/my-journey'
     | '/pricing'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/collections'
     | '/favorites'
+    | '/features'
     | '/forgot'
     | '/my-journey'
     | '/pricing'
@@ -200,6 +212,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CollectionsRoute: typeof CollectionsRoute
   FavoritesRoute: typeof FavoritesRoute
+  FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
   MyJourneyRoute: typeof MyJourneyRoute
   PricingRoute: typeof PricingRoute
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/favorites': {
       id: '/favorites'
       path: '/favorites'
@@ -320,6 +340,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CollectionsRoute: CollectionsRoute,
   FavoritesRoute: FavoritesRoute,
+  FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,
   MyJourneyRoute: MyJourneyRoute,
   PricingRoute: PricingRoute,
