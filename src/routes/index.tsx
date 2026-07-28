@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { HeroMockup } from "@/components/site/HeroMockup";
+import { HeroWordGrid } from "@/components/site/HeroWordGrid";
 import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { COLLECTIONS } from "@/lib/mock-data";
 import { ArrowRight, ChevronDown, Play } from "lucide-react";
-import heroAtmosphere from "@/assets/hero-atmosphere.jpg.asset.json";
 import {
   ProductOverview,
   HowItWorks,
