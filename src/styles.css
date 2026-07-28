@@ -307,10 +307,39 @@
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    /* Safe-area & native-feel defaults */
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, .font-serif {
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
   }
+}
+
+/* Standalone / installed PWA — feel more like a native app */
+@media (display-mode: standalone), (display-mode: window-controls-overlay), (display-mode: minimal-ui) {
+  html, body {
+    /* Respect device safe areas (notch, home indicator, WCO title bar) */
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    /* Prevent bounce / pull-to-refresh */
+    overscroll-behavior: none;
+    /* Lock user selection on chrome; inputs & prose re-enable below */
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  input, textarea, [contenteditable="true"], p, li, blockquote, article, .prose {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  /* Hide scrollbars in standalone for a cleaner native feel */
+  ::-webkit-scrollbar { width: 0; height: 0; }
+  * { scrollbar-width: none; }
 }
