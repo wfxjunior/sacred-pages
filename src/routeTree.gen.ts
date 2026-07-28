@@ -28,6 +28,7 @@ import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 
 const TogetherRoute = TogetherRouteImport.update({
   id: '/together',
@@ -125,11 +126,16 @@ const NotificationsPreferencesRoute =
     path: '/preferences',
     getParentRoute: () => NotificationsRoute,
   } as any)
+const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CollectionsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -145,12 +151,13 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -166,13 +173,14 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -188,6 +196,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/collections/$slug': typeof CollectionsSlugRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
 }
 export interface FileRouteTypes {
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/collections/$slug'
     | '/notifications/preferences'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/collections/$slug'
     | '/notifications/preferences'
   id:
     | '__root__'
@@ -253,13 +264,14 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/collections/$slug'
     | '/notifications/preferences'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CollectionsRoute: typeof CollectionsRoute
+  CollectionsRoute: typeof CollectionsRouteWithChildren
   FavoritesRoute: typeof FavoritesRoute
   FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
@@ -412,8 +424,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsPreferencesRouteImport
       parentRoute: typeof NotificationsRoute
     }
+    '/collections/$slug': {
+      id: '/collections/$slug'
+      path: '/$slug'
+      fullPath: '/collections/$slug'
+      preLoaderRoute: typeof CollectionsSlugRouteImport
+      parentRoute: typeof CollectionsRoute
+    }
   }
 }
+
+interface CollectionsRouteChildren {
+  CollectionsSlugRoute: typeof CollectionsSlugRoute
+}
+
+const CollectionsRouteChildren: CollectionsRouteChildren = {
+  CollectionsSlugRoute: CollectionsSlugRoute,
+}
+
+const CollectionsRouteWithChildren = CollectionsRoute._addFileChildren(
+  CollectionsRouteChildren,
+)
 
 interface NotificationsRouteChildren {
   NotificationsPreferencesRoute: typeof NotificationsPreferencesRoute
@@ -430,7 +461,7 @@ const NotificationsRouteWithChildren = NotificationsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CollectionsRoute: CollectionsRoute,
+  CollectionsRoute: CollectionsRouteWithChildren,
   FavoritesRoute: FavoritesRoute,
   FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,
