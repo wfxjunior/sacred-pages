@@ -69,12 +69,8 @@ export function Header() {
     <header className={headerBase}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 sm:px-6">
         <Link to="/" className="flex items-center gap-2.5">
-          <BrandMark variant={isHero ? "light" : "default"} />
-          <span
-            className={`hidden font-serif text-[15px] font-semibold tracking-tight sm:inline ${
-              isHero ? "text-white" : ""
-            }`}
-          >
+          <BrandMark variant="default" />
+          <span className="hidden font-serif text-[15px] font-semibold tracking-tight text-foreground sm:inline">
             {t("brand.name")}
           </span>
         </Link>
@@ -87,42 +83,30 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">
-          <LanguageSelector variant={isHero ? "light" : "default"} />
-          <NotificationsMenu variant={isHero ? "light" : "default"} />
-          <DarkModeToggle variant={isHero ? "light" : "default"} />
+          <LanguageSelector variant="default" />
+          <NotificationsMenu variant="default" />
+          <DarkModeToggle variant="default" />
           <Link
             to="/signin"
-            className={`px-3 text-[13px] font-medium transition ${
-              isHero
-                ? "text-white/80 hover:text-white"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
+            className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
           >
             {t("cta.signin")}
           </Link>
           <Button
             asChild
             size="sm"
-            className={`rounded-full px-4 ${
-              isHero
-                ? "bg-white text-zinc-950 hover:bg-white/90"
-                : ""
-            }`}
+            className="rounded-full bg-[#2B2B2B] px-4 text-white hover:bg-[#2B2B2B]/90"
           >
             <Link to="/signup">{t("cta.startFree")}</Link>
           </Button>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <NotificationsMenu variant={isHero ? "light" : "default"} />
-          <DarkModeToggle variant={isHero ? "light" : "default"} />
-          <LanguageSelector variant={isHero ? "light" : "default"} />
+          <NotificationsMenu variant="default" />
+          <DarkModeToggle variant="default" />
+          <LanguageSelector variant="default" />
           <button
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition ${
-              isHero
-                ? "border-white/20 text-white hover:bg-white/10"
-                : "border-border/60 text-foreground hover:bg-secondary"
-            }`}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 text-foreground transition hover:bg-secondary"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -132,46 +116,23 @@ export function Header() {
       </div>
 
       {open && (
-        <div
-          className={`border-t lg:hidden ${
-            isHero
-              ? "border-white/10 bg-zinc-950/90 backdrop-blur-xl"
-              : "border-border/50 bg-background"
-          }`}
-        >
+        <div className="border-t border-border/50 bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:px-6">
             {nav.map((n) =>
               renderLink(
                 n,
-                `rounded-lg px-3 py-2.5 text-sm ${
-                  isHero
-                    ? "text-white/80 hover:bg-white/10 hover:text-white"
-                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                }`,
+                "rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground",
                 () => setOpen(false),
               ),
             )}
-            <div
-              className={`mt-3 flex items-center gap-2 border-t pt-3 ${
-                isHero ? "border-white/10" : "border-border/50"
-              }`}
-            >
-              <Button
-                asChild
-                variant="ghost"
-                size="sm"
-                className={`flex-1 ${
-                  isHero ? "text-white/80 hover:bg-white/10 hover:text-white" : ""
-                }`}
-              >
+            <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
+              <Button asChild variant="ghost" size="sm" className="flex-1">
                 <Link to="/signin">{t("cta.signin")}</Link>
               </Button>
               <Button
                 asChild
                 size="sm"
-                className={`flex-1 rounded-full ${
-                  isHero ? "bg-white text-zinc-950 hover:bg-white/90" : ""
-                }`}
+                className="flex-1 rounded-full bg-[#2B2B2B] text-white hover:bg-[#2B2B2B]/90"
               >
                 <Link to="/signup">{t("cta.startFree")}</Link>
               </Button>
