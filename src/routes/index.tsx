@@ -51,10 +51,10 @@ function Landing() {
     <SiteLayout>
       {/* Hero — editorial monumental with word search illustration */}
       <section className="relative overflow-hidden bg-[#FCFBF8] pt-28 sm:pt-32 md:pt-36 lg:pt-40">
-        <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 lg:px-12">
-          <div className="grid items-center gap-10 pb-16 pt-6 sm:gap-12 sm:pb-20 sm:pt-8 md:grid-cols-2 md:gap-14 md:pb-24 md:pt-10 lg:gap-16 lg:pb-28 lg:pt-12">
+        <div className="mx-auto w-full max-w-4xl px-5 sm:px-8 md:px-10 lg:px-12">
+          <div className="flex flex-col items-center gap-12 pb-16 pt-6 text-center sm:gap-14 sm:pb-20 sm:pt-8 md:gap-16 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
             {/* Text column */}
-            <div className="order-2 text-center md:order-2 md:text-left">
+            <div className="w-full">
               <span className="inline-flex items-center gap-2 rounded-full border border-[#E4E0D6] bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C] shadow-sm sm:text-[11px]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
                 {t("hero.eyebrow")}
@@ -64,12 +64,12 @@ function Landing() {
                 {t("brand.name")}
               </h1>
 
-              <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.55] text-[#6B665C] sm:mt-6 sm:max-w-lg sm:text-[17px] md:mx-0 md:max-w-xl md:text-[18px] lg:text-[19px] lg:leading-[1.5]">
+              <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.55] text-[#6B665C] sm:mt-6 sm:max-w-lg sm:text-[17px] md:max-w-xl md:text-[18px] lg:text-[19px] lg:leading-[1.5]">
                 {t("hero.subAtmospheric")}
               </p>
 
-              <figure className="mx-auto mt-6 max-w-md sm:mt-7 sm:max-w-lg md:mx-0 md:max-w-xl">
-                <div className="flex items-center justify-center gap-3 md:justify-start">
+              <figure className="mx-auto mt-6 max-w-md sm:mt-7 sm:max-w-lg md:max-w-xl">
+                <div className="flex items-center justify-center gap-3">
                   <span aria-hidden className="h-px w-8 bg-[#C89F4F]/70" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#C89F4F]/90 sm:text-[11px]">
                     {t("hero.verseRef")}
@@ -80,7 +80,7 @@ function Landing() {
                 </blockquote>
               </figure>
 
-              <div className="mt-7 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center md:justify-start sm:gap-3">
+              <div className="mt-7 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
                 <Button
                   asChild
                   size="lg"
@@ -102,7 +102,7 @@ function Landing() {
                 </Button>
               </div>
 
-              <div className="mt-7 flex flex-wrap justify-center gap-1.5 sm:mt-8 sm:gap-2 md:justify-start">
+              <div className="mt-7 flex flex-wrap justify-center gap-1.5 sm:mt-8 sm:gap-2">
                 {[t("hero.chip.time"), t("hero.chip.devotional"), t("hero.chip.wordsearch"), t("hero.chip.reflection")].map(
                   (c) => (
                     <span
@@ -116,8 +116,8 @@ function Landing() {
               </div>
             </div>
 
-            {/* Word search illustration */}
-            <div className="order-1 mx-auto w-full max-w-sm md:order-1 md:mx-0 md:max-w-none">
+            {/* Word search illustration — below hero text */}
+            <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
               <HeroWordGrid />
             </div>
           </div>
