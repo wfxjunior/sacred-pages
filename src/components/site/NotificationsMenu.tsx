@@ -10,23 +10,34 @@ import {
 import { NOTIFICATIONS } from "@/lib/mock/notifications";
 import { isCategoryVisible, useNotifPrefs } from "@/lib/notification-preferences";
 
-export function NotificationsMenu() {
+export function NotificationsMenu({
+  variant = "default",
+}: {
+  variant?: "default" | "light";
+}) {
   const { prefs } = useNotifPrefs();
   const visible = NOTIFICATIONS.filter((n) => isCategoryVisible(prefs, n.kind));
   const unread = visible.filter((n) => !n.read).length;
   const paused = prefs.pauseAll;
+  const isLight = variant === "light";
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
           aria-label={paused ? "Notifications paused" : `Notifications${unread ? `, ${unread} unread` : ""}`}
-          className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/60 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className={`relative inline-flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:outline-none focus-visible:ring-2 ${
+            isLight
+              ? "border-white/20 bg-white/10 text-white/80 hover:text-white focus-visible:ring-white/60"
+              : "border-border/60 bg-card/60 text-muted-foreground hover:text-foreground focus-visible:ring-primary"
+          }`}
         >
           {paused ? <BellOff className="h-4 w-4" /> : <Bell className="h-4 w-4" />}
           {!paused && unread > 0 && (
             <span
-              className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ring-background"
+              className={`absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-2 ${
+                isLight ? "ring-zinc-950/60" : "ring-background"
+              }`}
               style={{ background: "var(--gold)" }}
               aria-hidden
             />

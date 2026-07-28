@@ -1,4 +1,11 @@
-export function BrandMark({ size = 32 }: { size?: number }) {
+export function BrandMark({
+  size = 32,
+  variant = "default",
+}: {
+  size?: number;
+  variant?: "default" | "light";
+}) {
+  const isLight = variant === "light";
   return (
     <span
       aria-hidden
@@ -6,8 +13,12 @@ export function BrandMark({ size = 32 }: { size?: number }) {
       style={{
         width: size,
         height: size,
-        background: "color-mix(in oklab, var(--brand) 10%, var(--card))",
-        border: "1px solid color-mix(in oklab, var(--brand) 28%, transparent)",
+        background: isLight
+          ? "rgba(255,255,255,0.08)"
+          : "color-mix(in oklab, var(--brand) 10%, var(--card))",
+        border: isLight
+          ? "1px solid rgba(255,255,255,0.22)"
+          : "1px solid color-mix(in oklab, var(--brand) 28%, transparent)",
       }}
     >
       <svg
@@ -15,7 +26,7 @@ export function BrandMark({ size = 32 }: { size?: number }) {
         height={size * 0.62}
         viewBox="0 0 24 24"
         fill="none"
-        stroke="var(--brand)"
+        stroke={isLight ? "#ffffff" : "var(--brand)"}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
