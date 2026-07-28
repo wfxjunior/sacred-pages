@@ -82,24 +82,24 @@ function Landing() {
               {t("hero.subAtmospheric")}
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-7 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
               <Button
                 asChild
                 size="lg"
-                className="w-full rounded-full bg-white text-[#111113] hover:bg-white/90 sm:w-auto"
+                className="h-12 w-full justify-center rounded-full bg-white px-6 text-[15px] font-semibold text-[#111113] hover:bg-white/90 sm:h-12 sm:w-auto sm:min-w-[168px]"
               >
                 <Link to="/today">
-                  {t("hero.ctaStart")} <ArrowRight className="ml-1 h-4 w-4" />
+                  {t("hero.ctaStart")} <ArrowRight className="ml-1.5 h-4 w-4" />
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="ghost"
-                className="w-full rounded-full border border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white sm:w-auto"
+                className="h-12 w-full justify-center rounded-full border border-white/20 bg-white/5 px-6 text-[15px] font-medium text-white hover:bg-white/10 hover:text-white sm:h-12 sm:w-auto sm:min-w-[168px]"
               >
                 <a href="#features">
-                  <Play className="mr-1 h-4 w-4" /> {t("hero.ctaExplore")}
+                  <Play className="mr-1.5 h-4 w-4" /> {t("hero.ctaExplore")}
                 </a>
               </Button>
             </div>
