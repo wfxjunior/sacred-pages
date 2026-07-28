@@ -477,6 +477,8 @@ const es: Dict = {
   "hero.ctaStart": "Comenzar Caminada",
   "hero.ctaExplore": "Explorar Temas",
   "hero.scrollHint": "Desplázate para explorar",
+  "hero.verse": "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.",
+  "hero.verseRef": "Salmos 119:105",
   "mock.tab.read": "Leer",
   "mock.tab.search": "Sopa de Letras",
   "mock.tab.reflect": "Reflexionar",
