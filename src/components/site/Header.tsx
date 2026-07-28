@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { BrandMark } from "./BrandMark";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { NotificationsMenu } from "./NotificationsMenu";
+import { FullscreenToggle } from "./FullscreenToggle";
 
 type NavItem = { href: string; label: string; type: "route" | "hash" };
 
@@ -86,6 +87,7 @@ export function Header() {
           <LanguageSelector variant="default" />
           <NotificationsMenu variant="default" />
           <DarkModeToggle variant="default" />
+          <FullscreenToggle />
           <Link
             to="/signin"
             className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
