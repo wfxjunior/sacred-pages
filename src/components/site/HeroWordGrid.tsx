@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useState } from "react";
-import { Check } from "lucide-react";
 import { buildGrid, type Placement } from "@/lib/word-search";
+import { useI18n } from "@/lib/i18n";
 
 const WORDS = ["PEACE", "FAITH", "LIGHT", "GRACE", "HOPE"];
 const COLORS = ["#7A8F73", "#5E7FA3", "#C89F4F", "#6E5847", "#B88A3B"];
@@ -90,6 +90,7 @@ function FoundLines({
 
 export function HeroWordGrid() {
   const size = 12;
+  const { t } = useI18n();
   const { grid, placements } = useMemo(() => buildGrid(WORDS, size), []);
   const wordColor = useMemo(
     () => new Map(WORDS.map((w, i) => [w, COLORS[i % COLORS.length]])),
@@ -165,11 +166,11 @@ export function HeroWordGrid() {
       >
         <div className="mb-3 flex items-center justify-between sm:mb-4">
           <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C]">
-            Daily word search
+            {t("hero.grid.title")}
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F1EC] px-2 py-1 text-[10px] font-medium text-[#2B2B2B] tabular-nums">
             <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
-            {foundCount}/{WORDS.length} found
+            {foundCount}/{WORDS.length} {t("hero.grid.found")}
           </span>
         </div>
 
@@ -217,7 +218,6 @@ export function HeroWordGrid() {
                       }
                 }
               >
-                {found && <Check className="h-2.5 w-2.5" strokeWidth={3} />}
                 {w}
               </span>
             );
