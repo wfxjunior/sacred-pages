@@ -79,10 +79,10 @@ export function CollectionCard({ c }: { c: Collection }) {
             </div>
           )}
 
-          {/* Vitral Sagrado overlay */}
+          {/* Vitral Sagrado overlay — subtle light tint, not a dark wash */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand)]/20 via-transparent to-[color:var(--gold)]/10 mix-blend-multiply opacity-70 transition-opacity duration-500 group-hover:opacity-90"
+            className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand)]/[0.08] via-transparent to-[color:var(--gold)]/[0.05] opacity-100 transition-opacity duration-500 group-hover:opacity-100"
           />
 
           {/* Count badge */}
