@@ -36,10 +36,13 @@ begin
 end;
 $$;
 
+-- `none` resets to the session user rather than naming a role: that is
+-- `postgres` on Supabase but the local superuser when validating against a
+-- plain PostgreSQL server, and hardcoding either name breaks the other.
 create or replace function pg_temp.act_as_admin_setup()
 returns void language plpgsql as $$
 begin
-  perform set_config('role', 'postgres', true);
+  perform set_config('role', 'none', true);
   perform set_config('request.jwt.claims', '', true);
 end;
 $$;
@@ -55,17 +58,38 @@ begin
 end;
 $$;
 
--- Asserts that a statement is rejected (by RLS or by a trigger).
+-- Asserts that a statement does not take effect.
+--
+-- Row level security denies in TWO different ways, and conflating them is how
+-- an RLS suite ends up lying:
+--
+--   INSERT / UPDATE ... WITH CHECK  → raises an exception.
+--   SELECT / UPDATE / DELETE USING  → silently filters the rows away, so the
+--                                     statement "succeeds" having changed
+--                                     nothing.
+--
+-- Treating only the first as denial would fail every legitimately-blocked
+-- UPDATE. Treating any success as a pass would hide a real hole. So: an
+-- exception passes, zero affected rows passes, and any affected row fails.
 create or replace function pg_temp.assert_rejected(stmt text, description text)
 returns void language plpgsql as $$
+declare
+  affected bigint;
 begin
   begin
     execute stmt;
+    get diagnostics affected = row_count;
   exception when others then
     raise notice 'PASS: % (rejected: %)', description, sqlerrm;
     return;
   end;
-  raise exception 'FAIL: % — statement unexpectedly succeeded', description;
+
+  if affected = 0 then
+    raise notice 'PASS: % (no rows affected — filtered by RLS)', description;
+    return;
+  end if;
+
+  raise exception 'FAIL: % — statement affected % row(s)', description, affected;
 end;
 $$;
 
