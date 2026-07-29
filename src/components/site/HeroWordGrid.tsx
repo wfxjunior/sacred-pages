@@ -3,7 +3,8 @@ import { buildGrid, type Placement } from "@/lib/word-search";
 import { useI18n } from "@/lib/i18n";
 
 const WORDS = ["PEACE", "FAITH", "LIGHT", "GRACE", "HOPE"];
-const COLORS = ["#7A8F73", "#5E7FA3", "#C89F4F", "#6E5847", "#B88A3B"];
+// Richer, more saturated accents — sage, blue, gold, terracotta, plum
+const COLORS = ["#5E9E6E", "#3E7BC8", "#E0A63A", "#D26A4E", "#8B5CA8"];
 
 const GridCell = memo(function GridCell({
   letter,
@@ -17,9 +18,9 @@ const GridCell = memo(function GridCell({
     <div
       className="flex aspect-square items-center justify-center rounded-[3px] text-[10px] font-semibold sm:text-[11px] md:text-xs"
       style={{
-        backgroundColor: hit ? `color-mix(in oklab, ${color} 22%, white)` : "white",
-        color: hit ? "#2B2B2B" : "rgba(43,43,43,0.55)",
-        transition: "background-color 400ms ease-out",
+        backgroundColor: hit ? `color-mix(in oklab, ${color} 42%, white)` : "white",
+        color: hit ? "#1F1F1F" : "rgba(43,43,43,0.55)",
+        transition: "background-color 400ms ease-out, color 400ms ease-out",
       }}
     >
       {letter}
@@ -45,10 +46,16 @@ function FoundLines({
       placements
         .filter((p) => foundWords.has(p.word))
         .map((p) => {
-          const x1 = p.col * unit + offset;
-          const y1 = p.row * unit + offset;
-          const x2 = (p.col + p.dc * (p.word.length - 1)) * unit + offset;
-          const y2 = (p.row + p.dr * (p.word.length - 1)) * unit + offset;
+          // Extend the stroke past the first/last letter centers so it
+          // fully covers the glyphs instead of stopping short at the midpoint.
+          const pad = unit * 0.38;
+          const dirLen = Math.hypot(p.dc, p.dr) || 1;
+          const ux = p.dc / dirLen;
+          const uy = p.dr / dirLen;
+          const x1 = p.col * unit + offset - ux * pad;
+          const y1 = p.row * unit + offset - uy * pad;
+          const x2 = (p.col + p.dc * (p.word.length - 1)) * unit + offset + ux * pad;
+          const y2 = (p.row + p.dr * (p.word.length - 1)) * unit + offset + uy * pad;
           const length = Math.hypot(x2 - x1, y2 - y1);
           return {
             key: p.word,
@@ -73,14 +80,14 @@ function FoundLines({
           d={d}
           fill="none"
           stroke={color}
-          strokeWidth="1.4"
+          strokeWidth="2.6"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
           style={{
             strokeDasharray: `${length} ${length}`,
             strokeDashoffset: length,
-            animation: "draw-line 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
-            opacity: 0.85,
+            animation: "draw-line 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards",
+            opacity: 0.92,
           }}
         />
       ))}
@@ -207,9 +214,9 @@ export function HeroWordGrid() {
                 style={
                   found
                     ? {
-                        color: "#2B2B2B",
-                        borderColor: `color-mix(in oklab, ${color} 55%, transparent)`,
-                        background: `color-mix(in oklab, ${color} 20%, white)`,
+                        color: `color-mix(in oklab, ${color} 75%, #1F1F1F)`,
+                        borderColor: `color-mix(in oklab, ${color} 70%, transparent)`,
+                        background: `color-mix(in oklab, ${color} 32%, white)`,
                       }
                     : {
                         color: "#6B665C",
