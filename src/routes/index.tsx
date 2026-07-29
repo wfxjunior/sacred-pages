@@ -139,7 +139,7 @@ function Landing() {
         <a
           href="#features"
           className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 text-[10px] tracking-widest text-[#6B665C]/60 transition hover:text-[#6B665C] sm:bottom-6 sm:flex sm:text-[11px]"
-          aria-label="Scroll to explore"
+          aria-label={t("hero.scrollAria")}
         >
           {t("hero.scrollHint")}
           <ChevronDown className="h-4 w-4 animate-bounce" />
