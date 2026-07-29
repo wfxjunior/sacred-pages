@@ -20,11 +20,19 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Environment files — never commit secrets (.env.example is the only tracked env file)
+.env
+.env.*
+!.env.example
+
+# macOS metadata (AppleDouble files are generated on non-APFS volumes such as ExFAT)
+._*
+.DS_Store
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj

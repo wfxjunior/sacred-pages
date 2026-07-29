@@ -9,105 +9,43 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TogetherRouteImport } from './routes/together'
-import { Route as TodayRouteImport } from './routes/today'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as SigninRouteImport } from './routes/signin'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as ProgressRouteImport } from './routes/progress'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as NotificationsRouteImport } from './routes/notifications'
-import { Route as MyJourneyRouteImport } from './routes/my-journey'
-import { Route as ForgotRouteImport } from './routes/forgot'
-import { Route as FeaturesRouteImport } from './routes/features'
-import { Route as FavoritesRouteImport } from './routes/favorites'
-import { Route as CollectionsRouteImport } from './routes/collections'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CollectionsRouteImport } from './routes/collections'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as MyJourneyRouteImport } from './routes/my-journey'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SigninRouteImport } from './routes/signin'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TodayRouteImport } from './routes/today'
+import { Route as TogetherRouteImport } from './routes/together'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminReviewRouteImport } from './routes/admin.review'
+import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
+import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
+import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin.collections.$collectionId'
+import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collections.new'
+import { Route as AdminJourneysIndexRouteImport } from './routes/admin.journeys.index'
+import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
+import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.new'
 
-const TogetherRoute = TogetherRouteImport.update({
-  id: '/together',
-  path: '/together',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TodayRoute = TodayRouteImport.update({
-  id: '/today',
-  path: '/today',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SigninRoute = SigninRouteImport.update({
-  id: '/signin',
-  path: '/signin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProgressRoute = ProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NotificationsRoute = NotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MyJourneyRoute = MyJourneyRouteImport.update({
-  id: '/my-journey',
-  path: '/my-journey',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForgotRoute = ForgotRouteImport.update({
-  id: '/forgot',
-  path: '/forgot',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FeaturesRoute = FeaturesRouteImport.update({
-  id: '/features',
-  path: '/features',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CollectionsRoute = CollectionsRouteImport.update({
-  id: '/collections',
-  path: '/collections',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -115,10 +53,125 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CollectionsRoute = CollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
   getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotRoute = ForgotRouteImport.update({
+  id: '/forgot',
+  path: '/forgot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyJourneyRoute = MyJourneyRouteImport.update({
+  id: '/my-journey',
+  path: '/my-journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TodayRoute = TodayRouteImport.update({
+  id: '/today',
+  path: '/today',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TogetherRoute = TogetherRouteImport.update({
+  id: '/together',
+  path: '/together',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/admin/calendar',
+  path: '/admin/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/admin/media',
+  path: '/admin/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminReviewRoute = AdminReviewRouteImport.update({
+  id: '/admin/review',
+  path: '/admin/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTemplatesRoute = AdminTemplatesRouteImport.update({
+  id: '/admin/templates',
+  path: '/admin/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
+  id: '/admin/translations',
+  path: '/admin/translations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CollectionsRoute,
 } as any)
 const NotificationsPreferencesRoute =
   NotificationsPreferencesRouteImport.update({
@@ -126,10 +179,36 @@ const NotificationsPreferencesRoute =
     path: '/preferences',
     getParentRoute: () => NotificationsRoute,
   } as any)
-const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CollectionsRoute,
+const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
+  id: '/admin/collections/',
+  path: '/admin/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCollectionsCollectionIdRoute =
+  AdminCollectionsCollectionIdRouteImport.update({
+    id: '/admin/collections/$collectionId',
+    path: '/admin/collections/$collectionId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminCollectionsNewRoute = AdminCollectionsNewRouteImport.update({
+  id: '/admin/collections/new',
+  path: '/admin/collections/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJourneysIndexRoute = AdminJourneysIndexRouteImport.update({
+  id: '/admin/journeys/',
+  path: '/admin/journeys/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJourneysJourneyIdRoute = AdminJourneysJourneyIdRouteImport.update({
+  id: '/admin/journeys/$journeyId',
+  path: '/admin/journeys/$journeyId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJourneysNewRoute = AdminJourneysNewRouteImport.update({
+  id: '/admin/journeys/new',
+  path: '/admin/journeys/new',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -151,8 +230,21 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/review': typeof AdminReviewRoute
+  '/admin/templates': typeof AdminTemplatesRoute
+  '/admin/translations': typeof AdminTranslationsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/collections/new': typeof AdminCollectionsNewRoute
+  '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
+  '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/admin/collections/': typeof AdminCollectionsIndexRoute
+  '/admin/journeys/': typeof AdminJourneysIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,8 +265,21 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/review': typeof AdminReviewRoute
+  '/admin/templates': typeof AdminTemplatesRoute
+  '/admin/translations': typeof AdminTranslationsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/collections/new': typeof AdminCollectionsNewRoute
+  '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
+  '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/admin/collections': typeof AdminCollectionsIndexRoute
+  '/admin/journeys': typeof AdminJourneysIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,8 +301,21 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/media': typeof AdminMediaRoute
+  '/admin/review': typeof AdminReviewRoute
+  '/admin/templates': typeof AdminTemplatesRoute
+  '/admin/translations': typeof AdminTranslationsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/collections/new': typeof AdminCollectionsNewRoute
+  '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
+  '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/admin/collections/': typeof AdminCollectionsIndexRoute
+  '/admin/journeys/': typeof AdminJourneysIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -220,8 +338,21 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/admin/audit'
+    | '/admin/calendar'
+    | '/admin/media'
+    | '/admin/review'
+    | '/admin/templates'
+    | '/admin/translations'
     | '/collections/$slug'
     | '/notifications/preferences'
+    | '/admin/'
+    | '/admin/collections/$collectionId'
+    | '/admin/collections/new'
+    | '/admin/journeys/$journeyId'
+    | '/admin/journeys/new'
+    | '/admin/collections/'
+    | '/admin/journeys/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -242,8 +373,21 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/admin/audit'
+    | '/admin/calendar'
+    | '/admin/media'
+    | '/admin/review'
+    | '/admin/templates'
+    | '/admin/translations'
     | '/collections/$slug'
     | '/notifications/preferences'
+    | '/admin'
+    | '/admin/collections/$collectionId'
+    | '/admin/collections/new'
+    | '/admin/journeys/$journeyId'
+    | '/admin/journeys/new'
+    | '/admin/collections'
+    | '/admin/journeys'
   id:
     | '__root__'
     | '/'
@@ -264,8 +408,21 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/today'
     | '/together'
+    | '/admin/audit'
+    | '/admin/calendar'
+    | '/admin/media'
+    | '/admin/review'
+    | '/admin/templates'
+    | '/admin/translations'
     | '/collections/$slug'
     | '/notifications/preferences'
+    | '/admin/'
+    | '/admin/collections/$collectionId'
+    | '/admin/collections/new'
+    | '/admin/journeys/$journeyId'
+    | '/admin/journeys/new'
+    | '/admin/collections/'
+    | '/admin/journeys/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -287,120 +444,28 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TodayRoute: typeof TodayRoute
   TogetherRoute: typeof TogetherRoute
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminCalendarRoute: typeof AdminCalendarRoute
+  AdminMediaRoute: typeof AdminMediaRoute
+  AdminReviewRoute: typeof AdminReviewRoute
+  AdminTemplatesRoute: typeof AdminTemplatesRoute
+  AdminTranslationsRoute: typeof AdminTranslationsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
+  AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
+  AdminJourneysJourneyIdRoute: typeof AdminJourneysJourneyIdRoute
+  AdminJourneysNewRoute: typeof AdminJourneysNewRoute
+  AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
+  AdminJourneysIndexRoute: typeof AdminJourneysIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/together': {
-      id: '/together'
-      path: '/together'
-      fullPath: '/together'
-      preLoaderRoute: typeof TogetherRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/today': {
-      id: '/today'
-      path: '/today'
-      fullPath: '/today'
-      preLoaderRoute: typeof TodayRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signin': {
-      id: '/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof SigninRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/progress': {
-      id: '/progress'
-      path: '/progress'
-      fullPath: '/progress'
-      preLoaderRoute: typeof ProgressRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/notifications': {
-      id: '/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof NotificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/my-journey': {
-      id: '/my-journey'
-      path: '/my-journey'
-      fullPath: '/my-journey'
-      preLoaderRoute: typeof MyJourneyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forgot': {
-      id: '/forgot'
-      path: '/forgot'
-      fullPath: '/forgot'
-      preLoaderRoute: typeof ForgotRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/features': {
-      id: '/features'
-      path: '/features'
-      fullPath: '/features'
-      preLoaderRoute: typeof FeaturesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/collections': {
-      id: '/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof CollectionsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -410,12 +475,173 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/collections': {
+      id: '/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof CollectionsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot': {
+      id: '/forgot'
+      path: '/forgot'
+      fullPath: '/forgot'
+      preLoaderRoute: typeof ForgotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-journey': {
+      id: '/my-journey'
+      path: '/my-journey'
+      fullPath: '/my-journey'
+      preLoaderRoute: typeof MyJourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/today': {
+      id: '/today'
+      path: '/today'
+      fullPath: '/today'
+      preLoaderRoute: typeof TodayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/together': {
+      id: '/together'
+      path: '/together'
+      fullPath: '/together'
+      preLoaderRoute: typeof TogetherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/admin/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/admin/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/review': {
+      id: '/admin/review'
+      path: '/admin/review'
+      fullPath: '/admin/review'
+      preLoaderRoute: typeof AdminReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/templates': {
+      id: '/admin/templates'
+      path: '/admin/templates'
+      fullPath: '/admin/templates'
+      preLoaderRoute: typeof AdminTemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/translations': {
+      id: '/admin/translations'
+      path: '/admin/translations'
+      fullPath: '/admin/translations'
+      preLoaderRoute: typeof AdminTranslationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/$slug': {
+      id: '/collections/$slug'
+      path: '/$slug'
+      fullPath: '/collections/$slug'
+      preLoaderRoute: typeof CollectionsSlugRouteImport
+      parentRoute: typeof CollectionsRoute
     }
     '/notifications/preferences': {
       id: '/notifications/preferences'
@@ -424,12 +650,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsPreferencesRouteImport
       parentRoute: typeof NotificationsRoute
     }
-    '/collections/$slug': {
-      id: '/collections/$slug'
-      path: '/$slug'
-      fullPath: '/collections/$slug'
-      preLoaderRoute: typeof CollectionsSlugRouteImport
-      parentRoute: typeof CollectionsRoute
+    '/admin/collections/': {
+      id: '/admin/collections/'
+      path: '/admin/collections'
+      fullPath: '/admin/collections/'
+      preLoaderRoute: typeof AdminCollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/collections/$collectionId': {
+      id: '/admin/collections/$collectionId'
+      path: '/admin/collections/$collectionId'
+      fullPath: '/admin/collections/$collectionId'
+      preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/collections/new': {
+      id: '/admin/collections/new'
+      path: '/admin/collections/new'
+      fullPath: '/admin/collections/new'
+      preLoaderRoute: typeof AdminCollectionsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/journeys/': {
+      id: '/admin/journeys/'
+      path: '/admin/journeys'
+      fullPath: '/admin/journeys/'
+      preLoaderRoute: typeof AdminJourneysIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/journeys/$journeyId': {
+      id: '/admin/journeys/$journeyId'
+      path: '/admin/journeys/$journeyId'
+      fullPath: '/admin/journeys/$journeyId'
+      preLoaderRoute: typeof AdminJourneysJourneyIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/journeys/new': {
+      id: '/admin/journeys/new'
+      path: '/admin/journeys/new'
+      fullPath: '/admin/journeys/new'
+      preLoaderRoute: typeof AdminJourneysNewRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -477,7 +738,30 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TodayRoute: TodayRoute,
   TogetherRoute: TogetherRoute,
+  AdminAuditRoute: AdminAuditRoute,
+  AdminCalendarRoute: AdminCalendarRoute,
+  AdminMediaRoute: AdminMediaRoute,
+  AdminReviewRoute: AdminReviewRoute,
+  AdminTemplatesRoute: AdminTemplatesRoute,
+  AdminTranslationsRoute: AdminTranslationsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
+  AdminCollectionsNewRoute: AdminCollectionsNewRoute,
+  AdminJourneysJourneyIdRoute: AdminJourneysJourneyIdRoute,
+  AdminJourneysNewRoute: AdminJourneysNewRoute,
+  AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
+  AdminJourneysIndexRoute: AdminJourneysIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
