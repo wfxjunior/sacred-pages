@@ -129,9 +129,7 @@ function Landing() {
             <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
               <div className="relative">
                 <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/25 via-[#C89F4F]/25 to-[#7A4A5E]/25 blur-2xl" />
-                <div className="relative rounded-[2rem] border border-white/70 bg-white/40 p-3 shadow-[0_32px_64px_-16px_rgba(45,41,38,0.18)] backdrop-blur-xl sm:p-4">
-                  <HeroWordGrid />
-                </div>
+                <HeroWordGrid />
               </div>
             </div>
           </div>
