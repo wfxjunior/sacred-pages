@@ -12,7 +12,7 @@ export function ThemeSelector() {
   return (
     <div
       role="radiogroup"
-      aria-label="Theme"
+      aria-label={"Theme"}
       className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-card p-1"
     >
       {OPTIONS.map((o) => {
