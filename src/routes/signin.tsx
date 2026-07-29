@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AuthLayout } from "@/components/site/AuthLayout";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { GoogleAuthButton } from "@/components/site/GoogleAuthButton";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/signin")({
@@ -25,27 +24,16 @@ function SignIn() {
       footer={
         <>
           {t("auth.noAccount")}{" "}
-          <Link to="/signup" className="underline underline-offset-4">{t("cta.startFree")}</Link>
+          <Link to="/signup" className="underline underline-offset-4" style={{ color: "var(--ink)" }}>
+            {t("cta.startFree")}
+          </Link>
         </>
       }
     >
-      <Field label={t("auth.email")} type="email" placeholder="you@example.com" />
-      <Field label={t("auth.password")} type="password" placeholder="••••••••" />
-      <div className="text-right text-xs">
-        <Link to="/forgot" className="text-muted-foreground hover:text-foreground">{t("auth.forgotLink")}</Link>
-      </div>
-      <Button className="w-full" asChild>
-        <Link to="/my-journey">{t("auth.continue")}</Link>
-      </Button>
+      <GoogleAuthButton label="Continue with Google" />
+      <p className="pt-1 text-[11px] leading-relaxed text-muted-foreground">
+        Secure sign-in · No password required
+      </p>
     </AuthLayout>
-  );
-}
-
-function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="grid gap-1.5 text-sm">
-      <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
-      <Input {...props} />
-    </label>
   );
 }
