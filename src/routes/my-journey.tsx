@@ -27,7 +27,7 @@ function MyJourney() {
           <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
             {t("app.greeting.morning")}
           </p>
-          <h1 className="mt-2 font-serif text-4xl md:text-5xl">Good morning, Samuel.</h1>
+          <h1 className="mt-2 font-serif text-4xl md:text-5xl">{t("app.greeting.user").replace("{name}", "Samuel")}</h1>
           <p className="mt-3 text-muted-foreground">{t("app.greeting.sub")}</p>
         </header>
 

@@ -4,6 +4,7 @@ import { FAVORITES, FAVORITE_KINDS, type FavoriteKind } from "@/lib/mock/favorit
 import { Input } from "@/components/ui/input";
 import { Search, BookOpen, Quote, Feather, Library, Sparkles, Heart } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/favorites")({
   head: () => ({
@@ -17,16 +18,17 @@ export const Route = createFileRoute("/favorites")({
   component: Favorites,
 });
 
-const KIND_META: Record<FavoriteKind, { icon: typeof BookOpen; color: string; label: string }> = {
-  journey: { icon: BookOpen, color: "#B88A3B", label: "Journey" },
-  verse: { icon: Quote, color: "#5E7FA3", label: "Verse" },
-  devotional: { icon: Sparkles, color: "#B88A3B", label: "Devotional" },
-  collection: { icon: Library, color: "#78866B", label: "Collection" },
-  reflection: { icon: Feather, color: "#6E5847", label: "Reflection" },
-  prayer: { icon: Heart, color: "#B76E79", label: "Prayer" },
+const KIND_META: Record<FavoriteKind, { icon: typeof BookOpen; color: string; labelKey: string }> = {
+  journey: { icon: BookOpen, color: "#B88A3B", labelKey: "favorites.label.journey" },
+  verse: { icon: Quote, color: "#5E7FA3", labelKey: "favorites.label.verse" },
+  devotional: { icon: Sparkles, color: "#B88A3B", labelKey: "favorites.label.devotional" },
+  collection: { icon: Library, color: "#78866B", labelKey: "favorites.label.collection" },
+  reflection: { icon: Feather, color: "#6E5847", labelKey: "favorites.label.reflection" },
+  prayer: { icon: Heart, color: "#B76E79", labelKey: "favorites.label.prayer" },
 };
 
 function Favorites() {
+  const { t } = useI18n();
   const [q, setQ] = useState("");
   const [kind, setKind] = useState<FavoriteKind | "all">("all");
 
@@ -47,11 +49,9 @@ function Favorites() {
     <AppShell>
       <div className="mx-auto max-w-5xl space-y-10">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>Favorites</p>
-          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">Return to what moved you.</h1>
-          <p className="mt-2 max-w-xl text-[14px] text-muted-foreground">
-            A calm library of the journeys, verses, reflections and prayers you've saved.
-          </p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("favorites.eyebrow")}</p>
+          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">{t("favorites.title")}</h1>
+          <p className="mt-2 max-w-xl text-[14px] text-muted-foreground">{t("favorites.sub")}</p>
         </div>
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -60,14 +60,15 @@ function Favorites() {
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search favorites…"
+              placeholder={t("favorites.searchPh")}
               className="pl-9"
-              aria-label="Search favorites"
+              aria-label={t("favorites.searchPh")}
             />
           </div>
           <div className="flex flex-wrap gap-2">
             {FAVORITE_KINDS.map((f) => {
               const active = kind === f.key;
+              const label = t(`favorites.kind.${f.key}`);
               return (
                 <button
                   key={f.key}
@@ -76,7 +77,7 @@ function Favorites() {
                     active ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {f.label}
+                  {label}
                 </button>
               );
             })}
@@ -85,8 +86,8 @@ function Favorites() {
 
         {items.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border/60 bg-card/40 p-12 text-center">
-            <p className="font-serif text-lg">Nothing saved yet in this view.</p>
-            <p className="mt-2 text-[13px] text-muted-foreground">Tap the heart on any journey, verse or reflection to keep it here.</p>
+            <p className="font-serif text-lg">{t("favorites.empty")}</p>
+            <p className="mt-2 text-[13px] text-muted-foreground">{t("favorites.emptyHint")}</p>
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
@@ -102,7 +103,7 @@ function Favorites() {
                     >
                       <Icon className="h-4 w-4" strokeWidth={1.6} />
                     </span>
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{meta.label}</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t(meta.labelKey)}</span>
                     <span className="ml-auto text-[11px] text-muted-foreground">{f.savedOn}</span>
                   </div>
                   <p className="mt-4 font-serif text-lg leading-snug">{f.title}</p>
