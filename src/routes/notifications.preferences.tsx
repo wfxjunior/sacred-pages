@@ -12,6 +12,7 @@ import { NOTIFICATIONS } from "@/lib/mock/notifications";
 import { Bell, BellOff, Mail, Smartphone, Moon, Volume2, VolumeX, ChevronLeft } from "lucide-react";
 import { RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,22 +27,23 @@ import {
 export const Route = createFileRoute("/notifications/preferences")({
   head: () => ({
     meta: [
-      { title: "Notification preferences — Jornadas da Palavra" },
+      { title: "Notification preferences — Word Journeys" },
       { name: "description", content: "Choose exactly which quiet nudges reach you, on which channel." },
-      { property: "og:title", content: "Notification preferences — Jornadas da Palavra" },
+      { property: "og:title", content: "Notification preferences — Word Journeys" },
       { property: "og:description", content: "Few and meaningful — you decide." },
     ],
   }),
   component: PrefsPage,
 });
 
-const CHANNELS: { key: Channel; label: string; icon: typeof Bell }[] = [
-  { key: "inApp", label: "In-app", icon: Bell },
-  { key: "email", label: "Email", icon: Mail },
-  { key: "push",  label: "Push",  icon: Smartphone },
+const CHANNELS: { key: Channel; icon: typeof Bell }[] = [
+  { key: "inApp", icon: Bell },
+  { key: "email", icon: Mail },
+  { key: "push",  icon: Smartphone },
 ];
 
 function PrefsPage() {
+  const { t } = useI18n();
   const { prefs, setCategory, setChannel, update, reset } = useNotifPrefs();
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -59,17 +61,17 @@ function PrefsPage() {
           to="/notifications"
           className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground"
         >
-          <ChevronLeft className="h-3.5 w-3.5" /> Notification center
+          <ChevronLeft className="h-3.5 w-3.5" /> {t("notifPrefs.backTo")}
         </Link>
 
         <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>
-              Preferences
+              {t("notifPrefs.eyebrow")}
             </p>
-            <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">Quiet by design</h1>
+            <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">{t("notifPrefs.title")}</h1>
             <p className="mt-2 max-w-lg text-[14px] text-muted-foreground">
-              Choose what reaches you and how. Header updates the moment you toggle — this is the same source of truth.
+              {t("notifPrefs.sub")}
             </p>
           </div>
           <Button
@@ -78,25 +80,19 @@ function PrefsPage() {
             onClick={() => setConfirmOpen(true)}
           >
             <RotateCcw className="h-3.5 w-3.5" />
-            Restore defaults
+            {t("notifPrefs.restore")}
           </Button>
         </div>
 
         <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Restore default preferences?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Every category, channel, quiet hours and digest setting returns to the
-                original quiet-by-default state. This only affects your notification
-                preferences — history and account settings stay intact.
-              </AlertDialogDescription>
+              <AlertDialogTitle>{t("notifPrefs.restore.title")}</AlertDialogTitle>
+              <AlertDialogDescription>{t("notifPrefs.restore.body")}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Keep my settings</AlertDialogCancel>
-              <AlertDialogAction onClick={() => reset()}>
-                Restore defaults
-              </AlertDialogAction>
+              <AlertDialogCancel>{t("notifPrefs.restore.keep")}</AlertDialogCancel>
+              <AlertDialogAction onClick={() => reset()}>{t("notifPrefs.restore")}</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -117,11 +113,11 @@ function PrefsPage() {
             )}
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-[13px] font-medium">Header preview</p>
+            <p className="text-[13px] font-medium">{t("notifPrefs.headerPreview")}</p>
             <p className="text-[11.5px] text-muted-foreground">
               {prefs.pauseAll
-                ? "The bell shows as paused for everyone signed in as you."
-                : `${visibleCount} notification${visibleCount === 1 ? "" : "s"} will appear in the dropdown right now.`}
+                ? t("notifPrefs.previewPaused")
+                : t(visibleCount === 1 ? "notifPrefs.previewCount.one" : "notifPrefs.previewCount.many").replace("{count}", String(visibleCount))}
             </p>
           </div>
         </div>
@@ -129,25 +125,25 @@ function PrefsPage() {
         {/* Global controls */}
         <section className="mt-6 rounded-2xl border border-border/60 bg-card p-6">
           <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
-            Global
+            {t("notifPrefs.global")}
           </p>
           <div className="mt-3 space-y-2">
             <RowToggle
-              label="Pause all notifications"
-              hint="Nothing will appear in-app, email or push. Existing history stays intact."
+              label={t("notifPrefs.pauseAll")}
+              hint={t("notifPrefs.pauseAll.hint")}
               checked={prefs.pauseAll}
               onChange={(v) => update({ pauseAll: v })}
               tone="warn"
             />
             <RowToggle
-              label="Weekly reflection digest"
-              hint="A short Sunday email with your quiet wins — never marketing."
+              label={t("notifPrefs.weekly")}
+              hint={t("notifPrefs.weekly.hint")}
               checked={prefs.weeklyDigest}
               onChange={(v) => update({ weeklyDigest: v })}
             />
             <RowToggle
-              label={prefs.sound ? "Sound cues on" : "Sound cues off"}
-              hint="Soft, calm chimes when a journey is ready."
+              label={prefs.sound ? t("notifPrefs.soundOn") : t("notifPrefs.soundOff")}
+              hint={t("notifPrefs.sound.hint")}
               icon={prefs.sound ? Volume2 : VolumeX}
               checked={prefs.sound}
               onChange={(v) => update({ sound: v })}
@@ -159,10 +155,10 @@ function PrefsPage() {
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <Moon className="h-3.5 w-3.5" style={{ color: "var(--dusty-blue)" }} />
-                  <p className="text-[13px] font-medium">Quiet hours</p>
+                  <p className="text-[13px] font-medium">{t("notifPrefs.quietHours")}</p>
                 </div>
                 <p className="text-[11.5px] text-muted-foreground">
-                  We hold notifications and deliver them once quiet hours end.
+                  {t("notifPrefs.quietHours.hint")}
                 </p>
               </div>
               <Switch
@@ -181,17 +177,17 @@ function PrefsPage() {
           <div className="flex flex-wrap items-end justify-between gap-2">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
-                Categories
+                {t("notifPrefs.categories")}
               </p>
               <p className="mt-1 text-[12px] text-muted-foreground">
-                Toggle a category off to hide it everywhere. Or pick specific channels.
+                {t("notifPrefs.categories.hint")}
               </p>
             </div>
             <div className="hidden gap-4 pr-1 md:flex">
-              {CHANNELS.map(({ key, label, icon: Icon }) => (
+              {CHANNELS.map(({ key, icon: Icon }) => (
                 <span key={key} className="inline-flex w-14 items-center justify-center gap-1 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                   <Icon className="h-3 w-3" />
-                  {label}
+                  {t(`notifPrefs.channel.${key}`)}
                 </span>
               ))}
             </div>
@@ -211,13 +207,13 @@ function PrefsPage() {
                       <Bell className="h-4 w-4" strokeWidth={1.6} />
                     </span>
                     <div className="min-w-0">
-                      <p className="text-[13.5px] font-medium">{cat.label}</p>
-                      <p className="text-[12px] text-muted-foreground">{cat.hint}</p>
+                      <p className="text-[13.5px] font-medium">{t(`notifPrefs.cat.${cat.key}.label`)}</p>
+                      <p className="text-[12px] text-muted-foreground">{t(`notifPrefs.cat.${cat.key}.hint`)}</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-4 md:gap-6">
                     <div className="flex items-center gap-4">
-                      {CHANNELS.map(({ key, label, icon: Icon }) => (
+                      {CHANNELS.map(({ key, icon: Icon }) => (
                         <label
                           key={key}
                           className={`flex w-14 flex-col items-center gap-1 text-[10px] uppercase tracking-[0.14em] ${
@@ -226,7 +222,7 @@ function PrefsPage() {
                         >
                           <span className="md:hidden inline-flex items-center gap-1">
                             <Icon className="h-3 w-3" />
-                            {label}
+                            {t(`notifPrefs.channel.${key}`)}
                           </span>
                           <Switch
                             small
@@ -249,7 +245,7 @@ function PrefsPage() {
         </section>
 
         <p className="mt-6 text-center text-[11.5px] text-muted-foreground">
-          Reflections and prayers are always private — no notification ever contains their content.
+          {t("notifPrefs.privacy")}
         </p>
       </div>
     </AppShell>
@@ -287,8 +283,8 @@ function RowToggle({
   );
 }
 
-const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
-const DAY_FULL = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const DAY_SHORT_KEYS = ["day.short.sun","day.short.mon","day.short.tue","day.short.wed","day.short.thu","day.short.fri","day.short.sat"];
+const DAY_FULL_KEYS  = ["day.full.sun","day.full.mon","day.full.tue","day.full.wed","day.full.thu","day.full.fri","day.full.sat"];
 
 function useTimezones() {
   return useMemo<string[]>(() => {
@@ -318,6 +314,7 @@ function useTimezones() {
 }
 
 function QuietHoursEditor() {
+  const { t } = useI18n();
   const { prefs, update } = useNotifPrefs();
   const timezones = useTimezones();
   const q = prefs.quietHours;
@@ -337,7 +334,7 @@ function QuietHoursEditor() {
     <div className="mt-3 space-y-4">
       <div className="flex flex-wrap items-center gap-3 text-[12px] text-muted-foreground">
         <label className="inline-flex items-center gap-2">
-          From
+          {t("notifPrefs.qh.from")}
           <input
             type="time"
             value={q.from}
@@ -346,7 +343,7 @@ function QuietHoursEditor() {
           />
         </label>
         <label className="inline-flex items-center gap-2">
-          To
+          {t("notifPrefs.qh.to")}
           <input
             type="time"
             value={q.to}
@@ -359,7 +356,7 @@ function QuietHoursEditor() {
       <div>
         <div className="flex items-center justify-between gap-2">
           <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            Repeat on
+            {t("notifPrefs.qh.repeatOn")}
           </p>
           <div className="flex gap-1 text-[10.5px] uppercase tracking-[0.14em]">
             {(["every", "week", "weekend"] as const).map((p) => (
@@ -369,20 +366,20 @@ function QuietHoursEditor() {
                 onClick={() => setPreset(p)}
                 className="rounded-full border border-border/60 px-2 py-0.5 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
-                {p === "every" ? "Every day" : p === "week" ? "Weekdays" : "Weekends"}
+                {p === "every" ? t("notifPrefs.qh.every") : p === "week" ? t("notifPrefs.qh.weekdays") : t("notifPrefs.qh.weekends")}
               </button>
             ))}
           </div>
         </div>
-        <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Days quiet hours apply">
-          {DAY_LABELS.map((lbl, i) => {
+        <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label={t("notifPrefs.qh.daysAria")}>
+          {DAY_SHORT_KEYS.map((lblKey, i) => {
             const active = q.days.includes(i);
             return (
               <button
                 key={i}
                 type="button"
                 aria-pressed={active}
-                aria-label={DAY_FULL[i]}
+                aria-label={t(DAY_FULL_KEYS[i])}
                 onClick={() => toggleDay(i)}
                 className={`h-9 w-9 rounded-full border text-[12px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   active
@@ -391,14 +388,14 @@ function QuietHoursEditor() {
                 }`}
                 style={active ? { background: "var(--gold)", color: "var(--ivory)" } : undefined}
               >
-                {lbl}
+                {t(lblKey)}
               </button>
             );
           })}
         </div>
         {q.days.length === 0 && (
           <p className="mt-2 text-[11px] text-destructive">
-            Pick at least one day, or quiet hours will never apply.
+            {t("notifPrefs.qh.pickDay")}
           </p>
         )}
       </div>
@@ -406,7 +403,7 @@ function QuietHoursEditor() {
       <div>
         <label className="flex flex-col gap-1.5">
           <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-            Timezone
+            {t("notifPrefs.qh.timezone")}
           </span>
           <select
             value={q.timezone}
@@ -421,7 +418,7 @@ function QuietHoursEditor() {
           </select>
         </label>
         <p className="mt-1.5 text-[11px] text-muted-foreground">
-          Times above are interpreted in this timezone so quiet hours stay right when you travel.
+          {t("notifPrefs.qh.tzHint")}
         </p>
       </div>
     </div>
