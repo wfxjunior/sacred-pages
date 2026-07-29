@@ -120,12 +120,13 @@ function Landing() {
               </div>
             </div>
 
-            {/* Word search illustration — floating glass container */}
-            <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+            {/* Word search + devotional companion */}
+            <div className="mx-auto grid w-full max-w-sm gap-6 sm:max-w-md md:max-w-lg lg:max-w-6xl lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10 lg:text-left">
               <div className="relative">
                 <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/25 via-[#C89F4F]/25 to-[#7A4A5E]/25 blur-2xl" />
                 <HeroWordGrid />
               </div>
+              <HeroDevotional />
             </div>
           </div>
         </div>
