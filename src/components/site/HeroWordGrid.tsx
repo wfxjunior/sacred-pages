@@ -93,21 +93,7 @@ function FoundLines({
   );
 }
 
-function SpiralBinding({ count = 12 }: { count?: number }) {
-  return (
-    <div
-      className="absolute -left-3 top-4 bottom-4 z-20 hidden flex-col justify-between py-1 sm:flex"
-      aria-hidden
-    >
-      {Array.from({ length: count }).map((_, i) => (
-        <div
-          key={i}
-          className="h-2.5 w-7 rounded-full border border-gray-400 bg-gradient-to-r from-gray-300 via-gray-100 to-gray-300 shadow-sm"
-        />
-      ))}
-    </div>
-  );
-}
+
 
 function CheckBullet({ checked, color }: { checked: boolean; color: string }) {
   return (
