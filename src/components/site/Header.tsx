@@ -103,7 +103,7 @@ export function Header() {
           <button
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur transition hover:bg-secondary"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={t("header.menu")}
             aria-expanded={open}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

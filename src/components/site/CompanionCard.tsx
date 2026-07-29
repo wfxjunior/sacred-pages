@@ -1,7 +1,9 @@
 import type { Companion } from "@/lib/mock/companions";
 import { Lock } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function CompanionCard({ c }: { c: Companion }) {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col rounded-2xl border border-border/60 bg-card p-5 sm:p-6">
       <div className="flex items-center gap-3">
@@ -21,7 +23,7 @@ export function CompanionCard({ c }: { c: Companion }) {
       </div>
       {c.journey && (
         <div className="mt-5 rounded-xl border border-border/60 bg-background/60 p-4">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Active journey</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">{t("companion.active")}</p>
           <p className="mt-1 font-serif text-[15px] leading-snug">{c.journey}</p>
           {c.reference && <p className="mt-0.5 text-[12px] text-muted-foreground">{c.reference}</p>}
           <div className="mt-4 space-y-3">

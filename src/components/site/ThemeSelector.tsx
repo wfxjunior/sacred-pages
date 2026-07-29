@@ -1,18 +1,20 @@
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme, type ThemeMode } from "@/lib/theme";
+import { useI18n } from "@/lib/i18n";
 
-const OPTIONS: { key: ThemeMode; label: string; icon: typeof Sun }[] = [
-  { key: "light", label: "Light", icon: Sun },
-  { key: "dark", label: "Dark", icon: Moon },
-  { key: "system", label: "System", icon: Monitor },
+const OPTIONS: { key: ThemeMode; labelKey: string; icon: typeof Sun }[] = [
+  { key: "light", labelKey: "settings.light", icon: Sun },
+  { key: "dark", labelKey: "settings.dark", icon: Moon },
+  { key: "system", labelKey: "settings.system", icon: Monitor },
 ];
 
 export function ThemeSelector() {
   const { mode, setMode } = useTheme();
+  const { t } = useI18n();
   return (
     <div
       role="radiogroup"
-      aria-label="Theme"
+      aria-label={t("theme.aria")}
       className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-card p-1"
     >
       {OPTIONS.map((o) => {
@@ -30,7 +32,7 @@ export function ThemeSelector() {
             style={active ? { background: "var(--gold)" } : undefined}
           >
             <Icon className="h-3.5 w-3.5" />
-            {o.label}
+            {t(o.labelKey)}
           </button>
         );
       })}

@@ -21,7 +21,7 @@ function Forgot() {
   return (
     <AuthLayout
       title={t("auth.forgot")}
-      sub="We'll email you a link to reset your password."
+      sub={t("auth.forgot.sub")}
       footer={
         <Link to="/signin" className="underline underline-offset-4">
           {t("cta.signin")}

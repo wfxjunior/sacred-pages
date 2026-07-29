@@ -155,11 +155,11 @@ export function HowItWorks() {
 export function Personalization() {
   const { t } = useI18n();
   const controls = [
-    { label: t("settings.color"), value: "Gold" },
+    { label: t("settings.color"), value: t("personalize.value.gold") },
     { label: t("settings.difficulty"), value: t("diff.balanced") },
     { label: t("settings.fontSize"), value: t("settings.medium") },
     { label: t("settings.theme"), value: t("settings.light") },
-    { label: t("settings.language"), value: "English" },
+    { label: t("settings.language"), value: t("personalize.value.english") },
   ];
   const swatches = ["var(--gold)", "var(--sage)", "var(--dusty-blue)", "#B76E79", "#7E5BEF"];
   return (
@@ -338,16 +338,16 @@ export function ProgressShowcase() {
   const { t } = useI18n();
   const stats = [
     { label: t("app.streak"), value: "12", suffix: t("app.days") },
-    { label: "Journeys", value: "38" },
-    { label: "Passages", value: "142" },
-    { label: "Collections", value: "3" },
+    { label: t("stats.journeys"), value: "38" },
+    { label: t("stats.passages"), value: "142" },
+    { label: t("stats.collections"), value: "3" },
   ];
   const week = [40, 65, 30, 80, 55, 92, 70];
   const days = ["M", "T", "W", "T", "F", "S", "S"];
   const weekMins = week.map((v) => Math.round((v / 100) * 92));
   return (
     <LandingSection
-      eyebrow="Progress"
+      eyebrow={t("landing.progressEyebrow")}
       title={t("progress.title")}
       sub={t("progress.sub")}
     >
@@ -358,8 +358,8 @@ export function ProgressShowcase() {
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {t("app.week")}
               </p>
-              <p className="mt-1 font-serif text-3xl">432 <span className="text-lg text-muted-foreground">min</span></p>
-              <p className="mt-1 text-xs text-muted-foreground">Daily minutes in the Word · last 7 days</p>
+              <p className="mt-1 font-serif text-3xl">432 <span className="text-lg text-muted-foreground">{t("chart.minutesUnit")}</span></p>
+              <p className="mt-1 text-xs text-muted-foreground">{t("chart.dailyMinutes")}</p>
             </div>
             <div
               className="flex items-center gap-1.5 text-sm font-medium"
@@ -498,14 +498,14 @@ export function PricingPreview() {
       name: t("pricing.free"),
       price: t("pricing.freePrice"),
       features: [
-        "Daily journey",
-        "Selected collections",
-        "Basic progress",
-        "Limited personalization",
-        "Dark mode",
-        "EN · PT · ES languages",
-        "Save favorites",
-        "Journey together (view only)",
+        t("pricing.free.f1"),
+        t("pricing.free.f2"),
+        t("pricing.free.f3"),
+        t("pricing.free.f4"),
+        t("pricing.free.f5"),
+        t("pricing.free.f6"),
+        t("pricing.free.f7"),
+        t("pricing.free.f8"),
       ],
       cta: t("cta.startFree"),
       featured: false,
@@ -514,37 +514,37 @@ export function PricingPreview() {
       name: t("pricing.premium"),
       price: t("pricing.premiumPrice"),
       features: [
-        "Full journey library",
-        "All collections",
-        "Complete personalization",
-        "Advanced progress history",
-        "Exclusive series",
-        "Family journeys (soon)",
-        "Milestones & streak insights",
-        "Journey together (invite up to 5)",
-        "Offline reading",
-        "Priority support",
+        t("pricing.premium.f1"),
+        t("pricing.premium.f2"),
+        t("pricing.premium.f3"),
+        t("pricing.premium.f4"),
+        t("pricing.premium.f5"),
+        t("pricing.premium.f6"),
+        t("pricing.premium.f7"),
+        t("pricing.premium.f8"),
+        t("pricing.premium.f9"),
+        t("pricing.premium.f10"),
       ],
       cta: t("cta.startJourney"),
       featured: true,
     },
   ];
-  const compare = [
-    { label: "Daily journey", free: true, premium: true },
-    { label: "Selected collections", free: true, premium: true },
-    { label: "Full journey library", free: false, premium: true },
-    { label: "All collections", free: false, premium: true },
-    { label: "Personalization", free: "Limited", premium: "Complete" },
-    { label: "Progress history", free: "Basic", premium: "Advanced" },
-    { label: "Dark mode", free: true, premium: true },
-    { label: "Languages (EN · PT · ES)", free: true, premium: true },
-    { label: "Save favorites", free: true, premium: true },
-    { label: "Exclusive series", free: false, premium: true },
-    { label: "Milestones & streak insights", free: false, premium: true },
-    { label: "Journey together", free: "View only", premium: "Up to 5 invites" },
-    { label: "Offline reading", free: false, premium: true },
-    { label: "Family journeys", free: false, premium: "Coming soon" },
-    { label: "Priority support", free: false, premium: true },
+  const compare: { label: string; free: boolean | string; premium: boolean | string }[] = [
+    { label: t("compare.row.dailyJourney"), free: true, premium: true },
+    { label: t("compare.row.selectedCollections"), free: true, premium: true },
+    { label: t("compare.row.fullLibrary"), free: false, premium: true },
+    { label: t("compare.row.allCollections"), free: false, premium: true },
+    { label: t("compare.row.personalization"), free: t("compare.val.limited"), premium: t("compare.val.complete") },
+    { label: t("compare.row.progressHistory"), free: t("compare.val.basic"), premium: t("compare.val.advanced") },
+    { label: t("compare.row.darkMode"), free: true, premium: true },
+    { label: t("compare.row.languages"), free: true, premium: true },
+    { label: t("compare.row.favorites"), free: true, premium: true },
+    { label: t("compare.row.exclusive"), free: false, premium: true },
+    { label: t("compare.row.milestones"), free: false, premium: true },
+    { label: t("compare.row.together"), free: t("compare.val.viewOnly"), premium: t("compare.val.upTo5") },
+    { label: t("compare.row.offline"), free: false, premium: true },
+    { label: t("compare.row.family"), free: false, premium: t("compare.val.comingSoon") },
+    { label: t("compare.row.support"), free: false, premium: true },
   ];
   return (
     <LandingSection id="pricing" title={t("pricing.title")}>
@@ -571,7 +571,7 @@ export function PricingPreview() {
                 className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white"
                 style={{ background: "var(--gold)" }}
               >
-                Recommended
+                {t("pricing.recommended")}
               </span>
             )}
             <p className="font-serif text-2xl">{p.name}</p>
@@ -608,18 +608,18 @@ export function PricingPreview() {
       <div className="mx-auto mt-16 max-w-4xl">
         <div className="mb-6 text-center">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Compare plans
+            {t("pricing.compare.eyebrow")}
           </p>
           <h3 className="mt-2 font-serif text-2xl sm:text-3xl">
-            Every feature, side by side
+            {t("pricing.compare.title")}
           </h3>
         </div>
         <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
           <div className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 border-b border-border/60 bg-[color-mix(in_oklab,var(--brand)_5%,transparent)] px-5 py-4 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-8">
-            <span>Feature</span>
-            <span className="text-center">Free</span>
+            <span>{t("pricing.compare.feature")}</span>
+            <span className="text-center">{t("pricing.compare.free")}</span>
             <span className="text-center" style={{ color: "var(--brand)" }}>
-              Premium
+              {t("pricing.compare.premium")}
             </span>
           </div>
           <ul className="divide-y divide-border/60">
@@ -658,10 +658,10 @@ export function PricingPreview() {
         <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-[color-mix(in_oklab,var(--brand)_6%,transparent)] px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
             <p className="font-serif text-xl sm:text-2xl">
-              Ready to begin your journey?
+              {t("pricing.compare.ctaTitle")}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Start free today. Upgrade to Premium anytime — cancel whenever you like.
+              {t("pricing.compare.ctaSub")}
             </p>
           </div>
           <Button
