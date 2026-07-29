@@ -121,10 +121,12 @@ function Landing() {
             </div>
 
             {/* Word search + devotional companion */}
-            <div className="mx-auto grid w-full max-w-sm gap-6 sm:max-w-md md:max-w-lg lg:max-w-6xl lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10 lg:text-left">
-              <div className="relative">
+            <div className="mx-auto grid w-full max-w-sm gap-6 sm:max-w-md md:max-w-lg lg:max-w-6xl lg:grid-cols-2 lg:items-stretch lg:gap-10 lg:text-left">
+              <div className="relative flex">
                 <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/25 via-[#C89F4F]/25 to-[#7A4A5E]/25 blur-2xl" />
-                <HeroWordGrid />
+                <div className="relative flex w-full">
+                  <HeroWordGrid />
+                </div>
               </div>
               <HeroDevotional />
             </div>
@@ -180,46 +182,67 @@ function HeroDevotional() {
     { key: "grace", color: "#D26A4E" },
     { key: "hope", color: "#8B5CA8" },
   ] as const;
+  const bodyText = t("hero.dev.body");
+  const firstLetter = bodyText.charAt(0);
+  const restBody = bodyText.slice(1);
   return (
-    <aside className="relative rounded-2xl border border-[#E4E0D6] bg-white/85 p-6 text-left shadow-[0_20px_50px_-20px_rgba(43,41,38,0.18)] backdrop-blur sm:p-7 lg:p-8">
-      <div className="flex items-center gap-2">
-        <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#8A6A1F]">
-          {t("hero.dev.eyebrow")}
+    <aside className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[#E4E0D6] bg-[#FBFAF6] text-left shadow-[0_20px_50px_-20px_rgba(43,41,38,0.18)]">
+      {/* Magazine masthead */}
+      <header className="flex items-center justify-between border-b border-[#E4E0D6] bg-white/70 px-6 py-3 sm:px-8">
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8A6A1F]">
+            {t("hero.dev.eyebrow")}
+          </span>
+        </div>
+        <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#6B665C]">
+          {t("hero.dev.time")}
         </span>
-      </div>
-      <h3 className="mt-3 font-serif text-[22px] leading-tight text-[#2D2926] sm:text-[26px] lg:text-[28px]">
-        {t("hero.dev.title")}
-      </h3>
-      <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7A4A5E]">
-        {t("hero.dev.ref")} <span className="ml-2 font-medium normal-case tracking-normal text-[#6B665C]">· {t("hero.dev.time")}</span>
-      </p>
-      <p className="mt-4 text-[14.5px] leading-[1.65] text-[#4A463F] sm:text-[15px]">
-        {t("hero.dev.body")}
-      </p>
+      </header>
 
-      <div className="mt-5 border-t border-[#E4E0D6] pt-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#2E5C9E]">
-          {t("hero.dev.wordsTitle")}
+      {/* Body */}
+      <div className="flex flex-1 flex-col px-6 py-6 sm:px-8 sm:py-7 lg:px-9 lg:py-8">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7A4A5E]">
+          {t("hero.dev.ref")}
         </p>
-        <ul className="mt-3 space-y-2.5">
-          {words.map((w) => (
-            <li key={w.key} className="flex gap-2.5 text-[13.5px] leading-[1.5] text-[#2D2926]">
-              <span
-                aria-hidden
-                className="mt-[7px] h-2 w-2 shrink-0 rounded-full"
-                style={{ backgroundColor: w.color }}
-              />
-              <span>{t(`hero.dev.word.${w.key}`)}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+        <h3 className="mt-2 font-serif text-[26px] leading-[1.05] text-[#2D2926] sm:text-[30px] lg:text-[34px]">
+          {t("hero.dev.title")}
+        </h3>
+        <div aria-hidden className="mt-4 h-px w-10 bg-[#C89F4F]" />
 
-      <p className="mt-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#6B665C]">
-        <span className="h-px w-6 bg-[#C89F4F]/70" />
-        {t("hero.dev.prompt")}
-      </p>
+        <p className="mt-4 text-[14.5px] leading-[1.7] text-[#4A463F] sm:text-[15px] sm:columns-2 sm:gap-6 [&>span]:break-inside-avoid">
+          <span className="float-left mr-2 mt-1 font-serif text-[46px] leading-[0.85] text-[#2E5C9E] sm:text-[52px]">
+            {firstLetter}
+          </span>
+          {restBody}
+        </p>
+
+        <div className="mt-6 border-t border-dashed border-[#E4E0D6] pt-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#2E5C9E]">
+            {t("hero.dev.wordsTitle")}
+          </p>
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-2.5">
+            {words.map((w) => (
+              <li key={w.key} className="flex gap-2.5 text-[13px] leading-[1.5] text-[#2D2926]">
+                <span
+                  aria-hidden
+                  className="mt-[6px] h-2 w-2 shrink-0 rounded-full ring-2 ring-white"
+                  style={{ backgroundColor: w.color, boxShadow: `0 0 0 1px ${w.color}55` }}
+                />
+                <span>{t(`hero.dev.word.${w.key}`)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-auto flex items-center gap-3 pt-6">
+          <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8A6A1F]">
+            {t("hero.dev.prompt")}
+          </span>
+          <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
+        </div>
+      </div>
     </aside>
   );
 }
