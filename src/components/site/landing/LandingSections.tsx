@@ -222,10 +222,30 @@ export function Personalization() {
 export function JourneyTogether() {
   const { t } = useI18n();
   const members = [
-    { name: t("together.member1"), color: "var(--gold)" },
-    { name: t("together.member2"), color: "var(--sage)" },
-    { name: t("together.member3"), color: "var(--dusty-blue)" },
-    { name: t("together.member4"), color: "#B76E79" },
+    {
+      name: t("together.member1"),
+      color: "var(--gold)",
+      photo:
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80",
+    },
+    {
+      name: t("together.member2"),
+      color: "var(--sage)",
+      photo:
+        "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80",
+    },
+    {
+      name: t("together.member3"),
+      color: "var(--dusty-blue)",
+      photo:
+        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80",
+    },
+    {
+      name: t("together.member4"),
+      color: "#B76E79",
+      photo:
+        "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80",
+    },
   ];
   return (
     <LandingSection tone="surface">
@@ -275,10 +295,18 @@ export function JourneyTogether() {
               return (
                 <div key={m.name} className="flex items-center gap-3">
                   <span
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white"
-                    style={{ background: m.color }}
+                    className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full ring-2 ring-white"
+                    style={{
+                      background: m.color,
+                      boxShadow: `0 0 0 1px color-mix(in oklab, ${m.color} 40%, transparent)`,
+                    }}
                   >
-                    {m.name[0]}
+                    <img
+                      src={m.photo}
+                      alt={m.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between text-sm">
