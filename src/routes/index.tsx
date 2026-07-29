@@ -70,33 +70,33 @@ function HeroDevotional() {
           {t("hero.dev.time")}
         </span>
       </header>
-      <div className="flex flex-1 flex-col px-7 pb-7 pt-8 sm:px-9 sm:pb-9 sm:pt-10 lg:px-10">
+      <div className="flex flex-1 flex-col px-7 pb-6 pt-6 sm:px-9 sm:pb-7 sm:pt-8 lg:px-10">
         <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#7A4A5E] sm:text-[12px]">
           {t("hero.dev.ref")}
         </p>
-        <h3 className="mt-3 font-serif text-[34px] font-semibold leading-[1.02] tracking-[-0.01em] text-[#1F1D1B] sm:text-[42px] lg:text-[48px]">
+        <h3 className="mt-2 font-serif text-[28px] font-semibold leading-[1.05] tracking-[-0.01em] text-[#1F1D1B] sm:text-[32px] lg:text-[38px]">
           {t("hero.dev.title")}
         </h3>
-        <div aria-hidden className="mt-5 h-[2px] w-12 bg-[#C89F4F]" />
-        <p className="mt-5 font-serif text-[15.5px] leading-[1.7] text-[#2D2926]/85 sm:columns-2 sm:gap-7 sm:text-[16px]">
-          <span className="float-left mr-2 mt-1 font-serif text-[54px] font-semibold leading-[0.82] text-[#2E5C9E] sm:text-[62px]">
+        <div aria-hidden className="mt-4 h-[2px] w-10 bg-[#C89F4F]" />
+        <p className="mt-4 font-serif text-[14px] leading-[1.6] text-[#2D2926]/85 sm:columns-2 sm:gap-6 sm:text-[14.5px]">
+          <span className="float-left mr-2 mt-1 font-serif text-[42px] font-semibold leading-[0.82] text-[#2E5C9E] sm:text-[48px]">
             {firstLetter}
           </span>
           {restBody}
         </p>
-        <div className="mt-7 border-t border-dashed border-[#D9D3C2] pt-6">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#2E5C9E] sm:text-[12px]">
+        <div className="mt-5 border-t border-dashed border-[#D9D3C2] pt-4">
+          <p className="text-[10.5px] font-semibold uppercase tracking-[0.28em] text-[#2E5C9E] sm:text-[11.5px]">
             {t("hero.dev.wordsTitle")}
           </p>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-x-7 sm:gap-y-3.5">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-2">
             {words.map((w) => (
               <li
                 key={w.key}
-                className="flex gap-3 text-[13.5px] leading-[1.55] text-[#2D2926]"
+                className="flex gap-2.5 text-[12.5px] leading-[1.45] text-[#2D2926]"
               >
                 <span
                   aria-hidden
-                  className="mt-[6px] h-2.5 w-2.5 shrink-0 rounded-full"
+                  className="mt-[5px] h-2 w-2 shrink-0 rounded-full"
                   style={{
                     backgroundColor: w.color,
                     boxShadow: `0 0 0 3px ${w.color}22`,
@@ -107,7 +107,7 @@ function HeroDevotional() {
             ))}
           </ul>
         </div>
-        <div className="mt-auto flex items-center gap-3 pt-8">
+        <div className="mt-auto flex items-center gap-3 pt-6">
           <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
           <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#8A6A1F]">
             {t("hero.dev.prompt")}
