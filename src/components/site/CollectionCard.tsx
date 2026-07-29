@@ -16,22 +16,47 @@ export function CollectionCard({ c }: { c: Collection }) {
     .toUpperCase();
   const progress = c.progress ?? 0;
   const progressPct = Math.round(progress * 100);
+  // Roman numeral for a subtle "volume" mark on the spine
+  const toRoman = (n: number) => {
+    const map: [number, string][] = [
+      [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+    ];
+    let r = "", x = Math.max(1, Math.min(39, n));
+    for (const [v, s] of map) { while (x >= v) { r += s; x -= v; } }
+    return r;
+  };
+  // Stable-ish volume number from slug hash
+  const vol = (c.slug.split("").reduce((a, ch) => a + ch.charCodeAt(0), 0) % 12) + 1;
 
   return (
     <Link
       to="/collections/$slug"
       params={{ slug: c.slug }}
-      className="group relative flex overflow-hidden rounded-r-2xl border border-border bg-card shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] transition-all duration-500 ease-out hover:shadow-[0_20px_40px_-12px_rgba(110,88,71,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+      className="group relative flex overflow-hidden rounded-r-[10px] border border-[#E5DFCE] bg-card shadow-[0_1px_2px_rgba(43,41,38,0.05),0_10px_30px_-18px_rgba(43,41,38,0.18)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(43,41,38,0.06),0_28px_60px_-24px_rgba(43,41,38,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
     >
-      {/* Sacred Editorial Spine */}
-      <div className="w-12 shrink-0 border-r border-border bg-[#F3F0E9] dark:bg-[#272927] flex flex-col items-center py-6 gap-4">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <div
-            key={i}
-            className="h-3 w-3 rounded-full bg-[#D4CFC3] shadow-[inset_0_1px_2px_rgba(0,0,0,0.12)] dark:bg-[#3B3E39]"
-            aria-hidden
-          />
-        ))}
+      {/* Bound linen spine — a small volume in your library */}
+      <div
+        aria-hidden
+        className="linen-spine relative w-8 shrink-0 border-r border-[#D6CFBE] dark:border-[#3B3E39]"
+      >
+        {/* Sewn stitch line */}
+        <svg
+          className="absolute inset-y-4 left-1/2 h-[calc(100%-2rem)] w-[3px] -translate-x-1/2"
+          viewBox="0 0 2 100" preserveAspectRatio="none"
+        >
+          <line x1="1" y1="0" x2="1" y2="100"
+            stroke="#8A6A1F" strokeOpacity="0.6" strokeWidth="0.6"
+            strokeDasharray="2.2 2" vectorEffect="non-scaling-stroke" />
+        </svg>
+        {/* Gold-foil volume band */}
+        <div className="absolute inset-x-1 top-8 h-14 rounded-[2px] bg-gradient-to-b from-[#D9B569] via-[#C89F4F] to-[#A78033] shadow-[inset_0_1px_0_rgba(255,255,255,0.4),inset_0_-1px_0_rgba(0,0,0,0.15)] flex items-center justify-center">
+          <span
+            className="font-serif text-[10px] font-semibold tracking-[0.18em] text-[#3A2A08]"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            VOL · {toRoman(vol)}
+          </span>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -82,30 +107,30 @@ export function CollectionCard({ c }: { c: Collection }) {
           {/* Vitral Sagrado overlay — subtle light tint, not a dark wash */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-tr from-[color:var(--brand)]/[0.08] via-transparent to-[color:var(--gold)]/[0.05] opacity-100 transition-opacity duration-500 group-hover:opacity-100"
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1F1D1B]/[0.12]"
           />
 
           {/* Count badge */}
           <div className="absolute right-4 top-4">
-            <span className="inline-flex items-center bg-white/85 px-3 py-1 font-serif text-xl text-foreground backdrop-blur-sm dark:bg-[#272927]/85 dark:text-[#F5F2EB]">
+            <span className="inline-flex items-center rounded-[3px] border border-white/60 bg-white/85 px-2.5 py-0.5 font-serif text-lg leading-none text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.06)] dark:bg-[#272927]/85 dark:text-[#F5F2EB]">
               {c.count}
             </span>
           </div>
         </div>
 
         {/* Text Content */}
-        <div className="flex flex-1 flex-col p-6">
-          <h3 className="font-serif text-2xl leading-tight text-foreground transition-colors duration-500 group-hover:text-[color:var(--brand)]">
+        <div className="flex flex-1 flex-col p-6 sm:p-7">
+          <h3 className="font-serif text-[22px] leading-[1.15] tracking-[-0.01em] text-[#1F1D1B] transition-colors duration-500 group-hover:text-[color:var(--brand)]">
             {c.title}
           </h3>
 
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2.5 line-clamp-2 text-[13.5px] leading-[1.55] text-muted-foreground">
             {c.description}
           </p>
 
           {/* Luminous Progress Section */}
           {c.progress != null && (
-            <div className="mt-auto pt-6">
+            <div className="mt-auto pt-6 border-t border-dashed border-[#E5DFCE] dark:border-[#3B3E39]">
               <div className="flex items-baseline justify-between mb-2">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {t("collection.progressLabel")}
@@ -114,23 +139,21 @@ export function CollectionCard({ c }: { c: Collection }) {
                   {progressPct}%
                 </span>
               </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+              <div className="h-1 w-full overflow-hidden rounded-full bg-[#EDE7D6] dark:bg-[#2E3130]">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[color:var(--gold)] via-[color:var(--burgundy)] to-[color:var(--brand)] transition-all duration-700 ease-out"
+                  className="h-full rounded-full bg-gradient-to-r from-[#C89F4F] to-[#A78033] transition-all duration-700 ease-out"
                   style={{ width: `${progressPct}%` }}
-                >
-                  <span className="absolute inset-0 bg-white/20 animate-pulse" />
-                </div>
+                />
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Right edge page effect */}
+      {/* Right page edge (fore-edge shadow) */}
       <div
         aria-hidden
-        className="absolute right-0 top-0 bottom-0 w-px bg-border"
+        className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-l from-black/[0.06] to-transparent"
       />
     </Link>
   );
