@@ -51,23 +51,24 @@ function Landing() {
     <SiteLayout>
       {/* Hero — Aurora Editorial: mesh gradient + floating word search */}
       <section className="relative overflow-hidden bg-[#FCFBF8] pt-28 sm:pt-32 md:pt-36 lg:pt-40">
-        {/* Mesh gradient aurora blobs */}
+        {/* Stained-glass aurora — cobalt, gold, burgundy, emerald */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="aurora-blob-1 absolute -right-[10%] -top-[10%] h-[60%] w-[60%] rounded-full bg-purple-200/40 blur-[120px]" />
-          <div className="aurora-blob-2 absolute -left-[5%] top-[20%] h-[50%] w-[40%] rounded-full bg-orange-100/60 blur-[100px]" />
-          <div className="aurora-blob-3 absolute bottom-[10%] right-[10%] h-[50%] w-[50%] rounded-full bg-teal-100/50 blur-[120px]" />
+          <div className="aurora-blob-1 absolute -right-[12%] -top-[12%] h-[62%] w-[62%] rounded-full bg-[#2E5C9E]/25 blur-[130px]" />
+          <div className="aurora-blob-2 absolute -left-[8%] top-[18%] h-[52%] w-[46%] rounded-full bg-[#C89F4F]/30 blur-[110px]" />
+          <div className="aurora-blob-3 absolute bottom-[6%] right-[8%] h-[54%] w-[54%] rounded-full bg-[#7A4A5E]/22 blur-[130px]" />
+          <div className="aurora-blob-1 absolute bottom-[14%] left-[10%] h-[42%] w-[42%] rounded-full bg-[#3F6B4E]/22 blur-[120px]" />
         </div>
         <div className="relative mx-auto w-full max-w-4xl px-5 sm:px-8 md:px-10 lg:px-12">
           <div className="flex flex-col items-center gap-12 pb-16 pt-6 text-center sm:gap-14 sm:pb-20 sm:pt-8 md:gap-16 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
             {/* Text column */}
             <div className="w-full">
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C] shadow-sm backdrop-blur-md sm:text-[11px]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#2E5C9E]/15 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#2E5C9E] shadow-sm backdrop-blur-md sm:text-[11px]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
                 {t("hero.eyebrow")}
               </span>
 
               <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2D2926] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
-                <span className="bg-gradient-to-tr from-purple-600 via-[#2D2926] to-orange-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-tr from-[#2E5C9E] via-[#2D2926] to-[#7A4A5E] bg-clip-text text-transparent">
                   {t("brand.name")}
                 </span>
               </h1>
@@ -92,7 +93,7 @@ function Landing() {
                 <Button
                   asChild
                   size="lg"
-                  className="h-12 w-full justify-center rounded-full bg-[#2B2B2B] px-6 text-[15px] font-semibold text-white hover:bg-[#2B2B2B]/90 sm:h-12 sm:w-auto sm:min-w-[168px]"
+                  className="h-12 w-full justify-center rounded-full bg-[#2E5C9E] px-6 text-[15px] font-semibold text-white shadow-[0_10px_28px_-10px_rgba(46,92,158,0.55)] hover:bg-[#1F3F70] sm:h-12 sm:w-auto sm:min-w-[168px]"
                 >
                   <Link to="/today">{t("hero.ctaStart")}</Link>
                 </Button>
@@ -100,30 +101,34 @@ function Landing() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-12 w-full justify-center rounded-full border-[#E4E0D6] bg-white px-6 text-[15px] font-medium text-[#2B2B2B] hover:bg-[#F3F1EC] hover:text-[#2B2B2B] sm:h-12 sm:w-auto sm:min-w-[168px]"
+                  className="h-12 w-full justify-center rounded-full border-[#2E5C9E]/25 bg-white px-6 text-[15px] font-medium text-[#2E5C9E] hover:bg-[#E4ECF8] hover:text-[#1F3F70] sm:h-12 sm:w-auto sm:min-w-[168px]"
                 >
                   <a href="#features">{t("hero.ctaExplore")}</a>
                 </Button>
               </div>
 
               <div className="mt-7 flex flex-wrap justify-center gap-1.5 sm:mt-8 sm:gap-2">
-                {[t("hero.chip.time"), t("hero.chip.devotional"), t("hero.chip.wordsearch"), t("hero.chip.reflection")].map(
-                  (c) => (
-                    <span
-                      key={c}
-                      className="rounded-full border border-[#E4E0D6] bg-white px-2.5 py-1 text-[10px] text-[#6B665C] shadow-sm sm:px-3 sm:text-[11px]"
-                    >
-                      {c}
-                    </span>
-                  ),
-                )}
+                {[
+                  { label: t("hero.chip.time"), fg: "#2E5C9E", bg: "#E4ECF8", bd: "#2E5C9E33" },
+                  { label: t("hero.chip.devotional"), fg: "#7A4A5E", bg: "#F3E6EB", bd: "#7A4A5E33" },
+                  { label: t("hero.chip.wordsearch"), fg: "#8A6A1F", bg: "#F6ECD5", bd: "#C89F4F55" },
+                  { label: t("hero.chip.reflection"), fg: "#3F6B4E", bg: "#E4EEE6", bd: "#3F6B4E33" },
+                ].map((c) => (
+                  <span
+                    key={c.label}
+                    className="rounded-full border px-2.5 py-1 text-[10px] font-medium shadow-sm sm:px-3 sm:text-[11px]"
+                    style={{ color: c.fg, backgroundColor: c.bg, borderColor: c.bd }}
+                  >
+                    {c.label}
+                  </span>
+                ))}
               </div>
             </div>
 
             {/* Word search illustration — floating glass container */}
             <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
               <div className="relative">
-                <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-purple-200/50 via-orange-100/50 to-teal-100/50 blur-2xl" />
+                <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/25 via-[#C89F4F]/25 to-[#7A4A5E]/25 blur-2xl" />
                 <div className="relative rounded-[2rem] border border-white/70 bg-white/40 p-3 shadow-[0_32px_64px_-16px_rgba(45,41,38,0.18)] backdrop-blur-xl sm:p-4">
                   <HeroWordGrid />
                 </div>
