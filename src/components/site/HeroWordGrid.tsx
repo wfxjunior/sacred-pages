@@ -190,9 +190,9 @@ export function HeroWordGrid() {
   }, [foundCount, placements, wordColor]);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full h-full">
       <div
-        className="relative overflow-hidden rounded-lg bg-[#FCFBF8] shadow-[0_24px_60px_-16px_rgba(43,41,38,0.18)] sm:rounded-xl"
+        className="relative h-full overflow-hidden bg-[#FCFBF8]"
         style={{
           opacity: fading ? 0.35 : 1,
           transition: "opacity 700ms ease-in-out",
@@ -200,12 +200,7 @@ export function HeroWordGrid() {
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
         }}
       >
-        <SpiralBinding count={12} />
-
-        {/* Margin line */}
-        <div className="absolute left-10 top-0 bottom-0 hidden w-px bg-[#E8A5A5]/40 sm:block" aria-hidden />
-
-        <div className="p-4 sm:pl-14 sm:pr-6 sm:pt-6 sm:pb-5">
+        <div className="p-5 sm:p-8 lg:p-10">
           {/* Header */}
           <div className="mb-4 border-b border-[#C89F4F]/20 pb-3 sm:mb-5 sm:pb-4">
             <div className="flex items-end justify-between gap-3">
