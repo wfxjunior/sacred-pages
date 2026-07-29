@@ -244,3 +244,74 @@ function HeroDevotional() {
     </aside>
   );
 }
+
+function MagazineSpread() {
+  return (
+    <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-6xl">
+      {/* Ambient aurora glow behind spread */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-6 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/20 via-[#C89F4F]/20 to-[#7A4A5E]/20 blur-2xl"
+      />
+
+      {/* Spread frame */}
+      <div
+        className="relative overflow-hidden rounded-[14px] border border-[#E4E0D6] bg-[#FBFAF6] text-left shadow-[0_36px_80px_-28px_rgba(43,41,38,0.35)] sm:rounded-[18px]"
+        style={{ perspective: "1600px" }}
+      >
+        {/* Two pages */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 lg:items-stretch">
+          {/* Left page: word grid */}
+          <div className="relative">
+            {/* Page edge highlight */}
+            <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-gradient-to-r from-black/8 to-transparent" />
+            <HeroWordGrid />
+          </div>
+
+          {/* Center gutter with spiral binding — desktop */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-10 -translate-x-1/2 lg:block"
+          >
+            {/* Gutter shadow (page fold) */}
+            <div className="absolute inset-y-0 left-1/2 h-full w-[36px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/12 to-transparent" />
+            <div className="absolute inset-y-0 left-1/2 h-full w-px -translate-x-1/2 bg-[#1F1D1B]/20" />
+            {/* Spiral rings */}
+            <div className="absolute inset-y-6 left-1/2 flex -translate-x-1/2 flex-col justify-between">
+              {Array.from({ length: 16 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-3.5 w-9 rounded-full border border-[#8C877E]/70 bg-gradient-to-b from-[#EDEAE2] via-[#B9B4A8] to-[#8C877E] shadow-[0_1px_2px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.55)]"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Horizontal binding — mobile/tablet */}
+          <div
+            aria-hidden
+            className="pointer-events-none relative flex h-6 items-center justify-between px-4 lg:hidden"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent, rgba(31,29,27,0.12), transparent)",
+            }}
+          >
+            <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[#1F1D1B]/20" />
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="relative h-9 w-3 rounded-full border border-[#8C877E]/70 bg-gradient-to-r from-[#EDEAE2] via-[#B9B4A8] to-[#8C877E] shadow-[0_1px_2px_rgba(0,0,0,0.25),inset_1px_0_0_rgba(255,255,255,0.55)]"
+              />
+            ))}
+          </div>
+
+          {/* Right page: devotional */}
+          <div className="relative">
+            <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-2 bg-gradient-to-l from-black/8 to-transparent" />
+            <HeroDevotional />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
