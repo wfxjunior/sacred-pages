@@ -120,16 +120,8 @@ function Landing() {
               </div>
             </div>
 
-            {/* Word search + devotional companion */}
-            <div className="mx-auto grid w-full max-w-sm gap-6 sm:max-w-md md:max-w-lg lg:max-w-6xl lg:grid-cols-2 lg:items-stretch lg:gap-10 lg:text-left">
-              <div className="relative flex">
-                <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/25 via-[#C89F4F]/25 to-[#7A4A5E]/25 blur-2xl" />
-                <div className="relative flex w-full">
-                  <HeroWordGrid />
-                </div>
-              </div>
-              <HeroDevotional />
-            </div>
+            {/* Open magazine spread */}
+            <MagazineSpread />
           </div>
         </div>
 
@@ -186,7 +178,7 @@ function HeroDevotional() {
   const firstLetter = bodyText.charAt(0);
   const restBody = bodyText.slice(1);
   return (
-    <aside className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-[#E7E2D6] bg-[#FBFAF6] text-left shadow-[0_28px_60px_-24px_rgba(43,41,38,0.22)]">
+    <aside className="relative flex h-full w-full flex-col overflow-hidden bg-[#FBFAF6] text-left">
       {/* Magazine masthead */}
       <header className="flex items-center justify-between px-7 pt-6 sm:px-9 sm:pt-7">
         <div className="flex items-center gap-2">
