@@ -316,6 +316,7 @@ export function ProgressShowcase() {
   ];
   const week = [40, 65, 30, 80, 55, 92, 70];
   const days = ["M", "T", "W", "T", "F", "S", "S"];
+  const weekMins = week.map((v) => Math.round((v / 100) * 92));
   return (
     <LandingSection
       eyebrow="Progress"
@@ -323,13 +324,14 @@ export function ProgressShowcase() {
       sub={t("progress.sub")}
     >
       <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-        <div className="rounded-2xl border border-border/60 bg-card p-6 sm:p-8">
+        <div className="group rounded-2xl border border-border/60 bg-card p-6 sm:p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--brand)]/40 hover:shadow-[0_18px_60px_-30px_color-mix(in_oklab,var(--brand)_60%,transparent)]">
           <div className="flex items-end justify-between">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {t("app.week")}
               </p>
-              <p className="mt-1 font-serif text-3xl">432 min</p>
+              <p className="mt-1 font-serif text-3xl">432 <span className="text-lg text-muted-foreground">min</span></p>
+              <p className="mt-1 text-xs text-muted-foreground">Daily minutes in the Word · last 7 days</p>
             </div>
             <div
               className="flex items-center gap-1.5 text-sm font-medium"
@@ -338,31 +340,46 @@ export function ProgressShowcase() {
               <Flame className="h-4 w-4" /> 12 {t("app.days")}
             </div>
           </div>
-          <div className="mt-8 flex h-40 items-end gap-3">
-            {week.map((v, i) => (
-              <div key={i} className="flex flex-1 flex-col items-center gap-2">
-                <div className="flex h-full w-full items-end">
-                  <div
-                    className="w-full rounded-t-md"
-                    style={{
-                      height: `${v}%`,
-                      background:
-                        "linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand) 55%, var(--sage)))",
-                    }}
-                  />
+          <div className="relative mt-8">
+            <div className="pointer-events-none absolute inset-x-0 top-0 flex h-40 flex-col justify-between">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="border-t border-dashed border-border/50" />
+              ))}
+            </div>
+            <div className="relative flex h-40 items-end gap-3">
+              {week.map((v, i) => (
+                <div key={i} className="flex flex-1 flex-col items-center gap-2">
+                  <span className="text-[10px] font-medium text-muted-foreground">
+                    {weekMins[i]}
+                  </span>
+                  <div className="flex h-full w-full items-end">
+                    <div
+                      className="w-full rounded-t-md transition-all duration-300 group-hover:brightness-110"
+                      style={{
+                        height: `${v}%`,
+                        background:
+                          "linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand) 55%, var(--sage)))",
+                        boxShadow: "0 8px 20px -12px color-mix(in oklab, var(--brand) 60%, transparent)",
+                      }}
+                    />
+                  </div>
                 </div>
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  {days[i]}
+              ))}
+            </div>
+            <div className="mt-2 flex gap-3">
+              {days.map((d, i) => (
+                <span key={i} className="flex-1 text-center text-[10px] uppercase tracking-wider text-muted-foreground">
+                  {d}
                 </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="rounded-2xl border border-border/60 bg-card p-6"
+              className="rounded-2xl border border-border/60 bg-card p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--brand)]/40 hover:shadow-[0_18px_60px_-30px_color-mix(in_oklab,var(--brand)_60%,transparent)]"
             >
               <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                 {s.label}
@@ -387,10 +404,16 @@ export function ProgressShowcase() {
 
 export function Testimonials() {
   const { t } = useI18n();
+  const photos = [
+    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=facearea&facepad=3&w=256&h=256&q=80",
+    "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=facearea&facepad=3&w=256&h=256&q=80",
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=3&w=256&h=256&q=80",
+  ];
   const items = [1, 2, 3].map((i) => ({
     quote: t(`testimonials.t${i}`),
     name: t(`testimonials.n${i}`),
     role: t(`testimonials.r${i}`),
+    photo: photos[i - 1],
   }));
   return (
     <LandingSection
@@ -402,11 +425,16 @@ export function Testimonials() {
         {items.map((it) => (
           <figure
             key={it.name}
-            className="flex flex-col rounded-2xl border border-border/60 bg-card p-7"
+            className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand)]/50 hover:shadow-[0_24px_60px_-24px_color-mix(in_oklab,var(--brand)_45%,transparent)]"
           >
             <span
               aria-hidden
-              className="font-serif text-5xl leading-none"
+              className="pointer-events-none absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"
+              style={{ background: "linear-gradient(90deg, var(--brand), color-mix(in oklab, var(--brand) 40%, transparent))" }}
+            />
+            <span
+              aria-hidden
+              className="font-serif text-5xl leading-none transition-colors duration-300"
               style={{ color: "var(--brand)" }}
             >
               “
@@ -415,12 +443,12 @@ export function Testimonials() {
               {it.quote}
             </blockquote>
             <figcaption className="mt-6 flex items-center gap-3 border-t border-border/60 pt-4">
-              <span
-                className="grid h-9 w-9 place-items-center rounded-full font-serif text-sm text-white"
-                style={{ background: "var(--gold)" }}
-              >
-                {it.name[0]}
-              </span>
+              <img
+                src={it.photo}
+                alt={it.name}
+                loading="lazy"
+                className="h-10 w-10 rounded-full object-cover ring-2 ring-border/60 transition-all duration-300 group-hover:ring-[var(--brand)]/60"
+              />
               <div>
                 <p className="text-sm font-medium">{it.name}</p>
                 <p className="text-xs text-muted-foreground">{it.role}</p>
