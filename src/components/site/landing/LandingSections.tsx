@@ -823,25 +823,55 @@ export function FinalCTA() {
   const { t } = useI18n();
   return (
     <section className="px-5 pb-24 pt-8 sm:px-6 md:pb-32">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-[#2D2926] p-12 text-center text-white md:rounded-[4rem] md:p-24">
-        {/* Colored aurora accents inside dark card */}
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#2E5C9E]/35 blur-[80px]" />
-          <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-[#C89F4F]/30 blur-[80px]" />
-          <div className="absolute right-1/3 top-1/2 h-56 w-56 rounded-full bg-[#7A4A5E]/25 blur-[80px]" />
-        </div>
+      <div
+        className="relative mx-auto max-w-6xl overflow-hidden rounded-[1.5rem] p-12 text-center text-[#F5F0E4] md:rounded-[2rem] md:p-24"
+        style={{
+          background:
+            "radial-gradient(120% 80% at 50% 0%, #3B342C 0%, #241F1B 60%, #1A1613 100%)",
+          boxShadow:
+            "0 40px 100px -40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)",
+        }}
+      >
+        {/* Linen weave texture */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.10] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(90deg, rgba(255,255,255,0.6) 0 1px, transparent 1px 3px), repeating-linear-gradient(0deg, rgba(0,0,0,0.5) 0 1px, transparent 1px 3px)",
+          }}
+        />
+        {/* Warm daylight highlight */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[70%] -translate-x-1/2 rounded-full bg-[#C89F4F]/[0.10] blur-[80px]"
+        />
+        {/* Sewn stitch border */}
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-4 h-[calc(100%-2rem)] w-[calc(100%-2rem)]"
+          viewBox="0 0 100 100" preserveAspectRatio="none"
+        >
+          <rect x="0.3" y="0.3" width="99.4" height="99.4" rx="1.2"
+            fill="none" stroke="#C89F4F" strokeOpacity="0.35"
+            strokeWidth="0.15" strokeDasharray="0.9 0.9"
+            vectorEffect="non-scaling-stroke" />
+        </svg>
         <div className="relative z-10">
+          <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#C89F4F]/80">
+            — Fin —
+          </p>
           <h2 className="font-serif text-3xl leading-tight md:text-5xl">
             {t("final.title")}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-white/60 md:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[#F5F0E4]/60 md:text-lg">
             {t("final.sub")}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-[#FCFBF8] px-8 text-[#2D2926] hover:bg-white"
+              className="rounded-full bg-[#FCFBF8] px-8 text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] hover:bg-white"
             >
               <Link to="/signup">{t("cta.startFree")}</Link>
             </Button>
@@ -849,7 +879,7 @@ export function FinalCTA() {
               asChild
               size="lg"
               variant="ghost"
-              className="rounded-full px-6 text-white/80 hover:bg-white/10 hover:text-white"
+              className="rounded-full px-6 text-[#F5F0E4]/75 hover:bg-white/5 hover:text-white"
             >
               <Link to="/today">{t("cta.exploreToday")}</Link>
             </Button>
