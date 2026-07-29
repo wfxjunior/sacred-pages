@@ -221,7 +221,7 @@ export function Personalization() {
 
 export function JourneyTogether() {
   const { t } = useI18n();
-  const members = [
+  const baseMembers = [
     {
       name: t("together.member1"),
       color: "var(--gold)",
@@ -247,6 +247,56 @@ export function JourneyTogether() {
         "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80",
     },
   ];
+  const initialPct = [92, 78, 64, 45];
+  const [entries, setEntries] = React.useState(() =>
+    baseMembers.map((m, i) => ({ ...m, pct: initialPct[i], bump: 0 })),
+  );
+  const [streak, setStreak] = React.useState(12);
+  const prevRankRef = React.useRef<Record<string, number>>({});
+
+  React.useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    const id = window.setInterval(() => {
+      setEntries((prev) => {
+        // Pick 1–2 random members to gain progress
+        const gainers = new Set<number>();
+        const count = Math.random() > 0.55 ? 2 : 1;
+        while (gainers.size < count) {
+          gainers.add(Math.floor(Math.random() * prev.length));
+        }
+        return prev.map((m, i) => {
+          if (!gainers.has(i)) return { ...m, bump: 0 };
+          const delta = Math.round(2 + Math.random() * 6);
+          let next = m.pct + delta;
+          if (next > 99) next = Math.max(40, 55 + Math.round(Math.random() * 10));
+          return { ...m, pct: next, bump: delta };
+        });
+      });
+      if (Math.random() > 0.7) setStreak((s) => s + 1);
+    }, 2200);
+    return () => window.clearInterval(id);
+  }, []);
+
+  // Sorted ranking (desc by pct)
+  const ranked = [...entries]
+    .map((m, idx) => ({ ...m, idx }))
+    .sort((a, b) => b.pct - a.pct);
+  const rankByName: Record<string, number> = {};
+  ranked.forEach((m, r) => (rankByName[m.name] = r));
+  const movement: Record<string, "up" | "down" | "same"> = {};
+  entries.forEach((m) => {
+    const prev = prevRankRef.current[m.name];
+    const now = rankByName[m.name];
+    movement[m.name] =
+      prev === undefined || prev === now ? "same" : prev > now ? "up" : "down";
+  });
+  React.useEffect(() => {
+    prevRankRef.current = { ...rankByName };
+  });
+  const ROW = 56;
   return (
     <LandingSection tone="surface">
       <div className="grid items-center gap-14 md:grid-cols-[1fr_1.05fr]">
@@ -286,19 +336,37 @@ export function JourneyTogether() {
               style={{ color: "var(--brand)" }}
             >
               <Flame className="h-4 w-4" />
-              12 · {t("together.sharedStreak")}
+              <span className="tabular-nums">{streak}</span> ·{" "}
+              {t("together.sharedStreak")}
             </div>
           </div>
-          <div className="mt-6 space-y-3">
-            {members.map((m, i) => {
-              const pct = [92, 78, 64, 45][i];
+          <div
+            className="relative mt-6"
+            style={{ height: entries.length * ROW }}
+            aria-live="polite"
+          >
+            {entries.map((m) => {
+              const rank = rankByName[m.name];
+              const move = movement[m.name];
               return (
-                <div key={m.name} className="flex items-center gap-3">
+                <div
+                  key={m.name}
+                  className="absolute inset-x-0 flex items-center gap-3"
+                  style={{
+                    top: rank * ROW,
+                    transition:
+                      "top 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+                  }}
+                >
                   <span
                     className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full ring-2 ring-white"
                     style={{
                       background: m.color,
-                      boxShadow: `0 0 0 1px color-mix(in oklab, ${m.color} 40%, transparent)`,
+                      boxShadow:
+                        move === "up"
+                          ? `0 0 0 2px color-mix(in oklab, ${m.color} 65%, transparent), 0 8px 22px -8px color-mix(in oklab, ${m.color} 60%, transparent)`
+                          : `0 0 0 1px color-mix(in oklab, ${m.color} 40%, transparent)`,
+                      transition: "box-shadow 700ms ease",
                     }}
                   >
                     <img
@@ -310,15 +378,49 @@ export function JourneyTogether() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="truncate">{m.name}</span>
-                      <span className="tabular-nums text-muted-foreground">
-                        {pct}%
+                      <span className="flex min-w-0 items-center gap-2 truncate">
+                        <span className="truncate">{m.name}</span>
+                        {move === "up" && (
+                          <span
+                            key={`up-${m.pct}`}
+                            className="inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
+                            style={{
+                              color: "var(--sage)",
+                              background:
+                                "color-mix(in oklab, var(--sage) 14%, transparent)",
+                              animation: "fade-in 500ms ease-out",
+                            }}
+                          >
+                            ▲
+                          </span>
+                        )}
+                      </span>
+                      <span className="flex items-center gap-1.5 tabular-nums text-muted-foreground">
+                        {m.bump > 0 && (
+                          <span
+                            key={`bump-${m.name}-${m.pct}`}
+                            className="text-[10px] font-semibold"
+                            style={{
+                              color: m.color,
+                              animation:
+                                "fade-in 400ms ease-out, fade-out 900ms ease-in 900ms forwards",
+                            }}
+                          >
+                            +{m.bump}
+                          </span>
+                        )}
+                        <span>{m.pct}%</span>
                       </span>
                     </div>
                     <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-[color:var(--surface-2)]">
                       <div
                         className="h-full rounded-full"
-                        style={{ width: `${pct}%`, background: m.color }}
+                        style={{
+                          width: `${m.pct}%`,
+                          background: m.color,
+                          transition:
+                            "width 900ms cubic-bezier(0.22, 1, 0.36, 1)",
+                        }}
                       />
                     </div>
                   </div>
