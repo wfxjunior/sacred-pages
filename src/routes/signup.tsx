@@ -21,7 +21,7 @@ function SignUp() {
   return (
     <AuthLayout
       title={t("auth.signup")}
-      sub="It takes less than a minute."
+      sub={t("auth.signup.sub")}
       footer={
         <>
           {t("auth.haveAccount")}{" "}
@@ -29,7 +29,7 @@ function SignUp() {
         </>
       }
     >
-      <Field label={t("auth.name")} placeholder="Samuel Reid" />
+      <Field label={t("auth.name")} placeholder={t("auth.namePlaceholder")} />
       <Field label={t("auth.email")} type="email" placeholder="you@example.com" />
       <Field label={t("auth.password")} type="password" placeholder="••••••••" />
       <Button className="w-full" asChild>
