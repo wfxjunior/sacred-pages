@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { BrandMark } from "@/components/site/BrandMark";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { ThemeSelector } from "@/components/site/ThemeSelector";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -34,6 +35,7 @@ type Prefs = {
 const STEPS = 8;
 
 function OnboardingPage() {
+  const { t } = useI18n();
   const [step, setStep] = useState(0);
   const [p, setP] = useState<Prefs>({
     name: "",
@@ -52,9 +54,9 @@ function OnboardingPage() {
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
         <Link to="/" className="flex items-center gap-2.5">
           <BrandMark />
-          <span className="font-serif text-[13px] font-semibold uppercase tracking-[0.15em]">Jornadas da Palavra</span>
+          <span className="font-serif text-[13px] font-semibold uppercase tracking-[0.15em]">{t("brand.name")}</span>
         </Link>
-        <Link to="/my-journey" className="text-[12px] text-muted-foreground hover:text-foreground">Skip for now</Link>
+        <Link to="/my-journey" className="text-[12px] text-muted-foreground hover:text-foreground">{t("onb.skip")}</Link>
       </header>
       <div className="mx-auto flex min-h-[calc(100vh-80px)] max-w-3xl flex-col items-center px-6 pb-16 pt-4">
         <div className="w-full">
@@ -76,15 +78,15 @@ function OnboardingPage() {
               disabled={step === 0}
               className="rounded-full"
             >
-              <ChevronLeft className="mr-1 h-4 w-4" /> Back
+              <ChevronLeft className="mr-1 h-4 w-4" /> {t("onb.back")}
             </Button>
             {step < STEPS - 1 ? (
               <Button onClick={() => setStep((s) => Math.min(STEPS - 1, s + 1))} className="rounded-full px-5">
-                Continue <ChevronRight className="ml-1 h-4 w-4" />
+                {t("onb.continue")} <ChevronRight className="ml-1 h-4 w-4" />
               </Button>
             ) : (
               <Button onClick={() => nav({ to: "/my-journey" })} className="rounded-full px-5">
-                Begin my journey <Check className="ml-1 h-4 w-4" />
+                {t("onb.begin")} <Check className="ml-1 h-4 w-4" />
               </Button>
             )}
           </div>
@@ -95,6 +97,7 @@ function OnboardingPage() {
 }
 
 function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) => void }) {
+  const { t } = useI18n();
   const preview = useMemo(() => ({
     duration: p.duration + " min",
     accent: p.accent,
@@ -103,16 +106,16 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
   switch (step) {
     case 0:
       return (
-        <Frame eyebrow="Welcome" title="A quieter way to walk with Scripture" subtitle="Two minutes to set the tone — you can change anything later.">
+        <Frame eyebrow={t("onb.step.welcome.eyebrow")} title={t("onb.step.welcome.title")} subtitle={t("onb.step.welcome.sub")}>
           <div className="mt-8 grid gap-3">
-            <label className="text-[11px] uppercase tracking-widest text-muted-foreground">Your name</label>
-            <Input value={p.name} onChange={(e) => set({ ...p, name: e.target.value })} placeholder="How should we greet you?" />
+            <label className="text-[11px] uppercase tracking-widest text-muted-foreground">{t("onb.step.welcome.nameLabel")}</label>
+            <Input value={p.name} onChange={(e) => set({ ...p, name: e.target.value })} placeholder={t("onb.step.welcome.namePh")} />
           </div>
         </Frame>
       );
     case 1:
       return (
-        <Frame eyebrow="Language" title="In which language do you read best?" subtitle="You can switch anytime.">
+        <Frame eyebrow={t("onb.step.language.eyebrow")} title={t("onb.step.language.title")} subtitle={t("onb.step.language.sub")}>
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
               { k: "en", label: "English" },
@@ -128,19 +131,30 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
       );
     case 2:
       return (
-        <Frame eyebrow="Themes" title="What are you drawn to?" subtitle="Pick a few — we'll shape your journeys around them.">
+        <Frame eyebrow={t("onb.step.themes.eyebrow")} title={t("onb.step.themes.title")} subtitle={t("onb.step.themes.sub")}>
           <div className="mt-8 flex flex-wrap gap-2">
-            {["Peace","Gratitude","Wisdom","Grief","Hope","Family","Purpose","Rest","Prayer","Courage"].map((t) => {
-              const on = p.themes.includes(t);
+            {[
+              ["Peace","onb.theme.peace"],
+              ["Gratitude","onb.theme.gratitude"],
+              ["Wisdom","onb.theme.wisdom"],
+              ["Grief","onb.theme.grief"],
+              ["Hope","onb.theme.hope"],
+              ["Family","onb.theme.family"],
+              ["Purpose","onb.theme.purpose"],
+              ["Rest","onb.theme.rest"],
+              ["Prayer","onb.theme.prayer"],
+              ["Courage","onb.theme.courage"],
+            ].map(([key, tkey]) => {
+              const on = p.themes.includes(key);
               return (
                 <button
-                  key={t}
-                  onClick={() => set({ ...p, themes: on ? p.themes.filter((x) => x !== t) : [...p.themes, t] })}
+                  key={key}
+                  onClick={() => set({ ...p, themes: on ? p.themes.filter((x) => x !== key) : [...p.themes, key] })}
                   className={`rounded-full border px-3.5 py-1.5 text-[13px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                     on ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {t}
+                  {t(tkey)}
                 </button>
               );
             })}
@@ -149,12 +163,12 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
       );
     case 3:
       return (
-        <Frame eyebrow="Rhythm" title="How much time each day?" subtitle="Small and consistent works best.">
+        <Frame eyebrow={t("onb.step.rhythm.eyebrow")} title={t("onb.step.rhythm.title")} subtitle={t("onb.step.rhythm.sub")}>
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
-              { k: "5", label: "5 minutes", hint: "A quiet start" },
-              { k: "10", label: "10 minutes", hint: "Most people" },
-              { k: "20", label: "20 minutes", hint: "Deeper study" },
+              { k: "5", label: t("onb.rhythm.5"), hint: t("onb.rhythm.5.hint") },
+              { k: "10", label: t("onb.rhythm.10"), hint: t("onb.rhythm.10.hint") },
+              { k: "20", label: t("onb.rhythm.20"), hint: t("onb.rhythm.20.hint") },
             ].map((o) => (
               <Choice key={o.k} active={p.duration === o.k} onClick={() => set({ ...p, duration: o.k as Prefs["duration"] })}>
                 <span className="block font-medium">{o.label}</span>
@@ -166,12 +180,12 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
       );
     case 4:
       return (
-        <Frame eyebrow="Depth" title="Puzzle difficulty" subtitle="Word search sets the tempo. You can raise it as you go.">
+        <Frame eyebrow={t("onb.step.depth.eyebrow")} title={t("onb.step.depth.title")} subtitle={t("onb.step.depth.sub")}>
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
-              { k: "easy", label: "Easy", hint: "Gentle pace" },
-              { k: "medium", label: "Medium", hint: "Balanced" },
-              { k: "hard", label: "Hard", hint: "For focus" },
+              { k: "easy", label: t("onb.depth.easy"), hint: t("onb.depth.easy.hint") },
+              { k: "medium", label: t("onb.depth.medium"), hint: t("onb.depth.medium.hint") },
+              { k: "hard", label: t("onb.depth.hard"), hint: t("onb.depth.hard.hint") },
             ].map((o) => (
               <Choice key={o.k} active={p.difficulty === o.k} onClick={() => set({ ...p, difficulty: o.k as Prefs["difficulty"] })}>
                 <span className="block font-medium">{o.label}</span>
@@ -184,7 +198,7 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
     case 5: {
       const swatches = ["#B88A3B", "#78866B", "#5E7FA3", "#6E5847", "#B76E79"];
       return (
-        <Frame eyebrow="Accent" title="Choose your color" subtitle="Used sparingly across your journey — no rainbows.">
+        <Frame eyebrow={t("onb.step.accent.eyebrow")} title={t("onb.step.accent.title")} subtitle={t("onb.step.accent.sub")}>
           <div className="mt-8 flex flex-wrap gap-3">
             {swatches.map((s) => {
               const on = p.accent === s;
@@ -196,7 +210,7 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
                     on ? "border-foreground" : "border-transparent hover:border-border"
                   }`}
                   style={{ background: s }}
-                  aria-label={`Accent ${s}`}
+                  aria-label={t("onb.step.accent.aria").replace("{color}", s)}
                 >
                   {on && <Check className="h-4 w-4 text-white" />}
                 </button>
@@ -208,23 +222,23 @@ function StepView({ step, p, set }: { step: number; p: Prefs; set: (p: Prefs) =>
     }
     case 6:
       return (
-        <Frame eyebrow="Appearance" title="Light or dark?" subtitle="System matches your device automatically.">
+        <Frame eyebrow={t("onb.step.appearance.eyebrow")} title={t("onb.step.appearance.title")} subtitle={t("onb.step.appearance.sub")}>
           <div className="mt-8">
             <ThemeSelector />
-            <p className="mt-4 text-[12px] text-muted-foreground">We use warm ivory during the day and deep ink at night — never pure black.</p>
+            <p className="mt-4 text-[12px] text-muted-foreground">{t("onb.step.appearance.note")}</p>
           </div>
         </Frame>
       );
     case 7:
       return (
-        <Frame eyebrow="Ready" title={`Your first journey is set${p.name ? `, ${p.name}` : ""}.`} subtitle="Here's what your Today screen will feel like.">
+        <Frame eyebrow={t("onb.step.ready.eyebrow")} title={t("onb.step.ready.title").replace("{name}", p.name ? `, ${p.name}` : "")} subtitle={t("onb.step.ready.sub")}>
           <div className="mt-8 rounded-2xl border border-border/60 bg-[color:var(--surface-1)] p-6">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>Today</p>
-            <p className="mt-1 font-serif text-2xl">Gratitude That Transforms</p>
-            <p className="text-[13px] text-muted-foreground">Philippians 4:6–7 · about {preview.duration}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("onb.preview.today")}</p>
+            <p className="mt-1 font-serif text-2xl">{t("today.name")}</p>
+            <p className="text-[13px] text-muted-foreground">{t("today.reference")} · {t("onb.preview.about")} {preview.duration}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              {p.themes.slice(0, 4).map((t) => (
-                <span key={t} className="rounded-full border border-border/60 px-2.5 py-1 text-[11px] text-muted-foreground">{t}</span>
+              {p.themes.slice(0, 4).map((th) => (
+                <span key={th} className="rounded-full border border-border/60 px-2.5 py-1 text-[11px] text-muted-foreground">{t(`onb.theme.${th.toLowerCase()}`)}</span>
               ))}
             </div>
             <div className="mt-5 h-1 overflow-hidden rounded-full bg-[color:var(--surface-2)]">
