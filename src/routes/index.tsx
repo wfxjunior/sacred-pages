@@ -124,50 +124,57 @@ function MagazineSpread() {
     <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-6xl">
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-6 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/20 via-[#C89F4F]/20 to-[#7A4A5E]/20 blur-2xl"
+        className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-gradient-to-b from-[#2B2B2B]/8 via-transparent to-[#2B2B2B]/12 blur-3xl"
       />
       <div
-        className="relative overflow-hidden rounded-[14px] border border-[#E4E0D6] bg-[#FBFAF6] text-left shadow-[0_36px_80px_-28px_rgba(43,41,38,0.35)] sm:rounded-[18px]"
+        className="paper-page relative overflow-hidden rounded-[10px] border border-[#E1DBCB] text-left sm:rounded-[14px]"
         style={{ perspective: "1600px" }}
       >
         <div className="relative grid grid-cols-1 lg:grid-cols-2 lg:items-stretch">
           <div className="relative">
-            <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-gradient-to-r from-black/8 to-transparent" />
+            <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/[0.06] to-transparent" />
             <HeroWordGrid />
           </div>
+          {/* Sewn linen spine — desktop */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-10 -translate-x-1/2 lg:block"
+            className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-8 -translate-x-1/2 lg:block"
           >
-            <div className="absolute inset-y-0 left-1/2 h-full w-[36px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/12 to-transparent" />
-            <div className="absolute inset-y-0 left-1/2 h-full w-px -translate-x-1/2 bg-[#1F1D1B]/20" />
-            <div className="absolute inset-y-6 left-1/2 flex -translate-x-1/2 flex-col justify-between">
-              {Array.from({ length: 16 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-3.5 w-9 rounded-full border border-[#8C877E]/70 bg-gradient-to-b from-[#EDEAE2] via-[#B9B4A8] to-[#8C877E] shadow-[0_1px_2px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.55)]"
-                />
-              ))}
-            </div>
+            {/* Gutter shadow (page fold) */}
+            <div className="absolute inset-y-0 left-1/2 h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.10] to-transparent" />
+            {/* Linen spine strip */}
+            <div className="linen-spine absolute inset-y-2 left-1/2 h-[calc(100%-1rem)] w-[10px] -translate-x-1/2 rounded-[2px]" />
+            {/* Sewn stitch line */}
+            <svg
+              className="absolute inset-y-3 left-1/2 h-[calc(100%-1.5rem)] w-[3px] -translate-x-1/2"
+              viewBox="0 0 2 100" preserveAspectRatio="none"
+            >
+              <line x1="1" y1="0" x2="1" y2="100"
+                stroke="#8A6A1F" strokeOpacity="0.55" strokeWidth="0.6"
+                strokeDasharray="2.2 2" vectorEffect="non-scaling-stroke" />
+            </svg>
           </div>
+          {/* Sewn linen spine — mobile horizontal */}
           <div
             aria-hidden
-            className="pointer-events-none relative flex h-6 items-center justify-between px-4 lg:hidden"
-            style={{
-              background:
-                "linear-gradient(180deg, transparent, rgba(31,29,27,0.12), transparent)",
-            }}
+            className="pointer-events-none relative h-5 lg:hidden"
           >
-            <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[#1F1D1B]/20" />
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={i}
-                className="relative h-9 w-3 rounded-full border border-[#8C877E]/70 bg-gradient-to-r from-[#EDEAE2] via-[#B9B4A8] to-[#8C877E] shadow-[0_1px_2px_rgba(0,0,0,0.25),inset_1px_0_0_rgba(255,255,255,0.55)]"
-              />
-            ))}
+            <div className="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-transparent via-[#1F1D1B]/[0.10] to-transparent" />
+            <div
+              className="linen-spine absolute inset-x-3 top-1/2 h-[8px] -translate-y-1/2 rounded-[2px]"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(31,29,27,0.05), rgba(31,29,27,0.12) 50%, rgba(31,29,27,0.05)), repeating-linear-gradient(90deg, rgba(31,29,27,0.06) 0 1px, transparent 1px 3px), linear-gradient(0deg, #E9E4D8, #D9D2C1)",
+              }}
+            />
+            <svg className="absolute inset-x-4 top-1/2 h-[3px] w-[calc(100%-2rem)] -translate-y-1/2" viewBox="0 0 100 2" preserveAspectRatio="none">
+              <line x1="0" y1="1" x2="100" y2="1"
+                stroke="#8A6A1F" strokeOpacity="0.55" strokeWidth="0.6"
+                strokeDasharray="2.2 2" vectorEffect="non-scaling-stroke" />
+            </svg>
           </div>
           <div className="relative">
-            <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-2 bg-gradient-to-l from-black/8 to-transparent" />
+            <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-gradient-to-l from-black/[0.06] to-transparent" />
             <HeroDevotional />
           </div>
         </div>
@@ -180,23 +187,19 @@ function Landing() {
   const { t } = useI18n();
   return (
     <SiteLayout>
-      {/* Hero — Aurora Editorial: mesh gradient + floating word search */}
-      <section className="relative overflow-hidden bg-[#FCFBF8] pt-28 sm:pt-32 md:pt-36 lg:pt-40">
-        {/* Stained-glass aurora — cobalt, gold, burgundy, emerald */}
+      {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
+      <section className="paper-texture relative overflow-hidden pt-28 sm:pt-32 md:pt-36 lg:pt-40">
+        {/* Soft daylight — two very gentle warm halos, almost imperceptible */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="aurora-blob-1 absolute -right-[12%] -top-[12%] h-[62%] w-[62%] rounded-full bg-[#2E5C9E]/25 blur-[130px]" />
-          <div className="aurora-blob-2 absolute -left-[8%] top-[18%] h-[52%] w-[46%] rounded-full bg-[#C89F4F]/30 blur-[110px]" />
-          <div className="aurora-blob-3 absolute bottom-[6%] right-[8%] h-[54%] w-[54%] rounded-full bg-[#7A4A5E]/22 blur-[130px]" />
-          <div className="aurora-blob-1 absolute bottom-[14%] left-[10%] h-[42%] w-[42%] rounded-full bg-[#3F6B4E]/22 blur-[120px]" />
+          <div className="aurora-blob-1 absolute -right-[18%] -top-[18%] h-[55%] w-[55%] rounded-full bg-[#C89F4F]/[0.08] blur-[140px]" />
+          <div className="aurora-blob-2 absolute -left-[14%] top-[22%] h-[48%] w-[42%] rounded-full bg-[#2E5C9E]/[0.06] blur-[140px]" />
         </div>
         <div className="relative mx-auto w-full max-w-4xl px-5 sm:px-8 md:px-10 lg:px-12">
           <div className="flex flex-col items-center gap-12 pb-16 pt-6 text-center sm:gap-14 sm:pb-20 sm:pt-8 md:gap-16 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
             {/* Text column */}
             <div className="w-full">
               <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2D2926] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
-                <span className="bg-gradient-to-tr from-[#2E5C9E] via-[#2D2926] to-[#7A4A5E] bg-clip-text text-transparent">
-                  {t("brand.name")}
-                </span>
+                <span className="text-[#1F1D1B]">{t("brand.name")}</span>
               </h1>
 
               <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.55] text-[#6B665C] sm:mt-6 sm:max-w-lg sm:text-[17px] md:max-w-xl md:text-[18px] lg:text-[19px] lg:leading-[1.5]">

@@ -149,6 +149,47 @@
 .aurora-blob-2 { animation: aurora-drift-2 38s ease-in-out infinite; }
 .aurora-blob-3 { animation: aurora-drift-3 44s ease-in-out infinite; }
 
+/* -------- Premium journal surfaces -------- */
+/* Soft cotton paper — subtle grain, invisible unless you look for it. */
+@utility paper-texture {
+  background-color: #FBFAF6;
+  background-image:
+    radial-gradient(1200px 800px at 20% -10%, rgba(200,159,79,0.055), transparent 60%),
+    radial-gradient(1000px 700px at 110% 110%, rgba(46,92,158,0.045), transparent 60%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/></svg>");
+  background-blend-mode: multiply;
+}
+
+/* Page — a single sheet with warm daylight highlight and quiet edge shadow. */
+@utility paper-page {
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(255,252,244,0.9), transparent 55%),
+    linear-gradient(180deg, #FBFAF6 0%, #F6F3EB 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 -1px 0 rgba(31,29,27,0.04) inset,
+    0 30px 60px -30px rgba(43,41,38,0.22),
+    0 8px 20px -14px rgba(43,41,38,0.18);
+}
+
+/* Stitched linen spine — refined book binding, quiet not playful. */
+@utility linen-spine {
+  background:
+    linear-gradient(180deg, rgba(31,29,27,0.05), rgba(31,29,27,0.12) 50%, rgba(31,29,27,0.05)),
+    repeating-linear-gradient(0deg, rgba(31,29,27,0.06) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, #E9E4D8 0%, #D9D2C1 50%, #E9E4D8 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255,255,255,0.35),
+    inset -1px 0 0 rgba(255,255,255,0.35),
+    inset 0 0 12px rgba(31,29,27,0.15);
+}
+
+/* Gentle rise on scroll — for section entrances */
+@keyframes page-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-page-rise { animation: page-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* Reduced motion: honor OS preference and .reduce-motion opt-in (mock) */
 @media (prefers-reduced-motion: reduce) {
