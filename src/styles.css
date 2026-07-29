@@ -315,7 +315,6 @@
 
   html,
   body {
-    overflow-x: hidden;
     overflow-y: auto;
   }
 
@@ -325,6 +324,9 @@
   }
 
   body {
+    /* Prevent horizontal scroll on body only — keeping it off <html>
+       avoids breaking position: sticky and in-page anchor scrolling. */
+    overflow-x: clip;
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
