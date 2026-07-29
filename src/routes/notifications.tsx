@@ -7,15 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 import { isCategoryVisible, useNotifPrefs } from "@/lib/notification-preferences";
 import { Settings2, BellOff } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
-const FILTERS = [
-  { key: "all", label: "All" },
-  { key: "unread", label: "Unread" },
-  { key: "daily", label: "Daily" },
-  { key: "companion", label: "Companions" },
-  { key: "milestone", label: "Milestones" },
-  { key: "collection", label: "Collections" },
-] as const;
+const FILTER_KEYS = ["all", "unread", "daily", "companion", "milestone", "collection"] as const;
 
 export const Route = createFileRoute("/notifications")({
   head: () => ({
@@ -30,7 +24,8 @@ export const Route = createFileRoute("/notifications")({
 });
 
 function NotificationsPage() {
-  const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("all");
+  const { t } = useI18n();
+  const [filter, setFilter] = useState<(typeof FILTER_KEYS)[number]>("all");
   const { prefs } = useNotifPrefs();
   const allowed = useMemo(
     () => NOTIFICATIONS.filter((n) => isCategoryVisible(prefs, n.kind)),
@@ -48,49 +43,45 @@ function NotificationsPage() {
       <div className="mx-auto max-w-3xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>Notification center</p>
-            <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">Quiet updates</h1>
-            <p className="mt-2 max-w-lg text-[14px] text-muted-foreground">
-              We keep things few and meaningful. Fine-tune categories and channels in preferences.
-            </p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("notif.center")}</p>
+            <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">{t("notif.title")}</h1>
+            <p className="mt-2 max-w-lg text-[14px] text-muted-foreground">{t("notif.sub")}</p>
           </div>
           <div className="flex items-center gap-2">
             <Link
               to="/notifications/preferences"
               className="inline-flex items-center gap-1.5 rounded-full border border-border/60 px-3 py-1.5 text-[12px] font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <Settings2 className="h-3.5 w-3.5" /> Preferences
+              <Settings2 className="h-3.5 w-3.5" /> {t("ui.preferences")}
             </Link>
-            <Button variant="outline" className="rounded-full">Mark all read</Button>
+            <Button variant="outline" className="rounded-full">{t("ui.markAllRead")}</Button>
           </div>
         </div>
         {(prefs.pauseAll || hiddenCount > 0) && (
           <div className="mt-4 flex items-center gap-2 rounded-xl border border-dashed border-border/60 bg-background/40 px-4 py-2.5 text-[12px] text-muted-foreground">
             <BellOff className="h-3.5 w-3.5" style={{ color: "var(--walnut)" }} />
             {prefs.pauseAll ? (
-              <span>All notifications are paused.</span>
+              <span>{t("notif.paused")}</span>
             ) : (
-              <span>
-                {hiddenCount} hidden by your preferences.
-              </span>
+              <span>{hiddenCount} {t("notif.hiddenSuffix")}</span>
             )}
             <Link to="/notifications/preferences" className="ml-auto underline decoration-dotted" style={{ color: "var(--gold)" }}>
-              Adjust
+              {t("notif.adjust")}
             </Link>
           </div>
         )}
         <div className="mt-8 flex flex-wrap gap-2">
-          {FILTERS.map((f) => {
-            const active = filter === f.key;
+          {FILTER_KEYS.map((key) => {
+            const active = filter === key;
             return (
               <button
-                key={f.key}
-                onClick={() => setFilter(f.key)}
+                key={key}
+                onClick={() => setFilter(key)}
                 className={`rounded-full border px-3 py-1.5 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   active ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {f.label}
+                {t(`notif.filter.${key}`)}
               </button>
             );
           })}
@@ -118,7 +109,7 @@ function NotificationsPage() {
             );
           })}
           {items.length === 0 && (
-            <li className="p-10 text-center text-[13px] text-muted-foreground">Nothing here — a quiet inbox.</li>
+            <li className="p-10 text-center text-[13px] text-muted-foreground">{t("notif.empty")}</li>
           )}
         </ul>
       </div>

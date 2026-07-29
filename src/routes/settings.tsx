@@ -24,14 +24,14 @@ export const Route = createFileRoute("/settings")({
 });
 
 const SECTIONS = [
-  { id: "account", label: "Account", icon: User },
-  { id: "appearance", label: "Appearance", icon: Palette },
-  { id: "journey", label: "Journey", icon: BookOpen },
-  { id: "notifications", label: "Notifications", icon: Bell },
-  { id: "privacy", label: "Privacy", icon: Lock },
-  { id: "membership", label: "Membership", icon: CreditCard },
-  { id: "accessibility", label: "Accessibility", icon: Accessibility },
-  { id: "data", label: "Your data", icon: Download },
+  { id: "account", labelKey: "settings.section.account", icon: User },
+  { id: "appearance", labelKey: "settings.section.appearance", icon: Palette },
+  { id: "journey", labelKey: "settings.section.journey", icon: BookOpen },
+  { id: "notifications", labelKey: "settings.section.notifications", icon: Bell },
+  { id: "privacy", labelKey: "settings.section.privacy", icon: Lock },
+  { id: "membership", labelKey: "settings.section.membership", icon: CreditCard },
+  { id: "accessibility", labelKey: "settings.section.accessibility", icon: Accessibility },
+  { id: "data", labelKey: "settings.section.data", icon: Download },
 ] as const;
 
 function SettingsPage() {
@@ -45,7 +45,7 @@ function SettingsPage() {
       <div className="mx-auto max-w-5xl">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("settings.title")}</p>
-          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">A quieter way to personalize.</h1>
+          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">{t("settings.subtitle")}</h1>
         </div>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
@@ -60,7 +60,7 @@ function SettingsPage() {
                     className="flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
                   >
                     <Icon className="h-4 w-4" strokeWidth={1.6} />
-                    {s.label}
+                    {t(s.labelKey)}
                   </a>
                 );
               })}
@@ -68,19 +68,19 @@ function SettingsPage() {
           </aside>
 
           <div className="space-y-10">
-            <Section id="account" title="Account" description="Your identity across every device.">
+            <Section id="account" title={t("settings.account.title")} description={t("settings.account.desc")}>
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Full name" defaultValue="Samuel Reid" />
-                <Field label="Email" type="email" defaultValue="samuel@jornadas.app" />
+                <Field label={t("settings.account.name")} defaultValue="Samuel Reid" />
+                <Field label={t("settings.account.email")} type="email" defaultValue="samuel@jornadas.app" />
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                <Button className="rounded-full">Save changes</Button>
-                <Button variant="ghost" className="rounded-full">Change password</Button>
+                <Button className="rounded-full">{t("settings.account.save")}</Button>
+                <Button variant="ghost" className="rounded-full">{t("settings.account.changePw")}</Button>
               </div>
             </Section>
 
-            <Section id="appearance" title="Appearance" description="Warm ivory during the day, deep ink at night — never pure black.">
-              <Row label="Theme"><ThemeSelector /></Row>
+            <Section id="appearance" title={t("settings.appearance.title")} description={t("settings.appearance.desc")}>
+              <Row label={t("settings.appearance.themeLabel")}><ThemeSelector /></Row>
               <Row label={t("settings.color")}>
                 <div className="flex flex-wrap gap-2">
                   {SELECTION_COLORS.map((c) => (
@@ -97,12 +97,12 @@ function SettingsPage() {
                 </div>
               </Row>
               <Row label={t("settings.fontSize")}>
-                <Chips value={font} onChange={setFont} options={[["small","Small"],["medium","Medium"],["large","Large"]]} />
+                <Chips value={font} onChange={setFont} options={[["small",t("settings.small")],["medium",t("settings.medium")],["large",t("settings.large")]]} />
               </Row>
             </Section>
 
-            <Section id="journey" title="Journey preferences" description="Set the rhythm and depth of your daily readings.">
-              <Row label="Language">
+            <Section id="journey" title={t("settings.journey.title")} description={t("settings.journey.desc")}>
+              <Row label={t("settings.journey.language")}>
                 <div className="flex flex-wrap gap-2">
                   {LOCALES.map((l) => (
                     <button
@@ -118,16 +118,16 @@ function SettingsPage() {
                 </div>
               </Row>
               <Row label={t("settings.difficulty")}>
-                <Chips value={diff} onChange={setDiff} options={[["gentle","Gentle"],["balanced","Balanced"],["challenging","Challenging"],["expert","Expert"]]} />
+                <Chips value={diff} onChange={setDiff} options={[["gentle",t("settings.gentle")],["balanced",t("settings.balanced")],["challenging",t("settings.challenging")],["expert",t("settings.expert")]]} />
               </Row>
-              <Row label="Daily rhythm">
-                <Chips value="10" onChange={() => {}} options={[["5","5 min"],["10","10 min"],["20","20 min"]]} />
+              <Row label={t("settings.journey.rhythm")}>
+                <Chips value="10" onChange={() => {}} options={[["5",t("settings.min5")],["10",t("settings.min10")],["20",t("settings.min20")]]} />
               </Row>
-              <ToggleRow label="Auto-advance to next journey" hint="When you complete one, the next opens automatically." defaultChecked />
-              <ToggleRow label="Sound effects" hint="Small, calm cues on discovery." defaultChecked />
+              <ToggleRow label={t("settings.journey.autoNext")} hint={t("settings.journey.autoNextHint")} defaultChecked />
+              <ToggleRow label={t("settings.journey.sound")} hint={t("settings.journey.soundHint")} defaultChecked />
             </Section>
 
-            <Section id="notifications" title="Notifications" description="Few and meaningful — you choose what and when.">
+            <Section id="notifications" title={t("settings.notif.title")} description={t("settings.notif.desc")}>
               <ToggleRow label="Daily journey reminder" hint="A gentle nudge each morning at 8:00 AM." defaultChecked />
               <ToggleRow label="Companion updates" hint="When a shared journey reaches a milestone." defaultChecked />
               <ToggleRow label="Weekly reflection email" hint="A calm summary of your week — never marketing." />
@@ -135,49 +135,49 @@ function SettingsPage() {
               <ToggleRow label="Product news" hint="Twice a year at most." />
             </Section>
 
-            <Section id="privacy" title="Privacy" description="Your reflections and prayers are yours. Always.">
+            <Section id="privacy" title={t("settings.privacy.title")} description={t("settings.privacy.desc")}>
               <ToggleRow label="Reflections are private by default" hint="Even inside shared journeys." defaultChecked />
               <ToggleRow label="Show completion status to companions" hint="Only whether you finished — never the content." defaultChecked />
               <ToggleRow label="Anonymous usage analytics" hint="Helps us improve. No content is ever sent." />
               <div className="mt-2 flex flex-wrap gap-2">
-                <Button variant="ghost" className="rounded-full">Blocked people</Button>
-                <Button variant="ghost" className="rounded-full">Session devices</Button>
+                <Button variant="ghost" className="rounded-full">{t("settings.privacy.blocked")}</Button>
+                <Button variant="ghost" className="rounded-full">{t("settings.privacy.devices")}</Button>
               </div>
             </Section>
 
-            <Section id="membership" title="Membership" description="Premium — annual · renews Mar 12, 2027.">
+            <Section id="membership" title={t("settings.membership.title")} description={t("settings.membership.desc")}>
               <div className="rounded-2xl border border-border/60 bg-[color:var(--surface-2)] p-5">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4" style={{ color: "var(--gold)" }} />
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--gold)" }}>Premium</p>
                 </div>
-                <p className="mt-2 font-serif text-xl">$59 / year</p>
-                <p className="text-[12px] text-muted-foreground">All collections, Journey Together, Family Mode, Small Groups.</p>
+                <p className="mt-2 font-serif text-xl">{t("settings.membership.price")}</p>
+                <p className="text-[12px] text-muted-foreground">{t("settings.membership.blurb")}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Button variant="outline" className="rounded-full">Manage plan</Button>
-                  <Button variant="ghost" className="rounded-full">Billing history</Button>
-                  <Button variant="ghost" className="rounded-full text-destructive">Cancel subscription</Button>
+                  <Button variant="outline" className="rounded-full">{t("settings.membership.manage")}</Button>
+                  <Button variant="ghost" className="rounded-full">{t("settings.membership.billing")}</Button>
+                  <Button variant="ghost" className="rounded-full text-destructive">{t("settings.membership.cancel")}</Button>
                 </div>
               </div>
             </Section>
 
-            <Section id="accessibility" title="Accessibility" description="Small choices, real difference.">
+            <Section id="accessibility" title={t("settings.accessibility.title")} description={t("settings.accessibility.desc")}>
               <ToggleRow label="Reduce motion" hint="Softens transitions and disables autoplay." />
               <ToggleRow label="Higher contrast" hint="For clearer reading in bright environments." />
               <ToggleRow label="Dyslexia-friendly type" hint="Adjusts letter spacing and rhythm." />
               <ToggleRow label="Screen reader hints" hint="Extra ARIA labels on interactive elements." defaultChecked />
             </Section>
 
-            <Section id="data" title="Your data" description="You own everything you write here.">
+            <Section id="data" title={t("settings.data.title")} description={t("settings.data.desc")}>
               <div className="flex flex-wrap gap-2">
                 <Button variant="outline" className="rounded-full">
-                  <Download className="mr-1.5 h-4 w-4" /> Export my data
+                  <Download className="mr-1.5 h-4 w-4" /> {t("settings.data.export")}
                 </Button>
                 <Button variant="ghost" className="rounded-full">
-                  <LogOut className="mr-1.5 h-4 w-4" /> Sign out everywhere
+                  <LogOut className="mr-1.5 h-4 w-4" /> {t("settings.data.signout")}
                 </Button>
                 <Button variant="ghost" className="rounded-full text-destructive">
-                  <Trash2 className="mr-1.5 h-4 w-4" /> Delete account
+                  <Trash2 className="mr-1.5 h-4 w-4" /> {t("settings.data.delete")}
                 </Button>
               </div>
             </Section>
