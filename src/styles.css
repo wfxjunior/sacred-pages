@@ -181,40 +181,42 @@
   --popover: #FFFFFF;
   --popover-foreground: var(--foreground);
   /* Sophisticated blue — primary CTA / brand */
-  --primary: #2563EB;
+  --primary: #2E5C9E;
   --primary-foreground: #FFFFFF;
   --secondary: #F3F4F6;
   --secondary-foreground: var(--foreground);
   --muted: #F5F6F8;
   --muted-foreground: #6B7280;
-  --accent: #DBEAFE;
-  --accent-foreground: #1D4ED8;
+  --accent: #E4ECF8;
+  --accent-foreground: #1F3F70;
   --destructive: oklch(0.6 0.19 27);
   --destructive-foreground: #FFFFFF;
   --border: #E5E7EB;
   --input: #E5E7EB;
-  --ring: #2563EB;
-  --chart-1: #2563EB;
-  --chart-2: #7A8F73;
+  --ring: #2E5C9E;
+  --chart-1: #2E5C9E;
+  --chart-2: #3F6B4E;
   --chart-3: #C89F4F;
-  --chart-4: #6B7280;
-  --chart-5: #93C5FD;
+  --chart-4: #7A4A5E;
+  --chart-5: #9AB4D6;
   --sidebar: #FCFBF8;
   --sidebar-foreground: var(--foreground);
-  --sidebar-primary: #2563EB;
+  --sidebar-primary: #2E5C9E;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F3F4F6;
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: #E5E7EB;
-  --sidebar-ring: #2563EB;
+  --sidebar-ring: #2E5C9E;
   /* Extended brand tokens */
-  --brand: #2563EB;            /* scope-aware brand accent */
-  --brand-hover: #1D4ED8;
-  --brand-soft: #DBEAFE;
+  --brand: #2E5C9E;            /* cobalt — stained glass primary */
+  --brand-hover: #1F3F70;
+  --brand-soft: #E4ECF8;
   --gold: #C89F4F;             /* supporting accent — milestones, premium */
-  --sage: #7A8F73;
+  --sage: #3F6B4E;
   --walnut: #6B7280;
   --dusty-blue: #5E7FA3;
+  --burgundy: #7A4A5E;
+  --emerald-glass: #3F6B4E;
   --parchment: #F3F1EC;
   --ivory: #FCFBF8;
   --surface-2: #F5F6F8;
