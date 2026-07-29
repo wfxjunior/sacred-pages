@@ -62,11 +62,6 @@ function Landing() {
           <div className="flex flex-col items-center gap-12 pb-16 pt-6 text-center sm:gap-14 sm:pb-20 sm:pt-8 md:gap-16 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
             {/* Text column */}
             <div className="w-full">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#2E5C9E]/15 bg-white/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#2E5C9E] shadow-sm backdrop-blur-md sm:text-[11px]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
-                {t("hero.eyebrow")}
-              </span>
-
               <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2D2926] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
                 <span className="bg-gradient-to-tr from-[#2E5C9E] via-[#2D2926] to-[#7A4A5E] bg-clip-text text-transparent">
                   {t("brand.name")}
