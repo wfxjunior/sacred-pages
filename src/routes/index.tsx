@@ -186,48 +186,54 @@ function HeroDevotional() {
   const firstLetter = bodyText.charAt(0);
   const restBody = bodyText.slice(1);
   return (
-    <aside className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[#E4E0D6] bg-[#FBFAF6] text-left shadow-[0_20px_50px_-20px_rgba(43,41,38,0.18)]">
+    <aside className="relative flex h-full w-full flex-col overflow-hidden rounded-[22px] border border-[#E7E2D6] bg-[#FBFAF6] text-left shadow-[0_28px_60px_-24px_rgba(43,41,38,0.22)]">
       {/* Magazine masthead */}
-      <header className="flex items-center justify-between border-b border-[#E4E0D6] bg-white/70 px-6 py-3 sm:px-8">
+      <header className="flex items-center justify-between px-7 pt-6 sm:px-9 sm:pt-7">
         <div className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8A6A1F]">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#8A6A1F] sm:text-[11px]">
             {t("hero.dev.eyebrow")}
           </span>
         </div>
-        <span className="text-[10px] font-medium uppercase tracking-[0.24em] text-[#6B665C]">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#6B665C] sm:text-[11px]">
           {t("hero.dev.time")}
         </span>
       </header>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col px-6 py-6 sm:px-8 sm:py-7 lg:px-9 lg:py-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#7A4A5E]">
+      <div className="flex flex-1 flex-col px-7 pb-7 pt-8 sm:px-9 sm:pb-9 sm:pt-10 lg:px-10">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#7A4A5E] sm:text-[12px]">
           {t("hero.dev.ref")}
         </p>
-        <h3 className="mt-2 font-serif text-[26px] leading-[1.05] text-[#2D2926] sm:text-[30px] lg:text-[34px]">
+        <h3 className="mt-3 font-serif text-[34px] font-semibold leading-[1.02] tracking-[-0.01em] text-[#1F1D1B] sm:text-[42px] lg:text-[48px]">
           {t("hero.dev.title")}
         </h3>
-        <div aria-hidden className="mt-4 h-px w-10 bg-[#C89F4F]" />
+        <div aria-hidden className="mt-5 h-[2px] w-12 bg-[#C89F4F]" />
 
-        <p className="mt-4 text-[14.5px] leading-[1.7] text-[#4A463F] sm:text-[15px] sm:columns-2 sm:gap-6 [&>span]:break-inside-avoid">
-          <span className="float-left mr-2 mt-1 font-serif text-[46px] leading-[0.85] text-[#2E5C9E] sm:text-[52px]">
+        <p className="mt-5 font-serif text-[15.5px] leading-[1.7] text-[#2D2926]/85 sm:columns-2 sm:gap-7 sm:text-[16px]">
+          <span className="float-left mr-2 mt-1 font-serif text-[54px] font-semibold leading-[0.82] text-[#2E5C9E] sm:text-[62px]">
             {firstLetter}
           </span>
           {restBody}
         </p>
 
-        <div className="mt-6 border-t border-dashed border-[#E4E0D6] pt-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#2E5C9E]">
+        <div className="mt-7 border-t border-dashed border-[#D9D3C2] pt-6">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#2E5C9E] sm:text-[12px]">
             {t("hero.dev.wordsTitle")}
           </p>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-2.5">
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-x-7 sm:gap-y-3.5">
             {words.map((w) => (
-              <li key={w.key} className="flex gap-2.5 text-[13px] leading-[1.5] text-[#2D2926]">
+              <li
+                key={w.key}
+                className="flex gap-3 text-[13.5px] leading-[1.55] text-[#2D2926]"
+              >
                 <span
                   aria-hidden
-                  className="mt-[6px] h-2 w-2 shrink-0 rounded-full ring-2 ring-white"
-                  style={{ backgroundColor: w.color, boxShadow: `0 0 0 1px ${w.color}55` }}
+                  className="mt-[6px] h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{
+                    backgroundColor: w.color,
+                    boxShadow: `0 0 0 3px ${w.color}22`,
+                  }}
                 />
                 <span>{t(`hero.dev.word.${w.key}`)}</span>
               </li>
@@ -235,9 +241,9 @@ function HeroDevotional() {
           </ul>
         </div>
 
-        <div className="mt-auto flex items-center gap-3 pt-6">
+        <div className="mt-auto flex items-center gap-3 pt-8">
           <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8A6A1F]">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#8A6A1F]">
             {t("hero.dev.prompt")}
           </span>
           <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
