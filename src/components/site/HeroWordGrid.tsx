@@ -217,7 +217,7 @@ export function HeroWordGrid() {
         <SpiralBinding count={12} />
 
         {/* Margin line */}
-        <div className="absolute left-10 top-0 bottom-0 hidden w-px bg-[#E8A5A5]/30 sm:block" aria-hidden />
+        <div className="absolute left-10 top-0 bottom-0 hidden w-px bg-[#E8A5A5]/40 sm:block" aria-hidden />
 
         <div className="p-4 sm:pl-14 sm:pr-6 sm:pt-6 sm:pb-5">
           {/* Header */}
@@ -281,7 +281,7 @@ export function HeroWordGrid() {
               }}
               aria-hidden
             >
-              Found it!
+              {t("hero.notebook.foundIt")}
             </div>
           </div>
 
