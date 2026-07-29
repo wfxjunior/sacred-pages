@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Link } from "@tanstack/react-router";
 import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
