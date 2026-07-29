@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame } from "lucide-react";
+import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -474,6 +474,10 @@ export function PricingPreview() {
         "Selected collections",
         "Basic progress",
         "Limited personalization",
+        "Dark mode",
+        "EN · PT · ES languages",
+        "Save favorites",
+        "Journey together (view only)",
       ],
       cta: t("cta.startFree"),
       featured: false,
@@ -488,10 +492,31 @@ export function PricingPreview() {
         "Advanced progress history",
         "Exclusive series",
         "Family journeys (soon)",
+        "Milestones & streak insights",
+        "Journey together (invite up to 5)",
+        "Offline reading",
+        "Priority support",
       ],
       cta: t("cta.startJourney"),
       featured: true,
     },
+  ];
+  const compare = [
+    { label: "Daily journey", free: true, premium: true },
+    { label: "Selected collections", free: true, premium: true },
+    { label: "Full journey library", free: false, premium: true },
+    { label: "All collections", free: false, premium: true },
+    { label: "Personalization", free: "Limited", premium: "Complete" },
+    { label: "Progress history", free: "Basic", premium: "Advanced" },
+    { label: "Dark mode", free: true, premium: true },
+    { label: "Languages (EN · PT · ES)", free: true, premium: true },
+    { label: "Save favorites", free: true, premium: true },
+    { label: "Exclusive series", free: false, premium: true },
+    { label: "Milestones & streak insights", free: false, premium: true },
+    { label: "Journey together", free: "View only", premium: "Up to 5 invites" },
+    { label: "Offline reading", free: false, premium: true },
+    { label: "Family journeys", free: false, premium: "Coming soon" },
+    { label: "Priority support", free: false, premium: true },
   ];
   return (
     <LandingSection id="pricing" title={t("pricing.title")}>
@@ -549,6 +574,79 @@ export function PricingPreview() {
             </Button>
           </div>
         ))}
+      </div>
+
+      {/* Comparison table */}
+      <div className="mx-auto mt-16 max-w-4xl">
+        <div className="mb-6 text-center">
+          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            Compare plans
+          </p>
+          <h3 className="mt-2 font-serif text-2xl sm:text-3xl">
+            Every feature, side by side
+          </h3>
+        </div>
+        <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
+          <div className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 border-b border-border/60 bg-[color-mix(in_oklab,var(--brand)_5%,transparent)] px-5 py-4 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-8">
+            <span>Feature</span>
+            <span className="text-center">Free</span>
+            <span className="text-center" style={{ color: "var(--brand)" }}>
+              Premium
+            </span>
+          </div>
+          <ul className="divide-y divide-border/60">
+            {compare.map((row) => (
+              <li
+                key={row.label}
+                className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 px-5 py-3.5 text-sm transition-colors hover:bg-[color-mix(in_oklab,var(--brand)_4%,transparent)] sm:px-8"
+              >
+                <span className="font-medium text-foreground/90">{row.label}</span>
+                <span className="flex justify-center text-center text-muted-foreground">
+                  {row.free === true ? (
+                    <Check className="h-4 w-4" style={{ color: "var(--brand)" }} strokeWidth={2.5} />
+                  ) : row.free === false ? (
+                    <X className="h-4 w-4 text-muted-foreground/40" strokeWidth={2} />
+                  ) : (
+                    <span className="text-xs">{row.free}</span>
+                  )}
+                </span>
+                <span className="flex justify-center text-center">
+                  {row.premium === true ? (
+                    <Check className="h-4 w-4" style={{ color: "var(--brand)" }} strokeWidth={2.5} />
+                  ) : row.premium === false ? (
+                    <X className="h-4 w-4 text-muted-foreground/40" strokeWidth={2} />
+                  ) : (
+                    <span className="text-xs font-medium" style={{ color: "var(--brand)" }}>
+                      {row.premium}
+                    </span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* CTA below comparison */}
+        <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-[color-mix(in_oklab,var(--brand)_6%,transparent)] px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div>
+            <p className="font-serif text-xl sm:text-2xl">
+              Ready to begin your journey?
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Start free today. Upgrade to Premium anytime — cancel whenever you like.
+            </p>
+          </div>
+          <Button
+            asChild
+            size="lg"
+            className="group rounded-full px-7 shadow-[0_18px_40px_-18px_rgba(37,99,235,0.6)] transition-all hover:-translate-y-0.5 hover:shadow-[0_22px_50px_-16px_rgba(37,99,235,0.8)]"
+          >
+            <Link to="/signup">
+              {t("cta.startJourney")}
+              <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </Button>
+        </div>
       </div>
     </LandingSection>
   );
