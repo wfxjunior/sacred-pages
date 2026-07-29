@@ -214,9 +214,9 @@ export function HeroWordGrid() {
                 style={
                   found
                     ? {
-                        color: "#2B2B2B",
-                        borderColor: `color-mix(in oklab, ${color} 55%, transparent)`,
-                        background: `color-mix(in oklab, ${color} 20%, white)`,
+                        color: `color-mix(in oklab, ${color} 75%, #1F1F1F)`,
+                        borderColor: `color-mix(in oklab, ${color} 70%, transparent)`,
+                        background: `color-mix(in oklab, ${color} 32%, white)`,
                       }
                     : {
                         color: "#6B665C",
