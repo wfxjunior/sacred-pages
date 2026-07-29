@@ -120,12 +120,13 @@ function Landing() {
               </div>
             </div>
 
-            {/* Word search illustration — floating glass container */}
-            <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+            {/* Word search + devotional companion */}
+            <div className="mx-auto grid w-full max-w-sm gap-6 sm:max-w-md md:max-w-lg lg:max-w-6xl lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-10 lg:text-left">
               <div className="relative">
                 <div aria-hidden className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-[#2E5C9E]/25 via-[#C89F4F]/25 to-[#7A4A5E]/25 blur-2xl" />
                 <HeroWordGrid />
               </div>
+              <HeroDevotional />
             </div>
           </div>
         </div>
@@ -167,5 +168,58 @@ function Landing() {
       <FAQ />
       <FinalCTA />
     </SiteLayout>
+  );
+}
+
+function HeroDevotional() {
+  const { t } = useI18n();
+  const words = [
+    { key: "peace", color: "#5E9E6E" },
+    { key: "faith", color: "#3E7BC8" },
+    { key: "light", color: "#E0A63A" },
+    { key: "grace", color: "#D26A4E" },
+    { key: "hope", color: "#8B5CA8" },
+  ] as const;
+  return (
+    <aside className="relative rounded-2xl border border-[#E4E0D6] bg-white/85 p-6 text-left shadow-[0_20px_50px_-20px_rgba(43,41,38,0.18)] backdrop-blur sm:p-7 lg:p-8">
+      <div className="flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
+        <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#8A6A1F]">
+          {t("hero.dev.eyebrow")}
+        </span>
+      </div>
+      <h3 className="mt-3 font-serif text-[22px] leading-tight text-[#2D2926] sm:text-[26px] lg:text-[28px]">
+        {t("hero.dev.title")}
+      </h3>
+      <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7A4A5E]">
+        {t("hero.dev.ref")} <span className="ml-2 font-medium normal-case tracking-normal text-[#6B665C]">· {t("hero.dev.time")}</span>
+      </p>
+      <p className="mt-4 text-[14.5px] leading-[1.65] text-[#4A463F] sm:text-[15px]">
+        {t("hero.dev.body")}
+      </p>
+
+      <div className="mt-5 border-t border-[#E4E0D6] pt-4">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#2E5C9E]">
+          {t("hero.dev.wordsTitle")}
+        </p>
+        <ul className="mt-3 space-y-2.5">
+          {words.map((w) => (
+            <li key={w.key} className="flex gap-2.5 text-[13.5px] leading-[1.5] text-[#2D2926]">
+              <span
+                aria-hidden
+                className="mt-[7px] h-2 w-2 shrink-0 rounded-full"
+                style={{ backgroundColor: w.color }}
+              />
+              <span>{t(`hero.dev.word.${w.key}`)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="mt-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#6B665C]">
+        <span className="h-px w-6 bg-[#C89F4F]/70" />
+        {t("hero.dev.prompt")}
+      </p>
+    </aside>
   );
 }
