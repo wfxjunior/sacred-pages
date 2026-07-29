@@ -569,9 +569,9 @@ export function FinalCTA() {
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] bg-[#2D2926] p-12 text-center text-white md:rounded-[4rem] md:p-24">
         {/* Colored aurora accents inside dark card */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-purple-500/20 blur-[80px]" />
-          <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-orange-400/20 blur-[80px]" />
-          <div className="absolute right-1/3 top-1/2 h-56 w-56 rounded-full bg-teal-400/10 blur-[80px]" />
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#2E5C9E]/35 blur-[80px]" />
+          <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-[#C89F4F]/30 blur-[80px]" />
+          <div className="absolute right-1/3 top-1/2 h-56 w-56 rounded-full bg-[#7A4A5E]/25 blur-[80px]" />
         </div>
         <div className="relative z-10">
           <h2 className="font-serif text-3xl leading-tight md:text-5xl">
