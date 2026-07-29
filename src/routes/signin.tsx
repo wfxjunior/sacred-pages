@@ -21,7 +21,7 @@ function SignIn() {
   return (
     <AuthLayout
       title={t("auth.signin")}
-      sub="Continue where you left off."
+      sub={t("auth.signin.sub")}
       footer={
         <>
           {t("auth.noAccount")}{" "}
