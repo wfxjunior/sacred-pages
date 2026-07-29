@@ -6,7 +6,7 @@ import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { COLLECTIONS } from "@/lib/mock-data";
-import { ArrowRight, ChevronDown, Play } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   ProductOverview,
   HowItWorks,
@@ -94,9 +94,7 @@ function Landing() {
                   size="lg"
                   className="h-12 w-full justify-center rounded-full bg-[#2B2B2B] px-6 text-[15px] font-semibold text-white hover:bg-[#2B2B2B]/90 sm:h-12 sm:w-auto sm:min-w-[168px]"
                 >
-                  <Link to="/today">
-                    {t("hero.ctaStart")} <ArrowRight className="ml-1.5 h-4 w-4" />
-                  </Link>
+                  <Link to="/today">{t("hero.ctaStart")}</Link>
                 </Button>
                 <Button
                   asChild
@@ -104,9 +102,7 @@ function Landing() {
                   variant="outline"
                   className="h-12 w-full justify-center rounded-full border-[#E4E0D6] bg-white px-6 text-[15px] font-medium text-[#2B2B2B] hover:bg-[#F3F1EC] hover:text-[#2B2B2B] sm:h-12 sm:w-auto sm:min-w-[168px]"
                 >
-                  <a href="#features">
-                    <Play className="mr-1.5 h-4 w-4" /> {t("hero.ctaExplore")}
-                  </a>
+                  <a href="#features">{t("hero.ctaExplore")}</a>
                 </Button>
               </div>
 
