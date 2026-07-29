@@ -487,7 +487,7 @@ const es: Dict = {
   "hero.scrollHint": "Desplázate para explorar",
   "hero.verse": "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.",
   "hero.verseRef": "Salmos 119:105",
-  "hero.grid.title": "Caça-palavras diário",
+  "hero.grid.title": "Sopa de letras diaria",
   "hero.grid.found": "encontradas",
   "mock.tab.read": "Leer",
   "mock.tab.search": "Sopa de Letras",
