@@ -7,6 +7,7 @@ import { ShareModal } from "@/components/site/ShareModal";
 import { MILESTONE_LIST } from "@/lib/mock/milestones";
 import { COMPANIONS } from "@/lib/mock/companions";
 import { Sparkles, Share2, Settings as SettingsIcon, Flame } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/profile")({
 });
 
 function ProfilePage() {
+  const { t } = useI18n();
   const achieved = MILESTONE_LIST.filter((m) => m.achieved);
   const upcoming = MILESTONE_LIST.filter((m) => !m.achieved).slice(0, 3);
   const active = COMPANIONS.filter((c) => c.status === "active").slice(0, 2);
@@ -37,47 +39,47 @@ function ProfilePage() {
               S
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>Profile</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("profile.eyebrow")}</p>
               <h1 className="mt-1 truncate font-serif text-3xl leading-tight md:text-4xl">Samuel Reid</h1>
-              <p className="mt-1 text-[13px] text-muted-foreground">Journeying since March 2026</p>
+              <p className="mt-1 text-[13px] text-muted-foreground">{t("profile.since")}</p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <ShareModal
               trigger={
                 <Button variant="outline" className="rounded-full">
-                  <Share2 className="mr-1.5 h-4 w-4" /> Share journey
+                  <Share2 className="mr-1.5 h-4 w-4" /> {t("profile.shareJourney")}
                 </Button>
               }
-              kind="Journey milestone"
-              title="7 days in the Word"
-              reference="Milestone reached"
-              excerpt="Seven quiet days. A small, meaningful rhythm."
+              kind={t("profile.share.kind")}
+              title={t("profile.share.title")}
+              reference={t("profile.share.ref")}
+              excerpt={t("profile.share.excerpt")}
             />
             <Button asChild variant="ghost" className="rounded-full">
               <Link to="/settings">
-                <SettingsIcon className="mr-1.5 h-4 w-4" /> Settings
+                <SettingsIcon className="mr-1.5 h-4 w-4" /> {t("nav.settings")}
               </Link>
             </Button>
           </div>
         </header>
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat label="Current streak" value="7" hint="days" icon={<Flame className="h-4 w-4" style={{ color: "var(--gold)" }} />} />
-          <Stat label="Longest streak" value="21" hint="days" />
-          <Stat label="Journeys completed" value="42" />
-          <Stat label="Milestones reached" value={`${achieved.length}`} hint={`of ${MILESTONE_LIST.length}`} />
+          <Stat label={t("profile.stat.currentStreak")} value="7" hint={t("profile.stat.days")} icon={<Flame className="h-4 w-4" style={{ color: "var(--gold)" }} />} />
+          <Stat label={t("profile.stat.longestStreak")} value="21" hint={t("profile.stat.days")} />
+          <Stat label={t("profile.stat.journeysCompleted")} value="42" />
+          <Stat label={t("profile.stat.milestonesReached")} value={`${achieved.length}`} hint={`${t("ui.of")} ${MILESTONE_LIST.length}`} />
         </section>
 
         <section>
-          <SectionTitle eyebrow="Milestones" title="Reached" />
+          <SectionTitle eyebrow={t("profile.milestones")} title={t("profile.reached")} />
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {achieved.map((m) => <MilestoneCard key={m.id} m={m} />)}
           </div>
         </section>
 
         <section>
-          <SectionTitle eyebrow="Ahead" title="Coming up" />
+          <SectionTitle eyebrow={t("profile.ahead")} title={t("profile.comingUp")} />
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {upcoming.map((m) => <MilestoneCard key={m.id} m={m} />)}
           </div>
@@ -86,11 +88,11 @@ function ProfilePage() {
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>Together</p>
-              <h2 className="mt-1 font-serif text-2xl md:text-3xl">Walking with</h2>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("profile.together")}</p>
+              <h2 className="mt-1 font-serif text-2xl md:text-3xl">{t("profile.walkingWith")}</h2>
             </div>
             <Button asChild variant="ghost" className="rounded-full">
-              <Link to="/together">Open Journey Together</Link>
+              <Link to="/together">{t("profile.openTogether")}</Link>
             </Button>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -101,13 +103,13 @@ function ProfilePage() {
         <section className="rounded-2xl border border-border/60 bg-card p-6 md:p-8">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4" style={{ color: "var(--gold)" }} />
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>Membership</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("profile.membership")}</p>
           </div>
-          <h3 className="mt-2 font-serif text-2xl">Premium — annual</h3>
-          <p className="mt-1 text-[13px] text-muted-foreground">Renews Mar 12, 2027 · $59/year</p>
+          <h3 className="mt-2 font-serif text-2xl">{t("profile.premiumAnnual")}</h3>
+          <p className="mt-1 text-[13px] text-muted-foreground">{t("profile.renews")}</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button variant="outline" className="rounded-full">Manage plan</Button>
-            <Button variant="ghost" className="rounded-full">Billing history</Button>
+            <Button variant="outline" className="rounded-full">{t("profile.managePlan")}</Button>
+            <Button variant="ghost" className="rounded-full">{t("profile.billing")}</Button>
           </div>
         </section>
       </div>

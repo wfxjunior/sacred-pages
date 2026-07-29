@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/together")({
   head: () => ({
@@ -53,46 +54,45 @@ function TogetherPage() {
 }
 
 function IntroBlock() {
+  const { t } = useI18n();
   return (
     <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
       <div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>
-          Journey Together
+          {t("together.eyebrow2")}
         </p>
         <h1 className="mt-3 font-serif text-4xl leading-[1.05] tracking-tight md:text-5xl">
-          Walk through Scripture <em className="italic">with someone.</em>
+          {t("together.h1a")} <em className="italic">{t("together.h1b")}</em>
         </h1>
         <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-          Invite a spouse, a friend, a mentor, or your small group.
-          Read the same passages, at your own pace — while your reflections
-          and prayers stay private by default.
+          {t("together.desc")}
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <InviteCompanionModal
             trigger={
               <Button className="rounded-full px-5">
-                <Mail className="mr-1.5 h-4 w-4" /> Invite a companion
+                <Mail className="mr-1.5 h-4 w-4" /> {t("together.inviteCta")}
               </Button>
             }
           />
           <Button variant="outline" className="rounded-full px-5">
-            <Users className="mr-1.5 h-4 w-4" /> Start a small group
+            <Users className="mr-1.5 h-4 w-4" /> {t("together.startGroup")}
           </Button>
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5" style={{ color: "var(--sage)" }} /> Private by default</span>
-          <span className="inline-flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5" style={{ color: "var(--gold)" }} /> Premium feature</span>
+          <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5" style={{ color: "var(--sage)" }} /> {t("together.privateDefault")}</span>
+          <span className="inline-flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5" style={{ color: "var(--gold)" }} /> {t("together.premiumFeature")}</span>
         </div>
       </div>
       <div className="rounded-2xl border border-border/60 bg-card p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">This week</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("together.thisWeek2")}</p>
         <p className="mt-2 font-serif text-3xl leading-none">3</p>
-        <p className="text-[13px] text-muted-foreground">active companions</p>
+        <p className="text-[13px] text-muted-foreground">{t("together.activeCompanions")}</p>
         <div className="mt-5 h-px bg-border/60" />
         <div className="mt-5 space-y-3 text-[13px]">
-          <Row label="Journeys walked together" value="8" />
-          <Row label="Prayers offered" value="24" />
-          <Row label="Encouragements sent" value="17" />
+          <Row label={t("together.stat.journeys")} value="8" />
+          <Row label={t("together.stat.prayers")} value="24" />
+          <Row label={t("together.stat.encouragements")} value="17" />
         </div>
       </div>
     </section>
@@ -109,14 +109,15 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 function ActiveSection({ companions }: { companions: typeof COMPANIONS }) {
+  const { t } = useI18n();
   return (
     <section>
       <SectionHeader
-        eyebrow="Active"
-        title="Companions you're walking with"
+        eyebrow={t("together.active")}
+        title={t("together.activeTitle")}
         action={
           <InviteCompanionModal
-            trigger={<Button variant="outline" size="sm" className="rounded-full">Invite</Button>}
+            trigger={<Button variant="outline" size="sm" className="rounded-full">{t("ui.invite")}</Button>}
           />
         }
       />
@@ -127,15 +128,15 @@ function ActiveSection({ companions }: { companions: typeof COMPANIONS }) {
             <div className="absolute right-4 top-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="rounded-full p-1 text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label="Manage companion">
+                  <button className="rounded-full p-1 text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label={t("together.menu.manageAria")}>
                     <MoreHorizontal className="h-4 w-4" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuItem>Change journey</DropdownMenuItem>
-                  <DropdownMenuItem>Reflection sharing</DropdownMenuItem>
-                  <DropdownMenuItem>Pause reminders</DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive">Archive companion</DropdownMenuItem>
+                  <DropdownMenuItem>{t("together.menu.change")}</DropdownMenuItem>
+                  <DropdownMenuItem>{t("together.menu.sharing")}</DropdownMenuItem>
+                  <DropdownMenuItem>{t("together.menu.pause")}</DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive">{t("together.menu.archive")}</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -147,14 +148,15 @@ function ActiveSection({ companions }: { companions: typeof COMPANIONS }) {
 }
 
 function EncourageAndPray() {
+  const { t } = useI18n();
   const [sent, setSent] = useState<string | null>(null);
   const [prayed, setPrayed] = useState(false);
   return (
     <section className="grid gap-4 md:grid-cols-2">
       <div className="rounded-2xl border border-border/60 bg-card p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>Encourage</p>
-        <h3 className="mt-2 font-serif text-2xl">Send a quiet word</h3>
-        <p className="mt-1 text-[13px] text-muted-foreground">One tap. No chat, no pressure.</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("together.encourage")}</p>
+        <h3 className="mt-2 font-serif text-2xl">{t("together.sendQuiet")}</h3>
+        <p className="mt-1 text-[13px] text-muted-foreground">{t("together.encHint")}</p>
         <div className="mt-5 flex flex-wrap gap-2">
           {ENCOURAGE_OPTIONS.map((o) => (
             <button
@@ -171,11 +173,9 @@ function EncourageAndPray() {
         </p>
       </div>
       <div className="rounded-2xl border border-border/60 bg-card p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>Pray Together</p>
-        <h3 className="mt-2 font-serif text-2xl">Hold each other in prayer</h3>
-        <p className="mt-1 text-[13px] text-muted-foreground">
-          Mark that you've prayed for your companion today. No public counters, no streaks.
-        </p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("together.pray")}</p>
+        <h3 className="mt-2 font-serif text-2xl">{t("together.holdPrayer")}</h3>
+        <p className="mt-1 text-[13px] text-muted-foreground">{t("together.holdHint")}</p>
         <div className="mt-5 flex items-center gap-3">
           <Button
             onClick={() => setPrayed((v) => !v)}
@@ -183,9 +183,9 @@ function EncourageAndPray() {
             className="rounded-full"
           >
             <HandHeart className="mr-1.5 h-4 w-4" />
-            {prayed ? "Prayed today" : "I prayed for Sarah"}
+            {prayed ? t("together.prayedToday") : t("together.prayFor")}
           </Button>
-          {prayed && <span className="text-[12px]" style={{ color: "var(--sage)" }}>She'll see a gentle note.</span>}
+          {prayed && <span className="text-[12px]" style={{ color: "var(--sage)" }}>{t("together.prayedNote")}</span>}
         </div>
       </div>
     </section>
@@ -193,9 +193,10 @@ function EncourageAndPray() {
 }
 
 function PendingSection({ pending }: { pending: typeof COMPANIONS }) {
+  const { t } = useI18n();
   return (
     <section>
-      <SectionHeader eyebrow="Pending" title="Invitations waiting" />
+      <SectionHeader eyebrow={t("together.pending")} title={t("together.pendingTitle")} />
       <div className="mt-6 grid gap-3">
         {pending.map((c) => (
           <div key={c.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4">
@@ -204,11 +205,11 @@ function PendingSection({ pending }: { pending: typeof COMPANIONS }) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-[14px] font-medium">{c.name}</p>
-              <p className="text-[12px] text-muted-foreground">{c.relationship} · Invited {c.invitedOn}</p>
+              <p className="text-[12px] text-muted-foreground">{c.relationship} · {t("together.invitedOn")} {c.invitedOn}</p>
             </div>
             <div className="flex items-center gap-2">
-              <Button size="sm" variant="ghost" className="rounded-full text-muted-foreground">Resend</Button>
-              <Button size="sm" variant="ghost" className="rounded-full text-destructive">Cancel</Button>
+              <Button size="sm" variant="ghost" className="rounded-full text-muted-foreground">{t("ui.resend")}</Button>
+              <Button size="sm" variant="ghost" className="rounded-full text-destructive">{t("ui.cancel")}</Button>
             </div>
           </div>
         ))}
@@ -218,12 +219,13 @@ function PendingSection({ pending }: { pending: typeof COMPANIONS }) {
 }
 
 function GroupsSection() {
+  const { t } = useI18n();
   return (
     <section>
       <SectionHeader
-        eyebrow="Small groups"
-        title="Walk with a circle"
-        action={<Button variant="outline" size="sm" className="rounded-full">Create group</Button>}
+        eyebrow={t("together.groups")}
+        title={t("together.groupsTitle")}
+        action={<Button variant="outline" size="sm" className="rounded-full">{t("together.createGroup")}</Button>}
       />
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         {GROUPS.map((g) => (
@@ -232,8 +234,8 @@ function GroupsSection() {
               <p className="font-serif text-lg">{g.name}</p>
               <span className="rounded-full border border-border/60 px-2 py-0.5 text-[10px] uppercase tracking-widest text-muted-foreground">{g.privacy}</span>
             </div>
-            <p className="mt-1 text-[12px] text-muted-foreground">Led by {g.leader} · {g.members} members</p>
-            <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">Current journey</p>
+            <p className="mt-1 text-[12px] text-muted-foreground">{t("together.ledBy")} {g.leader} · {g.members} {t("together.membersLabel")}</p>
+            <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("together.currentJourney")}</p>
             <p className="mt-1 font-serif text-[15px]">{g.journey}</p>
             <div className="mt-4 flex items-center gap-3">
               <div className="h-1 flex-1 overflow-hidden rounded-full bg-[color:var(--surface-2)]">
@@ -249,9 +251,10 @@ function GroupsSection() {
 }
 
 function ArchivedSection({ archived }: { archived: typeof COMPANIONS }) {
+  const { t } = useI18n();
   return (
     <section>
-      <SectionHeader eyebrow="Archived" title="Completed together" />
+      <SectionHeader eyebrow={t("together.archived")} title={t("together.archivedTitle")} />
       <div className="mt-6 grid gap-3">
         {archived.map((c) => (
           <div key={c.id} className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-4">
