@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { HeroPreview } from "@/components/site/HeroPreview";
-import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
-import { COLLECTIONS, MILESTONES, TODAY } from "@/lib/mock-data";
+import { MILESTONES, TODAY } from "@/lib/mock-data";
+import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/my-journey")({
@@ -69,14 +69,14 @@ function MyJourney() {
         <section>
           <h2 className="font-serif text-2xl">{t("app.continue")}</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {COLLECTIONS.slice(0, 3).map((c) => <CollectionCard key={c.slug} c={c} />)}
+            <CatalogGrid limit={3} className="contents" />
           </div>
         </section>
 
         <section>
           <h2 className="font-serif text-2xl">{t("app.recommended")}</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {COLLECTIONS.slice(3, 6).map((c) => <CollectionCard key={c.slug} c={c} />)}
+            <CatalogGrid limit={3} offset={3} className="contents" />
           </div>
         </section>
 

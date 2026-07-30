@@ -2,10 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { HeroMockup } from "@/components/site/HeroMockup";
 import { HeroWordGrid } from "@/components/site/HeroWordGrid";
-import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { COLLECTIONS } from "@/lib/mock-data";
+import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { ChevronDown } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
 import { JournalBinding } from "@/components/journal/JournalBinding";
@@ -282,11 +281,7 @@ function Landing() {
         title={t("collections.title")}
         sub={t("collections.sub")}
       >
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {COLLECTIONS.slice(0, 6).map((c) => (
-            <CollectionCard key={c.slug} c={c} />
-          ))}
-        </div>
+        <CatalogGrid limit={6} />
       </LandingSection>
 
       <Personalization />

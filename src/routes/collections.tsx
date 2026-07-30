@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { CollectionCard } from "@/components/site/CollectionCard";
-import { COLLECTIONS } from "@/lib/mock-data";
+import { useCatalogCollections } from "@/lib/content/catalog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X, SlidersHorizontal, BookOpen } from "lucide-react";
@@ -36,19 +36,6 @@ export const Route = createFileRoute("/collections")({
   component: CollectionsPage,
 });
 
-const CATEGORY_FILTERS: { label: string; slug: string | null }[] = [
-  { label: "All", slug: null },
-  { label: "Jesus", slug: "life-of-jesus" },
-  { label: "Psalms", slug: "psalms" },
-  { label: "Proverbs", slug: "proverbs" },
-  { label: "Faith", slug: "faith" },
-  { label: "Prayer", slug: "prayer" },
-  { label: "Family", slug: "family" },
-  { label: "Women", slug: "women" },
-  { label: "Men", slug: "men" },
-  { label: "Purpose", slug: "purpose" },
-];
-
 function CollectionsPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
@@ -59,7 +46,8 @@ function CollectionsPage() {
   const access = search.access ?? "Any";
   const language = search.language ?? "Any";
 
-  const [loading, setLoading] = useState(true);
+  const { data: collections, isLoading, isError } = useCatalogCollections();
+  const loading = isLoading;
   // Local text state for a snappy input; debounced into the URL.
   const [qInput, setQInput] = useState(q);
 
@@ -79,11 +67,6 @@ function CollectionsPage() {
     });
   };
 
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 450);
-    return () => clearTimeout(t);
-  }, []);
-
   // Debounce text input into the URL.
   useEffect(() => {
     if (qInput === q) return;
@@ -100,7 +83,7 @@ function CollectionsPage() {
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase();
-    return COLLECTIONS.filter((c) => {
+    return (collections ?? []).filter((c) => {
       if (query && !(`${c.title} ${c.description}`.toLowerCase().includes(query))) return false;
       if (category && c.slug !== category) return false;
       if (difficulty !== "Any" && c.difficulty !== difficulty) return false;
@@ -108,7 +91,16 @@ function CollectionsPage() {
       if (language !== "Any" && !(c.languages ?? []).includes(language)) return false;
       return true;
     });
-  }, [q, category, difficulty, access, language]);
+  }, [collections, q, category, difficulty, access, language]);
+
+  // Category chips follow the published library instead of a hardcoded list.
+  const categories = useMemo(
+    () => [
+      { label: "All", slug: null as string | null },
+      ...(collections ?? []).map((c) => ({ label: c.title, slug: c.slug })),
+    ],
+    [collections],
+  );
 
   const activeFilterCount =
     (category ? 1 : 0) +
@@ -157,7 +149,7 @@ function CollectionsPage() {
             )}
           </div>
           <div className="flex flex-wrap gap-2">
-            {CATEGORY_FILTERS.map((f) => {
+            {categories.map((f) => {
               const active = f.slug === category;
               return (
                 <button
@@ -217,7 +209,7 @@ function CollectionsPage() {
               <CardSkeleton key={i} />
             ))}
           </div>
-        ) : filtered.length === 0 ? (
+        ) : filtered.length === 0 || isError ? (
           <EmptyState hasQuery={!!q || activeFilterCount > 0} onClear={clearAll} />
         ) : (
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
