@@ -94,6 +94,47 @@
   }
 }
 
+/* The Living Journal — a resting pen cursor and a gently arriving line.
+   Both are neutralised by the reduced-motion rules further down, and the
+   components additionally render a readable static state, so nothing depends on
+   animation to be legible. */
+@keyframes lj-cursor-blink {
+  0%, 45% {
+    opacity: 1;
+  }
+  55%, 100% {
+    opacity: 0;
+  }
+}
+
+.lj-cursor {
+  animation: lj-cursor-blink 1.15s steps(1, end) infinite;
+}
+
+@keyframes lj-moment-in {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lj-moment-in {
+  animation: lj-moment-in 0.7s ease-out both;
+}
+
+/* The entry card is a sheet of paper in light mode. In dark mode the cream
+   paper-texture background would sit underneath near-white foreground text,
+   which is unreadable — so the card drops the texture and takes the standard
+   raised dark surface, which the warm walnut/gold accents already read against. */
+.dark .lj-paper {
+  background-color: var(--card);
+  background-image: none;
+}
+
 @keyframes toast-in {
   0% {
     transform: translateY(-8px) scale(0.96);

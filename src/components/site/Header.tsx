@@ -9,7 +9,13 @@ import { DarkModeToggle } from "./DarkModeToggle";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { FullscreenToggle } from "./FullscreenToggle";
 
-type NavItem = { href: string; label: string; type: "route" | "hash" };
+type NavItem = {
+  href: string;
+  label: string;
+  type: "route" | "hash";
+  /** Small, quiet status word. Deliberately not a coloured dot or a count. */
+  badge?: string;
+};
 
 export function Header() {
   const { t } = useI18n();
@@ -30,30 +36,49 @@ export function Header() {
   const nav: NavItem[] = [
     { href: "/features", label: t("nav.features"), type: "route" },
     { href: "/collections", label: t("nav.collections"), type: "route" },
+    // Scrolls to the landing-page section. Absolute so it also works from
+    // another route, where a bare "#living-journal" would go nowhere.
+    { href: "/#living-journal", label: t("nav.livingJournal"), type: "hash", badge: t("nav.soon") },
     { href: "/pricing", label: t("nav.pricing"), type: "route" },
     { href: "/about", label: t("nav.about"), type: "route" },
   ];
+
+  const label = (n: NavItem) =>
+    n.badge ? (
+      <span className="inline-flex items-baseline gap-1.5">
+        {n.label}
+        <span
+          className="rounded-full border px-1.5 py-px text-[9px] font-medium uppercase tracking-[0.12em]"
+          style={{
+            borderColor: "color-mix(in oklab, var(--gold) 40%, transparent)",
+            color: "color-mix(in oklab, var(--gold) 92%, var(--foreground))",
+          }}
+        >
+          {n.badge}
+        </span>
+      </span>
+    ) : (
+      n.label
+    );
 
   const renderLink = (n: NavItem, className: string, onClick?: () => void) => {
     if (n.type === "route") {
       return (
         <Link key={n.href} to={n.href} onClick={onClick} className={className}>
-          {n.label}
+          {label(n)}
         </Link>
       );
     }
     return (
       <a key={n.href} href={n.href} onClick={onClick} className={className}>
-        {n.label}
+        {label(n)}
       </a>
     );
   };
 
   const headerBase = isHero
     ? `fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "border-b border-[#E4E0D6] bg-white/80 backdrop-blur-xl"
-          : "bg-[#FCFBF8]/60"
+        scrolled ? "border-b border-[#E4E0D6] bg-white/80 backdrop-blur-xl" : "bg-[#FCFBF8]/60"
       }`
     : "sticky top-0 z-40 w-full border-b border-border/50 bg-background/75 backdrop-blur-xl";
 

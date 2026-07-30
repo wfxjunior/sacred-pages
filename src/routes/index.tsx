@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { COLLECTIONS } from "@/lib/mock-data";
 import { ChevronDown } from "lucide-react";
+import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
 import {
   ProductOverview,
   HowItWorks,
@@ -292,6 +293,12 @@ function Landing() {
       <JourneyTogether />
       <ProgressShowcase />
       <Testimonials />
+      {/*
+        Placed after the sections that explain the experience and immediately
+        before pricing: the Living Journal is the last emotional beat before the
+        ask, widening from "your journey" to "others are quietly walking it too".
+      */}
+      <LivingJournalSection />
       <PricingPreview />
       <FAQ />
       <FinalCTA />
