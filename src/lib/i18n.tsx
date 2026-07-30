@@ -862,10 +862,10 @@ const es: Dict = {
   "footer.product": "Producto",
   "footer.company": "Empresa",
   "footer.resources": "Recursos",
-  "footer.account": "Cuenta",
-  "footer.help": "Ayuda",
+  "footer.legal": "Legal",
   "footer.privacy": "Privacidad",
   "footer.terms": "Términos",
+  "footer.cookies": "Cookies",
   "footer.contact": "Contacto",
 };
 
