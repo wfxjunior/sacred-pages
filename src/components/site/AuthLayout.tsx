@@ -26,7 +26,12 @@ export function AuthLayout({
     >
       <header className="flex shrink-0 items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link to="/" aria-label="Lumena" className="inline-flex items-center">
-          <LumenaLogo size="sm" />
+          <span className="md:hidden">
+            <LumenaLogo size="sm" />
+          </span>
+          <span className="hidden md:inline-flex">
+            <LumenaLogo size="md" />
+          </span>
         </Link>
         <LanguageSelector />
       </header>
