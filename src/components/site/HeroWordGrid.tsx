@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 
 const WORDS = ["PEACE", "FAITH", "LIGHT", "GRACE", "HOPE"];
-const COLORS = ["#5E9E6E", "#3E7BC8", "#E0A63A", "#D26A4E", "#8B5CA8"];
+const COLORS = ["#5E9E6E", "#3E7BC8", "#E0A63A", "#E2853F", "#9B6FCB"];
 
 const GridCell = memo(function GridCell({
   letter,
@@ -16,11 +16,17 @@ const GridCell = memo(function GridCell({
   const hit = Boolean(color);
   return (
     <div
-      className="flex aspect-square items-center justify-center rounded-[3px] text-[10px] font-semibold sm:text-[11px] md:text-xs"
+      className="flex aspect-square items-center justify-center rounded-[6px] text-[10px] font-semibold sm:text-[11px] md:text-xs"
       style={{
-        backgroundColor: hit ? `color-mix(in oklab, ${color} 42%, white)` : "white",
-        color: hit ? "#1F1F1F" : "rgba(43,43,43,0.55)",
-        transition: "background-color 400ms ease-out, color 400ms ease-out",
+        backgroundColor: hit ? `color-mix(in oklab, ${color} 32%, white)` : "white",
+        border: hit
+          ? `1.5px solid ${color}`
+          : "1px solid color-mix(in oklab, #2B2B2B 8%, transparent)",
+        color: hit ? "#1F2A3C" : "rgba(43,43,43,0.55)",
+        boxShadow: hit ? `0 1px 2px ${color}33` : "0 1px 1px rgba(31,42,60,0.05)",
+        transform: hit ? "translateY(-1px)" : "none",
+        transition:
+          "background-color 400ms ease-out, color 400ms ease-out, border-color 400ms ease-out, transform 300ms ease-out",
       }}
     >
       {letter}
