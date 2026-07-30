@@ -28,6 +28,26 @@ export const Route = createFileRoute("/collections/$slug")({
   component: CollectionDetail,
 });
 
+function CollectionSkeleton() {
+  return (
+    <SiteLayout>
+      <div className="mx-auto max-w-7xl px-6 py-20" aria-busy="true">
+        <div className="h-3 w-24 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
+        <div className="mt-6 h-10 w-2/3 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
+        <div className="mt-4 h-4 w-1/2 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_45%,var(--card))]" />
+        <div className="mt-12 grid gap-4">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-16 animate-pulse rounded-xl bg-[color:color-mix(in_oklab,var(--parchment)_40%,var(--card))]"
+            />
+          ))}
+        </div>
+      </div>
+    </SiteLayout>
+  );
+}
+
 function CollectionNotFound() {
   return (
     <SiteLayout>
@@ -326,7 +346,7 @@ const expectations = [
   },
 ];
 
-function themeHeadline(c: Collection) {
+function themeHeadline(c: CatalogCollection) {
   const map: Record<string, string> = {
     "life-of-jesus": "Walk beside Jesus, page by page.",
     psalms: "Ancient songs for a modern heart.",
@@ -341,7 +361,7 @@ function themeHeadline(c: Collection) {
   return map[c.slug] ?? c.description;
 }
 
-function themeParagraph(c: Collection) {
+function themeParagraph(c: CatalogCollection) {
   const map: Record<string, string> = {
     "life-of-jesus":
       "Follow the ministry of Jesus from the wilderness to the resurrection. Each session pauses on a scene, a word, a question — so the story becomes yours.",
@@ -365,77 +385,3 @@ function themeParagraph(c: Collection) {
   return map[c.slug] ?? "A gentle, guided walk through Scripture — one small step at a time.";
 }
 
-function buildSessions(c: Collection) {
-  const templates: Record<string, { title: string; reference: string }[]> = {
-    "life-of-jesus": [
-      { title: "The Word became flesh", reference: "John 1:1–14" },
-      { title: "Baptism at the Jordan", reference: "Matthew 3:13–17" },
-      { title: "Sermon on the Mount", reference: "Matthew 5" },
-      { title: "A calming word to the storm", reference: "Mark 4:35–41" },
-      { title: "The Good Shepherd", reference: "John 10:1–18" },
-      { title: "Bread and cup", reference: "Luke 22:14–20" },
-      { title: "It is finished", reference: "John 19:28–30" },
-      { title: "He is not here", reference: "Matthew 28:1–10" },
-    ],
-    psalms: [
-      { title: "The Lord is my shepherd", reference: "Psalm 23" },
-      { title: "As the deer pants", reference: "Psalm 42" },
-      { title: "Create in me a clean heart", reference: "Psalm 51" },
-      { title: "How lovely is your dwelling", reference: "Psalm 84" },
-      { title: "Search me, O God", reference: "Psalm 139" },
-    ],
-    family: [
-      { title: "A three-strand cord", reference: "Ecclesiastes 4:9–12" },
-      { title: "Love is patient", reference: "1 Corinthians 13" },
-      { title: "Train up a child", reference: "Proverbs 22:6" },
-    ],
-    proverbs: [
-      { title: "The beginning of wisdom", reference: "Proverbs 1:1–7" },
-      { title: "Trust in the Lord", reference: "Proverbs 3:5–6" },
-      { title: "Words fitly spoken", reference: "Proverbs 25:11" },
-    ],
-    faith: [
-      { title: "Called out to a land", reference: "Genesis 12:1–9" },
-      { title: "Faith is being sure", reference: "Hebrews 11" },
-      { title: "Peter walks on water", reference: "Matthew 14:22–33" },
-    ],
-    women: [
-      { title: "Hagar sees God", reference: "Genesis 16" },
-      { title: "Ruth's quiet loyalty", reference: "Ruth 1" },
-      { title: "Deborah leads", reference: "Judges 4" },
-      { title: "Mary's yes", reference: "Luke 1:26–38" },
-    ],
-    men: [
-      { title: "Abraham's altar", reference: "Genesis 22" },
-      { title: "David's psalm of return", reference: "Psalm 51" },
-      { title: "Peter restored", reference: "John 21:15–19" },
-    ],
-    prayer: [
-      { title: "Teach us to pray", reference: "Luke 11:1–13" },
-      { title: "Pray in every situation", reference: "Philippians 4:6–7" },
-      { title: "Ask, seek, knock", reference: "Matthew 7:7–11" },
-    ],
-    purpose: [
-      { title: "Fearfully and wonderfully made", reference: "Psalm 139" },
-      { title: "Prepared in advance", reference: "Ephesians 2:10" },
-      { title: "Whatever you do", reference: "Colossians 3:17" },
-    ],
-  };
-
-  const base = templates[c.slug] ?? [
-    { title: "An opening word", reference: "Psalm 1" },
-    { title: "Sitting with the passage", reference: "Psalm 19" },
-    { title: "A word for today", reference: "Psalm 90" },
-  ];
-
-  const sessions: { title: string; reference: string; minutes: number }[] = [];
-  for (let i = 0; i < c.count; i++) {
-    const t = base[i % base.length];
-    sessions.push({
-      title: i < base.length ? t.title : `${t.title} — part ${Math.floor(i / base.length) + 1}`,
-      reference: t.reference,
-      minutes: 10,
-    });
-  }
-  return sessions;
-}
