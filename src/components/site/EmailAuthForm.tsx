@@ -34,6 +34,10 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
       toast.error(result.error.message);
       return;
     }
+    if (mode === "signup" && !result.session) {
+      toast.success(t("auth.checkEmail"));
+      return;
+    }
     navigate({ to: "/my-journey" });
   }
 
