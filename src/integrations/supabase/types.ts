@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      collection_tags: {
+        Row: {
+          collection_id: string
+          created_at: string
+          tag_id: string
+        }
+        Insert: {
+          collection_id: string
+          created_at?: string
+          tag_id: string
+        }
+        Update: {
+          collection_id?: string
+          created_at?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_tags_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "collection_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "content_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       collection_translations: {
         Row: {
           collection_id: string
@@ -197,6 +230,297 @@ export type Database = {
           },
         ]
       }
+      content_audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id: string
+          metadata: Json | null
+          new_status: Database["public"]["Enums"]["content_status"] | null
+          previous_status: Database["public"]["Enums"]["content_status"] | null
+          summary: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          metadata?: Json | null
+          new_status?: Database["public"]["Enums"]["content_status"] | null
+          previous_status?: Database["public"]["Enums"]["content_status"] | null
+          summary?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          metadata?: Json | null
+          new_status?: Database["public"]["Enums"]["content_status"] | null
+          previous_status?: Database["public"]["Enums"]["content_status"] | null
+          summary?: string | null
+        }
+        Relationships: []
+      }
+      content_preview_tokens: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          expires_at: string
+          id: string
+          revoked_at: string | null
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          expires_at: string
+          id?: string
+          revoked_at?: string | null
+          token: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["content_entity_type"]
+          expires_at?: string
+          id?: string
+          revoked_at?: string | null
+          token?: string
+        }
+        Relationships: []
+      }
+      content_review_logs: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          decision: Database["public"]["Enums"]["review_decision"]
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id: string
+          new_status: Database["public"]["Enums"]["content_status"] | null
+          notes: string | null
+          previous_status: Database["public"]["Enums"]["content_status"] | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          decision: Database["public"]["Enums"]["review_decision"]
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          new_status?: Database["public"]["Enums"]["content_status"] | null
+          notes?: string | null
+          previous_status?: Database["public"]["Enums"]["content_status"] | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          decision?: Database["public"]["Enums"]["review_decision"]
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          new_status?: Database["public"]["Enums"]["content_status"] | null
+          notes?: string | null
+          previous_status?: Database["public"]["Enums"]["content_status"] | null
+        }
+        Relationships: []
+      }
+      content_status_history: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id: string
+          new_status: Database["public"]["Enums"]["content_status"]
+          previous_status: Database["public"]["Enums"]["content_status"] | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          new_status: Database["public"]["Enums"]["content_status"]
+          previous_status?: Database["public"]["Enums"]["content_status"] | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          new_status?: Database["public"]["Enums"]["content_status"]
+          previous_status?: Database["public"]["Enums"]["content_status"] | null
+        }
+        Relationships: []
+      }
+      content_tag_translations: {
+        Row: {
+          created_at: string
+          id: string
+          language_code: string
+          name: string
+          tag_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          language_code: string
+          name: string
+          tag_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          language_code?: string
+          name?: string
+          tag_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_tag_translations_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "content_tag_translations_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "content_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_tags: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          kind: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          kind?: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          kind?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      content_versions: {
+        Row: {
+          change_summary: string | null
+          created_at: string
+          created_by: string | null
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id: string
+          snapshot: Json
+          version: number
+        }
+        Insert: {
+          change_summary?: string | null
+          created_at?: string
+          created_by?: string | null
+          entity_id: string
+          entity_type: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          snapshot: Json
+          version: number
+        }
+        Update: {
+          change_summary?: string | null
+          created_at?: string
+          created_by?: string | null
+          entity_id?: string
+          entity_type?: Database["public"]["Enums"]["content_entity_type"]
+          id?: string
+          snapshot?: Json
+          version?: number
+        }
+        Relationships: []
+      }
+      daily_journeys: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          is_fallback: boolean
+          journey_date: string
+          journey_id: string
+          language_code: string
+          notes: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          is_fallback?: boolean
+          journey_date: string
+          journey_id: string
+          language_code: string
+          notes?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          is_fallback?: boolean
+          journey_date?: string
+          journey_id?: string
+          language_code?: string
+          notes?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_journeys_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_journeys_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       journey_puzzle_settings: {
         Row: {
           allow_diagonal: boolean
@@ -264,6 +588,39 @@ export type Database = {
             columns: ["journey_id"]
             isOneToOne: true
             referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_tags: {
+        Row: {
+          created_at: string
+          journey_id: string
+          tag_id: string
+        }
+        Insert: {
+          created_at?: string
+          journey_id: string
+          tag_id: string
+        }
+        Update: {
+          created_at?: string
+          journey_id?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_tags_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "content_tags"
             referencedColumns: ["id"]
           },
         ]
@@ -894,11 +1251,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_edit_content: { Args: { uid: string }; Returns: boolean }
+      can_publish_content: { Args: { uid: string }; Returns: boolean }
+      can_review_content: { Args: { uid: string }; Returns: boolean }
+      collection_is_public: {
+        Args: { c: Database["public"]["Tables"]["collections"]["Row"] }
+        Returns: boolean
+      }
       has_role: {
         Args: { r: Database["public"]["Enums"]["app_role"]; uid: string }
         Returns: boolean
       }
       is_content_staff: { Args: { uid: string }; Returns: boolean }
+      is_service_context: { Args: never; Returns: boolean }
+      is_valid_status_transition: {
+        Args: {
+          from_status: Database["public"]["Enums"]["content_status"]
+          to_status: Database["public"]["Enums"]["content_status"]
+        }
+        Returns: boolean
+      }
+      journey_is_public: {
+        Args: { j: Database["public"]["Tables"]["journeys"]["Row"] }
+        Returns: boolean
+      }
     }
     Enums: {
       access_level: "free" | "premium" | "preview" | "internal"
