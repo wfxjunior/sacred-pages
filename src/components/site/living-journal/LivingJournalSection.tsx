@@ -33,7 +33,12 @@ export function LivingJournalSection() {
   });
 
   return (
-    <section id="living-journal" className="bg-[color:var(--surface-2)]">
+    <section
+      id="living-journal"
+      // Offset so the fixed header never covers the heading when the nav link
+      // scrolls here.
+      className="scroll-mt-20 bg-[color:var(--surface-2)] md:scroll-mt-24"
+    >
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
         {/* Heading — editorial, generous, left-aligned to read as a page opening. */}
         <div className="mx-auto max-w-2xl text-center">
@@ -61,14 +66,21 @@ export function LivingJournalSection() {
         >
           <div>
             {sequence && (
-              <JournalEntryCard
-                entry={sequence.entry}
-                typedText={sequence.typedText}
-                phase={sequence.phase}
-                // The cursor rests when the tab is away, so a paused sequence
-                // looks paused rather than broken.
-                showCursor={active && !reducedMotion}
-              />
+              // Keyed by entry so each new page animates in instead of the text
+              // snapping over the previous one.
+              <div
+                key={sequence.entry.id}
+                className={reducedMotion ? undefined : "lj-entry-in"}
+              >
+                <JournalEntryCard
+                  entry={sequence.entry}
+                  typedText={sequence.typedText}
+                  phase={sequence.phase}
+                  // The cursor rests when the tab is away, so a paused sequence
+                  // looks paused rather than broken.
+                  showCursor={active && !reducedMotion}
+                />
+              </div>
             )}
 
             <p
