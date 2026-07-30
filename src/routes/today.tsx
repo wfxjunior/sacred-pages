@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { TODAY } from "@/lib/mock-data";
+import { useTodayContent } from "@/lib/content/today";
 import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X, BookOpen } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -34,6 +34,7 @@ export const Route = createFileRoute("/today")({
 });
 
 function Today() {
+  const TODAY = useTodayContent();
   const { t } = useI18n();
   const [difficulty, setDifficulty] = useState<"gentle" | "balanced" | "challenging" | "expert">("gentle");
   const [complete, setComplete] = useState(false);
@@ -103,6 +104,7 @@ function MobileHeader({
   difficultyLabel: string;
   onComplete: () => void;
 }) {
+  const TODAY = useTodayContent();
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
       <div className="min-w-0">
@@ -125,6 +127,7 @@ function MobileHeader({
 }
 
 function MobileContentSheet() {
+  const TODAY = useTodayContent();
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
@@ -216,6 +219,7 @@ function MobileContentSheet() {
 }
 
 function JourneyTabs() {
+  const TODAY = useTodayContent();
   const { t } = useI18n();
   return (
     <Tabs defaultValue="scripture" className="w-full">
@@ -347,6 +351,7 @@ function HelpMenu() {
 }
 
 function Completion({ onReset }: { onReset: () => void }) {
+  const TODAY = useTodayContent();
   const { t } = useI18n();
   return (
     <AppShell>
