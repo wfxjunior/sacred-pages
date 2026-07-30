@@ -14,16 +14,935 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      collection_translations: {
+        Row: {
+          collection_id: string
+          created_at: string
+          created_by: string | null
+          full_description: string | null
+          id: string
+          language_code: string
+          reviewer_id: string | null
+          seo_description: string | null
+          seo_title: string | null
+          short_description: string | null
+          status: Database["public"]["Enums"]["translation_status"]
+          title: string
+          translator_id: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          collection_id: string
+          created_at?: string
+          created_by?: string | null
+          full_description?: string | null
+          id?: string
+          language_code: string
+          reviewer_id?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          short_description?: string | null
+          status?: Database["public"]["Enums"]["translation_status"]
+          title: string
+          translator_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          collection_id?: string
+          created_at?: string
+          created_by?: string | null
+          full_description?: string | null
+          id?: string
+          language_code?: string
+          reviewer_id?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          short_description?: string | null
+          status?: Database["public"]["Enums"]["translation_status"]
+          title?: string
+          translator_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_translations_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "collection_translations_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      collections: {
+        Row: {
+          access_level: Database["public"]["Enums"]["access_level"]
+          archived_at: string | null
+          audience: string | null
+          cover_media_id: string | null
+          created_at: string
+          created_by: string | null
+          difficulty_max: Database["public"]["Enums"]["difficulty_level"] | null
+          difficulty_min: Database["public"]["Enums"]["difficulty_level"] | null
+          display_order: number
+          estimated_total_minutes: number | null
+          featured_from: string | null
+          featured_until: string | null
+          id: string
+          internal_name: string
+          is_featured: boolean
+          primary_language_code: string
+          published_at: string | null
+          scheduled_publish_at: string | null
+          scheduled_unpublish_at: string | null
+          slug: string
+          status: Database["public"]["Enums"]["content_status"]
+          thumbnail_media_id: string | null
+          topic: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          access_level?: Database["public"]["Enums"]["access_level"]
+          archived_at?: string | null
+          audience?: string | null
+          cover_media_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          difficulty_max?:
+            | Database["public"]["Enums"]["difficulty_level"]
+            | null
+          difficulty_min?:
+            | Database["public"]["Enums"]["difficulty_level"]
+            | null
+          display_order?: number
+          estimated_total_minutes?: number | null
+          featured_from?: string | null
+          featured_until?: string | null
+          id?: string
+          internal_name: string
+          is_featured?: boolean
+          primary_language_code: string
+          published_at?: string | null
+          scheduled_publish_at?: string | null
+          scheduled_unpublish_at?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["content_status"]
+          thumbnail_media_id?: string | null
+          topic?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          access_level?: Database["public"]["Enums"]["access_level"]
+          archived_at?: string | null
+          audience?: string | null
+          cover_media_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          difficulty_max?:
+            | Database["public"]["Enums"]["difficulty_level"]
+            | null
+          difficulty_min?:
+            | Database["public"]["Enums"]["difficulty_level"]
+            | null
+          display_order?: number
+          estimated_total_minutes?: number | null
+          featured_from?: string | null
+          featured_until?: string | null
+          id?: string
+          internal_name?: string
+          is_featured?: boolean
+          primary_language_code?: string
+          published_at?: string | null
+          scheduled_publish_at?: string | null
+          scheduled_unpublish_at?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["content_status"]
+          thumbnail_media_id?: string | null
+          topic?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collections_cover_media_id_fkey"
+            columns: ["cover_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "collections_primary_language_code_fkey"
+            columns: ["primary_language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "collections_thumbnail_media_id_fkey"
+            columns: ["thumbnail_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_puzzle_settings: {
+        Row: {
+          allow_diagonal: boolean
+          allow_reversed: boolean
+          allowed_difficulties: Database["public"]["Enums"]["difficulty_level"][]
+          allowed_directions: string[]
+          created_at: string
+          custom_alphabet: string | null
+          default_difficulty: Database["public"]["Enums"]["difficulty_level"]
+          estimated_completion_seconds: number | null
+          filler_strategy: string
+          full_solution_enabled: boolean
+          hints_enabled: boolean
+          journey_id: string
+          max_grid_size: number
+          min_grid_size: number
+          overlap_preference: string
+          seed_strategy: string
+          target_word_count: number
+          updated_at: string
+        }
+        Insert: {
+          allow_diagonal?: boolean
+          allow_reversed?: boolean
+          allowed_difficulties?: Database["public"]["Enums"]["difficulty_level"][]
+          allowed_directions?: string[]
+          created_at?: string
+          custom_alphabet?: string | null
+          default_difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          estimated_completion_seconds?: number | null
+          filler_strategy?: string
+          full_solution_enabled?: boolean
+          hints_enabled?: boolean
+          journey_id: string
+          max_grid_size?: number
+          min_grid_size?: number
+          overlap_preference?: string
+          seed_strategy?: string
+          target_word_count?: number
+          updated_at?: string
+        }
+        Update: {
+          allow_diagonal?: boolean
+          allow_reversed?: boolean
+          allowed_difficulties?: Database["public"]["Enums"]["difficulty_level"][]
+          allowed_directions?: string[]
+          created_at?: string
+          custom_alphabet?: string | null
+          default_difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          estimated_completion_seconds?: number | null
+          filler_strategy?: string
+          full_solution_enabled?: boolean
+          hints_enabled?: boolean
+          journey_id?: string
+          max_grid_size?: number
+          min_grid_size?: number
+          overlap_preference?: string
+          seed_strategy?: string
+          target_word_count?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_puzzle_settings_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: true
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_translations: {
+        Row: {
+          completion_message: string | null
+          created_at: string
+          created_by: string | null
+          devotional_body: string | null
+          id: string
+          journey_id: string
+          language_code: string
+          prayer_body: string | null
+          public_title: string
+          reflection_prompt: string | null
+          reviewer_id: string | null
+          seo_description: string | null
+          seo_title: string | null
+          status: Database["public"]["Enums"]["translation_status"]
+          subtitle: string | null
+          translator_id: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          completion_message?: string | null
+          created_at?: string
+          created_by?: string | null
+          devotional_body?: string | null
+          id?: string
+          journey_id: string
+          language_code: string
+          prayer_body?: string | null
+          public_title: string
+          reflection_prompt?: string | null
+          reviewer_id?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          status?: Database["public"]["Enums"]["translation_status"]
+          subtitle?: string | null
+          translator_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          completion_message?: string | null
+          created_at?: string
+          created_by?: string | null
+          devotional_body?: string | null
+          id?: string
+          journey_id?: string
+          language_code?: string
+          prayer_body?: string | null
+          public_title?: string
+          reflection_prompt?: string | null
+          reviewer_id?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          status?: Database["public"]["Enums"]["translation_status"]
+          subtitle?: string | null
+          translator_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_translations_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_translations_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      journey_word_translations: {
+        Row: {
+          created_at: string
+          display_value: string
+          explanation: string | null
+          id: string
+          journey_id: string
+          journey_word_id: string
+          language_code: string
+          normalized_value: string
+          status: Database["public"]["Enums"]["translation_status"]
+          translator_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_value: string
+          explanation?: string | null
+          id?: string
+          journey_id: string
+          journey_word_id: string
+          language_code: string
+          normalized_value: string
+          status?: Database["public"]["Enums"]["translation_status"]
+          translator_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_value?: string
+          explanation?: string | null
+          id?: string
+          journey_id?: string
+          journey_word_id?: string
+          language_code?: string
+          normalized_value?: string
+          status?: Database["public"]["Enums"]["translation_status"]
+          translator_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_word_translations_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_word_translations_journey_word_id_fkey"
+            columns: ["journey_word_id"]
+            isOneToOne: false
+            referencedRelation: "journey_words"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_word_translations_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      journey_words: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          is_required: boolean
+          journey_id: string
+          max_difficulty: Database["public"]["Enums"]["difficulty_level"] | null
+          min_difficulty: Database["public"]["Enums"]["difficulty_level"]
+          position: number
+          scripture_reference_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_required?: boolean
+          journey_id: string
+          max_difficulty?:
+            | Database["public"]["Enums"]["difficulty_level"]
+            | null
+          min_difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          position?: number
+          scripture_reference_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_required?: boolean
+          journey_id?: string
+          max_difficulty?:
+            | Database["public"]["Enums"]["difficulty_level"]
+            | null
+          min_difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          position?: number
+          scripture_reference_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_words_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_words_scripture_reference_id_fkey"
+            columns: ["scripture_reference_id"]
+            isOneToOne: false
+            referencedRelation: "scripture_references"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journeys: {
+        Row: {
+          access_level: Database["public"]["Enums"]["access_level"]
+          archived_at: string | null
+          audience: string | null
+          author_id: string | null
+          created_at: string
+          created_by: string | null
+          current_version: number
+          daily_eligible: boolean
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          estimated_minutes: number
+          featured_from: string | null
+          featured_until: string | null
+          hero_media_id: string | null
+          id: string
+          internal_title: string
+          is_featured: boolean
+          position: number
+          primary_collection_id: string
+          primary_language_code: string
+          published_at: string | null
+          reviewer_id: string | null
+          scheduled_publish_at: string | null
+          scheduled_unpublish_at: string | null
+          slug: string
+          social_media_id: string | null
+          status: Database["public"]["Enums"]["content_status"]
+          theme: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          access_level?: Database["public"]["Enums"]["access_level"]
+          archived_at?: string | null
+          audience?: string | null
+          author_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_version?: number
+          daily_eligible?: boolean
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          estimated_minutes?: number
+          featured_from?: string | null
+          featured_until?: string | null
+          hero_media_id?: string | null
+          id?: string
+          internal_title: string
+          is_featured?: boolean
+          position?: number
+          primary_collection_id: string
+          primary_language_code: string
+          published_at?: string | null
+          reviewer_id?: string | null
+          scheduled_publish_at?: string | null
+          scheduled_unpublish_at?: string | null
+          slug: string
+          social_media_id?: string | null
+          status?: Database["public"]["Enums"]["content_status"]
+          theme?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          access_level?: Database["public"]["Enums"]["access_level"]
+          archived_at?: string | null
+          audience?: string | null
+          author_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_version?: number
+          daily_eligible?: boolean
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          estimated_minutes?: number
+          featured_from?: string | null
+          featured_until?: string | null
+          hero_media_id?: string | null
+          id?: string
+          internal_title?: string
+          is_featured?: boolean
+          position?: number
+          primary_collection_id?: string
+          primary_language_code?: string
+          published_at?: string | null
+          reviewer_id?: string | null
+          scheduled_publish_at?: string | null
+          scheduled_unpublish_at?: string | null
+          slug?: string
+          social_media_id?: string | null
+          status?: Database["public"]["Enums"]["content_status"]
+          theme?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journeys_hero_media_id_fkey"
+            columns: ["hero_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_primary_collection_id_fkey"
+            columns: ["primary_collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journeys_primary_language_code_fkey"
+            columns: ["primary_language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "journeys_social_media_id_fkey"
+            columns: ["social_media_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      languages: {
+        Row: {
+          code: string
+          created_at: string
+          english_name: string
+          is_active: boolean
+          is_default: boolean
+          native_name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          english_name: string
+          is_active?: boolean
+          is_default?: boolean
+          native_name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          english_name?: string
+          is_active?: boolean
+          is_default?: boolean
+          native_name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      media_assets: {
+        Row: {
+          alt_text: string | null
+          archived_at: string | null
+          attribution: string | null
+          byte_size: number
+          caption: string | null
+          created_at: string
+          created_by: string | null
+          height: number | null
+          id: string
+          license_notes: string | null
+          mime_type: string
+          storage_path: string
+          updated_at: string
+          updated_by: string | null
+          width: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          archived_at?: string | null
+          attribution?: string | null
+          byte_size: number
+          caption?: string | null
+          created_at?: string
+          created_by?: string | null
+          height?: number | null
+          id?: string
+          license_notes?: string | null
+          mime_type: string
+          storage_path: string
+          updated_at?: string
+          updated_by?: string | null
+          width?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          archived_at?: string | null
+          attribution?: string | null
+          byte_size?: number
+          caption?: string | null
+          created_at?: string
+          created_by?: string | null
+          height?: number | null
+          id?: string
+          license_notes?: string | null
+          mime_type?: string
+          storage_path?: string
+          updated_at?: string
+          updated_by?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          onboarded_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          onboarded_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          onboarded_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      scripture_references: {
+        Row: {
+          book_code: string
+          chapter: number
+          created_at: string
+          display_reference: string
+          external_content_id: string | null
+          id: string
+          journey_id: string
+          position: number
+          source_id: string
+          stored_text: string | null
+          updated_at: string
+          verse_end: number | null
+          verse_start: number
+        }
+        Insert: {
+          book_code: string
+          chapter: number
+          created_at?: string
+          display_reference: string
+          external_content_id?: string | null
+          id?: string
+          journey_id: string
+          position?: number
+          source_id: string
+          stored_text?: string | null
+          updated_at?: string
+          verse_end?: number | null
+          verse_start: number
+        }
+        Update: {
+          book_code?: string
+          chapter?: number
+          created_at?: string
+          display_reference?: string
+          external_content_id?: string | null
+          id?: string
+          journey_id?: string
+          position?: number
+          source_id?: string
+          stored_text?: string | null
+          updated_at?: string
+          verse_end?: number | null
+          verse_start?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scripture_references_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scripture_references_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "scripture_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scripture_sources: {
+        Row: {
+          allows_text_storage: boolean
+          api_provider: string | null
+          attribution_required: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          language_code: string
+          license_notes: string
+          strategy: Database["public"]["Enums"]["scripture_strategy"]
+          translation_code: string
+          translation_name: string
+          updated_at: string
+        }
+        Insert: {
+          allows_text_storage?: boolean
+          api_provider?: string | null
+          attribution_required?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          language_code: string
+          license_notes: string
+          strategy: Database["public"]["Enums"]["scripture_strategy"]
+          translation_code: string
+          translation_name: string
+          updated_at?: string
+        }
+        Update: {
+          allows_text_storage?: boolean
+          api_provider?: string | null
+          attribution_required?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          language_code?: string
+          license_notes?: string
+          strategy?: Database["public"]["Enums"]["scripture_strategy"]
+          translation_code?: string
+          translation_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scripture_sources_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          email_reminders: boolean
+          font_size: string
+          locale: string
+          preferred_difficulty: string
+          selection_color: string
+          sound_enabled: boolean
+          theme: string
+          timezone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_reminders?: boolean
+          font_size?: string
+          locale?: string
+          preferred_difficulty?: string
+          selection_color?: string
+          sound_enabled?: boolean
+          theme?: string
+          timezone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_reminders?: boolean
+          font_size?: string
+          locale?: string
+          preferred_difficulty?: string
+          selection_color?: string
+          sound_enabled?: boolean
+          theme?: string
+          timezone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          granted_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: { r: Database["public"]["Enums"]["app_role"]; uid: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      access_level: "free" | "premium" | "preview" | "internal"
+      app_role:
+        | "free_user"
+        | "premium_user"
+        | "content_editor"
+        | "content_reviewer"
+        | "support_admin"
+        | "super_admin"
+        | "publication_admin"
+      content_entity_type:
+        | "collection"
+        | "journey"
+        | "collection_translation"
+        | "journey_translation"
+        | "journey_word"
+        | "media_asset"
+        | "daily_journey"
+      content_status:
+        | "draft"
+        | "in_review"
+        | "changes_requested"
+        | "approved"
+        | "scheduled"
+        | "published"
+        | "unpublished"
+        | "archived"
+      difficulty_level: "gentle" | "balanced" | "challenging" | "expert"
+      review_decision:
+        | "submitted"
+        | "approved"
+        | "changes_requested"
+        | "withdrawn"
+      scripture_strategy:
+        | "reference_only"
+        | "public_domain"
+        | "licensed"
+        | "api"
+      translation_status:
+        | "missing"
+        | "draft"
+        | "in_review"
+        | "approved"
+        | "published"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +1069,56 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      access_level: ["free", "premium", "preview", "internal"],
+      app_role: [
+        "free_user",
+        "premium_user",
+        "content_editor",
+        "content_reviewer",
+        "support_admin",
+        "super_admin",
+        "publication_admin",
+      ],
+      content_entity_type: [
+        "collection",
+        "journey",
+        "collection_translation",
+        "journey_translation",
+        "journey_word",
+        "media_asset",
+        "daily_journey",
+      ],
+      content_status: [
+        "draft",
+        "in_review",
+        "changes_requested",
+        "approved",
+        "scheduled",
+        "published",
+        "unpublished",
+        "archived",
+      ],
+      difficulty_level: ["gentle", "balanced", "challenging", "expert"],
+      review_decision: [
+        "submitted",
+        "approved",
+        "changes_requested",
+        "withdrawn",
+      ],
+      scripture_strategy: [
+        "reference_only",
+        "public_domain",
+        "licensed",
+        "api",
+      ],
+      translation_status: [
+        "missing",
+        "draft",
+        "in_review",
+        "approved",
+        "published",
+      ],
+    },
   },
 } as const
