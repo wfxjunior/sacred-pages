@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_events: {
+        Row: {
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          idempotency_key: string
+          metadata: Json
+          occurred_at: string
+          type: Database["public"]["Enums"]["activity_event_type"]
+          user_id: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          idempotency_key: string
+          metadata?: Json
+          occurred_at?: string
+          type: Database["public"]["Enums"]["activity_event_type"]
+          user_id: string
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          idempotency_key?: string
+          metadata?: Json
+          occurred_at?: string
+          type?: Database["public"]["Enums"]["activity_event_type"]
+          user_id?: string
+          version?: number
+        }
+        Relationships: []
+      }
       collection_tags: {
         Row: {
           collection_id: string
@@ -229,6 +268,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      consistency_days: {
+        Row: {
+          activity_date: string
+          created_at: string
+          first_activity_at: string
+          journeys_completed: number
+          last_activity_at: string
+          puzzles_completed: number
+          timezone: string
+          user_id: string
+        }
+        Insert: {
+          activity_date: string
+          created_at?: string
+          first_activity_at?: string
+          journeys_completed?: number
+          last_activity_at?: string
+          puzzles_completed?: number
+          timezone?: string
+          user_id: string
+        }
+        Update: {
+          activity_date?: string
+          created_at?: string
+          first_activity_at?: string
+          journeys_completed?: number
+          last_activity_at?: string
+          puzzles_completed?: number
+          timezone?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       content_audit_logs: {
         Row: {
@@ -518,6 +590,253 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "languages"
             referencedColumns: ["code"]
+          },
+        ]
+      }
+      favorites: {
+        Row: {
+          collection_id: string | null
+          created_at: string
+          entity_type: Database["public"]["Enums"]["favorite_entity"]
+          id: string
+          journey_id: string | null
+          user_id: string
+        }
+        Insert: {
+          collection_id?: string | null
+          created_at?: string
+          entity_type: Database["public"]["Enums"]["favorite_entity"]
+          id?: string
+          journey_id?: string | null
+          user_id: string
+        }
+        Update: {
+          collection_id?: string | null
+          created_at?: string
+          entity_type?: Database["public"]["Enums"]["favorite_entity"]
+          id?: string
+          journey_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_progress: {
+        Row: {
+          best_duration_ms: number | null
+          collection_id: string | null
+          completion_count: number
+          created_at: string
+          first_completed_at: string | null
+          journey_id: string
+          last_completed_at: string | null
+          total_words_found: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          best_duration_ms?: number | null
+          collection_id?: string | null
+          completion_count?: number
+          created_at?: string
+          first_completed_at?: string | null
+          journey_id: string
+          last_completed_at?: string | null
+          total_words_found?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          best_duration_ms?: number | null
+          collection_id?: string | null
+          completion_count?: number
+          created_at?: string
+          first_completed_at?: string | null
+          journey_id?: string
+          last_completed_at?: string | null
+          total_words_found?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_progress_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_progress_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_sessions: {
+        Row: {
+          abandoned_at: string | null
+          assigned_date: string | null
+          collection_id: string | null
+          completed_at: string | null
+          completion_percent: number
+          created_at: string
+          current_step: Database["public"]["Enums"]["journey_step_type"]
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          elapsed_ms: number
+          id: string
+          is_replay: boolean
+          journey_id: string
+          language_code: string
+          last_active_at: string
+          puzzle_instance_id: string | null
+          started_at: string
+          status: Database["public"]["Enums"]["journey_session_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          abandoned_at?: string | null
+          assigned_date?: string | null
+          collection_id?: string | null
+          completed_at?: string | null
+          completion_percent?: number
+          created_at?: string
+          current_step?: Database["public"]["Enums"]["journey_step_type"]
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          elapsed_ms?: number
+          id?: string
+          is_replay?: boolean
+          journey_id: string
+          language_code: string
+          last_active_at?: string
+          puzzle_instance_id?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["journey_session_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          abandoned_at?: string | null
+          assigned_date?: string | null
+          collection_id?: string | null
+          completed_at?: string | null
+          completion_percent?: number
+          created_at?: string
+          current_step?: Database["public"]["Enums"]["journey_step_type"]
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          elapsed_ms?: number
+          id?: string
+          is_replay?: boolean
+          journey_id?: string
+          language_code?: string
+          last_active_at?: string
+          puzzle_instance_id?: string | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["journey_session_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_sessions_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_sessions_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_sessions_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "journey_sessions_puzzle_instance_id_fkey"
+            columns: ["puzzle_instance_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_instances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_step_progress: {
+        Row: {
+          completed_at: string | null
+          content_version: number | null
+          created_at: string
+          id: string
+          is_required: boolean
+          metadata: Json
+          session_id: string
+          started_at: string | null
+          step_order: number
+          step_type: Database["public"]["Enums"]["journey_step_type"]
+          time_spent_ms: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          content_version?: number | null
+          created_at?: string
+          id?: string
+          is_required?: boolean
+          metadata?: Json
+          session_id: string
+          started_at?: string | null
+          step_order?: number
+          step_type: Database["public"]["Enums"]["journey_step_type"]
+          time_spent_ms?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          content_version?: number | null
+          created_at?: string
+          id?: string
+          is_required?: boolean
+          metadata?: Json
+          session_id?: string
+          started_at?: string | null
+          step_order?: number
+          step_type?: Database["public"]["Enums"]["journey_step_type"]
+          time_spent_ms?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_step_progress_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "journey_sessions"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -965,6 +1284,102 @@ export type Database = {
           width?: number | null
         }
         Relationships: []
+      }
+      milestone_definitions: {
+        Row: {
+          category: Database["public"]["Enums"]["milestone_category"]
+          created_at: string
+          criteria: Database["public"]["Enums"]["milestone_criteria"]
+          display_order: number
+          icon: string | null
+          id: string
+          is_active: boolean
+          is_hidden: boolean
+          is_repeatable: boolean
+          key: string
+          qualifier: string | null
+          threshold: number
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["milestone_category"]
+          created_at?: string
+          criteria: Database["public"]["Enums"]["milestone_criteria"]
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_hidden?: boolean
+          is_repeatable?: boolean
+          key: string
+          qualifier?: string | null
+          threshold?: number
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["milestone_category"]
+          created_at?: string
+          criteria?: Database["public"]["Enums"]["milestone_criteria"]
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_hidden?: boolean
+          is_repeatable?: boolean
+          key?: string
+          qualifier?: string | null
+          threshold?: number
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      milestone_translations: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          language_code: string
+          milestone_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          language_code: string
+          milestone_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          language_code?: string
+          milestone_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "milestone_translations_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "milestone_translations_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "milestone_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -1626,6 +2041,161 @@ export type Database = {
           },
         ]
       }
+      user_collection_progress: {
+        Row: {
+          collection_id: string
+          completed_at: string | null
+          completion_percent: number
+          created_at: string
+          journeys_available: number
+          journeys_completed: number
+          last_activity_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          collection_id: string
+          completed_at?: string | null
+          completion_percent?: number
+          created_at?: string
+          journeys_available?: number
+          journeys_completed?: number
+          last_activity_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          collection_id?: string
+          completed_at?: string | null
+          completion_percent?: number
+          created_at?: string
+          journeys_available?: number
+          journeys_completed?: number
+          last_activity_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_collection_progress_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_milestones: {
+        Row: {
+          context: Json
+          created_at: string
+          earned_at: string
+          milestone_id: string
+          milestone_version: number
+          seen_at: string | null
+          source_entity_id: string | null
+          source_event_type:
+            | Database["public"]["Enums"]["activity_event_type"]
+            | null
+          user_id: string
+        }
+        Insert: {
+          context?: Json
+          created_at?: string
+          earned_at?: string
+          milestone_id: string
+          milestone_version?: number
+          seen_at?: string | null
+          source_entity_id?: string | null
+          source_event_type?:
+            | Database["public"]["Enums"]["activity_event_type"]
+            | null
+          user_id: string
+        }
+        Update: {
+          context?: Json
+          created_at?: string
+          earned_at?: string
+          milestone_id?: string
+          milestone_version?: number
+          seen_at?: string | null
+          source_entity_id?: string | null
+          source_event_type?:
+            | Database["public"]["Enums"]["activity_event_type"]
+            | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_milestones_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "milestone_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_prayers: {
+        Row: {
+          acknowledged: boolean
+          body: string | null
+          created_at: string
+          deleted_at: string | null
+          id: string
+          journey_id: string
+          language_code: string
+          session_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          acknowledged?: boolean
+          body?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          journey_id: string
+          language_code: string
+          session_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          acknowledged?: boolean
+          body?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          journey_id?: string
+          language_code?: string
+          session_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_prayers_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_prayers_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "user_prayers_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "journey_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_preferences: {
         Row: {
           created_at: string
@@ -1668,6 +2238,67 @@ export type Database = {
         }
         Relationships: []
       }
+      user_reflections: {
+        Row: {
+          body: string
+          created_at: string
+          deleted_at: string | null
+          id: string
+          journey_id: string
+          language_code: string
+          prompt_version: number | null
+          session_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          journey_id: string
+          language_code: string
+          prompt_version?: number | null
+          session_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          journey_id?: string
+          language_code?: string
+          prompt_version?: number | null
+          session_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reflections_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reflections_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "user_reflections_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "journey_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1704,6 +2335,23 @@ export type Database = {
         Args: { c: Database["public"]["Tables"]["collections"]["Row"] }
         Returns: boolean
       }
+      consistency_summary: {
+        Args: { uid: string }
+        Returns: {
+          active_days: number
+          current_run: number
+          last_active: string
+          longest_run: number
+        }[]
+      }
+      evaluate_milestones: {
+        Args: {
+          source_entity?: string
+          trigger_event?: Database["public"]["Enums"]["activity_event_type"]
+          uid: string
+        }
+        Returns: number
+      }
       has_role: {
         Args: { r: Database["public"]["Enums"]["app_role"]; uid: string }
         Returns: boolean
@@ -1721,9 +2369,35 @@ export type Database = {
         Args: { j: Database["public"]["Tables"]["journeys"]["Row"] }
         Returns: boolean
       }
+      recalculate_collection_progress: {
+        Args: { target_collection: string; uid: string }
+        Returns: undefined
+      }
+      record_active_day: {
+        Args: { completed_journey?: boolean; moment?: string; uid: string }
+        Returns: string
+      }
+      user_local_date: {
+        Args: { moment?: string; uid: string }
+        Returns: string
+      }
     }
     Enums: {
       access_level: "free" | "premium" | "preview" | "internal"
+      activity_event_type:
+        | "journey_started"
+        | "journey_resumed"
+        | "journey_step_completed"
+        | "puzzle_started"
+        | "puzzle_completed"
+        | "reflection_saved"
+        | "prayer_saved"
+        | "journey_completed"
+        | "collection_completed"
+        | "favorite_added"
+        | "favorite_removed"
+        | "active_day_recorded"
+        | "milestone_earned"
       app_role:
         | "free_user"
         | "premium_user"
@@ -1750,6 +2424,7 @@ export type Database = {
         | "unpublished"
         | "archived"
       difficulty_level: "gentle" | "balanced" | "challenging" | "expert"
+      favorite_entity: "collection" | "journey"
       generation_status:
         | "pending"
         | "running"
@@ -1757,6 +2432,33 @@ export type Database = {
         | "failed"
         | "cancelled"
       hint_policy: "none" | "limited" | "unlimited"
+      journey_session_status:
+        | "not_started"
+        | "in_progress"
+        | "puzzle_completed"
+        | "completed"
+        | "abandoned"
+      journey_step_type:
+        | "scripture"
+        | "devotional"
+        | "puzzle"
+        | "reflection"
+        | "prayer"
+        | "completion"
+      milestone_category:
+        | "journey"
+        | "puzzle"
+        | "consistency"
+        | "collection"
+        | "reflection"
+        | "prayer"
+        | "discovery"
+      milestone_criteria:
+        | "first_occurrence"
+        | "cumulative_count"
+        | "consistency_days"
+        | "collection_completed"
+        | "difficulty_reached"
       puzzle_event_type:
         | "puzzle_started"
         | "puzzle_paused"
@@ -1916,6 +2618,21 @@ export const Constants = {
   public: {
     Enums: {
       access_level: ["free", "premium", "preview", "internal"],
+      activity_event_type: [
+        "journey_started",
+        "journey_resumed",
+        "journey_step_completed",
+        "puzzle_started",
+        "puzzle_completed",
+        "reflection_saved",
+        "prayer_saved",
+        "journey_completed",
+        "collection_completed",
+        "favorite_added",
+        "favorite_removed",
+        "active_day_recorded",
+        "milestone_earned",
+      ],
       app_role: [
         "free_user",
         "premium_user",
@@ -1945,6 +2662,7 @@ export const Constants = {
         "archived",
       ],
       difficulty_level: ["gentle", "balanced", "challenging", "expert"],
+      favorite_entity: ["collection", "journey"],
       generation_status: [
         "pending",
         "running",
@@ -1953,6 +2671,37 @@ export const Constants = {
         "cancelled",
       ],
       hint_policy: ["none", "limited", "unlimited"],
+      journey_session_status: [
+        "not_started",
+        "in_progress",
+        "puzzle_completed",
+        "completed",
+        "abandoned",
+      ],
+      journey_step_type: [
+        "scripture",
+        "devotional",
+        "puzzle",
+        "reflection",
+        "prayer",
+        "completion",
+      ],
+      milestone_category: [
+        "journey",
+        "puzzle",
+        "consistency",
+        "collection",
+        "reflection",
+        "prayer",
+        "discovery",
+      ],
+      milestone_criteria: [
+        "first_occurrence",
+        "cumulative_count",
+        "consistency_days",
+        "collection_completed",
+        "difficulty_reached",
+      ],
       puzzle_event_type: [
         "puzzle_started",
         "puzzle_paused",
