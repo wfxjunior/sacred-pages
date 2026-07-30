@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { HeroPreview } from "@/components/site/HeroPreview";
-import { CollectionCard } from "@/components/site/CollectionCard";
 import { Button } from "@/components/ui/button";
 import { MILESTONES, TODAY } from "@/lib/mock-data";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
