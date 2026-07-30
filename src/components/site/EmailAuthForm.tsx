@@ -13,9 +13,11 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    setErrorMsg(null);
     if (!email.trim() || password.length < 6) {
       toast.error(t("auth.password") + " ≥ 6");
       return;
@@ -31,11 +33,17 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
         : await authService.signIn({ email: email.trim(), password });
     setLoading(false);
     if (!result.ok) {
-      toast.error(result.error.message);
+      const friendly =
+        result.error.code === "config/not-configured"
+          ? "Email sign-in is currently disabled for this project. Enable the Email provider in Cloud → Users → Auth settings, or continue with Google."
+          : result.error.message;
+      setErrorMsg(friendly);
+      toast.error(friendly);
       return;
     }
     if (mode === "signup" && !result.session) {
       toast.success(t("auth.checkEmail"));
+      setErrorMsg(null);
       return;
     }
     navigate({ to: "/my-journey" });
@@ -89,6 +97,11 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
       <Button type="submit" disabled={loading} className="h-11 w-full rounded-full">
         {loading ? "…" : t("auth.continue")}
       </Button>
+      {errorMsg && (
+        <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">
+          {errorMsg}
+        </p>
+      )}
       <div className="flex min-h-[20px] items-center justify-center text-center text-xs text-muted-foreground">
         {mode === "signin" ? (
           <Link to="/forgot" className="underline underline-offset-4">
