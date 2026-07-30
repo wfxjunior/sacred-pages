@@ -52,7 +52,7 @@ export function GlobalMomentList({
       </h3>
 
       <ul className="mt-5 space-y-4">
-        {visible.map((moment) => (
+        {visible.map((moment, i) => (
           <li
             key={moment.id}
             // Keyed by id so React replaces the node and the fade restarts.
@@ -61,7 +61,12 @@ export function GlobalMomentList({
             className={`flex gap-3 text-[13px] leading-relaxed ${
               reducedMotion ? "" : "lj-moment-in"
             }`}
-            style={{ color: "color-mix(in oklab, var(--ink) 62%, transparent)" }}
+            style={{
+              color: "color-mix(in oklab, var(--ink) 62%, transparent)",
+              // Slight stagger so the column settles as a group rather than
+              // all four lines snapping at once.
+              animationDelay: reducedMotion ? undefined : `${i * 70}ms`,
+            }}
           >
             <span
               aria-hidden

@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ type NavItem = {
 export function Header() {
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -38,7 +39,7 @@ export function Header() {
     { href: "/collections", label: t("nav.collections"), type: "route" },
     // Scrolls to the landing-page section. Absolute so it also works from
     // another route, where a bare "#living-journal" would go nowhere.
-    { href: "/#living-journal", label: t("nav.livingJournal"), type: "hash", badge: t("nav.soon") },
+    { href: "/#living-journal", label: t("nav.livingJournal"), type: "hash" },
     { href: "/pricing", label: t("nav.pricing"), type: "route" },
   ];
 
@@ -60,6 +61,34 @@ export function Header() {
       n.label
     );
 
+  /**
+   * Hash links must not do a full page load. When already on the landing page
+   * we smooth-scroll in place; from another route we navigate first and scroll
+   * once the section has mounted.
+   */
+  const scrollToHash = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    return true;
+  };
+
+  const onHashClick = (href: string, onClick?: () => void) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    onClick?.();
+    const [path, id] = href.split("#");
+    const to = path || "/";
+    if (pathname === to) {
+      scrollToHash(id);
+      window.history.replaceState(null, "", `${to}#${id}`);
+      return;
+    }
+    void navigate({ to, hash: id }).then(() => {
+      // Two frames: the route component mounts, then layout settles.
+      requestAnimationFrame(() => requestAnimationFrame(() => scrollToHash(id)));
+    });
+  };
+
   const renderLink = (n: NavItem, className: string, onClick?: () => void) => {
     if (n.type === "route") {
       return (
@@ -69,7 +98,7 @@ export function Header() {
       );
     }
     return (
-      <a key={n.href} href={n.href} onClick={onClick} className={className}>
+      <a key={n.href} href={n.href} onClick={onHashClick(n.href, onClick)} className={className}>
         {label(n)}
       </a>
     );
