@@ -1,32 +1,24 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { COLLECTIONS, type Collection } from "@/lib/mock-data";
+import { useCatalogCollection, type CatalogCollection } from "@/lib/content/catalog";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Clock, Heart, Share2, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/collections/$slug")({
-  loader: ({ params }) => {
-    const collection = COLLECTIONS.find((c) => c.slug === params.slug);
-    if (!collection) throw notFound();
-    return { collection };
-  },
-  head: ({ loaderData }) => {
-    if (!loaderData) {
-      return {
-        meta: [
-          { title: "Collection not found — Lumen Verse" },
-          { name: "robots", content: "noindex" },
-        ],
-      };
-    }
-    const { collection } = loaderData;
-    const title = `${collection.title} — Lumen Verse`;
+  head: ({ params }) => {
+    const readable = params.slug
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    const title = `${readable} — Lumen Verse`;
+    const description =
+      "A guided Bible collection: Scripture, a word search, reflection and prayer, ten quiet minutes a day.";
     return {
       meta: [
         { title },
-        { name: "description", content: collection.description },
+        { name: "description", content: description },
         { property: "og:title", content: title },
-        { property: "og:description", content: collection.description },
+        { property: "og:description", content: description },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
@@ -58,8 +50,19 @@ function CollectionNotFound() {
 }
 
 function CollectionDetail() {
-  const { collection } = Route.useLoaderData();
-  const sessions = buildSessions(collection);
+  const { slug } = Route.useParams();
+  const { data, isLoading, isError } = useCatalogCollection(slug);
+
+  if (isLoading) return <CollectionSkeleton />;
+  if (isError || !data) return <CollectionNotFound />;
+
+  const collection = data.collection;
+  // Sessions are the published journeys of this collection, in curated order.
+  const sessions = data.journeys.map((j) => ({
+    title: j.title,
+    reference: j.subtitle ?? j.theme ?? "",
+    minutes: j.estimatedMinutes,
+  }));
   const totalMinutes = sessions.reduce((sum, s) => sum + s.minutes, 0);
   const progressPct = collection.progress ? Math.round(collection.progress * 100) : 0;
   const completed = collection.progress ? Math.round(collection.progress * collection.count) : 0;
