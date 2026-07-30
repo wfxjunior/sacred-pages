@@ -91,12 +91,6 @@ export const authService = {
     return { ok: true };
   },
 
-  async _unusedGetSession(): Promise<Session | null> {
-    if (!isSupabaseConfigured()) return null;
-    const { data } = await getSupabaseClient().auth.getSession();
-    return data.session;
-  },
-
   onAuthStateChange(callback: (session: Session | null) => void): () => void {
     if (!isSupabaseConfigured()) return () => {};
     const { data } = getSupabaseClient().auth.onAuthStateChange((_event, session) => {
