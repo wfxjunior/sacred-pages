@@ -21,7 +21,7 @@ export function TrustPageLayout({
           to="/"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
         >
-          <BrandMark size="sm" />
+          <BrandMark size={24} />
           <span className="font-serif tracking-tight">Lumen Verse</span>
         </Link>
         <p className="mt-8 text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
