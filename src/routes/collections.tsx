@@ -36,19 +36,6 @@ export const Route = createFileRoute("/collections")({
   component: CollectionsPage,
 });
 
-const CATEGORY_FILTERS: { label: string; slug: string | null }[] = [
-  { label: "All", slug: null },
-  { label: "Jesus", slug: "life-of-jesus" },
-  { label: "Psalms", slug: "psalms" },
-  { label: "Proverbs", slug: "proverbs" },
-  { label: "Faith", slug: "faith" },
-  { label: "Prayer", slug: "prayer" },
-  { label: "Family", slug: "family" },
-  { label: "Women", slug: "women" },
-  { label: "Men", slug: "men" },
-  { label: "Purpose", slug: "purpose" },
-];
-
 function CollectionsPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
