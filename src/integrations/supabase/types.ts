@@ -14,6 +14,93 @@ export type Database = {
   }
   public: {
     Tables: {
+      languages: {
+        Row: {
+          code: string
+          created_at: string
+          english_name: string
+          is_active: boolean
+          is_default: boolean
+          native_name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          english_name: string
+          is_active?: boolean
+          is_default?: boolean
+          native_name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          english_name?: string
+          is_active?: boolean
+          is_default?: boolean
+          native_name?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      media_assets: {
+        Row: {
+          alt_text: string | null
+          archived_at: string | null
+          attribution: string | null
+          byte_size: number
+          caption: string | null
+          created_at: string
+          created_by: string | null
+          height: number | null
+          id: string
+          license_notes: string | null
+          mime_type: string
+          storage_path: string
+          updated_at: string
+          updated_by: string | null
+          width: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          archived_at?: string | null
+          attribution?: string | null
+          byte_size: number
+          caption?: string | null
+          created_at?: string
+          created_by?: string | null
+          height?: number | null
+          id?: string
+          license_notes?: string | null
+          mime_type: string
+          storage_path: string
+          updated_at?: string
+          updated_by?: string | null
+          width?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          archived_at?: string | null
+          attribution?: string | null
+          byte_size?: number
+          caption?: string | null
+          created_at?: string
+          created_by?: string | null
+          height?: number | null
+          id?: string
+          license_notes?: string | null
+          mime_type?: string
+          storage_path?: string
+          updated_at?: string
+          updated_by?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -40,6 +127,59 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      scripture_sources: {
+        Row: {
+          allows_text_storage: boolean
+          api_provider: string | null
+          attribution_required: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          language_code: string
+          license_notes: string
+          strategy: Database["public"]["Enums"]["scripture_strategy"]
+          translation_code: string
+          translation_name: string
+          updated_at: string
+        }
+        Insert: {
+          allows_text_storage?: boolean
+          api_provider?: string | null
+          attribution_required?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          language_code: string
+          license_notes: string
+          strategy: Database["public"]["Enums"]["scripture_strategy"]
+          translation_code: string
+          translation_name: string
+          updated_at?: string
+        }
+        Update: {
+          allows_text_storage?: boolean
+          api_provider?: string | null
+          attribution_required?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          language_code?: string
+          license_notes?: string
+          strategy?: Database["public"]["Enums"]["scripture_strategy"]
+          translation_code?: string
+          translation_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scripture_sources_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
       }
       user_preferences: {
         Row: {
@@ -118,6 +258,7 @@ export type Database = {
       }
     }
     Enums: {
+      access_level: "free" | "premium" | "preview" | "internal"
       app_role:
         | "free_user"
         | "premium_user"
@@ -126,6 +267,40 @@ export type Database = {
         | "support_admin"
         | "super_admin"
         | "publication_admin"
+      content_entity_type:
+        | "collection"
+        | "journey"
+        | "collection_translation"
+        | "journey_translation"
+        | "journey_word"
+        | "media_asset"
+        | "daily_journey"
+      content_status:
+        | "draft"
+        | "in_review"
+        | "changes_requested"
+        | "approved"
+        | "scheduled"
+        | "published"
+        | "unpublished"
+        | "archived"
+      difficulty_level: "gentle" | "balanced" | "challenging" | "expert"
+      review_decision:
+        | "submitted"
+        | "approved"
+        | "changes_requested"
+        | "withdrawn"
+      scripture_strategy:
+        | "reference_only"
+        | "public_domain"
+        | "licensed"
+        | "api"
+      translation_status:
+        | "missing"
+        | "draft"
+        | "in_review"
+        | "approved"
+        | "published"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -253,6 +428,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      access_level: ["free", "premium", "preview", "internal"],
       app_role: [
         "free_user",
         "premium_user",
@@ -261,6 +437,45 @@ export const Constants = {
         "support_admin",
         "super_admin",
         "publication_admin",
+      ],
+      content_entity_type: [
+        "collection",
+        "journey",
+        "collection_translation",
+        "journey_translation",
+        "journey_word",
+        "media_asset",
+        "daily_journey",
+      ],
+      content_status: [
+        "draft",
+        "in_review",
+        "changes_requested",
+        "approved",
+        "scheduled",
+        "published",
+        "unpublished",
+        "archived",
+      ],
+      difficulty_level: ["gentle", "balanced", "challenging", "expert"],
+      review_decision: [
+        "submitted",
+        "approved",
+        "changes_requested",
+        "withdrawn",
+      ],
+      scripture_strategy: [
+        "reference_only",
+        "public_domain",
+        "licensed",
+        "api",
+      ],
+      translation_status: [
+        "missing",
+        "draft",
+        "in_review",
+        "approved",
+        "published",
       ],
     },
   },
