@@ -46,6 +46,8 @@ import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.ne
 import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
 import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collections.new'
 import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin.collections.$collectionId'
+import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
 const TogetherRoute = TogetherRouteImport.update({
   id: '/together',
@@ -234,6 +236,16 @@ const AdminCollectionsCollectionIdRoute =
     path: '/admin/collections/$collectionId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
+  id: '/lovable/email/auth/webhook',
+  path: '/lovable/email/auth/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
+  id: '/lovable/email/auth/preview',
+  path: '/lovable/email/auth/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -273,6 +285,8 @@ export interface FileRoutesByFullPath {
   '/admin/journeys/new': typeof AdminJourneysNewRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -312,6 +326,8 @@ export interface FileRoutesByTo {
   '/admin/journeys/new': typeof AdminJourneysNewRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/journeys': typeof AdminJourneysIndexRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -352,6 +368,8 @@ export interface FileRoutesById {
   '/admin/journeys/new': typeof AdminJourneysNewRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -393,6 +411,8 @@ export interface FileRouteTypes {
     | '/admin/journeys/new'
     | '/admin/collections/'
     | '/admin/journeys/'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -432,6 +452,8 @@ export interface FileRouteTypes {
     | '/admin/journeys/new'
     | '/admin/collections'
     | '/admin/journeys'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
   id:
     | '__root__'
     | '/'
@@ -471,6 +493,8 @@ export interface FileRouteTypes {
     | '/admin/journeys/new'
     | '/admin/collections/'
     | '/admin/journeys/'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -509,6 +533,8 @@ export interface RootRouteChildren {
   AdminJourneysNewRoute: typeof AdminJourneysNewRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminJourneysIndexRoute: typeof AdminJourneysIndexRoute
+  LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
+  LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -772,6 +798,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/auth/webhook': {
+      id: '/lovable/email/auth/webhook'
+      path: '/lovable/email/auth/webhook'
+      fullPath: '/lovable/email/auth/webhook'
+      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/preview': {
+      id: '/lovable/email/auth/preview'
+      path: '/lovable/email/auth/preview'
+      fullPath: '/lovable/email/auth/preview'
+      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -835,7 +875,19 @@ const rootRouteChildren: RootRouteChildren = {
   AdminJourneysNewRoute: AdminJourneysNewRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminJourneysIndexRoute: AdminJourneysIndexRoute,
+  LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
+  LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
