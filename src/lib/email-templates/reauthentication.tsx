@@ -34,25 +34,33 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
 
 export default ReauthenticationEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
-const h1 = {
-  fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
-}
+const main = { backgroundColor: '#ffffff', fontFamily: 'Georgia, \'Times New Roman\', serif', margin: 0, padding: '24px 0' }
 const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
+  fontFamily: 'Helvetica, Arial, sans-serif',
+  fontSize: '15px',
+  color: '#4A4A4A',
+  lineHeight: '1.65',
+  margin: '0 0 22px',
 }
 const codeStyle = {
   fontFamily: 'Courier, monospace',
-  fontSize: '22px',
+  fontSize: '30px',
   fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 30px',
+  letterSpacing: '0.18em',
+  color: '#C89F4F',
+  backgroundColor: '#FFFFFF',
+  border: '1px solid #EDE8DE',
+  borderRadius: '10px',
+  padding: '16px 20px',
+  textAlign: 'center' as const,
+  margin: '0 0 26px',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = {
+  fontFamily: 'Helvetica, Arial, sans-serif',
+  fontSize: '12px',
+  color: '#8A8578',
+  lineHeight: '1.6',
+  borderTop: '1px solid #EDE8DE',
+  paddingTop: '18px',
+  margin: '32px 0 0',
+}
