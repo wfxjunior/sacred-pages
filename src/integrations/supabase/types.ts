@@ -521,77 +521,6 @@ export type Database = {
           },
         ]
       }
-      journey_puzzle_settings: {
-        Row: {
-          allow_diagonal: boolean
-          allow_reversed: boolean
-          allowed_difficulties: Database["public"]["Enums"]["difficulty_level"][]
-          allowed_directions: string[]
-          created_at: string
-          custom_alphabet: string | null
-          default_difficulty: Database["public"]["Enums"]["difficulty_level"]
-          estimated_completion_seconds: number | null
-          filler_strategy: string
-          full_solution_enabled: boolean
-          hints_enabled: boolean
-          journey_id: string
-          max_grid_size: number
-          min_grid_size: number
-          overlap_preference: string
-          seed_strategy: string
-          target_word_count: number
-          updated_at: string
-        }
-        Insert: {
-          allow_diagonal?: boolean
-          allow_reversed?: boolean
-          allowed_difficulties?: Database["public"]["Enums"]["difficulty_level"][]
-          allowed_directions?: string[]
-          created_at?: string
-          custom_alphabet?: string | null
-          default_difficulty?: Database["public"]["Enums"]["difficulty_level"]
-          estimated_completion_seconds?: number | null
-          filler_strategy?: string
-          full_solution_enabled?: boolean
-          hints_enabled?: boolean
-          journey_id: string
-          max_grid_size?: number
-          min_grid_size?: number
-          overlap_preference?: string
-          seed_strategy?: string
-          target_word_count?: number
-          updated_at?: string
-        }
-        Update: {
-          allow_diagonal?: boolean
-          allow_reversed?: boolean
-          allowed_difficulties?: Database["public"]["Enums"]["difficulty_level"][]
-          allowed_directions?: string[]
-          created_at?: string
-          custom_alphabet?: string | null
-          default_difficulty?: Database["public"]["Enums"]["difficulty_level"]
-          estimated_completion_seconds?: number | null
-          filler_strategy?: string
-          full_solution_enabled?: boolean
-          hints_enabled?: boolean
-          journey_id?: string
-          max_grid_size?: number
-          min_grid_size?: number
-          overlap_preference?: string
-          seed_strategy?: string
-          target_word_count?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "journey_puzzle_settings_journey_id_fkey"
-            columns: ["journey_id"]
-            isOneToOne: true
-            referencedRelation: "journeys"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       journey_tags: {
         Row: {
           created_at: string
@@ -1064,6 +993,523 @@ export type Database = {
         }
         Relationships: []
       }
+      puzzle_attempts: {
+        Row: {
+          created_at: string
+          end_col: number
+          end_row: number
+          id: string
+          is_correct: boolean
+          matched_word: string | null
+          selected_text: string | null
+          session_id: string
+          start_col: number
+          start_row: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_col: number
+          end_row: number
+          id?: string
+          is_correct: boolean
+          matched_word?: string | null
+          selected_text?: string | null
+          session_id: string
+          start_col: number
+          start_row: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_col?: number
+          end_row?: number
+          id?: string
+          is_correct?: boolean
+          matched_word?: string | null
+          selected_text?: string | null
+          session_id?: string
+          start_col?: number
+          start_row?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_attempts_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_events: {
+        Row: {
+          created_at: string
+          id: string
+          idempotency_key: string
+          occurred_at: string
+          payload: Json
+          session_id: string
+          type: Database["public"]["Enums"]["puzzle_event_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          idempotency_key: string
+          occurred_at?: string
+          payload?: Json
+          session_id: string
+          type: Database["public"]["Enums"]["puzzle_event_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          idempotency_key?: string
+          occurred_at?: string
+          payload?: Json
+          session_id?: string
+          type?: Database["public"]["Enums"]["puzzle_event_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_generation_requests: {
+        Row: {
+          attempt_count: number
+          completed_at: string | null
+          created_at: string
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          duration_ms: number | null
+          engine_version: string
+          error_code: string | null
+          error_detail: string | null
+          id: string
+          idempotency_key: string | null
+          journey_id: string
+          language_code: string
+          requested_by: string | null
+          result_instance_id: string | null
+          seed: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["generation_status"]
+          template_id: string | null
+        }
+        Insert: {
+          attempt_count?: number
+          completed_at?: string | null
+          created_at?: string
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          duration_ms?: number | null
+          engine_version: string
+          error_code?: string | null
+          error_detail?: string | null
+          id?: string
+          idempotency_key?: string | null
+          journey_id: string
+          language_code: string
+          requested_by?: string | null
+          result_instance_id?: string | null
+          seed?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["generation_status"]
+          template_id?: string | null
+        }
+        Update: {
+          attempt_count?: number
+          completed_at?: string | null
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          duration_ms?: number | null
+          engine_version?: string
+          error_code?: string | null
+          error_detail?: string | null
+          id?: string
+          idempotency_key?: string | null
+          journey_id?: string
+          language_code?: string
+          requested_by?: string | null
+          result_instance_id?: string | null
+          seed?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["generation_status"]
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_generation_requests_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "puzzle_generation_requests_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "puzzle_generation_requests_result_instance_id_fkey"
+            columns: ["result_instance_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_instances"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "puzzle_generation_requests_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_instances: {
+        Row: {
+          content_hash: string
+          created_at: string
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          engine_version: string
+          generation_metadata: Json
+          grid_rows: string[]
+          grid_size: number
+          id: string
+          language_code: string
+          normalized_grid_rows: string[]
+          placements: Json
+          seed: number
+          template_id: string
+          template_version: number
+          unplaced_words: Json
+        }
+        Insert: {
+          content_hash: string
+          created_at?: string
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          engine_version: string
+          generation_metadata?: Json
+          grid_rows: string[]
+          grid_size: number
+          id?: string
+          language_code: string
+          normalized_grid_rows: string[]
+          placements?: Json
+          seed: number
+          template_id: string
+          template_version: number
+          unplaced_words?: Json
+        }
+        Update: {
+          content_hash?: string
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          engine_version?: string
+          generation_metadata?: Json
+          grid_rows?: string[]
+          grid_size?: number
+          id?: string
+          language_code?: string
+          normalized_grid_rows?: string[]
+          placements?: Json
+          seed?: number
+          template_id?: string
+          template_version?: number
+          unplaced_words?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_instances_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "puzzle_instances_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_progress: {
+        Row: {
+          attempts_count: number
+          best_time_ms: number | null
+          completion_percent: number
+          created_at: string
+          first_completed_at: string | null
+          found_words: string[]
+          last_played_at: string
+          puzzle_instance_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attempts_count?: number
+          best_time_ms?: number | null
+          completion_percent?: number
+          created_at?: string
+          first_completed_at?: string | null
+          found_words?: string[]
+          last_played_at?: string
+          puzzle_instance_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attempts_count?: number
+          best_time_ms?: number | null
+          completion_percent?: number
+          created_at?: string
+          first_completed_at?: string | null
+          found_words?: string[]
+          last_played_at?: string
+          puzzle_instance_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_progress_puzzle_instance_id_fkey"
+            columns: ["puzzle_instance_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_instances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_sessions: {
+        Row: {
+          completed_at: string | null
+          completion_percent: number
+          created_at: string
+          elapsed_ms: number
+          hints_used: number
+          id: string
+          journey_id: string
+          last_activity_at: string
+          paused_at: string | null
+          puzzle_instance_id: string
+          revealed_solution: boolean
+          started_at: string
+          status: Database["public"]["Enums"]["puzzle_session_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completion_percent?: number
+          created_at?: string
+          elapsed_ms?: number
+          hints_used?: number
+          id?: string
+          journey_id: string
+          last_activity_at?: string
+          paused_at?: string | null
+          puzzle_instance_id: string
+          revealed_solution?: boolean
+          started_at?: string
+          status?: Database["public"]["Enums"]["puzzle_session_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          completion_percent?: number
+          created_at?: string
+          elapsed_ms?: number
+          hints_used?: number
+          id?: string
+          journey_id?: string
+          last_activity_at?: string
+          paused_at?: string | null
+          puzzle_instance_id?: string
+          revealed_solution?: boolean
+          started_at?: string
+          status?: Database["public"]["Enums"]["puzzle_session_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_sessions_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "puzzle_sessions_puzzle_instance_id_fkey"
+            columns: ["puzzle_instance_id"]
+            isOneToOne: false
+            referencedRelation: "puzzle_instances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_statistics: {
+        Row: {
+          abandoned_sessions: number
+          avg_completion_ms: number | null
+          completed_sessions: number
+          fastest_completion_ms: number | null
+          puzzle_instance_id: string
+          solution_reveals: number
+          total_hints_used: number
+          total_sessions: number
+          updated_at: string
+        }
+        Insert: {
+          abandoned_sessions?: number
+          avg_completion_ms?: number | null
+          completed_sessions?: number
+          fastest_completion_ms?: number | null
+          puzzle_instance_id: string
+          solution_reveals?: number
+          total_hints_used?: number
+          total_sessions?: number
+          updated_at?: string
+        }
+        Update: {
+          abandoned_sessions?: number
+          avg_completion_ms?: number | null
+          completed_sessions?: number
+          fastest_completion_ms?: number | null
+          puzzle_instance_id?: string
+          solution_reveals?: number
+          total_hints_used?: number
+          total_sessions?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_statistics_puzzle_instance_id_fkey"
+            columns: ["puzzle_instance_id"]
+            isOneToOne: true
+            referencedRelation: "puzzle_instances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puzzle_templates: {
+        Row: {
+          allow_diagonal: boolean
+          allow_reversed: boolean
+          allowed_directions: string[]
+          archived_at: string | null
+          created_at: string
+          created_by: string | null
+          custom_alphabet: string | null
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          expected_duration_seconds: number | null
+          filler_strategy: string
+          full_solution_enabled: boolean
+          hint_policy: Database["public"]["Enums"]["hint_policy"]
+          id: string
+          journey_id: string
+          language_code: string
+          max_attempts: number
+          max_grid_size: number
+          max_hints: number
+          min_engine_version: string
+          min_grid_size: number
+          overlap_strategy: string
+          seed_strategy: string
+          status: Database["public"]["Enums"]["puzzle_template_status"]
+          target_word_count: number
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          allow_diagonal?: boolean
+          allow_reversed?: boolean
+          allowed_directions?: string[]
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_alphabet?: string | null
+          difficulty: Database["public"]["Enums"]["difficulty_level"]
+          expected_duration_seconds?: number | null
+          filler_strategy?: string
+          full_solution_enabled?: boolean
+          hint_policy?: Database["public"]["Enums"]["hint_policy"]
+          id?: string
+          journey_id: string
+          language_code: string
+          max_attempts?: number
+          max_grid_size?: number
+          max_hints?: number
+          min_engine_version?: string
+          min_grid_size?: number
+          overlap_strategy?: string
+          seed_strategy?: string
+          status?: Database["public"]["Enums"]["puzzle_template_status"]
+          target_word_count?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          allow_diagonal?: boolean
+          allow_reversed?: boolean
+          allowed_directions?: string[]
+          archived_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_alphabet?: string | null
+          difficulty?: Database["public"]["Enums"]["difficulty_level"]
+          expected_duration_seconds?: number | null
+          filler_strategy?: string
+          full_solution_enabled?: boolean
+          hint_policy?: Database["public"]["Enums"]["hint_policy"]
+          id?: string
+          journey_id?: string
+          language_code?: string
+          max_attempts?: number
+          max_grid_size?: number
+          max_hints?: number
+          min_engine_version?: string
+          min_grid_size?: number
+          overlap_strategy?: string
+          seed_strategy?: string
+          status?: Database["public"]["Enums"]["puzzle_template_status"]
+          target_word_count?: number
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puzzle_templates_journey_id_fkey"
+            columns: ["journey_id"]
+            isOneToOne: false
+            referencedRelation: "journeys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "puzzle_templates_language_code_fkey"
+            columns: ["language_code"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       scripture_references: {
         Row: {
           book_code: string
@@ -1304,6 +1750,28 @@ export type Database = {
         | "unpublished"
         | "archived"
       difficulty_level: "gentle" | "balanced" | "challenging" | "expert"
+      generation_status:
+        | "pending"
+        | "running"
+        | "succeeded"
+        | "failed"
+        | "cancelled"
+      hint_policy: "none" | "limited" | "unlimited"
+      puzzle_event_type:
+        | "puzzle_started"
+        | "puzzle_paused"
+        | "puzzle_resumed"
+        | "puzzle_completed"
+        | "word_found"
+        | "hint_used"
+        | "puzzle_reset"
+        | "puzzle_regenerated"
+      puzzle_session_status:
+        | "in_progress"
+        | "paused"
+        | "completed"
+        | "abandoned"
+      puzzle_template_status: "draft" | "active" | "archived"
       review_decision:
         | "submitted"
         | "approved"
@@ -1477,6 +1945,31 @@ export const Constants = {
         "archived",
       ],
       difficulty_level: ["gentle", "balanced", "challenging", "expert"],
+      generation_status: [
+        "pending",
+        "running",
+        "succeeded",
+        "failed",
+        "cancelled",
+      ],
+      hint_policy: ["none", "limited", "unlimited"],
+      puzzle_event_type: [
+        "puzzle_started",
+        "puzzle_paused",
+        "puzzle_resumed",
+        "puzzle_completed",
+        "word_found",
+        "hint_used",
+        "puzzle_reset",
+        "puzzle_regenerated",
+      ],
+      puzzle_session_status: [
+        "in_progress",
+        "paused",
+        "completed",
+        "abandoned",
+      ],
+      puzzle_template_status: ["draft", "active", "archived"],
       review_decision: [
         "submitted",
         "approved",
