@@ -12,6 +12,8 @@ import {
   Text,
 } from '@react-email/components'
 
+import { EmailFooter } from './EmailFooter'
+
 interface EmailChangeEmailProps {
   siteName: string
   // oldEmail is the user's current address (HookData.OldEmail). For the
@@ -57,6 +59,7 @@ export const EmailChangeEmail = ({
           If you didn't request this change, please secure your account
           immediately.
         </Text>
+        <EmailFooter />
       </Container>
     </Body>
   </Html>

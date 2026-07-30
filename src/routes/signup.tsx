@@ -3,6 +3,7 @@ import { AuthLayout } from "@/components/site/AuthLayout";
 import { GoogleAuthButton } from "@/components/site/GoogleAuthButton";
 import { AuthDivider, EmailAuthForm } from "@/components/site/EmailAuthForm";
 import { useI18n } from "@/lib/i18n";
+import { LegalConsent } from "@/components/site/LegalConsent";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -24,6 +25,7 @@ function SignUp() {
       sub={t("auth.signup.sub")}
       footer={
         <>
+          <LegalConsent className="mb-3" />
           {t("auth.haveAccount")}{" "}
           <Link to="/signin" className="underline underline-offset-4" style={{ color: "var(--ink)" }}>
             {t("cta.signin")}

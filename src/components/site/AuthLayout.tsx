@@ -58,8 +58,23 @@ export function AuthLayout({
         </div>
       </main>
 
-      <footer className="shrink-0 px-5 pb-6 pt-2 text-center text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-        © {new Date().getFullYear()} · {t("brand.name")}
+      <footer className="shrink-0 px-5 pb-6 pt-2 text-center text-muted-foreground">
+        <nav className="mb-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[12px]">
+          <Link to="/terms" className="underline underline-offset-4 hover:opacity-80">
+            {t("footer.terms")}
+          </Link>
+          <span aria-hidden>·</span>
+          <Link to="/privacy" className="underline underline-offset-4 hover:opacity-80">
+            {t("footer.privacy")}
+          </Link>
+          <span aria-hidden>·</span>
+          <Link to="/cookies" className="underline underline-offset-4 hover:opacity-80">
+            {t("footer.cookies")}
+          </Link>
+        </nav>
+        <p className="text-[11px] uppercase tracking-[0.2em]">
+          © {new Date().getFullYear()} · {t("brand.name")}
+        </p>
       </footer>
     </div>
   );
