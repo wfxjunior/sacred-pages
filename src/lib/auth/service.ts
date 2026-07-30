@@ -19,6 +19,8 @@ function mapAuthError(message: string, status?: number): AppError {
   else if (normalized.includes("email not confirmed")) code = "auth/email-not-confirmed";
   else if (normalized.includes("already registered") || normalized.includes("already exists"))
     code = "auth/user-already-exists";
+  else if (normalized.includes("signups are disabled") || normalized.includes("provider is disabled"))
+    code = "config/not-configured";
   else if (normalized.includes("password")) code = "auth/weak-password";
   else if (status === 429 || normalized.includes("rate limit")) code = "auth/rate-limited";
   return new AppError(code, message);
@@ -42,7 +44,10 @@ export const authService = {
     const { data, error } = await getSupabaseClient().auth.signUp({
       email: input.email,
       password: input.password,
-      options: { data: input.displayName ? { display_name: input.displayName } : undefined },
+      options: {
+        emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+        data: input.displayName ? { display_name: input.displayName } : undefined,
+      },
     });
     if (error) return { ok: false, error: mapAuthError(error.message, error.status) };
     if (!data.user) return { ok: false, error: new AppError("auth/unknown", "No user returned.") };
