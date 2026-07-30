@@ -126,6 +126,22 @@
   animation: lj-moment-in 0.7s ease-out both;
 }
 
+/* Each new journal entry arrives as a fresh page rather than swapping in place. */
+@keyframes lj-entry-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lj-entry-in {
+  animation: lj-entry-in 0.62s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
 /* The entry card is a sheet of paper in light mode. In dark mode the cream
    paper-texture background would sit underneath near-white foreground text,
    which is unreadable — so the card drops the texture and takes the standard
