@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
+import { BrandWordmark } from "./BrandMark";
 
 export function AuthLayout({
   title,
@@ -24,12 +25,8 @@ export function AuthLayout({
       }}
     >
       <header className="flex items-center justify-between px-6 py-5 md:px-10">
-        <Link
-          to="/"
-          className="font-serif text-lg tracking-tight"
-          style={{ color: "var(--ink)" }}
-        >
-          {t("brand.name")}
+        <Link to="/" aria-label={t("brand.name")} className="inline-flex items-center">
+          <BrandWordmark size={26} />
         </Link>
         <LanguageSelector />
       </header>
