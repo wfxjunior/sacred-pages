@@ -34,9 +34,6 @@ function SignUp() {
       <GoogleAuthButton label="Continue with Google" />
       <AuthDivider label="or" />
       <EmailAuthForm mode="signup" />
-      <p className="pt-1 text-[11px] leading-relaxed text-muted-foreground">
-        First journey free
-      </p>
     </AuthLayout>
   );
 }

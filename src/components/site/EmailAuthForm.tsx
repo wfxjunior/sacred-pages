@@ -89,16 +89,15 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
       <Button type="submit" disabled={loading} className="h-11 w-full rounded-full">
         {loading ? "…" : t("auth.continue")}
       </Button>
-      {mode === "signin" && (
-        <div className="text-center">
-          <Link
-            to="/forgot"
-            className="text-xs text-muted-foreground underline underline-offset-4"
-          >
+      <div className="flex min-h-[20px] items-center justify-center text-center text-xs text-muted-foreground">
+        {mode === "signin" ? (
+          <Link to="/forgot" className="underline underline-offset-4">
             {t("auth.forgotLink")}
           </Link>
-        </div>
-      )}
+        ) : (
+          <span>First journey free</span>
+        )}
+      </div>
     </form>
   );
 }
