@@ -31,7 +31,7 @@ export function GoogleAuthButton({ label }: { label: string }) {
       type="button"
       onClick={handleClick}
       disabled={loading}
-      className="group relative flex w-full items-center justify-center gap-3 rounded-full border bg-white px-5 py-3.5 text-[15px] font-medium transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-24px_rgba(43,43,43,0.35)] disabled:cursor-not-allowed disabled:opacity-60"
+      className="group relative flex h-11 w-full items-center justify-center gap-2.5 rounded-full border bg-white px-4 text-[14px] font-medium transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_32px_-20px_rgba(43,43,43,0.3)] disabled:cursor-not-allowed disabled:opacity-60"
       style={{
         borderColor: "color-mix(in oklab, var(--ink) 12%, transparent)",
         color: "var(--ink)",

@@ -31,22 +31,22 @@ export function AuthLayout({
         <LanguageSelector />
       </header>
 
-      <main className="flex flex-1 items-center justify-center px-6 pb-16">
-        <div className="w-full max-w-[380px] text-center">
+      <main className="flex flex-1 items-center justify-center px-6 pb-12">
+        <div className="w-full max-w-[360px] text-center">
           <h1
-            className="font-serif text-[34px] leading-[1.08] tracking-tight md:text-[40px]"
+            className="font-serif text-[28px] leading-[1.1] tracking-tight md:text-[32px]"
             style={{ color: "var(--ink)" }}
           >
             {title}
           </h1>
           {sub && (
-            <p className="mx-auto mt-3 max-w-[320px] text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mx-auto mt-2 max-w-[300px] text-[14px] leading-relaxed text-muted-foreground">
               {sub}
             </p>
           )}
-          <div className="mt-9 space-y-4">{children}</div>
+          <div className="mt-7 space-y-3">{children}</div>
           {footer && (
-            <div className="mt-8 text-sm text-muted-foreground">{footer}</div>
+            <div className="mt-6 text-sm text-muted-foreground">{footer}</div>
           )}
         </div>
       </main>
