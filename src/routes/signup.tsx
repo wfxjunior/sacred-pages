@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AuthLayout } from "@/components/site/AuthLayout";
 import { GoogleAuthButton } from "@/components/site/GoogleAuthButton";
+import { AuthDivider, EmailAuthForm } from "@/components/site/EmailAuthForm";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/signup")({
@@ -31,8 +32,10 @@ function SignUp() {
       }
     >
       <GoogleAuthButton label="Continue with Google" />
+      <AuthDivider label="or" />
+      <EmailAuthForm mode="signup" />
       <p className="pt-1 text-[11px] leading-relaxed text-muted-foreground">
-        First journey free · No password required
+        First journey free
       </p>
     </AuthLayout>
   );
