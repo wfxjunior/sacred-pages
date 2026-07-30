@@ -170,10 +170,11 @@ const en: Dict = {
   "footer.product": "Product",
   "footer.company": "Company",
   "footer.resources": "Resources",
-  "footer.account": "Account",
   "footer.help": "Help",
+  "footer.legal": "Legal",
   "footer.privacy": "Privacy",
   "footer.terms": "Terms",
+  "footer.cookies": "Cookies",
   "footer.contact": "Contact",
   "footer.rights": "All rights reserved.",
   "auth.signin": "Sign in to your journey",
@@ -554,10 +555,11 @@ Object.assign(pt, {
   "footer.product": "Produto",
   "footer.company": "Empresa",
   "footer.resources": "Recursos",
-  "footer.account": "Conta",
   "footer.help": "Ajuda",
+  "footer.legal": "Jurídico",
   "footer.privacy": "Privacidade",
   "footer.terms": "Termos",
+  "footer.cookies": "Cookies",
   "footer.contact": "Contato",
 });
 
@@ -862,10 +864,11 @@ const es: Dict = {
   "footer.product": "Producto",
   "footer.company": "Empresa",
   "footer.resources": "Recursos",
-  "footer.account": "Cuenta",
   "footer.help": "Ayuda",
+  "footer.legal": "Legal",
   "footer.privacy": "Privacidad",
   "footer.terms": "Términos",
+  "footer.cookies": "Cookies",
   "footer.contact": "Contacto",
 };
 

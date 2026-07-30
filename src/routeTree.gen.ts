@@ -11,12 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TogetherRouteImport } from './routes/together'
 import { Route as TodayRouteImport } from './routes/today'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SigninRouteImport } from './routes/signin'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -24,6 +26,7 @@ import { Route as MyJourneyRouteImport } from './routes/my-journey'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -51,6 +54,11 @@ const TogetherRoute = TogetherRouteImport.update({
 const TodayRoute = TodayRouteImport.update({
   id: '/today',
   path: '/today',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -81,6 +89,11 @@ const ProgressRoute = ProgressRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -116,6 +129,11 @@ const FeaturesRoute = FeaturesRouteImport.update({
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsRoute = CollectionsRouteImport.update({
@@ -215,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/collections': typeof CollectionsRouteWithChildren
+  '/cookies': typeof CookiesRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -222,12 +241,14 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/settings': typeof SettingsRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
   '/admin/audit': typeof AdminAuditRoute
@@ -250,6 +271,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/collections': typeof CollectionsRouteWithChildren
+  '/cookies': typeof CookiesRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -257,12 +279,14 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/settings': typeof SettingsRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
   '/admin/audit': typeof AdminAuditRoute
@@ -286,6 +310,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/collections': typeof CollectionsRouteWithChildren
+  '/cookies': typeof CookiesRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -293,12 +318,14 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/settings': typeof SettingsRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/today': typeof TodayRoute
   '/together': typeof TogetherRoute
   '/admin/audit': typeof AdminAuditRoute
@@ -323,6 +350,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/collections'
+    | '/cookies'
     | '/favorites'
     | '/features'
     | '/forgot'
@@ -330,12 +358,14 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/onboarding'
     | '/pricing'
+    | '/privacy'
     | '/profile'
     | '/progress'
     | '/settings'
     | '/signin'
     | '/signup'
     | '/sitemap.xml'
+    | '/terms'
     | '/today'
     | '/together'
     | '/admin/audit'
@@ -358,6 +388,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/collections'
+    | '/cookies'
     | '/favorites'
     | '/features'
     | '/forgot'
@@ -365,12 +396,14 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/onboarding'
     | '/pricing'
+    | '/privacy'
     | '/profile'
     | '/progress'
     | '/settings'
     | '/signin'
     | '/signup'
     | '/sitemap.xml'
+    | '/terms'
     | '/today'
     | '/together'
     | '/admin/audit'
@@ -393,6 +426,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/collections'
+    | '/cookies'
     | '/favorites'
     | '/features'
     | '/forgot'
@@ -400,12 +434,14 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/onboarding'
     | '/pricing'
+    | '/privacy'
     | '/profile'
     | '/progress'
     | '/settings'
     | '/signin'
     | '/signup'
     | '/sitemap.xml'
+    | '/terms'
     | '/today'
     | '/together'
     | '/admin/audit'
@@ -429,6 +465,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CollectionsRoute: typeof CollectionsRouteWithChildren
+  CookiesRoute: typeof CookiesRoute
   FavoritesRoute: typeof FavoritesRoute
   FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
@@ -436,12 +473,14 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   PricingRoute: typeof PricingRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ProgressRoute: typeof ProgressRoute
   SettingsRoute: typeof SettingsRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   TodayRoute: typeof TodayRoute
   TogetherRoute: typeof TogetherRoute
   AdminAuditRoute: typeof AdminAuditRoute
@@ -473,6 +512,13 @@ declare module '@tanstack/react-router' {
       path: '/today'
       fullPath: '/today'
       preLoaderRoute: typeof TodayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -515,6 +561,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -564,6 +617,13 @@ declare module '@tanstack/react-router' {
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collections': {
@@ -723,6 +783,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CollectionsRoute: CollectionsRouteWithChildren,
+  CookiesRoute: CookiesRoute,
   FavoritesRoute: FavoritesRoute,
   FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,
@@ -730,12 +791,14 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   PricingRoute: PricingRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ProgressRoute: ProgressRoute,
   SettingsRoute: SettingsRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   TodayRoute: TodayRoute,
   TogetherRoute: TogetherRoute,
   AdminAuditRoute: AdminAuditRoute,

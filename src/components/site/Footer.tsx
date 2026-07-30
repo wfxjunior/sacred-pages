@@ -39,12 +39,11 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <p className={heading}>{t("footer.account")}</p>
+          <p className={heading}>{t("footer.legal")}</p>
           <ul className="mt-4 space-y-2.5">
-            <li><Link to="/signin" className={item}>{t("cta.signin")}</Link></li>
-            <li><Link to="/signup" className={item}>{t("cta.startFree")}</Link></li>
-            <li><a href="#" className={item}>{t("footer.privacy")}</a></li>
-            <li><a href="#" className={item}>{t("footer.terms")}</a></li>
+            <li><Link to="/privacy" className={item}>{t("footer.privacy")}</Link></li>
+            <li><Link to="/terms" className={item}>{t("footer.terms")}</Link></li>
+            <li><Link to="/cookies" className={item}>{t("footer.cookies")}</Link></li>
           </ul>
         </div>
       </div>
