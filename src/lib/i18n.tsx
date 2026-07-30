@@ -554,10 +554,10 @@ Object.assign(pt, {
   "footer.product": "Produto",
   "footer.company": "Empresa",
   "footer.resources": "Recursos",
-  "footer.account": "Conta",
-  "footer.help": "Ajuda",
+  "footer.legal": "Jurídico",
   "footer.privacy": "Privacidade",
   "footer.terms": "Termos",
+  "footer.cookies": "Cookies",
   "footer.contact": "Contato",
 });
 
