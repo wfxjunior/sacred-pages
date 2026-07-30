@@ -12,6 +12,8 @@ import {
   Text,
 } from '@react-email/components'
 
+import { EmailFooter } from './EmailFooter'
+
 interface InviteEmailProps {
   siteName: string
   siteUrl: string
@@ -44,6 +46,7 @@ export const InviteEmail = ({
           If you weren't expecting this invitation, you can safely ignore this
           email.
         </Text>
+        <EmailFooter />
       </Container>
     </Body>
   </Html>
