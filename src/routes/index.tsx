@@ -8,6 +8,7 @@ import { useI18n } from "@/lib/i18n";
 import { COLLECTIONS } from "@/lib/mock-data";
 import { ChevronDown } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
+import { JournalBinding } from "@/components/journal/JournalBinding";
 import {
   ProductOverview,
   HowItWorks,
@@ -145,15 +146,9 @@ function MagazineSpread() {
             <div className="absolute inset-y-0 left-1/2 h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.10] to-transparent" />
             {/* Linen spine strip */}
             <div className="linen-spine absolute inset-y-2 left-1/2 h-[calc(100%-1rem)] w-[10px] -translate-x-1/2 rounded-[2px]" />
-            {/* Sewn stitch line */}
-            <svg
-              className="absolute inset-y-3 left-1/2 h-[calc(100%-1.5rem)] w-[3px] -translate-x-1/2"
-              viewBox="0 0 2 100" preserveAspectRatio="none"
-            >
-              <line x1="1" y1="0" x2="1" y2="100"
-                stroke="#8A6A1F" strokeOpacity="0.55" strokeWidth="0.6"
-                strokeDasharray="2.2 2" vectorEffect="non-scaling-stroke" />
-            </svg>
+            {/* Spiral binding — sits above the linen gutter, which is kept
+                underneath as the page fold. */}
+            <JournalBinding orientation="vertical" />
           </div>
           {/* Sewn linen spine — mobile horizontal */}
           <div
@@ -168,11 +163,12 @@ function MagazineSpread() {
                   "linear-gradient(90deg, rgba(31,29,27,0.05), rgba(31,29,27,0.12) 50%, rgba(31,29,27,0.05)), repeating-linear-gradient(90deg, rgba(31,29,27,0.06) 0 1px, transparent 1px 3px), linear-gradient(0deg, #E9E4D8, #D9D2C1)",
               }}
             />
-            <svg className="absolute inset-x-4 top-1/2 h-[3px] w-[calc(100%-2rem)] -translate-y-1/2" viewBox="0 0 100 2" preserveAspectRatio="none">
-              <line x1="0" y1="1" x2="100" y2="1"
-                stroke="#8A6A1F" strokeOpacity="0.55" strokeWidth="0.6"
-                strokeDasharray="2.2 2" vectorEffect="non-scaling-stroke" />
-            </svg>
+            {/*
+              Below lg the spread stacks, so the two halves genuinely read as
+              pages turning vertically — the one case where a horizontal binding
+              is honest rather than decoration forced through unrelated content.
+            */}
+            <JournalBinding orientation="horizontal" />
           </div>
           <div className="relative">
             <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-gradient-to-l from-black/[0.06] to-transparent" />
@@ -200,7 +196,9 @@ function Landing() {
             {/* Text column */}
             <div className="w-full">
               <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2D2926] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
-                <span className="text-[#1F1D1B]">{t("brand.name")}</span>
+                {/* The hero headline names the experience, not the brand —
+                    the Lumena mark in the header supplies the brand. */}
+                <span className="text-[#1F1D1B]">{t("brand.experience")}</span>
               </h1>
 
               <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.55] text-[#6B665C] sm:mt-6 sm:max-w-lg sm:text-[17px] md:max-w-xl md:text-[18px] lg:text-[19px] lg:leading-[1.5]">

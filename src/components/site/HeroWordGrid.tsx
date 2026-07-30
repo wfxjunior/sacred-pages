@@ -212,7 +212,8 @@ export function HeroWordGrid() {
             <div className="flex items-end justify-between gap-3">
               <div>
                 <h2 className="font-serif text-2xl font-normal italic leading-none text-[#2E5C9E] sm:text-3xl">
-                  {t("brand.name")}
+                  {/* The journal page is titled with the experience name. */}
+                  {t("brand.experience")}
                 </h2>
                 <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7A4A5E]/80">
                   {t("hero.notebook.volume")}

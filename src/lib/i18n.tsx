@@ -5,7 +5,11 @@ export type Locale = "en" | "pt" | "es";
 type Dict = Record<string, string>;
 
 const en: Dict = {
-  "brand.name": "Word Journeys",
+  // The brand is Lumena; Word Journeys is the experience it presents. Both are
+  // product names, so they are intentionally not translated — pt and es fall
+  // back to these entries, which is why they appear only in the English dict.
+  "brand.name": "Lumena",
+  "brand.experience": "Word Journeys",
   "brand.tagline": "Your daily journey through God's Word.",
   "nav.home": "Home",
   "nav.today": "Today's Journey",

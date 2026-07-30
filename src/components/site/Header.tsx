@@ -4,7 +4,7 @@ import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { BrandMark } from "./BrandMark";
+import { LumenaLogo } from "./LumenaLogo";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { FullscreenToggle } from "./FullscreenToggle";
@@ -90,10 +90,25 @@ export function Header() {
   return (
     <header className={headerBase}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 sm:px-6">
-        <Link to="/" className="flex items-center gap-2.5">
-          <BrandMark variant="default" />
-          <span className="hidden font-serif text-[15px] font-semibold tracking-tight text-foreground sm:inline">
-            {t("brand.name")}
+        {/*
+          The brand is Lumena, so the header carries the Lumena tiles — not the
+          hero experience name, which stays on the hero headline. Two sizes
+          rather than one scaled instance: the tiles are pixel-sized, and a
+          compact mark keeps the row from crowding the menu button on a narrow
+          phone. Both stay well inside the h-16 row, so the header does not grow.
+        */}
+        {/*
+          h-11 gives a comfortable tap target on a phone without growing the
+          h-16 row. The breakpoint switch lives on wrapper spans, not on the
+          logo itself: LumenaLogo sets `inline-flex` on its own root, and a
+          `hidden` passed alongside it would sit at equal specificity and lose.
+        */}
+        <Link to="/" className="flex h-11 shrink-0 items-center" aria-label="Lumena">
+          <span className="sm:hidden">
+            <LumenaLogo size="sm" />
+          </span>
+          <span className="hidden sm:block">
+            <LumenaLogo size="md" />
           </span>
         </Link>
 
