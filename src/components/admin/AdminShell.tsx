@@ -11,7 +11,7 @@ import {
   ScrollText,
   Grid3x3,
 } from "lucide-react";
-import { BrandMark } from "@/components/site/BrandMark";
+import { LumenaLogo } from "@/components/site/LumenaLogo";
 import { useAdminSession } from "@/lib/auth/useAdminSession";
 import { AdminGate } from "./AdminGate";
 
@@ -66,9 +66,9 @@ export function AdminShell({
       <div className="mx-auto flex max-w-[1500px] flex-col md:flex-row">
         <aside className="hidden w-60 shrink-0 border-r border-border/60 md:block">
           <div className="sticky top-0 flex h-screen flex-col">
-            <Link to="/admin" className="flex items-center gap-2.5 px-6 py-6">
-              <BrandMark />
-              <span className="font-serif text-[13px] font-semibold uppercase leading-tight tracking-[0.15em]">
+            <Link to="/admin" className="flex flex-col items-start gap-2 px-6 py-6">
+              <LumenaLogo size="sm" />
+              <span className="font-serif text-[11px] font-semibold uppercase leading-tight tracking-[0.15em] text-muted-foreground">
                 Content Studio
               </span>
             </Link>

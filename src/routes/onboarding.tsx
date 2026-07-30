@@ -5,7 +5,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BrandMark } from "@/components/site/BrandMark";
+import { LumenaLogo } from "@/components/site/LumenaLogo";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { ThemeSelector } from "@/components/site/ThemeSelector";
 import { useI18n } from "@/lib/i18n";
@@ -52,9 +52,8 @@ function OnboardingPage() {
   return (
     <div className="min-h-screen bg-[color:var(--surface-1)]">
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-        <Link to="/" className="flex items-center gap-2.5">
-          <BrandMark />
-          <span className="font-serif text-[13px] font-semibold uppercase tracking-[0.15em]">{t("brand.name")}</span>
+        <Link to="/" className="flex items-center">
+          <LumenaLogo size="sm" />
         </Link>
         <Link to="/my-journey" className="text-[12px] text-muted-foreground hover:text-foreground">{t("onb.skip")}</Link>
       </header>

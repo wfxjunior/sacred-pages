@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
-import { BrandMark } from "./BrandMark";
+import { LumenaLogo } from "./LumenaLogo";
 
 export function Footer() {
   const { t } = useI18n();
@@ -11,11 +11,8 @@ export function Footer() {
     <footer className="border-t border-border/60 bg-[color:var(--surface-2)]">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <BrandMark />
-            <span className="font-serif text-lg tracking-tight">
-              {t("brand.name")}
-            </span>
+          <div className="flex items-center">
+            <LumenaLogo size="md" />
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
             {t("brand.tagline")}

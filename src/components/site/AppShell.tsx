@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
 import { BookOpen, Compass, Heart, Home, Sparkles, User, Users } from "lucide-react";
-import { BrandMark } from "./BrandMark";
+import { LumenaLogo } from "./LumenaLogo";
 import { NotificationsMenu } from "./NotificationsMenu";
 
 export function AppShell({
@@ -29,11 +29,8 @@ export function AppShell({
       <div className="mx-auto flex max-w-[1400px] flex-col md:flex-row">
         <aside className="hidden w-60 shrink-0 border-r border-border/60 md:block">
           <div className="sticky top-0 flex h-screen flex-col">
-            <Link to="/my-journey" className="flex items-center gap-2.5 px-6 py-6">
-              <BrandMark />
-              <span className="font-serif text-[13px] font-semibold uppercase tracking-[0.15em] leading-tight">
-                {t("brand.name")}
-              </span>
+            <Link to="/my-journey" className="flex items-center px-6 py-6">
+              <LumenaLogo size="sm" />
             </Link>
             <nav className="flex-1 space-y-1 px-3">
               {items.map((i) => {
@@ -67,11 +64,8 @@ export function AppShell({
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
           <header className="flex items-center justify-between border-b border-border/60 px-6 py-4 md:hidden">
-            <Link to="/my-journey" className="flex items-center gap-2">
-              <BrandMark size={28} />
-              <span className="font-serif text-[12px] font-semibold uppercase tracking-[0.15em]">
-                {t("brand.name")}
-              </span>
+            <Link to="/my-journey" className="flex items-center">
+              <LumenaLogo size="sm" />
             </Link>
             <div className="flex items-center gap-2">
               <LanguageSelector />
