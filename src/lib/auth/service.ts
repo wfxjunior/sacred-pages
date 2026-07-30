@@ -84,6 +84,13 @@ export const authService = {
     return data.session;
   },
 
+  async updatePassword(password: string): Promise<AuthActionResult> {
+    if (!isSupabaseConfigured()) return { ok: false, error: notConfigured() };
+    const { error } = await getSupabaseClient().auth.updateUser({ password });
+    if (error) return { ok: false, error: mapAuthError(error.message, error.status) };
+    return { ok: true };
+  },
+
   onAuthStateChange(callback: (session: Session | null) => void): () => void {
     if (!isSupabaseConfigured()) return () => {};
     const { data } = getSupabaseClient().auth.onAuthStateChange((_event, session) => {
