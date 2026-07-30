@@ -898,6 +898,7 @@ export type Database = {
         Args: { r: Database["public"]["Enums"]["app_role"]; uid: string }
         Returns: boolean
       }
+      is_content_staff: { Args: { uid: string }; Returns: boolean }
     }
     Enums: {
       access_level: "free" | "premium" | "preview" | "internal"
