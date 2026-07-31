@@ -166,7 +166,7 @@ function MobileContentSheet() {
           }}
         >
           <BookOpen className="h-4 w-4" />
-          {t("today.title")}
+          {t("journey.devotional")}
         </button>
       </div>
 
