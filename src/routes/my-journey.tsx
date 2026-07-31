@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { MILESTONES, TODAY } from "@/lib/mock-data";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { useI18n } from "@/lib/i18n";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 
 export const Route = createFileRoute("/my-journey")({
   head: () => ({
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/my-journey")({
 
 function MyJourney() {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <AppShell>
       <div className="space-y-12">
@@ -27,7 +29,9 @@ function MyJourney() {
           <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
             {t("app.greeting.morning")}
           </p>
-          <h1 className="mt-2 font-serif text-4xl md:text-5xl">{t("app.greeting.user").replace("{name}", "Samuel")}</h1>
+          <h1 className="mt-2 font-serif text-4xl md:text-5xl">
+            {t("app.greeting.user").replace("{name}", user.displayName?.split(" ")[0] ?? "")}
+          </h1>
           <p className="mt-3 text-muted-foreground">{t("app.greeting.sub")}</p>
         </header>
 

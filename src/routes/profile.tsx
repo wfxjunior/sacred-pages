@@ -8,6 +8,7 @@ import { MILESTONE_LIST } from "@/lib/mock/milestones";
 import { COMPANIONS } from "@/lib/mock/companions";
 import { Sparkles, Share2, Settings as SettingsIcon, Flame } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { t } = useI18n();
+  const user = useCurrentUser();
   const achieved = MILESTONE_LIST.filter((m) => m.achieved);
   const upcoming = MILESTONE_LIST.filter((m) => !m.achieved).slice(0, 3);
   const active = COMPANIONS.filter((c) => c.status === "active").slice(0, 2);
@@ -36,11 +38,13 @@ function ProfilePage() {
               className="grid h-16 w-16 shrink-0 place-items-center rounded-full font-serif text-xl text-white"
               style={{ background: "linear-gradient(135deg, var(--gold), var(--walnut))" }}
             >
-              S
+              {user.initial}
             </div>
             <div className="min-w-0">
               <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("profile.eyebrow")}</p>
-              <h1 className="mt-1 truncate font-serif text-3xl leading-tight md:text-4xl">Samuel Reid</h1>
+              <h1 className="mt-1 truncate font-serif text-3xl leading-tight md:text-4xl">
+                {user.displayName ?? ""}
+              </h1>
               <p className="mt-1 text-[13px] text-muted-foreground">{t("profile.since")}</p>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { LOCALES, useI18n, type Locale } from "@/lib/i18n";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { ThemeSelector } from "@/components/site/ThemeSelector";
 import { useState } from "react";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import {
   User, Palette, BookOpen, Bell, Lock, CreditCard, Accessibility, Download, LogOut, Trash2, Sparkles,
 } from "lucide-react";
@@ -36,6 +37,7 @@ const SECTIONS = [
 
 function SettingsPage() {
   const { t, locale, setLocale } = useI18n();
+  const user = useCurrentUser();
   const [color, setColor] = useState("gold");
   const [diff, setDiff] = useState("gentle");
   const [font, setFont] = useState("medium");
@@ -70,8 +72,21 @@ function SettingsPage() {
           <div className="space-y-10">
             <Section id="account" title={t("settings.account.title")} description={t("settings.account.desc")}>
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label={t("settings.account.name")} defaultValue="Samuel Reid" />
-                <Field label={t("settings.account.email")} type="email" defaultValue="samuel@jornadas.app" />
+                {!user.loading && (
+                  <>
+                    <Field
+                      key={`name-${user.userId ?? "anon"}`}
+                      label={t("settings.account.name")}
+                      defaultValue={user.displayName ?? ""}
+                    />
+                    <Field
+                      key={`email-${user.userId ?? "anon"}`}
+                      label={t("settings.account.email")}
+                      type="email"
+                      defaultValue={user.email ?? ""}
+                    />
+                  </>
+                )}
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
                 <Button className="rounded-full">{t("settings.account.save")}</Button>
