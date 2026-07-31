@@ -156,7 +156,7 @@ function MobileContentSheet() {
         type="button"
         onClick={() => setOpen(true)}
         aria-expanded={open}
-        className="absolute bottom-16 right-4 z-20 flex h-12 w-12 items-center justify-center rounded-full shadow-lg outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2"
+        className="fixed bottom-[88px] right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full shadow-lg outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2 md:hidden"
         style={{
           background: "var(--gold)",
           color: "var(--ivory)",
