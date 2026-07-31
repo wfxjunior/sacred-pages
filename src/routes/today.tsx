@@ -87,7 +87,7 @@ function Today() {
           <DifficultyPicker value={difficulty} onChange={setDifficulty} compact />
         </div>
 
-        <div className="min-h-0 flex-1 px-3 pb-3">
+        <div className="min-h-0 flex-1 px-3 pb-2">
           <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed />
         </div>
 
@@ -152,20 +152,23 @@ function MobileContentSheet() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-expanded={open}
-        className="absolute bottom-16 right-4 z-20 flex h-12 w-12 items-center justify-center rounded-full shadow-lg outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2"
-        style={{
-          background: "var(--gold)",
-          color: "var(--ivory)",
-          ["--tw-ring-color" as string]: "var(--walnut)",
-          boxShadow: "0 10px 28px -10px rgba(43,43,43,0.35)",
-        }}
-      >
-        <BookOpen className="h-5 w-5" />
-      </button>
+      <div className="flex-none px-3 pb-3 md:hidden">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-expanded={open}
+          className="flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-medium outline-none transition-transform active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2"
+          style={{
+            background: "var(--gold)",
+            color: "var(--ivory)",
+            ["--tw-ring-color" as string]: "var(--walnut)",
+            boxShadow: "0 10px 28px -12px rgba(43,43,43,0.35)",
+          }}
+        >
+          <BookOpen className="h-4 w-4" />
+          {t("journey.devotional")}
+        </button>
+      </div>
 
       {open && (
         <div
@@ -284,7 +287,8 @@ function DifficultyPicker({
             <button
               key={o}
               onClick={() => onChange(o)}
-              className={`rounded-md border px-2 py-2 text-center text-[10px] font-medium uppercase tracking-wider transition ${
+              aria-pressed={active}
+              className={`rounded-full leading-none border px-1.5 py-2 text-center text-[9px] font-semibold uppercase tracking-[0.08em] transition ${
                 active ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/40"
               }`}
             >
