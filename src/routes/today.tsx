@@ -288,7 +288,7 @@ function DifficultyPicker({
               key={o}
               onClick={() => onChange(o)}
               aria-pressed={active}
-              className={`truncate rounded-full border px-1.5 py-2 text-center text-[9px] font-semibold uppercase tracking-[0.08em] transition ${
+              className={`rounded-full leading-none border px-1.5 py-2 text-center text-[9px] font-semibold uppercase tracking-[0.08em] transition ${
                 active ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/40"
               }`}
             >
