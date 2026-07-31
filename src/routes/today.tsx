@@ -87,7 +87,7 @@ function Today() {
           <DifficultyPicker value={difficulty} onChange={setDifficulty} compact />
         </div>
 
-        <div className="min-h-0 flex-1 px-3 pb-3">
+        <div className="min-h-0 flex-1 px-3 pb-2">
           <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed />
         </div>
 
