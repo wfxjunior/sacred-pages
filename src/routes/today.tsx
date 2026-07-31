@@ -152,20 +152,23 @@ function MobileContentSheet() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-expanded={open}
-        className="fixed bottom-[88px] right-4 z-30 flex h-12 w-12 items-center justify-center rounded-full shadow-lg outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2 md:hidden"
-        style={{
-          background: "var(--gold)",
-          color: "var(--ivory)",
-          ["--tw-ring-color" as string]: "var(--walnut)",
-          boxShadow: "0 10px 28px -10px rgba(43,43,43,0.35)",
-        }}
-      >
-        <BookOpen className="h-5 w-5" />
-      </button>
+      <div className="flex-none px-3 pb-3 md:hidden">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-expanded={open}
+          className="flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-medium outline-none transition-transform active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-offset-2"
+          style={{
+            background: "var(--gold)",
+            color: "var(--ivory)",
+            ["--tw-ring-color" as string]: "var(--walnut)",
+            boxShadow: "0 10px 28px -12px rgba(43,43,43,0.35)",
+          }}
+        >
+          <BookOpen className="h-4 w-4" />
+          {t("today.title")}
+        </button>
+      </div>
 
       {open && (
         <div
