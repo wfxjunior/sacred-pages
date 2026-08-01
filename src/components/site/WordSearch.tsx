@@ -75,22 +75,27 @@ export function WordSearch({
   const [expanded, setExpanded] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const expandedGridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
 
   // React attaches touch listeners passively at the root, so preventDefault in
   // the JSX handlers cannot stop the page from scrolling mid-drag on mobile.
   // A non-passive native listener on the grid can.
   useEffect(() => {
-    const node = gridRef.current;
-    if (!node) return;
+    const nodes = [gridRef.current, expandedGridRef.current].filter(Boolean) as HTMLDivElement[];
+    if (!nodes.length) return;
     const block = (event: TouchEvent) => {
       if (event.cancelable) event.preventDefault();
     };
-    node.addEventListener("touchstart", block, { passive: false });
-    node.addEventListener("touchmove", block, { passive: false });
+    nodes.forEach((node) => {
+      node.addEventListener("touchstart", block, { passive: false });
+      node.addEventListener("touchmove", block, { passive: false });
+    });
     return () => {
-      node.removeEventListener("touchstart", block);
-      node.removeEventListener("touchmove", block);
+      nodes.forEach((node) => {
+        node.removeEventListener("touchstart", block);
+        node.removeEventListener("touchmove", block);
+      });
     };
   }, []);
 
