@@ -70,7 +70,7 @@ function Today() {
 
         <div className="grid gap-6 lg:grid-cols-2 lg:items-stretch">
           <div className="min-w-0 lg:h-[calc(100vh-190px)] lg:min-h-[440px] lg:overflow-y-auto">
-            <div className="mx-auto w-full max-w-[min(100%,460px)]">
+            <div className="mx-auto w-full max-w-[460px]">
               <WordSearch words={TODAY.words} size={sizes[difficulty]} />
             </div>
           </div>
