@@ -452,6 +452,15 @@ export function WordSearch({
                 </span>
                 <button
                   type="button"
+                  onClick={shuffleGrid}
+                  title={t("wordsearch.shuffleConfirm")}
+                  className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                >
+                  <Shuffle className="h-3.5 w-3.5" />
+                  {t("wordsearch.shuffle")}
+                </button>
+                <button
+                  type="button"
                   onClick={() => setRevealed((v) => !v)}
                   aria-pressed={revealed}
                   className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
@@ -545,6 +554,14 @@ export function WordSearch({
             <span className="font-medium tabular-nums">
               {found.length}/{words.length}
             </span>
+            <button
+              type="button"
+              onClick={shuffleGrid}
+              aria-label={t("wordsearch.shuffle")}
+              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+            >
+              <Shuffle className="h-3 w-3" />
+            </button>
             <button
               type="button"
               onClick={() => setRevealed((v) => !v)}
