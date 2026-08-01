@@ -47,8 +47,8 @@ function Today() {
   return (
     <AppShell mainClassName="p-0 md:px-8 md:py-6">
       {/* Desktop layout */}
-      <div className="mx-auto hidden max-w-6xl space-y-4 md:block">
-        <div className="flex flex-wrap items-end justify-between gap-3">
+      <div className="mx-auto hidden max-w-6xl md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-4 md:overflow-hidden">
+        <div className="flex flex-none flex-wrap items-end justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
@@ -68,20 +68,20 @@ function Today() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2 lg:items-stretch">
-          <div className="min-w-0 lg:h-[calc(100vh-190px)] lg:min-h-[440px] lg:overflow-y-auto">
-            <div className="mx-auto w-full max-w-[460px]">
+        <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="min-h-0 min-w-0 overflow-y-auto">
+            <div className="mx-auto w-full max-w-[min(460px,58vh)]">
               <WordSearch words={TODAY.words} size={sizes[difficulty]} />
             </div>
           </div>
-          <div className="min-w-0 overflow-y-auto rounded-xl border border-border bg-card lg:h-[calc(100vh-190px)] lg:min-h-[440px]">
+          <div className="min-h-0 min-w-0 overflow-y-auto rounded-xl border border-border bg-card">
             <JourneyTabs />
           </div>
         </div>
       </div>
 
       {/* Mobile full-bleed layout */}
-      <div className="flex h-full flex-col md:hidden">
+      <div className="flex min-h-[100dvh] flex-col md:hidden">
         <MobileHeader
           wordCount={TODAY.words.length}
           difficultyLabel={t(`diff.${difficulty}`)}
