@@ -300,13 +300,44 @@ function DifficultyPicker({
   value,
   onChange,
   compact = false,
+  variant,
 }: {
   value: "gentle" | "balanced" | "challenging" | "expert";
   onChange: (v: "gentle" | "balanced" | "challenging" | "expert") => void;
   compact?: boolean;
+  variant?: "segmented";
 }) {
   const { t } = useI18n();
   const opts = ["gentle", "balanced", "challenging", "expert"] as const;
+  if (variant === "segmented") {
+    return (
+      <div
+        className="inline-flex items-center rounded-full border border-border bg-card p-0.5"
+        role="group"
+        aria-label={t("diff.gentle")}
+      >
+        {opts.map((o) => {
+          const active = value === o;
+          return (
+            <button
+              key={o}
+              type="button"
+              onClick={() => onChange(o)}
+              aria-pressed={active}
+              title={t(`diff.${o}Desc`)}
+              className={`rounded-full px-3 py-1.5 text-[11px] font-medium tracking-wide transition ${
+                active
+                  ? "bg-primary/10 text-foreground shadow-[inset_0_0_0_1px_var(--gold)]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t(`diff.${o}`)}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
   if (compact) {
     return (
       <div className="grid grid-cols-4 gap-1.5">
