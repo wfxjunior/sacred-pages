@@ -4,6 +4,7 @@ import { HeroMockup } from "@/components/site/HeroMockup";
 import { HeroWordGrid } from "@/components/site/HeroWordGrid";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { ChevronDown } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
@@ -182,7 +183,9 @@ function MagazineSpread() {
 }
 
 function Landing() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  // The landing verse rotates every two days (UTC-derived, SSR-stable).
+  const verse = getHeroVerse(locale);
   return (
     <SiteLayout>
       {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
@@ -210,11 +213,11 @@ function Landing() {
                 <div className="flex items-center justify-center gap-3">
                   <span aria-hidden className="h-px w-8 bg-[#C89F4F]/70" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#C89F4F]/90 sm:text-[11px]">
-                    {t("hero.verseRef")}
+                    {verse.ref}
                   </span>
                 </div>
                 <blockquote className="mt-2 font-serif text-[17px] italic leading-[1.45] text-[#2B2B2B]/85 sm:text-[19px] md:text-[20px]">
-                  &ldquo;{t("hero.verse")}&rdquo;
+                  &ldquo;{verse.text}&rdquo;
                 </blockquote>
               </figure>
 
