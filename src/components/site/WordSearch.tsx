@@ -211,6 +211,11 @@ export function WordSearch({
   }, [wordsKey, size]);
 
   const progress = words.length ? found.length / words.length : 0;
+  const isComplete = words.length > 0 && found.length === words.length;
+  const completedTime = (() => {
+    const total = Math.max(0, Math.round(elapsedMs / 1000));
+    return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
+  })();
 
   function cellsBetween(a: Cell, b: Cell): Cell[] {
     const dr = Math.sign(b.r - a.r);
