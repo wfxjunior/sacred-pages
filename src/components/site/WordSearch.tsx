@@ -428,6 +428,7 @@ export function WordSearch({
           }),
         )}
       </div>
+      </div>
 
       {!fullBleed && (
         <div className="space-y-4">
