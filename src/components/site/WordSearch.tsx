@@ -76,6 +76,23 @@ export function WordSearch({
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
 
+  // React attaches touch listeners passively at the root, so preventDefault in
+  // the JSX handlers cannot stop the page from scrolling mid-drag on mobile.
+  // A non-passive native listener on the grid can.
+  useEffect(() => {
+    const node = gridRef.current;
+    if (!node) return;
+    const block = (event: TouchEvent) => {
+      if (event.cancelable) event.preventDefault();
+    };
+    node.addEventListener("touchstart", block, { passive: false });
+    node.addEventListener("touchmove", block, { passive: false });
+    return () => {
+      node.removeEventListener("touchstart", block);
+      node.removeEventListener("touchmove", block);
+    };
+  }, []);
+
   // Progress is remembered per word list + grid size, so leaving the page and
   // coming back restores what the reader already found.
   const storageKey = `lumena:ws:${size}:${wordsKey}`;
