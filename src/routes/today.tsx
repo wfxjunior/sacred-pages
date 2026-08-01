@@ -18,8 +18,15 @@ import { useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { z } from "zod";
+import { Library } from "lucide-react";
+
+const todaySearchSchema = z.object({
+  journey: z.string().optional().catch(undefined),
+});
 
 export const Route = createFileRoute("/today")({
+  validateSearch: (input: Record<string, unknown>) => todaySearchSchema.parse(input),
   head: () => ({
     meta: [
       { title: "Today's Journey — Jornadas da Palavra" },
