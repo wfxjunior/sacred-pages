@@ -37,6 +37,12 @@ function writeLocal(map: LocalMap) {
   }
 }
 
+/** The locally saved best time for one puzzle, if any. */
+export function getLocalBest(puzzleKey: string): number | null {
+  const entry = readLocal()[puzzleKey];
+  return entry ? entry.bestTimeMs : null;
+}
+
 /** Records a completion. Returns the reader's best time for that puzzle. */
 export async function recordCompletion(puzzleKey: string, elapsedMs: number): Promise<number> {
   if (!puzzleKey || !Number.isFinite(elapsedMs) || elapsedMs <= 0) return 0;

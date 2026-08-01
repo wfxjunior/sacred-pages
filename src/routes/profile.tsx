@@ -9,6 +9,7 @@ import { COMPANIONS } from "@/lib/mock/companions";
 import { Sparkles, Share2, Settings as SettingsIcon, Flame } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { formatDuration, useBestTimes } from "@/lib/puzzle/best-times";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -27,6 +28,9 @@ function ProfilePage() {
   const user = useCurrentUser();
   const achieved = MILESTONE_LIST.filter((m) => m.achieved);
   const upcoming = MILESTONE_LIST.filter((m) => !m.achieved).slice(0, 3);
+  const { entries: bestTimes } = useBestTimes();
+  const fastest = bestTimes[0] ?? null;
+  const puzzlesTimed = bestTimes.reduce((sum, entry) => sum + entry.completions, 0);
   const active = COMPANIONS.filter((c) => c.status === "active").slice(0, 2);
 
   return (
@@ -72,6 +76,11 @@ function ProfilePage() {
           <Stat label={t("profile.stat.currentStreak")} value="7" hint={t("profile.stat.days")} icon={<Flame className="h-4 w-4" style={{ color: "var(--gold)" }} />} />
           <Stat label={t("profile.stat.longestStreak")} value="21" hint={t("profile.stat.days")} />
           <Stat label={t("profile.stat.journeysCompleted")} value="42" />
+          <Stat
+            label={t("profile.stat.bestTime")}
+            value={fastest ? formatDuration(fastest.bestTimeMs) : "—"}
+            hint={puzzlesTimed ? `${puzzlesTimed} ${t("profile.stat.puzzles")}` : t("profile.stat.noTimesYet")}
+          />
           <Stat label={t("profile.stat.milestonesReached")} value={`${achieved.length}`} hint={`${t("ui.of")} ${MILESTONE_LIST.length}`} />
         </section>
 

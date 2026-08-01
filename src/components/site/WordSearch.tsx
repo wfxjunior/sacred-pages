@@ -4,7 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
-import { recordCompletion } from "@/lib/puzzle/best-times";
+import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
 import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Timer, Trophy, X } from "lucide-react";
 
 type Cell = { r: number; c: number };
@@ -136,6 +136,7 @@ export function WordSearch({
     setRevealed(saved?.revealed === true);
     setElapsedMs(typeof saved?.elapsedMs === "number" ? saved.elapsedMs : 0);
     setStartedAt(typeof saved?.startedAt === "number" ? saved.startedAt : null);
+    setBestTimeMs(getLocalBest(storageKey));
     setHydratedKey(storageKey);
   }, [storageKey, wordsKey, hydratedKey]);
 
