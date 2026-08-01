@@ -11,20 +11,22 @@ export const TILE_PALETTE = [
 ];
 
 /**
- * Brand palette — the mark only.
+ * Brand palette — a warm beige spectrum that feels like linen, paper and walnut ink.
  *
  * The pastel TILE_PALETTE above is the puzzle language and stays as it is.
- * The logo reads to an older audience as a children's game in those colours,
- * so the brand tiles are ink-and-paper with a single gold accent on the "L".
+ * For the logo itself we use a mix of ivory, sand, taupe, walnut and a single
+ * antique-gold accent, so the wordmark reads as a unified, sophisticated palette
+ * rather than a single dark tile against light ones.
  */
 export const BRAND_TILE_PALETTE = [
-  { bg: "#1F1D1B", border: "#1F1D1B", fg: "#F6F2E8" },
-  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
-  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
-  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
-  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
-  { bg: "#EFE3C6", border: "#C89F4F", fg: "#6B4E14" },
+  { bg: "#F6F2E8", border: "#D6CFBE", fg: "#2B2B2B" },
+  { bg: "#ECE6D8", border: "#CFC7B6", fg: "#2B2B2B" },
+  { bg: "#DDD5C4", border: "#C4B9A7", fg: "#2B2B2B" },
+  { bg: "#C8BAA6", border: "#B0A28C", fg: "#2B2B2B" },
+  { bg: "#7A6C5B", border: "#5F5346", fg: "#F6F2E8" },
+  { bg: "#E9DCC3", border: "#C8AC76", fg: "#3F3625" },
 ];
+
 
 export function LetterTile({
   letter,
