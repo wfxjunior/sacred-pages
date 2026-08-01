@@ -45,21 +45,22 @@ function Today() {
   if (loading) return <TodaySkeleton />;
 
   return (
-    <AppShell mainClassName="p-0 md:px-10 md:py-12">
+    <AppShell mainClassName="p-0 md:px-8 md:py-6">
       {/* Desktop layout */}
-      <div className="mx-auto hidden max-w-6xl space-y-8 md:block">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
+      <div className="mx-auto hidden max-w-6xl space-y-4 md:block">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div className="min-w-0">
             <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
             </p>
-            <h1 className="mt-1 font-serif text-3xl md:text-4xl">{TODAY.title}</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <h1 className="mt-0.5 font-serif text-2xl md:text-3xl">{TODAY.title}</h1>
+            <p className="mt-1 text-xs text-muted-foreground">
               {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
             <HelpMenu />
             <Button onClick={() => setComplete(true)} variant="outline" size="sm">
               <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
@@ -67,13 +68,11 @@ function Today() {
           </div>
         </div>
 
-        <DifficultyPicker value={difficulty} onChange={setDifficulty} />
-
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr]">
-          <div>
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="min-w-0 lg:h-[calc(100vh-190px)] lg:min-h-[440px] lg:overflow-y-auto">
             <WordSearch words={TODAY.words} size={sizes[difficulty]} />
           </div>
-          <div className="rounded-xl border border-border bg-card">
+          <div className="min-w-0 overflow-y-auto rounded-xl border border-border bg-card lg:h-[calc(100vh-190px)] lg:min-h-[440px]">
             <JourneyTabs />
           </div>
         </div>
@@ -301,13 +300,38 @@ function DifficultyPicker({
   value,
   onChange,
   compact = false,
+  variant = "cards",
 }: {
   value: "gentle" | "balanced" | "challenging" | "expert";
   onChange: (v: "gentle" | "balanced" | "challenging" | "expert") => void;
   compact?: boolean;
+  variant?: "cards" | "segmented";
 }) {
   const { t } = useI18n();
   const opts = ["gentle", "balanced", "challenging", "expert"] as const;
+  if (variant === "segmented") {
+    return (
+      <div className="inline-flex items-center rounded-full border border-border bg-card p-0.5">
+        {opts.map((o) => {
+          const active = value === o;
+          return (
+            <button
+              key={o}
+              onClick={() => onChange(o)}
+              aria-pressed={active}
+              className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                active
+                  ? "bg-secondary text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t(`diff.${o}`)}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
   if (compact) {
     return (
       <div className="grid grid-cols-4 gap-1.5">
