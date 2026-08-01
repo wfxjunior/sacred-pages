@@ -103,7 +103,7 @@ export function WordSearch({
   useEffect(() => {
     if (hydratedRef.current === storageKey) return;
     hydratedRef.current = storageKey;
-    let saved: { nonce?: number; found?: string[] } | null = null;
+    let saved: { nonce?: number; found?: string[]; revealed?: boolean } | null = null;
     try {
       saved = JSON.parse(window.localStorage.getItem(storageKey) ?? "null");
     } catch {
@@ -113,17 +113,20 @@ export function WordSearch({
     prevFoundRef.current = savedFound;
     setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : 0);
     setFound(savedFound);
-    setRevealed(false);
+    setRevealed(saved?.revealed === true);
   }, [storageKey]);
 
   useEffect(() => {
     if (hydratedRef.current !== storageKey) return;
     try {
-      window.localStorage.setItem(storageKey, JSON.stringify({ nonce: shuffleNonce, found }));
+      window.localStorage.setItem(
+        storageKey,
+        JSON.stringify({ nonce: shuffleNonce, found, revealed }),
+      );
     } catch {
       /* storage unavailable — progress simply is not persisted */
     }
-  }, [storageKey, shuffleNonce, found]);
+  }, [storageKey, shuffleNonce, found, revealed]);
 
   const shuffleGrid = useCallback(() => {
     setShuffleNonce(Math.floor(Math.random() * 1_000_000_000) + 1);
