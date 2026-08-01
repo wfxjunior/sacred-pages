@@ -3,6 +3,7 @@ import { buildRenderablePuzzle } from "@/lib/puzzle/render";
 import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
+import { celebrateCompletion, celebrateWord } from "@/lib/confetti";
 import { Check, Eye, EyeOff, Trophy } from "lucide-react";
 
 type Cell = { r: number; c: number };
@@ -93,6 +94,9 @@ export function WordSearch({
     const next = found.filter((w) => !prev.includes(w));
     if (next.length) {
       setRecentlyFound(next);
+      const complete = found.length === words.length && words.length > 0;
+      if (complete) celebrateCompletion();
+      else celebrateWord();
       // `next` holds normalized forms; the reader is shown their own spelling.
       setToast({ word: displayOf.get(next[0]) ?? next[0], all: found.length === words.length });
       const timer = setTimeout(() => setRecentlyFound([]), 500);
