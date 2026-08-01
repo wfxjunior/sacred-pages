@@ -31,10 +31,13 @@ export function WordSearch({
   words,
   size = 12,
   fullBleed = false,
+  fit = false,
 }: {
   words: string[];
   size?: number;
   fullBleed?: boolean;
+  /** Desktop: fill the available height instead of growing the page. */
+  fit?: boolean;
 }) {
   const { t } = useI18n();
   // Deterministic: the same word list and size always yield the same grid, on
@@ -292,7 +295,11 @@ export function WordSearch({
   }
 
   return (
-    <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
+    <div
+      className={`relative flex flex-col ${
+        fullBleed ? "h-full min-h-0 gap-2" : fit ? "h-full min-h-0 gap-4" : "space-y-6"
+      }`}
+    >
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
