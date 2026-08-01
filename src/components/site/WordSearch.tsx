@@ -4,7 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
-import { Check, Eye, EyeOff, Shuffle, Trophy } from "lucide-react";
+import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Trophy, X } from "lucide-react";
 
 type Cell = { r: number; c: number };
 
@@ -72,6 +72,7 @@ export function WordSearch({
   const [toast, setToast] = useState<{ word: string; all: boolean } | null>(null);
   const [focus, setFocus] = useState<Cell>({ r: 0, c: 0 });
   const [revealed, setRevealed] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
