@@ -31,13 +31,10 @@ export function WordSearch({
   words,
   size = 12,
   fullBleed = false,
-  fit = false,
 }: {
   words: string[];
   size?: number;
   fullBleed?: boolean;
-  /** Desktop: fill the available height instead of growing the page. */
-  fit?: boolean;
 }) {
   const { t } = useI18n();
   // Deterministic: the same word list and size always yield the same grid, on
@@ -295,11 +292,7 @@ export function WordSearch({
   }
 
   return (
-    <div
-      className={`relative flex flex-col ${
-        fullBleed ? "h-full min-h-0 gap-2" : fit ? "h-full min-h-0 gap-4" : "space-y-6"
-      }`}
-    >
+    <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
@@ -328,7 +321,6 @@ export function WordSearch({
         </div>
       )}
 
-      <div className={fit ? "flex min-h-0 flex-1 items-start justify-center" : "contents"}>
       <div
         ref={gridRef}
         role="grid"
@@ -339,8 +331,6 @@ export function WordSearch({
         onKeyDown={handleKeyDown}
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
           fullBleed ? "w-full flex-none content-start p-2" : "p-3"
-        } ${
-          fit ? "aspect-square h-full max-h-full w-auto max-w-full" : ""
         }`}
         style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
         onMouseLeave={() => {
@@ -428,10 +418,9 @@ export function WordSearch({
           }),
         )}
       </div>
-      </div>
 
       {!fullBleed && (
-        <div className={fit ? "flex-none space-y-3" : "space-y-4"}>
+        <div className="space-y-4">
           {toast && (
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
@@ -490,7 +479,7 @@ export function WordSearch({
             </div>
 
             <ul
-              className={`mt-3 grid gap-2 sm:grid-cols-2 ${fit ? "max-h-40 overflow-y-auto pr-1" : ""}`}
+              className="mt-4 grid gap-2 sm:grid-cols-2"
               aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
             >
               {puzzle.words.map(({ display: w, normalized }) => {
