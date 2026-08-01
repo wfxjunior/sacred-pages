@@ -76,6 +76,23 @@ export function WordSearch({
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
 
+  // React attaches touch listeners passively at the root, so preventDefault in
+  // the JSX handlers cannot stop the page from scrolling mid-drag on mobile.
+  // A non-passive native listener on the grid can.
+  useEffect(() => {
+    const node = gridRef.current;
+    if (!node) return;
+    const block = (event: TouchEvent) => {
+      if (event.cancelable) event.preventDefault();
+    };
+    node.addEventListener("touchstart", block, { passive: false });
+    node.addEventListener("touchmove", block, { passive: false });
+    return () => {
+      node.removeEventListener("touchstart", block);
+      node.removeEventListener("touchmove", block);
+    };
+  }, []);
+
   // Progress is remembered per word list + grid size, so leaving the page and
   // coming back restores what the reader already found.
   const storageKey = `lumena:ws:${size}:${wordsKey}`;
@@ -332,7 +349,13 @@ export function WordSearch({
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
           fullBleed ? "w-full flex-none content-start p-2" : "p-3"
         }`}
-        style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
+        style={{
+          gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
+          touchAction: "none",
+          WebkitUserSelect: "none",
+          WebkitTouchCallout: "none",
+          overscrollBehavior: "contain",
+        }}
         onMouseLeave={() => {
           setStart(null);
           setEnd(null);
@@ -392,6 +415,7 @@ export function WordSearch({
                   fullBleed ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
+                  touchAction: "none",
                   background: isFound
                     ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 40 : 22}%, transparent)`
                     : inActive
