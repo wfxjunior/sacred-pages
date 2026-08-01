@@ -96,6 +96,7 @@ export function WordSearch({
 
   // Progress is remembered per word list + grid size, so leaving the page and
   // coming back restores what the reader already found.
+  // Focus mode: the puzzle and its word list take over the whole screen.
   const storageKey = `lumena:ws:${size}:${wordsKey}`;
   const hydratedRef = useRef<string | null>(null);
 
