@@ -4,7 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
-import { Check, Eye, EyeOff, Trophy } from "lucide-react";
+import { Check, Eye, EyeOff, Shuffle, Trophy } from "lucide-react";
 
 type Cell = { r: number; c: number };
 
@@ -41,10 +41,12 @@ export function WordSearch({
   // every device and across re-renders. `words` is a new array identity on each
   // parent render, so the memo keys on its content rather than the array.
   const wordsKey = words.join(" ");
+  // A shuffle asks the engine for a different layout of the same words.
+  const [shuffleNonce, setShuffleNonce] = useState(0);
   const puzzle = useMemo(
-    () => buildRenderablePuzzle({ words, size }),
+    () => buildRenderablePuzzle({ words, size, ...(shuffleNonce ? { seed: shuffleNonce } : {}) }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed by content, not identity
-    [wordsKey, size],
+    [wordsKey, size, shuffleNonce],
   );
   const { grid, placements } = puzzle;
 
@@ -73,6 +75,46 @@ export function WordSearch({
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
+
+  // Progress is remembered per word list + grid size, so leaving the page and
+  // coming back restores what the reader already found.
+  const storageKey = `lumena:ws:${size}:${wordsKey}`;
+  const hydratedRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (hydratedRef.current === storageKey) return;
+    hydratedRef.current = storageKey;
+    let saved: { nonce?: number; found?: string[] } | null = null;
+    try {
+      saved = JSON.parse(window.localStorage.getItem(storageKey) ?? "null");
+    } catch {
+      saved = null;
+    }
+    const savedFound = Array.isArray(saved?.found) ? saved!.found! : [];
+    prevFoundRef.current = savedFound;
+    setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : 0);
+    setFound(savedFound);
+    setRevealed(false);
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (hydratedRef.current !== storageKey) return;
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({ nonce: shuffleNonce, found }));
+    } catch {
+      /* storage unavailable — progress simply is not persisted */
+    }
+  }, [storageKey, shuffleNonce, found]);
+
+  const shuffleGrid = useCallback(() => {
+    setShuffleNonce(Math.floor(Math.random() * 1_000_000_000) + 1);
+    prevFoundRef.current = [];
+    setFound([]);
+    setRevealed(false);
+    setStart(null);
+    setEnd(null);
+    setRecentlyFound([]);
+  }, []);
 
   // Keyed by the normalized form, which is what the engine and `found` use.
   const wordColor = useMemo(() => {
