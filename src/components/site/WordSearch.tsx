@@ -339,6 +339,256 @@ export function WordSearch({
   const expandButtonClass =
     "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
 
+  const gridBaseClass =
+    "grid select-none gap-1 rounded-lg border border-border bg-card touch-none";
+
+  const renderGrid = (
+    ref: React.RefObject<HTMLDivElement | null>,
+    mode: "normal" | "expanded",
+  ) => {
+    const isCompact = mode === "normal" && compact;
+    const isExpanded = mode === "expanded";
+    return (
+      <div
+        ref={ref}
+        role="grid"
+        aria-label={t("wordsearch.gridLabel")}
+        aria-describedby="ws-instructions"
+        aria-rowcount={size}
+        aria-colcount={size}
+        onKeyDown={handleKeyDown}
+        className={`${gridBaseClass} ${
+          isCompact ? "w-full flex-none content-start p-2" : "p-3"
+        } ${
+          isExpanded
+            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-start lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
+            : ""
+        }`}
+        style={{
+          gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
+          touchAction: "none",
+          WebkitUserSelect: "none",
+          WebkitTouchCallout: "none",
+          overscrollBehavior: "contain",
+        }}
+        onMouseLeave={() => {
+          setStart(null);
+          setEnd(null);
+        }}
+      >
+        {grid.cells.map((row, r) =>
+          row.map((cell, c) => {
+            const letter = cell.display;
+            const inActive = active.some((a) => a.r === r && a.c === c);
+            const isFound = foundCells.has(`${r},${c}`);
+            const foundColorValue = isFound ? foundCells.get(`${r},${c}`) : null;
+            const revealColorValue = !isFound ? (revealCells.get(`${r},${c}`) ?? null) : null;
+            const recently = recentlyFound.some((word) => {
+              const p = placements.find((placement) => placement.normalized === word);
+              return p?.path.some((coord) => coord.row === r && coord.col === c) ?? false;
+            });
+            const isFocus = focus.r === r && focus.c === c;
+            const stateLabel = isFound
+              ? `, ${t("wordsearch.cellFound")}`
+              : inActive
+                ? `, ${t("wordsearch.cellSelected")}`
+                : "";
+            return (
+              <button
+                key={`${mode}-${r}-${c}`}
+                type="button"
+                role="gridcell"
+                tabIndex={isFocus ? 0 : -1}
+                aria-selected={inActive || isFound}
+                aria-label={`${letter}, ${t("wordsearch.gridLabel")} ${r + 1}·${c + 1}${stateLabel}`}
+                onFocus={() => setFocus({ r, c })}
+                onMouseDown={() => begin(r, c)}
+                onMouseEnter={() => move(r, c)}
+                onMouseUp={endSelection}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  begin(r, c);
+                }}
+                onTouchMove={(e) => {
+                  e.preventDefault();
+                  const touch = e.touches[0];
+                  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+                  const btn = target?.closest("button[data-r]");
+                  if (btn) {
+                    const rr = Number(btn.getAttribute("data-r"));
+                    const cc = Number(btn.getAttribute("data-c"));
+                    move(rr, cc);
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  endSelection();
+                }}
+                data-r={r}
+                data-c={c}
+                className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
+                  isCompact ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
+                } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
+                style={{
+                  touchAction: "none",
+                  background: isFound
+                    ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 40 : 22}%, transparent)`
+                    : inActive
+                      ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
+                      : revealColorValue
+                        ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
+                        : "transparent",
+                  outline: inActive
+                    ? `2px solid color-mix(in oklab, ${selectionColor} 75%, transparent)`
+                    : isFound
+                      ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
+                      : revealColorValue
+                        ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
+                        : "none",
+                  outlineOffset: inActive ? "-1px" : undefined,
+                }}
+              >
+                {letter}
+              </button>
+            );
+          }),
+        )}
+      </div>
+    );
+  };
+
+  const wordsPanel = (showToast: boolean) => (
+    <div className="space-y-4">
+      {showToast && toast && (
+        <div
+          className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
+          style={{
+            background: "var(--ink)",
+            color: "var(--ivory)",
+            animation: "toast-in 0.25s ease-out",
+          }}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.all ? <Trophy className="h-4 w-4" /> : <Check className="h-4 w-4" />}
+          {toast.all ? t("wordsearch.foundAll") : `${toast.word} — ${t("wordsearch.found")}`}
+        </div>
+      )}
+
+      <div className="rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+          <div className="min-w-0">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              {t("wordsearch.wordsToFind")}
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
+            <span className="text-xs font-medium tabular-nums text-muted-foreground">
+              {found.length}/{words.length}
+            </span>
+            <button
+              type="button"
+              onClick={shuffleGrid}
+              title={t("wordsearch.shuffleConfirm")}
+              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            >
+              <Shuffle className="h-3.5 w-3.5" />
+              {t("wordsearch.shuffle")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-pressed={expanded}
+              title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+              className={expandButtonClass}
+            >
+              {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+              <span className="hidden sm:inline">
+                {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setRevealed((v) => !v)}
+              aria-pressed={revealed}
+              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            >
+              {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+              {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
+          <div
+            className="h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+          />
+        </div>
+
+        <ul
+          className="mt-4 grid gap-2 sm:grid-cols-2"
+          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+        >
+          {puzzle.words.map(({ display: w, normalized }) => {
+            const done = found.includes(normalized);
+            const color = wordColor.get(normalized);
+            return (
+              <li
+                key={w}
+                aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
+                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium uppercase tracking-wider transition ${
+                  done ? "border-transparent line-through" : "border-border/70 text-muted-foreground"
+                } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                style={{
+                  color: done ? "var(--ink)" : undefined,
+                  background: done ? `color-mix(in oklab, ${color} 16%, transparent)` : undefined,
+                  textDecorationColor: done ? color : undefined,
+                }}
+              >
+                {done ? (
+                  <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
+                  />
+                )}
+                <span className="truncate">{w}</span>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-3">
+          <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
+          <div
+            className="flex items-center gap-1.5"
+            role="radiogroup"
+            aria-label={t("journey.selectionColor")}
+          >
+            {SELECTION_COLORS.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                role="radio"
+                aria-checked={colorKey === c.key}
+                onClick={() => setColorKey(c.key)}
+                aria-label={c.label}
+                className="h-5 w-5 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
+                style={{
+                  background: c.value,
+                  borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div
       className={
