@@ -4,7 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
-import { Check, Eye, EyeOff, Shuffle, Trophy } from "lucide-react";
+import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Trophy, X } from "lucide-react";
 
 type Cell = { r: number; c: number };
 
@@ -72,6 +72,7 @@ export function WordSearch({
   const [toast, setToast] = useState<{ word: string; all: boolean } | null>(null);
   const [focus, setFocus] = useState<Cell>({ r: 0, c: 0 });
   const [revealed, setRevealed] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
@@ -95,6 +96,7 @@ export function WordSearch({
 
   // Progress is remembered per word list + grid size, so leaving the page and
   // coming back restores what the reader already found.
+  // Focus mode: the puzzle and its word list take over the whole screen.
   const storageKey = `lumena:ws:${size}:${wordsKey}`;
   const hydratedRef = useRef<string | null>(null);
 
@@ -308,8 +310,47 @@ export function WordSearch({
     focusCell(nr, nc);
   }
 
+  // Focus mode: Esc leaves it, and the page behind must not scroll.
+  useEffect(() => {
+    if (!expanded || typeof document === "undefined") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExpanded(false);
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [expanded]);
+
+  // In focus mode the full word panel is always shown, even on mobile.
+  const compact = fullBleed && !expanded;
+
+  const expandButtonClass =
+    "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
   return (
-    <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
+    <div
+      className={
+        expanded
+          ? "fixed inset-0 z-[80] flex flex-col gap-4 overflow-y-auto bg-[var(--ivory)] p-4 pt-14 sm:p-6 sm:pt-16 lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:overflow-hidden lg:p-8 lg:pt-16"
+          : `relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`
+      }
+      {...(expanded ? { role: "dialog" as const, "aria-modal": true } : {})}
+    >
+      {expanded && (
+        <button
+          type="button"
+          onClick={() => setExpanded(false)}
+          aria-label={t("wordsearch.collapse")}
+          className="fixed right-4 top-4 z-10 inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground shadow-sm transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+        >
+          <X className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("wordsearch.collapse")}</span>
+        </button>
+      )}
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
@@ -317,7 +358,7 @@ export function WordSearch({
         {announcement}
       </span>
 
-      {fullBleed && (
+      {compact && (
         <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
           {toast && (
             <div
@@ -347,7 +388,11 @@ export function WordSearch({
         aria-colcount={size}
         onKeyDown={handleKeyDown}
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
-          fullBleed ? "w-full flex-none content-start p-2" : "p-3"
+          compact ? "w-full flex-none content-start p-2" : "p-3"
+        } ${
+          expanded
+            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-start lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
+            : ""
         }`}
         style={{
           gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
@@ -412,7 +457,7 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  fullBleed ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
+                  compact ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
@@ -443,8 +488,14 @@ export function WordSearch({
         )}
       </div>
 
-      {!fullBleed && (
-        <div className="space-y-4">
+      {!compact && (
+        <div
+          className={`space-y-4 ${
+            expanded
+              ? "w-full lg:w-[360px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto"
+              : ""
+          }`}
+        >
           {toast && (
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
@@ -482,6 +533,18 @@ export function WordSearch({
                 >
                   <Shuffle className="h-3.5 w-3.5" />
                   {t("wordsearch.shuffle")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setExpanded((v) => !v)}
+                  aria-pressed={expanded}
+                  title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+                  className={expandButtonClass}
+                >
+                  {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+                  <span className="hidden sm:inline">
+                    {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -565,7 +628,7 @@ export function WordSearch({
         </div>
       )}
 
-      {fullBleed && (
+      {compact && (
         <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pb-1">
           <div className="flex items-center gap-2 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 text-[10px] uppercase tracking-wider">
             <span className="text-muted-foreground">{t("wordsearch.words")}</span>
@@ -594,6 +657,14 @@ export function WordSearch({
               className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
             >
               {revealed ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              aria-label={t("wordsearch.expand")}
+              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+            >
+              <Maximize2 className="h-3 w-3" />
             </button>
           </div>
           <ul
