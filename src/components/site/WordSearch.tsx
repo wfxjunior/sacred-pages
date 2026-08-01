@@ -358,7 +358,7 @@ export function WordSearch({
         {announcement}
       </span>
 
-      {fullBleed && (
+      {compact && (
         <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
           {toast && (
             <div
@@ -388,7 +388,11 @@ export function WordSearch({
         aria-colcount={size}
         onKeyDown={handleKeyDown}
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
-          fullBleed ? "w-full flex-none content-start p-2" : "p-3"
+          compact ? "w-full flex-none content-start p-2" : "p-3"
+        } ${
+          expanded
+            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-start lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
+            : ""
         }`}
         style={{
           gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
@@ -453,7 +457,7 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  fullBleed ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
+                  compact ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
@@ -484,8 +488,14 @@ export function WordSearch({
         )}
       </div>
 
-      {!fullBleed && (
-        <div className="space-y-4">
+      {!compact && (
+        <div
+          className={`space-y-4 ${
+            expanded
+              ? "w-full lg:w-[360px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto"
+              : ""
+          }`}
+        >
           {toast && (
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
@@ -523,6 +533,18 @@ export function WordSearch({
                 >
                   <Shuffle className="h-3.5 w-3.5" />
                   {t("wordsearch.shuffle")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setExpanded((v) => !v)}
+                  aria-pressed={expanded}
+                  title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+                  className={expandButtonClass}
+                >
+                  {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+                  <span className="hidden sm:inline">
+                    {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -606,7 +628,7 @@ export function WordSearch({
         </div>
       )}
 
-      {fullBleed && (
+      {compact && (
         <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pb-1">
           <div className="flex items-center gap-2 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 text-[10px] uppercase tracking-wider">
             <span className="text-muted-foreground">{t("wordsearch.words")}</span>
@@ -635,6 +657,14 @@ export function WordSearch({
               className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
             >
               {revealed ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              aria-label={t("wordsearch.expand")}
+              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+            >
+              <Maximize2 className="h-3 w-3" />
             </button>
           </div>
           <ul
