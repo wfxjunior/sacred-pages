@@ -196,7 +196,6 @@ function MobileContentSheet() {
             boxShadow: "0 10px 28px -12px rgba(43,43,43,0.35)",
           }}
         >
-          <BookOpen className="h-4 w-4" />
           {t("journey.devotional")}
         </button>
       </div>
