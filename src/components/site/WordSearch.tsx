@@ -431,7 +431,7 @@ export function WordSearch({
       </div>
 
       {!fullBleed && (
-        <div className="space-y-4">
+        <div className={fit ? "flex-none space-y-3" : "space-y-4"}>
           {toast && (
             <div
               className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
@@ -490,7 +490,7 @@ export function WordSearch({
             </div>
 
             <ul
-              className="mt-4 grid gap-2 sm:grid-cols-2"
+              className={`mt-3 grid gap-2 sm:grid-cols-2 ${fit ? "max-h-40 overflow-y-auto pr-1" : ""}`}
               aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
             >
               {puzzle.words.map(({ display: w, normalized }) => {
