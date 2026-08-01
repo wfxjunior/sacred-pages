@@ -103,11 +103,14 @@ export function WordSearch({
   // coming back restores what the reader already found.
   // Focus mode: the puzzle and its word list take over the whole screen.
   const storageKey = `lumena:ws:${size}:${wordsKey}`;
-  const hydratedRef = useRef<string | null>(null);
+  // Gate saving on state (not a ref): a ref flips synchronously inside the
+  // hydrate effect, so the save effect would run in the same commit with the
+  // still-empty state and wipe what was just read back.
+  const [hydratedKey, setHydratedKey] = useState<string | null>(null);
 
   useEffect(() => {
-    if (hydratedRef.current === storageKey) return;
-    hydratedRef.current = storageKey;
+    if (!wordsKey) return;
+    if (hydratedKey === storageKey) return;
     let saved: { nonce?: number; found?: string[]; revealed?: boolean } | null = null;
     try {
       saved = JSON.parse(window.localStorage.getItem(storageKey) ?? "null");
@@ -119,10 +122,12 @@ export function WordSearch({
     setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : 0);
     setFound(savedFound);
     setRevealed(saved?.revealed === true);
-  }, [storageKey]);
+    setHydratedKey(storageKey);
+  }, [storageKey, wordsKey, hydratedKey]);
 
   useEffect(() => {
-    if (hydratedRef.current !== storageKey) return;
+    if (!wordsKey) return;
+    if (hydratedKey !== storageKey) return;
     try {
       window.localStorage.setItem(
         storageKey,
@@ -131,7 +136,7 @@ export function WordSearch({
     } catch {
       /* storage unavailable — progress simply is not persisted */
     }
-  }, [storageKey, shuffleNonce, found, revealed]);
+  }, [storageKey, wordsKey, hydratedKey, shuffleNonce, found, revealed]);
 
   const shuffleGrid = useCallback(() => {
     setShuffleNonce(Math.floor(Math.random() * 1_000_000_000) + 1);
