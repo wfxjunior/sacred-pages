@@ -357,7 +357,9 @@ export function WordSearch({
                       ? `color-mix(in oklab, ${foundColorValue} 50%, transparent)`
                       : inActive
                         ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
-                        : "transparent",
+                        : revealColorValue
+                          ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
+                          : "transparent",
                   outline: isFound
                     ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
                     : revealColorValue
