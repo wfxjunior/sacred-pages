@@ -4,7 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
-import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Trophy, X } from "lucide-react";
+import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Timer, Trophy, X } from "lucide-react";
 
 type Cell = { r: number; c: number };
 
