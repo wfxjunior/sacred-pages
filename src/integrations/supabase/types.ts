@@ -2329,6 +2329,36 @@ export type Database = {
         }
         Relationships: []
       }
+      word_search_best_times: {
+        Row: {
+          best_time_ms: number
+          completions: number
+          created_at: string
+          last_time_ms: number | null
+          puzzle_key: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          best_time_ms: number
+          completions?: number
+          created_at?: string
+          last_time_ms?: number | null
+          puzzle_key: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          best_time_ms?: number
+          completions?: number
+          created_at?: string
+          last_time_ms?: number | null
+          puzzle_key?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
