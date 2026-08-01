@@ -19,11 +19,18 @@ export function AppShell({
     { to: "/my-journey", label: t("nav.myJourney"), icon: Home },
     { to: "/today", label: t("nav.today"), icon: Sparkles },
     { to: "/collections", label: t("nav.collections"), icon: BookOpen },
-    { to: "/together", label: "Together", icon: Users },
+    { to: "/together", label: t("nav.together"), icon: Users },
     { to: "/progress", label: t("nav.progress"), icon: Compass },
     { to: "/favorites", label: t("nav.favorites"), icon: Heart },
     { to: "/profile", label: t("nav.profile"), icon: User },
   ];
+  // The bottom bar carries the five destinations a reader actually needs on a
+  // phone; Together and Favorites stay in the sidebar and the profile page.
+  const mobileOrder = ["/my-journey", "/today", "/collections", "/progress", "/profile"];
+  const mobileItems = mobileOrder
+    .map((to) => items.find((i) => i.to === to))
+    .filter((i): i is (typeof items)[number] => Boolean(i));
+
   return (
     <div className="journey-warm min-h-screen bg-background">
       <div className="mx-auto flex max-w-[1400px] flex-col md:flex-row">
@@ -34,7 +41,7 @@ export function AppShell({
             </Link>
             <nav className="flex-1 space-y-1 px-3">
               {items.map((i) => {
-                const active = pathname === i.to;
+                const active = pathname === i.to || pathname.startsWith(`${i.to}/`);
                 const Icon = i.icon;
                 return (
                   <Link
@@ -74,8 +81,8 @@ export function AppShell({
           </header>
           <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>{children}</main>
           <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">
-            {items.slice(0, 5).map((i) => {
-              const active = pathname === i.to;
+            {mobileItems.map((i) => {
+              const active = pathname === i.to || pathname.startsWith(`${i.to}/`);
               const Icon = i.icon;
               return (
                 <Link
