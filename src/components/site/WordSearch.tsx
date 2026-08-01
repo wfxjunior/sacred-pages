@@ -342,6 +342,10 @@ export function WordSearch({
   const gridBaseClass =
     "grid select-none gap-1 rounded-lg border border-border bg-card touch-none";
 
+  // Compact toolbar icon buttons: keep a comfortable 32px touch target on mobile.
+  const compactIconButtonClass =
+    "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border/60 bg-card text-muted-foreground transition active:scale-95 hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
   const renderGrid = (
     ref: React.RefObject<HTMLDivElement | null>,
     mode: "normal" | "expanded",
