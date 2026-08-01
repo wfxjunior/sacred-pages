@@ -342,6 +342,10 @@ export function WordSearch({
   const gridBaseClass =
     "grid select-none gap-1 rounded-lg border border-border bg-card touch-none";
 
+  // Compact toolbar icon buttons: keep a comfortable 32px touch target on mobile.
+  const compactIconButtonClass =
+    "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border/60 bg-card text-muted-foreground transition active:scale-95 hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
   const renderGrid = (
     ref: React.RefObject<HTMLDivElement | null>,
     mode: "normal" | "expanded",
@@ -640,26 +644,31 @@ export function WordSearch({
               type="button"
               onClick={shuffleGrid}
               aria-label={t("wordsearch.shuffle")}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+              title={t("wordsearch.shuffle")}
+              className={compactIconButtonClass}
             >
-              <Shuffle className="h-3 w-3" />
+              <Shuffle className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
               onClick={() => setRevealed((v) => !v)}
               aria-pressed={revealed}
               aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+              title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+              className={`${compactIconButtonClass} ${
+                revealed ? "border-[color:var(--gold)] text-foreground" : ""
+              }`}
             >
-              {revealed ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+              {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
             </button>
             <button
               type="button"
               onClick={() => setExpanded(true)}
               aria-label={t("wordsearch.expand")}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+              title={t("wordsearch.expand")}
+              className={compactIconButtonClass}
             >
-              <Maximize2 className="h-3 w-3" />
+              <Maximize2 className="h-3.5 w-3.5" />
             </button>
           </div>
           <ul
