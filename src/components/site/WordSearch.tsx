@@ -640,26 +640,31 @@ export function WordSearch({
               type="button"
               onClick={shuffleGrid}
               aria-label={t("wordsearch.shuffle")}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+              title={t("wordsearch.shuffle")}
+              className={compactIconButtonClass}
             >
-              <Shuffle className="h-3 w-3" />
+              <Shuffle className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
               onClick={() => setRevealed((v) => !v)}
               aria-pressed={revealed}
               aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+              title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+              className={`${compactIconButtonClass} ${
+                revealed ? "border-[color:var(--gold)] text-foreground" : ""
+              }`}
             >
-              {revealed ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+              {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
             </button>
             <button
               type="button"
               onClick={() => setExpanded(true)}
               aria-label={t("wordsearch.expand")}
-              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+              title={t("wordsearch.expand")}
+              className={compactIconButtonClass}
             >
-              <Maximize2 className="h-3 w-3" />
+              <Maximize2 className="h-3.5 w-3.5" />
             </button>
           </div>
           <ul
