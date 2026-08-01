@@ -500,6 +500,15 @@ export function WordSearch({
             <span className="font-medium tabular-nums">
               {found.length}/{words.length}
             </span>
+            <button
+              type="button"
+              onClick={() => setRevealed((v) => !v)}
+              aria-pressed={revealed}
+              aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+            >
+              {revealed ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+            </button>
           </div>
           <ul
             className="flex flex-wrap gap-1.5"
