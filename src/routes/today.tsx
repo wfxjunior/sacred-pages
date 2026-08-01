@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { useI18n } from "@/lib/i18n";
-import { CheckCircle2, HelpCircle, X, BookOpen } from "lucide-react";
+import { CheckCircle2, HelpCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/today")({
