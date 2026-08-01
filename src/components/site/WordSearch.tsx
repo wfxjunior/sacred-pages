@@ -392,21 +392,74 @@ export function WordSearch({
             </div>
           )}
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="uppercase tracking-wider">{t("wordsearch.words")}</span>
-            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
+          {/* Words panel — the reader's checklist, given real presence on
+              desktop instead of trailing chips under the grid. */}
+          <div className="rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+              <div className="min-w-0">
+                <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  {t("wordsearch.wordsToFind")}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-3">
+                <span className="text-xs font-medium tabular-nums text-muted-foreground">
+                  {found.length}/{words.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setRevealed((v) => !v)}
+                  aria-pressed={revealed}
+                  className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                >
+                  {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                  {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
               <div
                 className="h-full rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
               />
             </div>
-            <span className="font-medium tabular-nums">
-              {found.length}/{words.length}
-            </span>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-2">
+            <ul
+              className="mt-4 grid gap-2 sm:grid-cols-2"
+              aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+            >
+              {puzzle.words.map(({ display: w, normalized }) => {
+                const done = found.includes(normalized);
+                const color = wordColor.get(normalized);
+                return (
+                  <li
+                    key={w}
+                    aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
+                    className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium uppercase tracking-wider transition ${
+                      done ? "border-transparent line-through" : "border-border/70 text-muted-foreground"
+                    } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                    style={{
+                      color: done ? "var(--ink)" : undefined,
+                      background: done ? `color-mix(in oklab, ${color} 16%, transparent)` : undefined,
+                      textDecorationColor: done ? color : undefined,
+                    }}
+                  >
+                    {done ? (
+                      <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
+                    ) : (
+                      <span
+                        aria-hidden
+                        className="h-2.5 w-2.5 shrink-0 rounded-full"
+                        style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
+                      />
+                    )}
+                    <span className="truncate">{w}</span>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-3">
               <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
               <div
                 className="flex items-center gap-1.5"
@@ -430,38 +483,6 @@ export function WordSearch({
                 ))}
               </div>
             </div>
-            <ul
-              className="flex flex-wrap gap-2"
-              aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
-            >
-              {puzzle.words.map(({ display: w, normalized }) => {
-                const done = found.includes(normalized);
-                const color = done ? wordColor.get(normalized) : undefined;
-                return (
-                  <li
-                    key={w}
-                    aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs uppercase tracking-wider transition ${
-                      done
-                        ? "border-transparent line-through"
-                        : "border-border text-muted-foreground"
-                    } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
-                    style={{
-                      color: done ? "var(--ink)" : undefined,
-                      background: done
-                        ? `color-mix(in oklab, ${color} 18%, transparent)`
-                        : undefined,
-                      textDecorationColor: done ? color : undefined,
-                    }}
-                  >
-                    {done && (
-                      <Check className="h-3 w-3 shrink-0" style={{ color }} aria-hidden="true" />
-                    )}
-                    {w}
-                  </li>
-                );
-              })}
-            </ul>
           </div>
         </div>
       )}
