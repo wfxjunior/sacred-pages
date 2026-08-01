@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useTodayContent } from "@/lib/content/today";
+import { useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X, BookOpen } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -34,13 +34,15 @@ export const Route = createFileRoute("/today")({
 });
 
 function Today() {
-  const TODAY = useTodayContent();
   const { t } = useI18n();
   const [difficulty, setDifficulty] = useState<"gentle" | "balanced" | "challenging" | "expert">("gentle");
+  const TODAY = useTodayContent(difficulty);
+  const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
   const sizes = { gentle: 10, balanced: 12, challenging: 14, expert: 16 } as const;
 
   if (complete) return <Completion onReset={() => setComplete(false)} />;
+  if (loading) return <TodaySkeleton />;
 
   return (
     <AppShell mainClassName="p-0 md:px-10 md:py-12">
@@ -53,7 +55,8 @@ function Today() {
             </p>
             <h1 className="mt-1 font-serif text-3xl md:text-4xl">{TODAY.title}</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              {t("today.duration")} · {t(`diff.${difficulty}`)}
+              {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
+              {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -79,6 +82,7 @@ function Today() {
       {/* Mobile full-bleed layout */}
       <div className="flex h-full flex-col md:hidden">
         <MobileHeader
+          wordCount={TODAY.words.length}
           difficultyLabel={t(`diff.${difficulty}`)}
           onComplete={() => setComplete(true)}
         />
@@ -98,13 +102,16 @@ function Today() {
 }
 
 function MobileHeader({
+  wordCount,
   difficultyLabel,
   onComplete,
 }: {
+  wordCount: number;
   difficultyLabel: string;
   onComplete: () => void;
 }) {
   const TODAY = useTodayContent();
+  const { t } = useI18n();
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
       <div className="min-w-0">
@@ -113,7 +120,7 @@ function MobileHeader({
         </p>
         <h1 className="mt-0.5 truncate font-serif text-lg leading-tight">{TODAY.title}</h1>
         <p className="mt-0.5 text-[10px] text-muted-foreground">
-          {TODAY.words.length} {TODAY.words.length === 1 ? "word" : "words"} · {difficultyLabel}
+          {wordCount} {t(wordCount === 1 ? "today.word" : "today.words")} · {difficultyLabel}
         </p>
       </div>
       <div className="flex shrink-0 items-center gap-1.5">
@@ -123,6 +130,29 @@ function MobileHeader({
         </Button>
       </div>
     </div>
+  );
+}
+
+function TodaySkeleton() {
+  return (
+    <AppShell mainClassName="p-0 md:px-10 md:py-12">
+      <div className="mx-auto max-w-6xl animate-pulse space-y-8 px-4 py-6 md:px-0 md:py-0">
+        <div className="space-y-3">
+          <div className="h-3 w-28 rounded bg-foreground/10" />
+          <div className="h-8 w-72 max-w-full rounded bg-foreground/10" />
+          <div className="h-3 w-44 rounded bg-foreground/10" />
+        </div>
+        <div className="grid gap-2 sm:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-16 rounded-lg bg-foreground/5" />
+          ))}
+        </div>
+        <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr]">
+          <div className="aspect-square w-full rounded-xl bg-foreground/5" />
+          <div className="h-80 rounded-xl bg-foreground/5" />
+        </div>
+      </div>
+    </AppShell>
   );
 }
 

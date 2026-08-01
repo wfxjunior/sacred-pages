@@ -73,7 +73,13 @@ export type PublicJourney = {
 
 export type PublicJourneyDetail = PublicJourney & {
   scripture: ScriptureReferenceRow[];
-  words: { display: string; normalized: string; explanation: string | null }[];
+  words: {
+    display: string;
+    normalized: string;
+    explanation: string | null;
+    minDifficulty: DifficultyLevel;
+    position: number;
+  }[];
   puzzleTemplate: PuzzleTemplateRow | null;
 };
 
@@ -279,6 +285,21 @@ export const publicContent = {
 
     if (wordError) throw fromPostgrestError(wordError);
 
+    // Difficulty tier and ordering live on the language-neutral word rows, so
+    // the reader gets progressively longer lists as they raise the challenge.
+    const { data: wordMetaRows, error: wordMetaError } = await client
+      .from("journey_words")
+      .select("id, position, min_difficulty")
+      .eq("journey_id", row.id)
+      .eq("is_active", true);
+
+    if (wordMetaError) throw fromPostgrestError(wordMetaError);
+
+    const meta = new Map(
+      ((wordMetaRows ?? []) as { id: string; position: number; min_difficulty: DifficultyLevel }[])
+        .map((m) => [m.id, m]),
+    );
+
     // Only the active template is a valid recipe for a public puzzle.
     const puzzleTemplate =
       (row.puzzle_templates ?? []).find((t) => t.status === "active") ?? null;
@@ -289,13 +310,18 @@ export const publicContent = {
       words: (
         (wordRows ?? []) as Pick<
           JourneyWordTranslationRow,
-          "display_value" | "normalized_value" | "explanation"
+          "display_value" | "normalized_value" | "explanation" | "journey_word_id"
         >[]
-      ).map((w) => ({
-        display: w.display_value,
-        normalized: w.normalized_value,
-        explanation: w.explanation,
-      })),
+      )
+        .filter((w) => meta.has(w.journey_word_id))
+        .map((w) => ({
+          display: w.display_value,
+          normalized: w.normalized_value,
+          explanation: w.explanation,
+          minDifficulty: meta.get(w.journey_word_id)!.min_difficulty,
+          position: meta.get(w.journey_word_id)!.position,
+        }))
+        .sort((a, b) => a.position - b.position),
       puzzleTemplate,
     };
   },
