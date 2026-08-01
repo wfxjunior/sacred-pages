@@ -185,3 +185,15 @@ export function useDailyJourney() {
     queryFn: () => publicContent.getDailyJourney(locale),
   });
 }
+
+/** A specific published journey, when the reader picked one from the library. */
+export function useJourneyBySlug(slug?: string) {
+  const { locale } = useI18n();
+  return useQuery({
+    queryKey: ["catalog", "journey", slug ?? "", locale],
+    enabled: isSupabaseConfigured() && Boolean(slug),
+    staleTime: 5 * 60_000,
+    retry: false,
+    queryFn: () => publicContent.getJourneyBySlug(slug as string, locale),
+  });
+}
