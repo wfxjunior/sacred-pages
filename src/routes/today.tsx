@@ -69,6 +69,11 @@ function Today() {
           <div className="flex flex-wrap items-center gap-2">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
             <HelpMenu />
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/collections">
+                <Library className="mr-1.5 h-4 w-4" /> {t("nav.collections")}
+              </Link>
+            </Button>
             <Button onClick={() => setComplete(true)} variant="outline" size="sm">
               <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
             </Button>
