@@ -54,29 +54,22 @@ export function AuthLayout({
           </div>
           <div className="mt-6 space-y-3 text-left">{children}</div>
           {footer && (
-            <div className="mt-6 text-center text-sm text-muted-foreground">{footer}</div>
+            <div className="mt-5 text-center text-sm text-muted-foreground">{footer}</div>
           )}
           {/* One legal notice per auth screen, always in the same slot. */}
-          <LegalConsent className="mx-auto mt-4 max-w-[320px] text-center" />
+          <LegalConsent className="mx-auto mt-5 max-w-[300px] text-center" />
         </div>
       </main>
 
-      <footer className="shrink-0 px-5 pt-10 text-center text-muted-foreground [padding-bottom:calc(24px+env(safe-area-inset-bottom))]">
-        <nav className="mb-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px]">
-          <Link to="/terms" className="underline underline-offset-4 hover:opacity-80">
-            {t("footer.terms")}
-          </Link>
-          <span aria-hidden>·</span>
-          <Link to="/privacy" className="underline underline-offset-4 hover:opacity-80">
-            {t("footer.privacy")}
-          </Link>
+      {/* Terms & Privacy already appear in the consent notice above, so the
+          footer only carries the remaining link plus the copyright line. */}
+      <footer className="shrink-0 px-5 pt-8 [padding-bottom:calc(20px+env(safe-area-inset-bottom))]">
+        <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+          <span>© {new Date().getFullYear()} {t("brand.name")}</span>
           <span aria-hidden>·</span>
           <Link to="/cookies" className="underline underline-offset-4 hover:opacity-80">
             {t("footer.cookies")}
           </Link>
-        </nav>
-        <p className="text-[11px] uppercase tracking-[0.2em]">
-          © {new Date().getFullYear()} · {t("brand.name")}
         </p>
       </footer>
     </div>
