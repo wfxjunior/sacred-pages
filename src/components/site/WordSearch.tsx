@@ -310,8 +310,47 @@ export function WordSearch({
     focusCell(nr, nc);
   }
 
+  // Focus mode: Esc leaves it, and the page behind must not scroll.
+  useEffect(() => {
+    if (!expanded || typeof document === "undefined") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExpanded(false);
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [expanded]);
+
+  // In focus mode the full word panel is always shown, even on mobile.
+  const compact = fullBleed && !expanded;
+
+  const expandButtonClass =
+    "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
   return (
-    <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
+    <div
+      className={
+        expanded
+          ? "fixed inset-0 z-[80] flex flex-col gap-4 overflow-y-auto bg-[var(--ivory)] p-4 pt-14 sm:p-6 sm:pt-16 lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:overflow-hidden lg:p-8 lg:pt-16"
+          : `relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`
+      }
+      {...(expanded ? { role: "dialog" as const, "aria-modal": true } : {})}
+    >
+      {expanded && (
+        <button
+          type="button"
+          onClick={() => setExpanded(false)}
+          aria-label={t("wordsearch.collapse")}
+          className="fixed right-4 top-4 z-10 inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground shadow-sm transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+        >
+          <X className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("wordsearch.collapse")}</span>
+        </button>
+      )}
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
