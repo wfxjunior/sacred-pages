@@ -72,6 +72,10 @@ export function WordSearch({
   const [toast, setToast] = useState<{ word: string; all: boolean } | null>(null);
   const [focus, setFocus] = useState<Cell>({ r: 0, c: 0 });
   const [revealed, setRevealed] = useState(false);
+  // Silent completion timer: never shown while playing, only once the last
+  // word is found. `startedAt` is persisted so a reload keeps counting.
+  const [startedAt, setStartedAt] = useState<number | null>(null);
+  const [elapsedMs, setElapsedMs] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -111,7 +115,13 @@ export function WordSearch({
   useEffect(() => {
     if (!wordsKey) return;
     if (hydratedKey === storageKey) return;
-    let saved: { nonce?: number; found?: string[]; revealed?: boolean } | null = null;
+    let saved: {
+      nonce?: number;
+      found?: string[];
+      revealed?: boolean;
+      elapsedMs?: number;
+      startedAt?: number | null;
+    } | null = null;
     try {
       saved = JSON.parse(window.localStorage.getItem(storageKey) ?? "null");
     } catch {
@@ -122,6 +132,8 @@ export function WordSearch({
     setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : 0);
     setFound(savedFound);
     setRevealed(saved?.revealed === true);
+    setElapsedMs(typeof saved?.elapsedMs === "number" ? saved.elapsedMs : 0);
+    setStartedAt(typeof saved?.startedAt === "number" ? saved.startedAt : null);
     setHydratedKey(storageKey);
   }, [storageKey, wordsKey, hydratedKey]);
 
@@ -131,12 +143,12 @@ export function WordSearch({
     try {
       window.localStorage.setItem(
         storageKey,
-        JSON.stringify({ nonce: shuffleNonce, found, revealed }),
+        JSON.stringify({ nonce: shuffleNonce, found, revealed, elapsedMs, startedAt }),
       );
     } catch {
       /* storage unavailable — progress simply is not persisted */
     }
-  }, [storageKey, wordsKey, hydratedKey, shuffleNonce, found, revealed]);
+  }, [storageKey, wordsKey, hydratedKey, shuffleNonce, found, revealed, elapsedMs, startedAt]);
 
   const shuffleGrid = useCallback(() => {
     setShuffleNonce(Math.floor(Math.random() * 1_000_000_000) + 1);
@@ -146,6 +158,8 @@ export function WordSearch({
     setStart(null);
     setEnd(null);
     setRecentlyFound([]);
+    setElapsedMs(0);
+    setStartedAt(null);
   }, []);
 
   // Keyed by the normalized form, which is what the engine and `found` use.
@@ -168,7 +182,16 @@ export function WordSearch({
     const next = found.filter((w) => !prev.includes(w));
     if (next.length) {
       setRecentlyFound(next);
-      if (found.length === words.length && words.length > 0) celebrateCompletion();
+      const complete = found.length === words.length && words.length > 0;
+      if (complete) {
+        setStartedAt((begin) => {
+          if (begin != null) setElapsedMs((ms) => ms + (Date.now() - begin));
+          return null;
+        });
+        celebrateCompletion();
+      } else {
+        setStartedAt((begin) => begin ?? Date.now());
+      }
       // `next` holds normalized forms; the reader is shown their own spelling.
       setToast({ word: displayOf.get(next[0]) ?? next[0], all: found.length === words.length });
       const timer = setTimeout(() => setRecentlyFound([]), 500);
