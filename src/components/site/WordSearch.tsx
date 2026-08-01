@@ -3,7 +3,7 @@ import { buildRenderablePuzzle } from "@/lib/puzzle/render";
 import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
-import { celebrateCompletion, celebrateWord } from "@/lib/confetti";
+import { celebrateCompletion } from "@/lib/confetti";
 import { Check, Eye, EyeOff, Trophy } from "lucide-react";
 
 type Cell = { r: number; c: number };
