@@ -75,22 +75,27 @@ export function WordSearch({
   const [expanded, setExpanded] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const expandedGridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
 
   // React attaches touch listeners passively at the root, so preventDefault in
   // the JSX handlers cannot stop the page from scrolling mid-drag on mobile.
   // A non-passive native listener on the grid can.
   useEffect(() => {
-    const node = gridRef.current;
-    if (!node) return;
+    const nodes = [gridRef.current, expandedGridRef.current].filter(Boolean) as HTMLDivElement[];
+    if (!nodes.length) return;
     const block = (event: TouchEvent) => {
       if (event.cancelable) event.preventDefault();
     };
-    node.addEventListener("touchstart", block, { passive: false });
-    node.addEventListener("touchmove", block, { passive: false });
+    nodes.forEach((node) => {
+      node.addEventListener("touchstart", block, { passive: false });
+      node.addEventListener("touchmove", block, { passive: false });
+    });
     return () => {
-      node.removeEventListener("touchstart", block);
-      node.removeEventListener("touchmove", block);
+      nodes.forEach((node) => {
+        node.removeEventListener("touchstart", block);
+        node.removeEventListener("touchmove", block);
+      });
     };
   }, []);
 
@@ -334,66 +339,28 @@ export function WordSearch({
   const expandButtonClass =
     "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
 
-  return (
-    <div
-      className={
-        expanded
-          ? "fixed inset-0 z-[80] flex flex-col gap-4 overflow-y-auto bg-[var(--ivory)] p-4 pt-14 sm:p-6 sm:pt-16 lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:overflow-hidden lg:p-8 lg:pt-16"
-          : `relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`
-      }
-      {...(expanded ? { role: "dialog" as const, "aria-modal": true } : {})}
-    >
-      {expanded && (
-        <button
-          type="button"
-          onClick={() => setExpanded(false)}
-          aria-label={t("wordsearch.collapse")}
-          className="fixed right-4 top-4 z-10 inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground shadow-sm transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
-        >
-          <X className="h-4 w-4" />
-          <span className="hidden sm:inline">{t("wordsearch.collapse")}</span>
-        </button>
-      )}
-      <p id="ws-instructions" className="sr-only">
-        {t("wordsearch.instructions")}
-      </p>
-      <span className="sr-only" aria-live="polite" aria-atomic="true">
-        {announcement}
-      </span>
+  const gridBaseClass =
+    "grid select-none gap-1 rounded-lg border border-border bg-card touch-none";
 
-      {compact && (
-        <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
-          {toast && (
-            <div
-              className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium shadow-lg"
-              style={{
-                background: "var(--ink)",
-                color: "var(--ivory)",
-                animation: "toast-in 0.25s ease-out",
-                boxShadow: "0 12px 32px -10px rgba(43,43,43,0.35)",
-              }}
-              role="status"
-              aria-live="polite"
-            >
-              {toast.all ? <Trophy className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
-              {toast.all ? t("wordsearch.foundAll") : `${toast.word} — ${t("wordsearch.found")}`}
-            </div>
-          )}
-        </div>
-      )}
-
+  const renderGrid = (
+    ref: React.RefObject<HTMLDivElement | null>,
+    mode: "normal" | "expanded",
+  ) => {
+    const isCompact = mode === "normal" && compact;
+    const isExpanded = mode === "expanded";
+    return (
       <div
-        ref={gridRef}
+        ref={ref}
         role="grid"
         aria-label={t("wordsearch.gridLabel")}
         aria-describedby="ws-instructions"
         aria-rowcount={size}
         aria-colcount={size}
         onKeyDown={handleKeyDown}
-        className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
-          compact ? "w-full flex-none content-start p-2" : "p-3"
+        className={`${gridBaseClass} ${
+          isCompact ? "w-full flex-none content-start p-2" : "p-3"
         } ${
-          expanded
+          isExpanded
             ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-start lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
             : ""
         }`}
@@ -428,7 +395,7 @@ export function WordSearch({
                 : "";
             return (
               <button
-                key={`${r}-${c}`}
+                key={`${mode}-${r}-${c}`}
                 type="button"
                 role="gridcell"
                 tabIndex={isFocus ? 0 : -1}
@@ -460,7 +427,7 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  compact ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
+                  isCompact ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
@@ -471,9 +438,6 @@ export function WordSearch({
                       : revealColorValue
                         ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
                         : "transparent",
-                  // The live selection always wins the outline, so dragging
-                  // across a word already found stays visible instead of
-                  // disappearing into the found highlight.
                   outline: inActive
                     ? `2px solid color-mix(in oklab, ${selectionColor} 75%, transparent)`
                     : isFound
@@ -490,146 +454,174 @@ export function WordSearch({
           }),
         )}
       </div>
+    );
+  };
 
-      {!compact && (
+  const wordsPanel = (showToast: boolean) => (
+    <div className="space-y-4">
+      {showToast && toast && (
         <div
-          className={`space-y-4 ${
-            expanded
-              ? "w-full lg:w-[360px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto"
-              : ""
-          }`}
+          className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
+          style={{
+            background: "var(--ink)",
+            color: "var(--ivory)",
+            animation: "toast-in 0.25s ease-out",
+          }}
+          role="status"
+          aria-live="polite"
         >
+          {toast.all ? <Trophy className="h-4 w-4" /> : <Check className="h-4 w-4" />}
+          {toast.all ? t("wordsearch.foundAll") : `${toast.word} — ${t("wordsearch.found")}`}
+        </div>
+      )}
+
+      <div className="rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+          <div className="min-w-0">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              {t("wordsearch.wordsToFind")}
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
+            <span className="text-xs font-medium tabular-nums text-muted-foreground">
+              {found.length}/{words.length}
+            </span>
+            <button
+              type="button"
+              onClick={shuffleGrid}
+              title={t("wordsearch.shuffleConfirm")}
+              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            >
+              <Shuffle className="h-3.5 w-3.5" />
+              {t("wordsearch.shuffle")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-pressed={expanded}
+              title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+              className={expandButtonClass}
+            >
+              {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+              <span className="hidden sm:inline">
+                {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setRevealed((v) => !v)}
+              aria-pressed={revealed}
+              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            >
+              {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+              {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
+          <div
+            className="h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+          />
+        </div>
+
+        <ul
+          className="mt-4 grid gap-2 sm:grid-cols-2"
+          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+        >
+          {puzzle.words.map(({ display: w, normalized }) => {
+            const done = found.includes(normalized);
+            const color = wordColor.get(normalized);
+            return (
+              <li
+                key={w}
+                aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
+                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium uppercase tracking-wider transition ${
+                  done ? "border-transparent line-through" : "border-border/70 text-muted-foreground"
+                } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                style={{
+                  color: done ? "var(--ink)" : undefined,
+                  background: done ? `color-mix(in oklab, ${color} 16%, transparent)` : undefined,
+                  textDecorationColor: done ? color : undefined,
+                }}
+              >
+                {done ? (
+                  <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
+                  />
+                )}
+                <span className="truncate">{w}</span>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-3">
+          <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
+          <div
+            className="flex items-center gap-1.5"
+            role="radiogroup"
+            aria-label={t("journey.selectionColor")}
+          >
+            {SELECTION_COLORS.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                role="radio"
+                aria-checked={colorKey === c.key}
+                onClick={() => setColorKey(c.key)}
+                aria-label={c.label}
+                className="h-5 w-5 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
+                style={{
+                  background: c.value,
+                  borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
+      <p id="ws-instructions" className="sr-only">
+        {t("wordsearch.instructions")}
+      </p>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </span>
+
+      {compact && (
+        <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
           {toast && (
             <div
-              className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
+              className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium shadow-lg"
               style={{
                 background: "var(--ink)",
                 color: "var(--ivory)",
                 animation: "toast-in 0.25s ease-out",
+                boxShadow: "0 12px 32px -10px rgba(43,43,43,0.35)",
               }}
               role="status"
               aria-live="polite"
             >
-              {toast.all ? <Trophy className="h-4 w-4" /> : <Check className="h-4 w-4" />}
+              {toast.all ? <Trophy className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
               {toast.all ? t("wordsearch.foundAll") : `${toast.word} — ${t("wordsearch.found")}`}
             </div>
           )}
-
-          {/* Words panel — the reader's checklist, given real presence on
-              desktop instead of trailing chips under the grid. */}
-          <div className="rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-              <div className="min-w-0">
-                <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  {t("wordsearch.wordsToFind")}
-                </p>
-              </div>
-              <div className="flex shrink-0 items-center gap-3">
-                <span className="text-xs font-medium tabular-nums text-muted-foreground">
-                  {found.length}/{words.length}
-                </span>
-                <button
-                  type="button"
-                  onClick={shuffleGrid}
-                  title={t("wordsearch.shuffleConfirm")}
-                  className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
-                >
-                  <Shuffle className="h-3.5 w-3.5" />
-                  {t("wordsearch.shuffle")}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setExpanded((v) => !v)}
-                  aria-pressed={expanded}
-                  title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
-                  className={expandButtonClass}
-                >
-                  {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
-                  <span className="hidden sm:inline">
-                    {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRevealed((v) => !v)}
-                  aria-pressed={revealed}
-                  className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
-                >
-                  {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-                  {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-secondary">
-              <div
-                className="h-full rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
-              />
-            </div>
-
-            <ul
-              className="mt-4 grid gap-2 sm:grid-cols-2"
-              aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
-            >
-              {puzzle.words.map(({ display: w, normalized }) => {
-                const done = found.includes(normalized);
-                const color = wordColor.get(normalized);
-                return (
-                  <li
-                    key={w}
-                    aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                    className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium uppercase tracking-wider transition ${
-                      done ? "border-transparent line-through" : "border-border/70 text-muted-foreground"
-                    } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
-                    style={{
-                      color: done ? "var(--ink)" : undefined,
-                      background: done ? `color-mix(in oklab, ${color} 16%, transparent)` : undefined,
-                      textDecorationColor: done ? color : undefined,
-                    }}
-                  >
-                    {done ? (
-                      <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
-                    ) : (
-                      <span
-                        aria-hidden
-                        className="h-2.5 w-2.5 shrink-0 rounded-full"
-                        style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
-                      />
-                    )}
-                    <span className="truncate">{w}</span>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <div className="mt-4 flex items-center gap-2 border-t border-border/60 pt-3">
-              <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
-              <div
-                className="flex items-center gap-1.5"
-                role="radiogroup"
-                aria-label={t("journey.selectionColor")}
-              >
-                {SELECTION_COLORS.map((c) => (
-                  <button
-                    key={c.key}
-                    type="button"
-                    role="radio"
-                    aria-checked={colorKey === c.key}
-                    onClick={() => setColorKey(c.key)}
-                    aria-label={c.label}
-                    className="h-5 w-5 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
-                    style={{
-                      background: c.value,
-                      borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       )}
+
+      {renderGrid(gridRef, "normal")}
+
+      {!compact && wordsPanel(true)}
 
       {compact && (
         <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pb-1">
@@ -700,6 +692,35 @@ export function WordSearch({
           </ul>
         </div>
       )}
+
+      {/* Focus mode overlay — rendered in the DOM at all times so it can enter
+          and leave with a smooth fade/scale transition instead of snapping. */}
+      <div
+        className={`fixed inset-0 z-[80] flex flex-col gap-4 overflow-y-auto bg-[var(--ivory)] p-4 pt-14 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-6 sm:pt-16 lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:overflow-hidden lg:p-8 lg:pt-16 ${
+          expanded
+            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!expanded}
+      >
+        <button
+          type="button"
+          onClick={() => setExpanded(false)}
+          aria-label={t("wordsearch.collapse")}
+          className="fixed right-4 top-4 z-10 inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground shadow-sm transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+        >
+          <X className="h-4 w-4" />
+          <span className="hidden sm:inline">{t("wordsearch.collapse")}</span>
+        </button>
+
+        {renderGrid(expandedGridRef, "expanded")}
+
+        <div className="w-full lg:w-[360px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
+          {wordsPanel(true)}
+        </div>
+      </div>
     </div>
   );
 }
