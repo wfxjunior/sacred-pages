@@ -415,6 +415,7 @@ export function WordSearch({
                   fullBleed ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
+                  touchAction: "none",
                   background: isFound
                     ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 40 : 22}%, transparent)`
                     : inActive
