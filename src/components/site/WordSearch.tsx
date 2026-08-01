@@ -4,6 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
+import { recordCompletion } from "@/lib/puzzle/best-times";
 import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Timer, Trophy, X } from "lucide-react";
 
 type Cell = { r: number; c: number };
@@ -76,6 +77,7 @@ export function WordSearch({
   // word is found. `startedAt` is persisted so a reload keeps counting.
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
+  const [bestTimeMs, setBestTimeMs] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -185,7 +187,12 @@ export function WordSearch({
       const complete = found.length === words.length && words.length > 0;
       if (complete) {
         setStartedAt((begin) => {
-          if (begin != null) setElapsedMs((ms) => ms + (Date.now() - begin));
+          if (begin != null) {
+            const total = elapsedMs + (Date.now() - begin);
+            setElapsedMs(total);
+            // Saved quietly to the reader's profile: their own record only.
+            void recordCompletion(storageKey, total).then((best) => setBestTimeMs(best));
+          }
           return null;
         });
         celebrateCompletion();
@@ -216,6 +223,10 @@ export function WordSearch({
     const total = Math.max(0, Math.round(elapsedMs / 1000));
     return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
   })();
+  const bestLabel =
+    bestTimeMs != null
+      ? `${Math.floor(Math.round(bestTimeMs / 1000) / 60)}:${String(Math.round(bestTimeMs / 1000) % 60).padStart(2, "0")}`
+      : null;
 
   function cellsBetween(a: Cell, b: Cell): Cell[] {
     const dr = Math.sign(b.r - a.r);
@@ -532,6 +543,9 @@ export function WordSearch({
               >
                 <Timer className="h-3.5 w-3.5" />
                 {completedTime}
+                {bestLabel && bestLabel !== completedTime && (
+                  <span className="text-muted-foreground/70">· {t("wordsearch.bestTime")} {bestLabel}</span>
+                )}
               </span>
             )}
             <button
