@@ -32,7 +32,7 @@ export function LumenaLogo({
   variant = "tiles",
   size = "md",
   showWordmark = false,
-  tone = "default",
+  tone = "brand",
   className = "",
 }: {
   /** "tiles" spells LUMENA; "mark" is the single L tile for very tight space. */
@@ -40,7 +40,7 @@ export function LumenaLogo({
   size?: LumenaLogoSize;
   /** Adds the serif "Lumena" wordmark beside the tiles. */
   showWordmark?: boolean;
-  tone?: "default" | "light";
+  tone?: "default" | "light" | "brand";
   className?: string;
 }) {
   const px = TILE_SIZE[size];

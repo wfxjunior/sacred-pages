@@ -10,6 +10,22 @@ export const TILE_PALETTE = [
   { bg: "#FAC8DA", border: "#DA6A93" },
 ];
 
+/**
+ * Brand palette — the mark only.
+ *
+ * The pastel TILE_PALETTE above is the puzzle language and stays as it is.
+ * The logo reads to an older audience as a children's game in those colours,
+ * so the brand tiles are ink-and-paper with a single gold accent on the "L".
+ */
+export const BRAND_TILE_PALETTE = [
+  { bg: "#1F1D1B", border: "#1F1D1B", fg: "#F6F2E8" },
+  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
+  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
+  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
+  { bg: "#F4F1E9", border: "#D6CFBE", fg: "#2B2B2B" },
+  { bg: "#EFE3C6", border: "#C89F4F", fg: "#6B4E14" },
+];
+
 export function LetterTile({
   letter,
   size = 32,
@@ -19,9 +35,15 @@ export function LetterTile({
   letter: string;
   size?: number;
   index?: number;
-  variant?: "default" | "light";
+  variant?: "default" | "light" | "brand";
 }) {
-  const tone = TILE_PALETTE[index % TILE_PALETTE.length];
+  const isBrand = variant === "brand";
+  const palette = isBrand ? BRAND_TILE_PALETTE : TILE_PALETTE;
+  const tone = palette[index % palette.length] as {
+    bg: string;
+    border: string;
+    fg?: string;
+  };
   const isLight = variant === "light";
   return (
     <span
@@ -30,13 +52,14 @@ export function LetterTile({
       style={{
         width: size,
         height: size,
-        borderRadius: Math.max(6, size * 0.24),
+        borderRadius: isBrand ? Math.max(4, size * 0.18) : Math.max(6, size * 0.24),
         background: isLight ? `color-mix(in oklab, ${tone.bg} 82%, white)` : tone.bg,
         border: `${Math.max(1, size * 0.055)}px solid ${tone.border}`,
-        color: "#1F2A3C",
-        fontSize: size * 0.55,
+        color: tone.fg ?? "#1F2A3C",
+        fontSize: size * (isBrand ? 0.52 : 0.55),
+        letterSpacing: isBrand ? "0.02em" : undefined,
         lineHeight: 1,
-        boxShadow: "0 1px 2px rgba(31,42,60,0.14)",
+        boxShadow: isBrand ? "none" : "0 1px 2px rgba(31,42,60,0.14)",
       }}
     >
       {letter}
@@ -49,7 +72,7 @@ export function BrandMark({
   variant = "default",
 }: {
   size?: number;
-  variant?: "default" | "light";
+  variant?: "default" | "light" | "brand";
 }) {
   return <LetterTile letter="L" size={size} index={0} variant={variant} />;
 }
@@ -61,7 +84,7 @@ export function BrandWordmark({
 }: {
   size?: number;
   word?: string;
-  variant?: "default" | "light";
+  variant?: "default" | "light" | "brand";
 }) {
   return (
     <span className="inline-flex items-center" style={{ gap: size * 0.18 }} aria-label={word}>
