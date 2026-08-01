@@ -686,6 +686,12 @@ export function WordSearch({
             <span className="font-medium tabular-nums">
               {found.length}/{words.length}
             </span>
+            {isComplete && (
+              <span className="inline-flex items-center gap-1 font-medium tabular-nums text-muted-foreground">
+                <Timer className="h-3 w-3" />
+                {completedTime}
+              </span>
+            )}
             <button
               type="button"
               onClick={shuffleGrid}
