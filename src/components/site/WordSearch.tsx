@@ -94,9 +94,7 @@ export function WordSearch({
     const next = found.filter((w) => !prev.includes(w));
     if (next.length) {
       setRecentlyFound(next);
-      const complete = found.length === words.length && words.length > 0;
-      if (complete) celebrateCompletion();
-      else celebrateWord();
+      if (found.length === words.length && words.length > 0) celebrateCompletion();
       // `next` holds normalized forms; the reader is shown their own spelling.
       setToast({ word: displayOf.get(next[0]) ?? next[0], all: found.length === words.length });
       const timer = setTimeout(() => setRecentlyFound([]), 500);
