@@ -508,7 +508,9 @@ export function WordSearch({
           aria-live="polite"
         >
           {toast.all ? <Trophy className="h-4 w-4" /> : <Check className="h-4 w-4" />}
-          {toast.all ? t("wordsearch.foundAll") : `${toast.word} — ${t("wordsearch.found")}`}
+          {toast.all
+            ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
+            : `${toast.word} — ${t("wordsearch.found")}`}
         </div>
       )}
 
@@ -523,6 +525,15 @@ export function WordSearch({
             <span className="text-xs font-medium tabular-nums text-muted-foreground">
               {found.length}/{words.length}
             </span>
+            {isComplete && (
+              <span
+                className="inline-flex items-center gap-1 text-xs font-medium tabular-nums text-muted-foreground"
+                title={t("wordsearch.completedIn")}
+              >
+                <Timer className="h-3.5 w-3.5" />
+                {completedTime}
+              </span>
+            )}
             <button
               type="button"
               onClick={shuffleGrid}
@@ -650,7 +661,9 @@ export function WordSearch({
               aria-live="polite"
             >
               {toast.all ? <Trophy className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
-              {toast.all ? t("wordsearch.foundAll") : `${toast.word} — ${t("wordsearch.found")}`}
+              {toast.all
+            ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
+            : `${toast.word} — ${t("wordsearch.found")}`}
             </div>
           )}
         </div>
