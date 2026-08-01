@@ -4,7 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
-import { Check, Eye, EyeOff, Trophy } from "lucide-react";
+import { Check, Eye, EyeOff, Shuffle, Trophy } from "lucide-react";
 
 type Cell = { r: number; c: number };
 
@@ -41,10 +41,12 @@ export function WordSearch({
   // every device and across re-renders. `words` is a new array identity on each
   // parent render, so the memo keys on its content rather than the array.
   const wordsKey = words.join(" ");
+  // A shuffle asks the engine for a different layout of the same words.
+  const [shuffleNonce, setShuffleNonce] = useState(0);
   const puzzle = useMemo(
-    () => buildRenderablePuzzle({ words, size }),
+    () => buildRenderablePuzzle({ words, size, ...(shuffleNonce ? { seed: shuffleNonce } : {}) }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed by content, not identity
-    [wordsKey, size],
+    [wordsKey, size, shuffleNonce],
   );
   const { grid, placements } = puzzle;
 
@@ -73,6 +75,46 @@ export function WordSearch({
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
+
+  // Progress is remembered per word list + grid size, so leaving the page and
+  // coming back restores what the reader already found.
+  const storageKey = `lumena:ws:${size}:${wordsKey}`;
+  const hydratedRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (hydratedRef.current === storageKey) return;
+    hydratedRef.current = storageKey;
+    let saved: { nonce?: number; found?: string[] } | null = null;
+    try {
+      saved = JSON.parse(window.localStorage.getItem(storageKey) ?? "null");
+    } catch {
+      saved = null;
+    }
+    const savedFound = Array.isArray(saved?.found) ? saved!.found! : [];
+    prevFoundRef.current = savedFound;
+    setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : 0);
+    setFound(savedFound);
+    setRevealed(false);
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (hydratedRef.current !== storageKey) return;
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({ nonce: shuffleNonce, found }));
+    } catch {
+      /* storage unavailable — progress simply is not persisted */
+    }
+  }, [storageKey, shuffleNonce, found]);
+
+  const shuffleGrid = useCallback(() => {
+    setShuffleNonce(Math.floor(Math.random() * 1_000_000_000) + 1);
+    prevFoundRef.current = [];
+    setFound([]);
+    setRevealed(false);
+    setStart(null);
+    setEnd(null);
+    setRecentlyFound([]);
+  }, []);
 
   // Keyed by the normalized form, which is what the engine and `found` use.
   const wordColor = useMemo(() => {
@@ -147,9 +189,6 @@ export function WordSearch({
         p.path.forEach((cell) => revealCells.set(`${cell.row},${cell.col}`, color));
       });
   }
-
-  const foundCellSet = new Set(foundCells.keys());
-  const activeFound = active.filter((a) => foundCellSet.has(`${a.r},${a.c}`));
 
   function commit() {
     if (!start || !end) return;
@@ -354,19 +393,23 @@ export function WordSearch({
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   background: isFound
-                    ? `color-mix(in oklab, ${foundColorValue} 22%, transparent)`
-                    : inActive && activeFound.length > 0
-                      ? `color-mix(in oklab, ${foundColorValue} 50%, transparent)`
-                      : inActive
-                        ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
-                        : revealColorValue
-                          ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
-                          : "transparent",
-                  outline: isFound
-                    ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
-                    : revealColorValue
-                      ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
-                      : "none",
+                    ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 40 : 22}%, transparent)`
+                    : inActive
+                      ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
+                      : revealColorValue
+                        ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
+                        : "transparent",
+                  // The live selection always wins the outline, so dragging
+                  // across a word already found stays visible instead of
+                  // disappearing into the found highlight.
+                  outline: inActive
+                    ? `2px solid color-mix(in oklab, ${selectionColor} 75%, transparent)`
+                    : isFound
+                      ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
+                      : revealColorValue
+                        ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
+                        : "none",
+                  outlineOffset: inActive ? "-1px" : undefined,
                 }}
               >
                 {letter}
@@ -407,6 +450,15 @@ export function WordSearch({
                 <span className="text-xs font-medium tabular-nums text-muted-foreground">
                   {found.length}/{words.length}
                 </span>
+                <button
+                  type="button"
+                  onClick={shuffleGrid}
+                  title={t("wordsearch.shuffleConfirm")}
+                  className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                >
+                  <Shuffle className="h-3.5 w-3.5" />
+                  {t("wordsearch.shuffle")}
+                </button>
                 <button
                   type="button"
                   onClick={() => setRevealed((v) => !v)}
@@ -502,6 +554,14 @@ export function WordSearch({
             <span className="font-medium tabular-nums">
               {found.length}/{words.length}
             </span>
+            <button
+              type="button"
+              onClick={shuffleGrid}
+              aria-label={t("wordsearch.shuffle")}
+              className="inline-flex items-center gap-1 rounded-full border border-border/60 px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground transition active:scale-95"
+            >
+              <Shuffle className="h-3 w-3" />
+            </button>
             <button
               type="button"
               onClick={() => setRevealed((v) => !v)}
