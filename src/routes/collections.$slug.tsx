@@ -37,7 +37,7 @@ export const Route = createFileRoute("/collections/$slug")({
 function CollectionShell({ children }: { children: React.ReactNode }) {
   const { loading, userId } = useCurrentUser();
   if (loading) return <div className="min-h-screen bg-background">{children}</div>;
-  return userId ? <AppShell>{children}</AppShell> : <CollectionShell>{children}</CollectionShell>;
+  return userId ? <AppShell>{children}</AppShell> : <SiteLayout>{children}</SiteLayout>;
 }
 
 function CollectionSkeleton() {
@@ -91,10 +91,12 @@ function CollectionDetail() {
   const collection = data.collection;
   // Sessions are the published journeys of this collection, in curated order.
   const sessions = data.journeys.map((j) => ({
+    slug: j.slug,
     title: j.title,
     reference: j.subtitle ?? j.theme ?? "",
     minutes: j.estimatedMinutes,
   }));
+  const firstSlug = sessions[0]?.slug;
   const totalMinutes = sessions.reduce((sum, s) => sum + s.minutes, 0);
   const progressPct = collection.progress ? Math.round(collection.progress * 100) : 0;
   const completed = collection.progress ? Math.round(collection.progress * collection.count) : 0;
@@ -153,7 +155,7 @@ function CollectionDetail() {
 
               <div className="mt-10 flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" className="h-12 gap-2 px-6">
-                  <Link to="/today">
+                  <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                     {collection.progress ? "Continue journey" : "Begin journey"}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
@@ -257,6 +259,7 @@ function CollectionDetail() {
                 <li key={s.title}>
                   <Link
                     to="/today"
+                    search={{ journey: s.slug }}
                     className="group flex w-full items-center gap-5 px-5 py-4 text-left transition-colors hover:bg-[color:color-mix(in_oklab,var(--parchment)_35%,var(--card))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
                   >
                   <span
@@ -314,7 +317,7 @@ function CollectionDetail() {
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button asChild size="lg" className="h-12 gap-2 px-6">
-                <Link to="/today">
+                <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                   {collection.progress ? "Continue journey" : "Begin journey"}
                   <ArrowRight className="h-4 w-4" />
                 </Link>

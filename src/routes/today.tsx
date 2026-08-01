@@ -18,8 +18,15 @@ import { useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { z } from "zod";
+import { Library } from "lucide-react";
+
+const todaySearchSchema = z.object({
+  journey: z.string().optional().catch(undefined),
+});
 
 export const Route = createFileRoute("/today")({
+  validateSearch: (input: Record<string, unknown>) => todaySearchSchema.parse(input),
   head: () => ({
     meta: [
       { title: "Today's Journey — Jornadas da Palavra" },
@@ -62,6 +69,11 @@ function Today() {
           <div className="flex flex-wrap items-center gap-2">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
             <HelpMenu />
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/collections">
+                <Library className="mr-1.5 h-4 w-4" /> {t("nav.collections")}
+              </Link>
+            </Button>
             <Button onClick={() => setComplete(true)} variant="outline" size="sm">
               <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
             </Button>

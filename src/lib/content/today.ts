@@ -1,6 +1,7 @@
 import { useMemo } from "react";
+import { useSearch } from "@tanstack/react-router";
 import { TODAY } from "@/lib/mock-data";
-import { useDailyJourney } from "./catalog";
+import { useDailyJourney, useJourneyBySlug } from "./catalog";
 import type { DifficultyLevel } from "./types";
 
 export type TodayContent = typeof TODAY;
@@ -24,8 +25,17 @@ function wordsFor(
  * Falls back to the sample journey while loading, or when no assignment exists
  * for the reader's language today, so the screen is never blank.
  */
+/** The journey slug the reader chose in the library, if any (`/today?journey=…`). */
+function useSelectedJourneySlug(): string | undefined {
+  const search = useSearch({ strict: false }) as { journey?: string };
+  return search?.journey;
+}
+
 export function useTodayContent(difficulty: DifficultyLevel = "gentle"): TodayContent {
-  const { data } = useDailyJourney();
+  const slug = useSelectedJourneySlug();
+  const daily = useDailyJourney();
+  const selected = useJourneyBySlug(slug);
+  const data = slug ? selected.data : daily.data;
 
   return useMemo(() => {
     if (!data) return TODAY;
@@ -45,6 +55,9 @@ export function useTodayContent(difficulty: DifficultyLevel = "gentle"): TodayCo
 
 /** True until the Daily Journey has resolved, so the screen can hold still. */
 export function useTodayLoading(): boolean {
-  const { isLoading, isFetching, data } = useDailyJourney();
+  const slug = useSelectedJourneySlug();
+  const daily = useDailyJourney();
+  const selected = useJourneyBySlug(slug);
+  const { isLoading, isFetching, data } = slug ? selected : daily;
   return isLoading || (isFetching && !data);
 }
