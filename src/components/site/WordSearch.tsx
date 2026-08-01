@@ -190,9 +190,6 @@ export function WordSearch({
       });
   }
 
-  const foundCellSet = new Set(foundCells.keys());
-  const activeFound = active.filter((a) => foundCellSet.has(`${a.r},${a.c}`));
-
   function commit() {
     if (!start || !end) return;
     // The engine's validator reads the grid's normalized layer, so a word with
