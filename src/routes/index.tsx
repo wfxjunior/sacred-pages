@@ -237,16 +237,22 @@ function Landing() {
               </div>
 
               <div className="mt-7 flex flex-wrap justify-center gap-1.5 sm:mt-8 sm:gap-2">
+                {/* Quiet, editorial chips: ink on paper with one gold hairline.
+                    Four saturated pills read as edtech; this reads as a masthead. */}
                 {[
-                  { label: t("hero.chip.time"), fg: "#2E5C9E", bg: "#E4ECF8", bd: "#2E5C9E33" },
-                  { label: t("hero.chip.devotional"), fg: "#7A4A5E", bg: "#F3E6EB", bd: "#7A4A5E33" },
-                  { label: t("hero.chip.wordsearch"), fg: "#8A6A1F", bg: "#F6ECD5", bd: "#C89F4F55" },
-                  { label: t("hero.chip.reflection"), fg: "#3F6B4E", bg: "#E4EEE6", bd: "#3F6B4E33" },
+                  { label: t("hero.chip.time") },
+                  { label: t("hero.chip.devotional") },
+                  { label: t("hero.chip.wordsearch") },
+                  { label: t("hero.chip.reflection") },
                 ].map((c) => (
                   <span
                     key={c.label}
-                    className="rounded-full border px-2.5 py-1 text-[10px] font-medium shadow-sm sm:px-3 sm:text-[11px]"
-                    style={{ color: c.fg, backgroundColor: c.bg, borderColor: c.bd }}
+                    className="rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] sm:px-3 sm:text-[10.5px]"
+                    style={{
+                      color: "#6B665C",
+                      backgroundColor: "transparent",
+                      borderColor: "#D9D3C2",
+                    }}
                   >
                     {c.label}
                   </span>
