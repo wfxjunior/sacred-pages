@@ -349,7 +349,13 @@ export function WordSearch({
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
           fullBleed ? "w-full flex-none content-start p-2" : "p-3"
         }`}
-        style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
+        style={{
+          gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
+          touchAction: "none",
+          WebkitUserSelect: "none",
+          WebkitTouchCallout: "none",
+          overscrollBehavior: "contain",
+        }}
         onMouseLeave={() => {
           setStart(null);
           setEnd(null);
