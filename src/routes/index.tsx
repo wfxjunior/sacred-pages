@@ -222,7 +222,7 @@ function Landing() {
                 <Button
                   asChild
                   size="lg"
-                  className="h-12 w-full justify-center rounded-full bg-[#2E5C9E] px-6 text-[15px] font-semibold text-white shadow-[0_10px_28px_-10px_rgba(46,92,158,0.55)] hover:bg-[#1F3F70] sm:h-12 sm:w-auto sm:min-w-[168px]"
+                  className="h-12 w-full justify-center rounded-full bg-[#1F1D1B] px-6 text-[15px] font-medium tracking-[0.01em] text-[#F6F2E8] shadow-[0_10px_28px_-14px_rgba(31,29,27,0.5)] hover:bg-[#2B2B2B] sm:h-12 sm:w-auto sm:min-w-[168px]"
                 >
                   <Link to="/today">{t("hero.ctaStart")}</Link>
                 </Button>
@@ -230,7 +230,7 @@ function Landing() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-12 w-full justify-center rounded-full border-[#2E5C9E]/25 bg-white px-6 text-[15px] font-medium text-[#2E5C9E] hover:bg-[#E4ECF8] hover:text-[#1F3F70] sm:h-12 sm:w-auto sm:min-w-[168px]"
+                  className="h-12 w-full justify-center rounded-full border-[#D9D3C2] bg-transparent px-6 text-[15px] font-medium text-[#2B2B2B] hover:bg-[#F1EEE6] hover:text-[#1F1D1B] sm:h-12 sm:w-auto sm:min-w-[168px]"
                 >
                   <a href="#features">{t("hero.ctaExplore")}</a>
                 </Button>
