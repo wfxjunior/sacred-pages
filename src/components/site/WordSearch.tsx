@@ -328,6 +328,7 @@ export function WordSearch({
         </div>
       )}
 
+      <div className={fit ? "flex min-h-0 flex-1 items-start justify-center" : "contents"}>
       <div
         ref={gridRef}
         role="grid"
@@ -338,6 +339,8 @@ export function WordSearch({
         onKeyDown={handleKeyDown}
         className={`grid select-none gap-1 rounded-lg border border-border bg-card ${
           fullBleed ? "w-full flex-none content-start p-2" : "p-3"
+        } ${
+          fit ? "aspect-square h-full max-h-full w-auto max-w-full" : ""
         }`}
         style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}
         onMouseLeave={() => {
