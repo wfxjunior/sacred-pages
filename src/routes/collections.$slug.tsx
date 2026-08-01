@@ -259,6 +259,7 @@ function CollectionDetail() {
                 <li key={s.title}>
                   <Link
                     to="/today"
+                    search={{ journey: s.slug }}
                     className="group flex w-full items-center gap-5 px-5 py-4 text-left transition-colors hover:bg-[color:color-mix(in_oklab,var(--parchment)_35%,var(--card))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
                   >
                   <span
@@ -316,7 +317,7 @@ function CollectionDetail() {
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button asChild size="lg" className="h-12 gap-2 px-6">
-                <Link to="/today">
+                <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                   {collection.progress ? "Continue journey" : "Begin journey"}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
