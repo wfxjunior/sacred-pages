@@ -393,19 +393,23 @@ export function WordSearch({
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   background: isFound
-                    ? `color-mix(in oklab, ${foundColorValue} 22%, transparent)`
-                    : inActive && activeFound.length > 0
-                      ? `color-mix(in oklab, ${foundColorValue} 50%, transparent)`
-                      : inActive
-                        ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
-                        : revealColorValue
-                          ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
-                          : "transparent",
-                  outline: isFound
-                    ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
-                    : revealColorValue
-                      ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
-                      : "none",
+                    ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 40 : 22}%, transparent)`
+                    : inActive
+                      ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
+                      : revealColorValue
+                        ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
+                        : "transparent",
+                  // The live selection always wins the outline, so dragging
+                  // across a word already found stays visible instead of
+                  // disappearing into the found highlight.
+                  outline: inActive
+                    ? `2px solid color-mix(in oklab, ${selectionColor} 75%, transparent)`
+                    : isFound
+                      ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
+                      : revealColorValue
+                        ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
+                        : "none",
+                  outlineOffset: inActive ? "-1px" : undefined,
                 }}
               >
                 {letter}
