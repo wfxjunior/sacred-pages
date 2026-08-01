@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { AppShell } from "@/components/site/AppShell";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useCatalogCollection, type CatalogCollection } from "@/lib/content/catalog";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Clock, Heart, Share2, Sparkles } from "lucide-react";
@@ -28,9 +30,19 @@ export const Route = createFileRoute("/collections/$slug")({
   component: CollectionDetail,
 });
 
+/**
+ * A signed-in reader stays inside the journey shell — the public marketing
+ * chrome here used to read as "you were logged out".
+ */
+function CollectionShell({ children }: { children: React.ReactNode }) {
+  const { loading, userId } = useCurrentUser();
+  if (loading) return <div className="min-h-screen bg-background">{children}</div>;
+  return userId ? <AppShell>{children}</AppShell> : <CollectionShell>{children}</CollectionShell>;
+}
+
 function CollectionSkeleton() {
   return (
-    <SiteLayout>
+    <CollectionShell>
       <div className="mx-auto max-w-7xl px-6 py-20" aria-busy="true">
         <div className="h-3 w-24 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
         <div className="mt-6 h-10 w-2/3 animate-pulse rounded bg-[color:color-mix(in_oklab,var(--parchment)_55%,var(--card))]" />
@@ -44,13 +56,13 @@ function CollectionSkeleton() {
           ))}
         </div>
       </div>
-    </SiteLayout>
+    </CollectionShell>
   );
 }
 
 function CollectionNotFound() {
   return (
-    <SiteLayout>
+    <CollectionShell>
       <div className="mx-auto max-w-3xl px-6 py-24 text-center">
         <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
           Library
@@ -65,7 +77,7 @@ function CollectionNotFound() {
           </Button>
         </div>
       </div>
-    </SiteLayout>
+    </CollectionShell>
   );
 }
 
@@ -88,7 +100,7 @@ function CollectionDetail() {
   const completed = collection.progress ? Math.round(collection.progress * collection.count) : 0;
 
   return (
-    <SiteLayout>
+    <CollectionShell>
       <article className="pb-24">
         {/* Hero */}
         <header
@@ -242,10 +254,11 @@ function CollectionDetail() {
             {sessions.map((s, i) => {
               const isDone = collection.progress != null && i < completed;
               return (
-                <li
-                  key={s.title}
-                  className="group flex items-center gap-5 px-5 py-4 transition-colors hover:bg-[color:color-mix(in_oklab,var(--parchment)_35%,var(--card))]"
-                >
+                <li key={s.title}>
+                  <Link
+                    to="/today"
+                    className="group flex w-full items-center gap-5 px-5 py-4 text-left transition-colors hover:bg-[color:color-mix(in_oklab,var(--parchment)_35%,var(--card))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
+                  >
                   <span
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-serif text-sm"
                     style={{
@@ -271,8 +284,10 @@ function CollectionDetail() {
                     className="text-[10px] uppercase tracking-[0.2em]"
                     style={{ color: isDone ? "var(--gold)" : "var(--muted-foreground)" }}
                   >
-                    {isDone ? "Done" : "Upcoming"}
+                    {isDone ? "Done" : "Open"}
                   </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
+                  </Link>
                 </li>
               );
             })}
@@ -311,7 +326,7 @@ function CollectionDetail() {
           </div>
         </section>
       </article>
-    </SiteLayout>
+    </CollectionShell>
   );
 }
 
