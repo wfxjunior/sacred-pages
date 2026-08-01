@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
 import { LumenaLogo } from "./LumenaLogo";
+import { LegalConsent } from "./LegalConsent";
 
 export function AuthLayout({
   title,
@@ -53,13 +54,15 @@ export function AuthLayout({
           </div>
           <div className="mt-6 space-y-3 text-left">{children}</div>
           {footer && (
-            <div className="mt-5 text-center text-sm text-muted-foreground">{footer}</div>
+            <div className="mt-6 text-center text-sm text-muted-foreground">{footer}</div>
           )}
+          {/* One legal notice per auth screen, always in the same slot. */}
+          <LegalConsent className="mx-auto mt-4 max-w-[320px] text-center" />
         </div>
       </main>
 
-      <footer className="shrink-0 px-5 pb-6 pt-2 text-center text-muted-foreground">
-        <nav className="mb-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[12px]">
+      <footer className="shrink-0 px-5 pt-10 text-center text-muted-foreground [padding-bottom:calc(24px+env(safe-area-inset-bottom))]">
+        <nav className="mb-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px]">
           <Link to="/terms" className="underline underline-offset-4 hover:opacity-80">
             {t("footer.terms")}
           </Link>
