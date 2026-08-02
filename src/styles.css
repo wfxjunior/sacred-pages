@@ -272,7 +272,7 @@
 :root {
   --radius: 0.625rem;
   /* Public — premium SaaS palette (Apple / Linear / Notion register) */
-  --background: #FCFBF8;      /* warm white */
+  --background: #FDFCFA;      /* warm white */
   --foreground: #202124;      /* primary text */
   --card: #FFFFFF;
   --card-foreground: var(--foreground);
@@ -297,7 +297,7 @@
   --chart-3: #C89F4F;
   --chart-4: #7A4A5E;
   --chart-5: #9AB4D6;
-  --sidebar: #FCFBF8;
+  --sidebar: #FDFCFA;
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: #2E5C9E;
   --sidebar-primary-foreground: #FFFFFF;
@@ -316,7 +316,7 @@
   --burgundy: #7A4A5E;
   --emerald-glass: #3F6B4E;
   --parchment: #F3F1EC;
-  --ivory: #FCFBF8;
+  --ivory: #FDFCFA;
   --surface-2: #F5F6F8;
   --ink: #202124;
   --ink-2: #6B7280;
@@ -329,7 +329,7 @@
 
 /* Journey scope — warmer, calmer, gold accents. Applied on AppShell. */
 .journey-warm {
-  --background: #F3F1EC;       /* warm gray */
+  --background: #F9F7F2;       /* warm gray */
   --card: #FFFFFF;
   --secondary: #EDEAE2;
   --muted: #EDEAE2;
