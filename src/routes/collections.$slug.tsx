@@ -5,6 +5,7 @@ import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useCatalogCollection, type CatalogCollection } from "@/lib/content/catalog";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Clock, Heart, Share2, Sparkles } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/collections/$slug")({
   head: ({ params }) => {
@@ -61,19 +62,20 @@ function CollectionSkeleton() {
 }
 
 function CollectionNotFound() {
+  const { t } = useI18n();
   return (
     <CollectionShell>
       <div className="mx-auto max-w-3xl px-6 py-24 text-center">
         <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
-          Library
+          {t("coll.library")}
         </p>
-        <h1 className="mt-3 font-serif text-4xl">This collection could not be found</h1>
+        <h1 className="mt-3 font-serif text-4xl">{t("cd.notFoundTitle")}</h1>
         <p className="mt-4 text-muted-foreground">
-          It may have been renamed or is no longer available. Return to the library to keep exploring.
+          {t("cd.notFoundBody")}
         </p>
         <div className="mt-8">
           <Button asChild>
-            <Link to="/collections">Back to collections</Link>
+            <Link to="/collections">{t("cd.backTo")}</Link>
           </Button>
         </div>
       </div>
@@ -83,7 +85,14 @@ function CollectionNotFound() {
 
 function CollectionDetail() {
   const { slug } = Route.useParams();
+  const { t, locale } = useI18n();
   const { data, isLoading, isError } = useCatalogCollection(slug);
+  const expectations = [
+    { title: t("cd.expect1t"), description: t("cd.expect1d") },
+    { title: t("cd.expect2t"), description: t("cd.expect2d") },
+    { title: t("cd.expect3t"), description: t("cd.expect3d") },
+    { title: t("cd.expect4t"), description: t("cd.expect4d") },
+  ];
 
   if (isLoading) return <CollectionSkeleton />;
   if (isError || !data) return <CollectionNotFound />;
@@ -115,7 +124,7 @@ function CollectionDetail() {
           <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1.05fr_0.95fr] md:py-24">
             <div className="flex flex-col justify-center">
               <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                <Link to="/collections" className="hover:text-foreground">Library</Link>
+                <Link to="/collections" className="hover:text-foreground">{t("coll.library")}</Link>
                 <span aria-hidden>/</span>
                 <span style={{ color: "var(--walnut)" }}>{collection.title}</span>
               </nav>
@@ -127,15 +136,15 @@ function CollectionDetail() {
               </p>
 
               <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-4 text-sm">
-                <Stat icon={<BookOpen className="h-4 w-4" />} label="Sessions" value={String(collection.count)} />
-                <Stat icon={<Clock className="h-4 w-4" />} label="Total time" value={`${totalMinutes} min`} />
-                <Stat icon={<Sparkles className="h-4 w-4" />} label="Rhythm" value="Daily · 10 min" />
+                <Stat icon={<BookOpen className="h-4 w-4" />} label={t("cd.sessions")} value={String(collection.count)} />
+                <Stat icon={<Clock className="h-4 w-4" />} label={t("cd.totalTime")} value={`${totalMinutes} min`} />
+                <Stat icon={<Sparkles className="h-4 w-4" />} label={t("cd.rhythm")} value={t("cd.rhythmValue")} />
               </dl>
 
               {collection.progress != null && (
                 <div className="mt-8 max-w-md">
                   <div className="flex items-center justify-between text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                    <span>In progress</span>
+                    <span>{t("cd.inProgress")}</span>
                     <span style={{ color: "var(--walnut)" }}>
                       {completed}/{collection.count} · {progressPct}%
                     </span>
@@ -156,14 +165,14 @@ function CollectionDetail() {
               <div className="mt-10 flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" className="h-12 gap-2 px-6">
                   <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
-                    {collection.progress ? "Continue journey" : "Begin journey"}
+                    {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="h-12 gap-2 px-5">
                   <Link to="/favorites">
                     <Heart className="h-4 w-4" />
-                    Save
+                    {t("cd.save")}
                   </Link>
                 </Button>
                 <button
@@ -171,7 +180,7 @@ function CollectionDetail() {
                   className="inline-flex h-12 items-center gap-2 rounded-md px-4 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
                 >
                   <Share2 className="h-4 w-4" />
-                  Share
+                  {t("cd.share")}
                 </button>
               </div>
             </div>
@@ -204,8 +213,8 @@ function CollectionDetail() {
                   }}
                 />
                 <div className="absolute inset-x-6 bottom-6 flex items-center justify-between text-xs uppercase tracking-[0.2em] text-white/85">
-                  <span>Collection</span>
-                  <span className="text-[color:var(--gold)]">{collection.count} sessions</span>
+                  <span>{t("cd.collection")}</span>
+                  <span className="text-[color:var(--gold)]">{collection.count} {t("cd.sessions")}</span>
                 </div>
               </div>
             </div>
@@ -216,13 +225,13 @@ function CollectionDetail() {
         <section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:py-20">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
-              Theme
+              {t("cd.theme")}
             </p>
             <h2 className="mt-3 font-serif text-3xl leading-tight md:text-4xl">
-              {themeHeadline(collection)}
+              {locale === "en" ? themeHeadline(collection) : collection.title}
             </h2>
             <p className="mt-5 text-base text-muted-foreground">
-              {themeParagraph(collection)}
+              {locale === "en" ? themeParagraph(collection) : collection.description}
             </p>
           </div>
           <ul className="grid gap-4 sm:grid-cols-2">
@@ -243,12 +252,12 @@ function CollectionDetail() {
           <div className="flex items-end justify-between gap-6">
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
-                Sessions
+                {t("cd.sessions")}
               </p>
-              <h2 className="mt-3 font-serif text-3xl md:text-4xl">What you will walk through</h2>
+              <h2 className="mt-3 font-serif text-3xl md:text-4xl">{t("cd.walkThrough")}</h2>
             </div>
             <p className="hidden text-sm text-muted-foreground md:block">
-              {collection.count} sessions · about {totalMinutes} minutes total
+              {collection.count} {t("cd.sessions")} · {totalMinutes} min
             </p>
           </div>
 
@@ -287,7 +296,7 @@ function CollectionDetail() {
                     className="text-[10px] uppercase tracking-[0.2em]"
                     style={{ color: isDone ? "var(--gold)" : "var(--muted-foreground)" }}
                   >
-                    {isDone ? "Done" : "Open"}
+                    {isDone ? t("cd.done") : t("cd.open")}
                   </span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
                   </Link>
@@ -307,23 +316,23 @@ function CollectionDetail() {
             }}
           >
             <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
-              A slow walk through Scripture
+              {t("cd.ctaEyebrow")}
             </p>
             <h2 className="mx-auto mt-4 max-w-2xl font-serif text-3xl leading-tight md:text-5xl">
-              {collection.progress ? "Pick up where you left off." : "Begin the journey today."}
+              {collection.progress ? t("cd.ctaTitleResume") : t("cd.ctaTitle")}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground">
-              Ten quiet minutes a day. Scripture, reflection, and prayer — gently guided.
+              {t("cd.ctaBody")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button asChild size="lg" className="h-12 gap-2 px-6">
                 <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
-                  {collection.progress ? "Continue journey" : "Begin journey"}
+                  {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="ghost" className="h-12 px-5">
-                <Link to="/collections">Browse other collections</Link>
+                <Link to="/collections">{t("cd.browseOther")}</Link>
               </Button>
             </div>
           </div>
@@ -344,25 +353,6 @@ function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; va
     </div>
   );
 }
-
-const expectations = [
-  {
-    title: "Scripture read slowly",
-    description: "One passage a day, with room to breathe and re-read.",
-  },
-  {
-    title: "A guided word search",
-    description: "Find the words that carry the meaning of each passage.",
-  },
-  {
-    title: "A short reflection",
-    description: "One honest question to bring the passage into your day.",
-  },
-  {
-    title: "A written prayer",
-    description: "A gentle prayer you can pray, adapt, or set aside.",
-  },
-];
 
 function themeHeadline(c: CatalogCollection) {
   const map: Record<string, string> = {
