@@ -32,10 +32,11 @@ function seeded(seed: number) {
 /**
  * Draws the word list for a difficulty.
  *
- * The tier fixes *how many* words appear, but not *which*: the draw rotates
- * over the journey's whole pool, seeded by `variant`, so the same journey
- * never shows the same list two days running (nor after a shuffle). Words at
- * or below the chosen tier are preferred, harder ones fill any gap.
+ * The tier fixes *how many* words appear, but not *which*. Journeys carry just
+ * enough words that "everything at or below the tier" would always be the same
+ * list, so the eligible pool deliberately reaches one tier higher: that leaves
+ * spare words to rotate through, seeded by `variant`, while keeping the extra
+ * words only a single step harder than the tier the reader picked.
  */
 function wordsFor(
   words: { display: string; minDifficulty: DifficultyLevel }[],
@@ -44,8 +45,9 @@ function wordsFor(
 ) {
   const ceiling = TIERS.indexOf(difficulty);
   const target = Math.min(TIER_COUNT[difficulty], words.length);
-  const preferred = words.filter((w) => TIERS.indexOf(w.minDifficulty) <= ceiling);
-  const rest = words.filter((w) => TIERS.indexOf(w.minDifficulty) > ceiling);
+  const rank = (w: { minDifficulty: DifficultyLevel }) => TIERS.indexOf(w.minDifficulty);
+  const eligible = words.filter((w) => rank(w) <= ceiling + 1);
+  const rest = words.filter((w) => rank(w) > ceiling + 1);
 
   const random = seeded(Math.abs(variant) + 1);
   const shuffle = <T,>(list: T[]) => {
@@ -57,7 +59,10 @@ function wordsFor(
     return copy;
   };
 
-  const picked = [...shuffle(preferred), ...shuffle(rest)].slice(0, target);
+  // Keep the reader's own tier in front so an easy day still reads easy, then
+  // let the one-step-harder words fill the remaining slots as they rotate.
+  const drawn = shuffle(eligible).sort((a, b) => rank(a) - rank(b));
+  const picked = [...drawn, ...shuffle(rest)].slice(0, target);
   return picked.map((w) => w.display.toUpperCase());
 }
 
