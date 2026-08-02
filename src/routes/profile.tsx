@@ -9,7 +9,7 @@ import { COMPANIONS } from "@/lib/mock/companions";
 import { Sparkles, Share2, Settings as SettingsIcon, Flame } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
-import { formatDuration, useBestTimes } from "@/lib/puzzle/best-times";
+import { formatDuration, groupByJourney, useBestTimes } from "@/lib/puzzle/best-times";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -31,6 +31,7 @@ function ProfilePage() {
   const { entries: bestTimes } = useBestTimes();
   const fastest = bestTimes[0] ?? null;
   const puzzlesTimed = bestTimes.reduce((sum, entry) => sum + entry.completions, 0);
+  const perJourney = groupByJourney(bestTimes, t("profile.times.unnamed"));
   const active = COMPANIONS.filter((c) => c.status === "active").slice(0, 2);
 
   return (
@@ -82,6 +83,35 @@ function ProfilePage() {
             hint={puzzlesTimed ? `${puzzlesTimed} ${t("profile.stat.puzzles")}` : t("profile.stat.noTimesYet")}
           />
           <Stat label={t("profile.stat.milestonesReached")} value={`${achieved.length}`} hint={`${t("ui.of")} ${MILESTONE_LIST.length}`} />
+        </section>
+
+        <section>
+          <SectionTitle eyebrow={t("profile.times.eyebrow")} title={t("profile.times.title")} />
+          {perJourney.length === 0 ? (
+            <p className="mt-4 text-sm text-muted-foreground">{t("profile.times.empty")}</p>
+          ) : (
+            <ul className="mt-6 divide-y divide-border/60 overflow-hidden rounded-2xl border border-border/60 bg-card">
+              {perJourney.map((row) => (
+                <li key={row.journey} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
+                  <div className="min-w-0">
+                    <p className="truncate font-serif text-lg">{row.journey}</p>
+                    <p className="mt-0.5 text-[12px] text-muted-foreground">
+                      {row.completions} {t(row.completions === 1 ? "profile.times.completion" : "profile.times.completions")}
+                      {row.lastTimeMs != null ? ` · ${t("profile.times.last")} ${formatDuration(row.lastTimeMs)}` : ""}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-serif text-xl tabular-nums" style={{ color: "var(--gold)" }}>
+                      {formatDuration(row.bestTimeMs)}
+                    </p>
+                    <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+                      {t("profile.stat.bestTime")}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
 
         <section>
