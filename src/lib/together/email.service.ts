@@ -22,8 +22,6 @@ export async function sendCompanionInviteEmail(
   const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
   if (!supabaseUrl || !publishableKey) throw new Error("Missing Supabase env");
 
-  const { createClient } = await import("@supabase/supabase-js");
-  const { type Database } = await import("@/integrations/supabase/types");
   const supabasePublic = createClient<Database>(supabaseUrl, publishableKey, {
     auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
   });
