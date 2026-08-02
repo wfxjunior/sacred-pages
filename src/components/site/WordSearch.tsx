@@ -810,7 +810,7 @@ export function WordSearch({
       {/* Focus mode overlay — rendered in the DOM at all times so it can enter
           and leave with a smooth fade/scale transition instead of snapping. */}
       <div
-        className={`fixed inset-0 z-[80] flex flex-col gap-4 overflow-y-auto bg-[var(--ivory)] p-4 pt-14 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-6 sm:pt-16 lg:flex-row lg:items-start lg:justify-center lg:gap-8 lg:overflow-hidden lg:p-8 lg:pt-16 ${
+        className={`fixed inset-0 z-[80] flex flex-col gap-3 overflow-y-auto bg-[var(--ivory)] p-3 pt-12 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-5 sm:pt-14 lg:flex-row lg:items-start lg:justify-center lg:gap-6 lg:overflow-hidden lg:p-6 lg:pt-14 ${
           expanded
             ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
@@ -823,15 +823,14 @@ export function WordSearch({
           type="button"
           onClick={() => setExpanded(false)}
           aria-label={t("wordsearch.collapse")}
-          className="fixed right-4 top-4 z-10 inline-flex h-10 items-center gap-2 rounded-full border border-border bg-card px-4 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground shadow-sm transition hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          className="fixed right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-card text-muted-foreground shadow-sm transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
         >
           <X className="h-4 w-4" />
-          <span className="hidden sm:inline">{t("wordsearch.collapse")}</span>
         </button>
 
         {renderGrid(expandedGridRef, "expanded")}
 
-        <div className="w-full lg:w-[360px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
+        <div className="w-full lg:w-[340px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:overflow-y-auto">
           {wordsPanel(true)}
         </div>
       </div>
