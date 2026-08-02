@@ -16,6 +16,12 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        /* Editorial CTA treatment — matches the hero buttons on the landing
+           page: serif type, hairline radius, ink-on-ivory contrast. */
+        editorial:
+          "rounded-sm border border-[#2B2B2B] bg-[#2B2B2B] font-serif font-medium tracking-tight text-[#F6F2E8] shadow-[0_10px_28px_-14px_rgba(43,43,43,0.35)] transition-all hover:bg-[#3D3D3D] active:scale-[0.98]",
+        editorialOutline:
+          "rounded-sm border border-[#2B2B2B]/20 bg-transparent font-serif font-medium tracking-tight text-[#2B2B2B] transition-all hover:bg-[#2B2B2B]/5 hover:text-[#1F1D1B] active:scale-[0.98]",
       },
       size: {
         default: "h-9 px-4 py-2",
