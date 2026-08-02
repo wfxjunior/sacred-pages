@@ -28,9 +28,9 @@ import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
@@ -145,11 +145,6 @@ const CookiesRoute = CookiesRouteImport.update({
   path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CollectionsRoute = CollectionsRouteImport.update({
-  id: '/collections',
-  path: '/collections',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -158,6 +153,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -177,9 +177,9 @@ const InviteTokenRoute = InviteTokenRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => CollectionsRoute,
+  id: '/collections/$slug',
+  path: '/collections/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
   id: '/admin/translations',
@@ -256,7 +256,6 @@ const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/collections': typeof CollectionsRouteWithChildren
   '/cookies': typeof CookiesRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
@@ -286,6 +285,7 @@ export interface FileRoutesByFullPath {
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/admin/': typeof AdminIndexRoute
+  '/collections/': typeof CollectionsIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
@@ -298,7 +298,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/collections': typeof CollectionsRouteWithChildren
   '/cookies': typeof CookiesRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
@@ -328,6 +327,7 @@ export interface FileRoutesByTo {
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/admin': typeof AdminIndexRoute
+  '/collections': typeof CollectionsIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
@@ -341,7 +341,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/collections': typeof CollectionsRouteWithChildren
   '/cookies': typeof CookiesRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
@@ -371,6 +370,7 @@ export interface FileRoutesById {
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/admin/': typeof AdminIndexRoute
+  '/collections/': typeof CollectionsIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
@@ -385,7 +385,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/collections'
     | '/cookies'
     | '/favorites'
     | '/features'
@@ -415,6 +414,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/notifications/preferences'
     | '/admin/'
+    | '/collections/'
     | '/admin/collections/$collectionId'
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
@@ -427,7 +427,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/collections'
     | '/cookies'
     | '/favorites'
     | '/features'
@@ -457,6 +456,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/notifications/preferences'
     | '/admin'
+    | '/collections'
     | '/admin/collections/$collectionId'
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
@@ -469,7 +469,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
-    | '/collections'
     | '/cookies'
     | '/favorites'
     | '/features'
@@ -499,6 +498,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/notifications/preferences'
     | '/admin/'
+    | '/collections/'
     | '/admin/collections/$collectionId'
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
@@ -512,7 +512,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CollectionsRoute: typeof CollectionsRouteWithChildren
   CookiesRoute: typeof CookiesRoute
   FavoritesRoute: typeof FavoritesRoute
   FeaturesRoute: typeof FeaturesRoute
@@ -538,8 +537,10 @@ export interface RootRouteChildren {
   AdminReviewRoute: typeof AdminReviewRoute
   AdminTemplatesRoute: typeof AdminTemplatesRoute
   AdminTranslationsRoute: typeof AdminTranslationsRoute
+  CollectionsSlugRoute: typeof CollectionsSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  CollectionsIndexRoute: typeof CollectionsIndexRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
   AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
   AdminJourneysJourneyIdRoute: typeof AdminJourneysJourneyIdRoute
@@ -685,13 +686,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/collections': {
-      id: '/collections'
-      path: '/collections'
-      fullPath: '/collections'
-      preLoaderRoute: typeof CollectionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -704,6 +698,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/': {
+      id: '/collections/'
+      path: '/collections'
+      fullPath: '/collections/'
+      preLoaderRoute: typeof CollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -729,10 +730,10 @@ declare module '@tanstack/react-router' {
     }
     '/collections/$slug': {
       id: '/collections/$slug'
-      path: '/$slug'
+      path: '/collections/$slug'
       fullPath: '/collections/$slug'
       preLoaderRoute: typeof CollectionsSlugRouteImport
-      parentRoute: typeof CollectionsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/translations': {
       id: '/admin/translations'
@@ -835,18 +836,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface CollectionsRouteChildren {
-  CollectionsSlugRoute: typeof CollectionsSlugRoute
-}
-
-const CollectionsRouteChildren: CollectionsRouteChildren = {
-  CollectionsSlugRoute: CollectionsSlugRoute,
-}
-
-const CollectionsRouteWithChildren = CollectionsRoute._addFileChildren(
-  CollectionsRouteChildren,
-)
-
 interface NotificationsRouteChildren {
   NotificationsPreferencesRoute: typeof NotificationsPreferencesRoute
 }
@@ -862,7 +851,6 @@ const NotificationsRouteWithChildren = NotificationsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CollectionsRoute: CollectionsRouteWithChildren,
   CookiesRoute: CookiesRoute,
   FavoritesRoute: FavoritesRoute,
   FeaturesRoute: FeaturesRoute,
@@ -888,8 +876,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewRoute: AdminReviewRoute,
   AdminTemplatesRoute: AdminTemplatesRoute,
   AdminTranslationsRoute: AdminTranslationsRoute,
+  CollectionsSlugRoute: CollectionsSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
   AdminIndexRoute: AdminIndexRoute,
+  CollectionsIndexRoute: CollectionsIndexRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
   AdminCollectionsNewRoute: AdminCollectionsNewRoute,
   AdminJourneysJourneyIdRoute: AdminJourneysJourneyIdRoute,
@@ -902,13 +892,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
