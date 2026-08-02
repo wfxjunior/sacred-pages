@@ -153,14 +153,18 @@ export function WordSearch({
     }
     const savedFound = Array.isArray(saved?.found) ? saved!.found! : [];
     prevFoundRef.current = savedFound;
-    setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : 0);
+    // Falls back to the session seed, never 0: a fresh session must lay the
+    // words out differently, and 0 would replay the default layout.
+    setShuffleNonce(
+      typeof saved?.nonce === "number" ? saved!.nonce! : seedFromSession(sessionKey),
+    );
     setFound(savedFound);
     setRevealed(saved?.revealed === true);
     setElapsedMs(typeof saved?.elapsedMs === "number" ? saved.elapsedMs : 0);
     setStartedAt(typeof saved?.startedAt === "number" ? saved.startedAt : null);
     setBestTimeMs(getLocalBest(storageKey));
     setHydratedKey(storageKey);
-  }, [storageKey, wordsKey, hydratedKey]);
+  }, [storageKey, wordsKey, hydratedKey, sessionKey]);
 
   useEffect(() => {
     if (!wordsKey) return;
