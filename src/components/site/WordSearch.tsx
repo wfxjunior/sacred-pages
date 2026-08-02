@@ -164,7 +164,7 @@ export function WordSearch({
     setStartedAt(typeof saved?.startedAt === "number" ? saved.startedAt : null);
     setBestTimeMs(getLocalBest(storageKey));
     setHydratedKey(storageKey);
-  }, [storageKey, wordsKey, hydratedKey]);
+  }, [storageKey, wordsKey, hydratedKey, sessionKey]);
 
   useEffect(() => {
     if (!wordsKey) return;
