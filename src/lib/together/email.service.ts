@@ -1,7 +1,9 @@
 import * as React from "react";
 import { sendLovableEmail } from "@lovable.dev/email-js";
 import { render } from "@react-email/render";
+import { createClient } from "@supabase/supabase-js";
 import { CompanionInviteEmail } from "@/lib/email-templates/CompanionInviteEmail";
+import type { Database } from "@/integrations/supabase/types";
 import type { Companionship } from "./types";
 
 const SITE_NAME = "lumenadaily";
