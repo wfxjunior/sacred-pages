@@ -238,11 +238,13 @@ function FilterGroup({
   label,
   value,
   options,
+  labelFor,
   onChange,
 }: {
   label: string;
   value: string;
   options: readonly string[];
+  labelFor?: (v: string) => string;
   onChange: (v: string) => void;
 }) {
   return (
@@ -255,7 +257,9 @@ function FilterGroup({
         aria-label={label}
       >
         {options.map((o) => (
-          <option key={o}>{o}</option>
+          <option key={o} value={o}>
+            {labelFor ? labelFor(o) : o}
+          </option>
         ))}
       </select>
     </div>
