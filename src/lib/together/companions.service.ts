@@ -34,14 +34,14 @@ export async function listMyCompanions(
   const { data, error } = await supabase
     .from("companionships")
     .select(
-      "*, inviter:profiles!inner(display_name, avatar_url), invitee:profiles(display_name, avatar_url)",
+      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url)",
     )
     .or(
       `inviter_id.eq.${userId},invitee_user_id.eq.${userId},invitee_email.eq.${email}`,
     )
     .order("created_at", { ascending: false });
   if (error) throw error;
-  return (data ?? []) as CompanionshipWithProfiles[];
+  return (data ?? []) as unknown as CompanionshipWithProfiles[];
 }
 
 export async function getInvitationByToken(
@@ -51,12 +51,12 @@ export async function getInvitationByToken(
   const { data, error } = await supabase
     .from("companionships")
     .select(
-      "*, inviter:profiles!inner(display_name, avatar_url), invitee:profiles(display_name, avatar_url)",
+      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url)",
     )
     .eq("token", token)
     .single();
   if (error) return null;
-  return data as CompanionshipWithProfiles;
+  return data as unknown as CompanionshipWithProfiles;
 }
 
 export async function getInvitationPreview(
