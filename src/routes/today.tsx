@@ -17,7 +17,7 @@ import {
 import { dayVariant, useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { JourneyThemePicker } from "@/components/site/JourneyThemePicker";
 import { useI18n } from "@/lib/i18n";
-import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight } from "lucide-react";
+import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Library } from "lucide-react";
@@ -268,7 +268,7 @@ function MobileContentSheet() {
 }
 
 function JourneyTabs() {
-  return null as never;
+  return <JourneyTabsContent />;
 }
 
 function DevotionalPanel() {
