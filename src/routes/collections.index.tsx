@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Search, X, SlidersHorizontal, BookOpen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
+import { useI18n } from "@/lib/i18n";
 
 const DIFFS = ["Any", "Gentle", "Balanced", "Challenging"] as const;
 const ACCESS = ["Any", "Free", "Premium"] as const;
@@ -39,6 +40,16 @@ export const Route = createFileRoute("/collections/")({
 function CollectionsPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+  const { t } = useI18n();
+  const optionLabel = (v: string) =>
+    ({
+      Any: t("coll.opt.any"),
+      Gentle: t("coll.opt.gentle"),
+      Balanced: t("coll.opt.balanced"),
+      Challenging: t("coll.opt.challenging"),
+      Free: t("coll.opt.free"),
+      Premium: t("coll.opt.premium"),
+    })[v] ?? v;
 
   const q = search.q ?? "";
   const category = search.category ?? null;
@@ -96,10 +107,10 @@ function CollectionsPage() {
   // Category chips follow the published library instead of a hardcoded list.
   const categories = useMemo(
     () => [
-      { label: "All", slug: null as string | null },
+      { label: t("coll.all"), slug: null as string | null },
       ...(collections ?? []).map((c) => ({ label: c.title, slug: c.slug })),
     ],
-    [collections],
+    [collections, t],
   );
 
   const activeFilterCount =
@@ -117,11 +128,11 @@ function CollectionsPage() {
     <SiteLayout>
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
         <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
-          Library
+          {t("coll.library")}
         </p>
-        <h1 className="mt-3 font-serif text-4xl md:text-5xl">A living Scripture library</h1>
+        <h1 className="mt-3 font-serif text-4xl md:text-5xl">{t("collections.title")}</h1>
         <p className="mt-4 max-w-2xl text-base text-muted-foreground">
-          Choose a theme, a book, or a person. Each collection is a slow walk through Scripture.
+          {t("collections.sub")}
         </p>
 
         <div className="mt-10 flex flex-col gap-4">
@@ -130,9 +141,9 @@ function CollectionsPage() {
             <Input
               value={qInput}
               onChange={(e) => setQInput(e.target.value)}
-              placeholder="Search collections…"
+              placeholder={t("coll.searchPh")}
               className="pl-9 pr-9"
-              aria-label="Search collections"
+              aria-label={t("coll.searchPh")}
             />
             {q && (
               <button
@@ -142,7 +153,7 @@ function CollectionsPage() {
                   updateSearch({ q: undefined });
                 }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
-                aria-label="Clear search"
+                aria-label={t("coll.clearSearch")}
               >
                 <X className="h-4 w-4" />
               </button>
@@ -169,9 +180,9 @@ function CollectionsPage() {
             })}
           </div>
           <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-            <FilterGroup label="Difficulty" value={difficulty} options={DIFFS} onChange={(v) => updateSearch({ difficulty: v as (typeof DIFFS)[number] })} />
-            <FilterGroup label="Access" value={access} options={ACCESS} onChange={(v) => updateSearch({ access: v as (typeof ACCESS)[number] })} />
-            <FilterGroup label="Language" value={language} options={LANGUAGES} onChange={(v) => updateSearch({ language: v as (typeof LANGUAGES)[number] })} />
+            <FilterGroup label={t("coll.filter.difficulty")} value={difficulty} options={DIFFS} labelFor={optionLabel} onChange={(v) => updateSearch({ difficulty: v as (typeof DIFFS)[number] })} />
+            <FilterGroup label={t("coll.filter.access")} value={access} options={ACCESS} labelFor={optionLabel} onChange={(v) => updateSearch({ access: v as (typeof ACCESS)[number] })} />
+            <FilterGroup label={t("coll.filter.language")} value={language} options={LANGUAGES} labelFor={optionLabel} onChange={(v) => updateSearch({ language: v as (typeof LANGUAGES)[number] })} />
           </div>
         </div>
 
@@ -182,10 +193,10 @@ function CollectionsPage() {
             ) : (
               <>
                 <span className="font-medium text-foreground">{filtered.length}</span>{" "}
-                {filtered.length === 1 ? "collection" : "collections"}
+                {filtered.length === 1 ? t("coll.results.one") : t("coll.results.many")}
                 {(q || activeFilterCount > 0) && (
                   <>
-                    {" "}· <span className="uppercase tracking-[0.16em] text-[color:var(--walnut)]">Filtered</span>
+                    {" "}· <span className="uppercase tracking-[0.16em] text-[color:var(--walnut)]">{t("coll.filtered")}</span>
                   </>
                 )}
               </>
@@ -198,7 +209,7 @@ function CollectionsPage() {
               className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" />
-              Clear filters
+              {t("coll.clearFilters")}
             </button>
           )}
         </div>
@@ -227,11 +238,13 @@ function FilterGroup({
   label,
   value,
   options,
+  labelFor,
   onChange,
 }: {
   label: string;
   value: string;
   options: readonly string[];
+  labelFor?: (v: string) => string;
   onChange: (v: string) => void;
 }) {
   return (
@@ -244,7 +257,9 @@ function FilterGroup({
         aria-label={label}
       >
         {options.map((o) => (
-          <option key={o}>{o}</option>
+          <option key={o} value={o}>
+            {labelFor ? labelFor(o) : o}
+          </option>
         ))}
       </select>
     </div>
@@ -271,6 +286,7 @@ function CardSkeleton() {
 }
 
 function EmptyState({ hasQuery, onClear }: { hasQuery: boolean; onClear: () => void }) {
+  const { t } = useI18n();
   return (
     <div
       className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border px-6 py-20 text-center"
@@ -285,15 +301,13 @@ function EmptyState({ hasQuery, onClear }: { hasQuery: boolean; onClear: () => v
       >
         <BookOpen className="h-6 w-6" style={{ color: "var(--walnut)" }} aria-hidden />
       </div>
-      <h2 className="mt-5 font-serif text-2xl">No collections match</h2>
+      <h2 className="mt-5 font-serif text-2xl">{t("coll.empty.title")}</h2>
       <p className="mt-2 max-w-md text-sm text-muted-foreground">
-        {hasQuery
-          ? "Try loosening a filter or clearing your search. The library keeps growing — your next journey is close."
-          : "Nothing here yet. Check back soon — new collections are added regularly."}
+        {hasQuery ? t("coll.empty.hint") : t("coll.empty.hintNone")}
       </p>
       {hasQuery && (
         <Button variant="outline" className="mt-6" onClick={onClear}>
-          Clear filters
+          {t("coll.clearFilters")}
         </Button>
       )}
     </div>
