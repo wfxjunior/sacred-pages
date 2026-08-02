@@ -52,10 +52,11 @@ export async function getInvitationByToken(
   const { data, error } = await supabase
     .from("companionships")
     .select(
-      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url)",
+      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url, email), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url, email)",
     )
     .eq("token", token)
     .single();
+
   if (error) return null;
   return data as unknown as CompanionshipWithProfiles;
 }
