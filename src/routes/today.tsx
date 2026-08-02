@@ -17,7 +17,7 @@ import {
 import { dayVariant, useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { JourneyThemePicker } from "@/components/site/JourneyThemePicker";
 import { useI18n } from "@/lib/i18n";
-import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight } from "lucide-react";
+import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Library } from "lucide-react";
@@ -91,9 +91,7 @@ function Today() {
               <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} onShuffleWords={newWords} />
             </div>
           </div>
-          <div className="min-h-0 min-w-0 overflow-y-auto rounded-xl border border-border bg-card">
-            <JourneyTabs />
-          </div>
+          <DevotionalPanel />
         </div>
       </div>
 
@@ -270,6 +268,73 @@ function MobileContentSheet() {
 }
 
 function JourneyTabs() {
+  return <JourneyTabsContent />;
+}
+
+function DevotionalPanel() {
+  const { t } = useI18n();
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!expanded || typeof document === "undefined") return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExpanded(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [expanded]);
+
+  const toggleClass =
+    "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
+  return (
+    <>
+      <div className="relative flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card">
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <JourneyTabsContent />
+        </div>
+        <div className="pointer-events-none absolute right-3 top-3 z-10">
+          <button
+            type="button"
+            onClick={() => setExpanded(true)}
+            className={`pointer-events-auto bg-card/90 backdrop-blur ${toggleClass}`}
+            aria-label={t("wordsearch.expand")}
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+            {t("wordsearch.expand")}
+          </button>
+        </div>
+      </div>
+
+      {expanded && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col bg-[var(--ivory)] animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex flex-none items-center justify-end border-b border-border/60 px-6 py-3">
+            <button type="button" onClick={() => setExpanded(false)} className={toggleClass}>
+              <Minimize2 className="h-3.5 w-3.5" />
+              {t("wordsearch.collapse")}
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="mx-auto w-full max-w-3xl px-2 pb-16 md:px-6">
+              <JourneyTabsContent />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function JourneyTabsContent() {
   const TODAY = useTodayContent();
   const { t } = useI18n();
   return (
