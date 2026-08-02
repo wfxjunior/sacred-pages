@@ -398,7 +398,7 @@ const pt: Dict = {
   "hero.subAtmospheric": "Aprofunde sua conexão com as Escrituras em uma jornada de paz e descoberta.",
   "hero.ctaStart": "Começar Caminhada",
   "hero.ctaExplore": "Explorar Temas",
-  "hero.scrollHint": "Role para explorar",
+  "hero.ctaHint": "Primeira jornada grátis",
   "hero.verse": "Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho.",
   "hero.verseRef": "Salmos 119:105",
   "hero.grid.title": "Caça-palavras diário",
