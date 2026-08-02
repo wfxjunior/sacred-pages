@@ -44,9 +44,23 @@ export const Route = createFileRoute("/today")({
 function Today() {
   const { t } = useI18n();
   const [difficulty, setDifficulty] = useState<"gentle" | "balanced" | "challenging" | "expert">("gentle");
-  // The draw rotates daily on its own; a shuffle bumps it for a fresh set now.
+  // The draw rotates daily on its own; every load advances a persisted counter
+  // so the pool is recomputed instead of replaying the same list, and a shuffle
+  // bumps it again for a fresh set right away.
   const [wordVariant, setWordVariant] = useState(() => dayVariant());
   const newWords = () => setWordVariant((v) => v + 1);
+  useEffect(() => {
+    // Runs after hydration (SSR renders the daily draw) to avoid a mismatch.
+    let next = 1;
+    try {
+      const raw = Number(window.localStorage.getItem("lumena:wordVariant") ?? "0");
+      next = (Number.isFinite(raw) ? raw : 0) + 1;
+      window.localStorage.setItem("lumena:wordVariant", String(next));
+    } catch {
+      next = Math.floor(Math.random() * 1000) + 1;
+    }
+    setWordVariant(dayVariant() + next);
+  }, []);
   const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
