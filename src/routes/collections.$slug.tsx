@@ -74,7 +74,7 @@ function CollectionNotFound() {
           {t("cd.notFoundBody")}
         </p>
         <div className="mt-8">
-          <Button asChild>
+          <Button asChild variant="editorial" className="h-11 px-6 text-[15px]">
             <Link to="/collections">{t("cd.backTo")}</Link>
           </Button>
         </div>
@@ -163,13 +163,13 @@ function CollectionDetail() {
               )}
 
               <div className="mt-10 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                <Button asChild size="lg" className="h-12 w-full gap-2 px-6 sm:w-auto">
+                <Button asChild size="lg" variant="editorial" className="h-12 w-full gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
                   <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                     {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="h-12 w-full gap-2 px-5 sm:w-auto">
+                <Button asChild size="lg" variant="editorialOutline" className="h-12 w-full gap-2 px-5 text-[15px] sm:w-auto sm:min-w-[160px]">
                   <Link to="/favorites">
                     <Heart className="h-4 w-4" />
                     {t("cd.save")}
@@ -325,13 +325,13 @@ function CollectionDetail() {
               {t("cd.ctaBody")}
             </p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-center">
-              <Button asChild size="lg" className="h-12 w-full gap-2 px-6 sm:w-auto">
+              <Button asChild size="lg" variant="editorial" className="h-12 w-full gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
                 <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                   {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="h-12 w-full px-5 sm:w-auto">
+              <Button asChild size="lg" variant="editorialOutline" className="h-12 w-full px-5 text-[15px] sm:w-auto sm:min-w-[160px]">
                 <Link to="/collections">{t("cd.browseOther")}</Link>
               </Button>
             </div>

@@ -250,7 +250,7 @@ function Pricing() {
               <p className="mt-3 text-[13px] text-muted-foreground">
                 Everything you need to start a daily habit.
               </p>
-              <Button asChild className="mt-8 rounded-full" variant="outline">
+              <Button asChild className="mt-8 h-11 w-full px-6 text-[15px]" variant="editorialOutline">
                 <Link to="/signup">Start Free</Link>
               </Button>
               <ul className="mt-8 space-y-3 text-[14px]">
@@ -300,7 +300,7 @@ function Pricing() {
               <p className="mt-3 text-[13px] text-muted-foreground">
                 {premiumHint}
               </p>
-              <Button asChild className="mt-8 rounded-full">
+              <Button asChild variant="editorial" className="mt-8 h-11 w-full px-6 text-[15px]">
                 <Link to="/signup">
                   Start Premium <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -552,10 +552,10 @@ function Pricing() {
             Spend a few meaningful minutes each day growing in God's Word.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" className="rounded-full px-6">
+            <Button asChild size="lg" variant="editorial" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/signup">Start Free</Link>
             </Button>
-            <Button asChild size="lg" variant="ghost" className="rounded-full px-6">
+            <Button asChild size="lg" variant="editorialOutline" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/today">View Today's Journey</Link>
             </Button>
           </div>

@@ -1187,12 +1187,12 @@ function FeaturesPage() {
             meaningful and consistent Scripture experience.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" className="rounded-full px-6">
+            <Button asChild size="lg" variant="editorial" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/signup">
                 Start Free <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="ghost" className="rounded-full px-6">
+            <Button asChild size="lg" variant="editorialOutline" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/pricing">See Pricing</Link>
             </Button>
           </div>
@@ -1357,10 +1357,10 @@ function FeaturesPage() {
             Spend a few meaningful minutes each day growing in God's Word.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" className="rounded-full px-6">
+            <Button asChild size="lg" variant="editorial" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/signup">Start Free</Link>
             </Button>
-            <Button asChild size="lg" variant="ghost" className="rounded-full px-6">
+            <Button asChild size="lg" variant="editorialOutline" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/today">View Today's Journey</Link>
             </Button>
           </div>
