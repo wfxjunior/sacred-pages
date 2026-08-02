@@ -324,14 +324,14 @@ function CollectionDetail() {
             <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground">
               {t("cd.ctaBody")}
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Button asChild size="lg" className="h-12 gap-2 px-6">
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-center">
+              <Button asChild size="lg" className="h-12 w-full gap-2 px-6 sm:w-auto">
                 <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                   {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="h-12 px-5">
+              <Button asChild size="lg" variant="ghost" className="h-12 w-full px-5 sm:w-auto">
                 <Link to="/collections">{t("cd.browseOther")}</Link>
               </Button>
             </div>
