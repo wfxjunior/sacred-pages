@@ -9,15 +9,48 @@ import { authService } from "@/lib/auth/service";
 // readers keep their record, and mirrored to Supabase when there is a session.
 
 const LOCAL_KEY = "lumena:ws:best-times";
+// Puzzle keys are content-derived, so they carry no readable title. A small
+// side registry remembers which journey each key belonged to, letting the
+// profile group a reader's records per journey instead of one flat list.
+const LABEL_KEY = "lumena:ws:puzzle-labels";
 
 export type BestTimeEntry = {
   puzzleKey: string;
   bestTimeMs: number;
   lastTimeMs: number | null;
   completions: number;
+  journey?: string;
+};
+
+export type JourneyBestTime = {
+  journey: string;
+  bestTimeMs: number;
+  lastTimeMs: number | null;
+  completions: number;
+  variants: number;
 };
 
 type LocalMap = Record<string, { bestTimeMs: number; lastTimeMs: number | null; completions: number }>;
+
+function readLabels(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(LABEL_KEY) ?? "null");
+    return raw && typeof raw === "object" ? (raw as Record<string, string>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeLabel(puzzleKey: string, journey: string) {
+  try {
+    const labels = readLabels();
+    labels[puzzleKey] = journey;
+    window.localStorage.setItem(LABEL_KEY, JSON.stringify(labels));
+  } catch {
+    /* storage unavailable — the record simply stays unlabelled */
+  }
+}
 
 function readLocal(): LocalMap {
   if (typeof window === "undefined") return {};
@@ -44,8 +77,13 @@ export function getLocalBest(puzzleKey: string): number | null {
 }
 
 /** Records a completion. Returns the reader's best time for that puzzle. */
-export async function recordCompletion(puzzleKey: string, elapsedMs: number): Promise<number> {
+export async function recordCompletion(
+  puzzleKey: string,
+  elapsedMs: number,
+  journey?: string,
+): Promise<number> {
   if (!puzzleKey || !Number.isFinite(elapsedMs) || elapsedMs <= 0) return 0;
+  if (journey) writeLabel(puzzleKey, journey);
   const map = readLocal();
   const previous = map[puzzleKey];
   const best = previous ? Math.min(previous.bestTimeMs, elapsedMs) : elapsedMs;
