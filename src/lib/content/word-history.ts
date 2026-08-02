@@ -5,6 +5,7 @@
  * are ignored (and swept) rather than constraining today's draw.
  */
 const PREFIX = "lumena:words:";
+const LAST_PREFIX = "lumena:lastdraw:";
 /** Keep enough history to cover several draws without starving the pool. */
 const MAX_REMEMBERED = 48;
 
@@ -17,6 +18,30 @@ export function dateKey(now: Date = new Date()): string {
 
 function storageKey(seedKey: string, difficulty: string, day: string): string {
   return `${PREFIX}${day}:${seedKey}:${difficulty}`;
+}
+
+function lastDrawKey(seedKey: string, difficulty: string): string {
+  return `${LAST_PREFIX}${seedKey}:${difficulty}`;
+}
+
+/** The exact list drawn last time — pushed to the back so a new draw turns over. */
+export function lastDraw(seedKey: string, difficulty: string): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(lastDrawKey(seedKey, difficulty)) ?? "[]");
+    return Array.isArray(parsed) ? parsed.filter((w): w is string => typeof w === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+export function rememberLastDraw(seedKey: string, difficulty: string, words: string[]): void {
+  if (typeof window === "undefined" || words.length === 0) return;
+  try {
+    window.localStorage.setItem(lastDrawKey(seedKey, difficulty), JSON.stringify(words));
+  } catch {
+    /* storage unavailable */
+  }
 }
 
 /** Drops history from previous days so storage never grows unbounded. */
