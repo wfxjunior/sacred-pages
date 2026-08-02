@@ -103,13 +103,23 @@ function Today() {
             <Button onClick={() => setComplete(true)} variant="outline" size="sm">
               <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
             </Button>
+            <Button onClick={regenerate} variant="outline" size="sm">
+              <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
+            </Button>
           </div>
         </div>
 
         <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-2 lg:items-stretch">
           <div className="min-h-0 min-w-0 overflow-y-auto">
             <div className="mx-auto w-full max-w-[min(460px,58vh)]">
-              <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} onShuffleWords={newWords} />
+              <WordSearch
+                key={`${puzzleSession}:${difficulty}`}
+                words={TODAY.words}
+                size={sizes[difficulty]}
+                journeyLabel={TODAY.title}
+                onShuffleWords={newWords}
+                sessionKey={puzzleSession}
+              />
             </div>
           </div>
           <DevotionalPanel />
@@ -129,7 +139,15 @@ function Today() {
         </div>
 
         <div className="min-h-0 flex-1 px-3 pb-2">
-          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed journeyLabel={TODAY.title} onShuffleWords={newWords} />
+          <WordSearch
+            key={`${puzzleSession}:${difficulty}`}
+            words={TODAY.words}
+            size={sizes[difficulty]}
+            fullBleed
+            journeyLabel={TODAY.title}
+            onShuffleWords={newWords}
+            sessionKey={puzzleSession}
+          />
         </div>
 
         <MobileContentSheet />
