@@ -181,7 +181,7 @@ export function useTodayContent(
     };
   }, [data, difficulty, variant]);
 
-  const identity = data?.slug ?? data?.id ?? data?.title;
+  const identity = data?.slug ?? data?.id ?? data?.title ?? "gratitude-that-transforms";
   const drawn = content.words.join(" ");
   useEffect(() => {
     if (!identity || !drawn) return;
