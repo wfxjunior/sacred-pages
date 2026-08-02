@@ -330,7 +330,7 @@ function DifficultyPicker({
   const opts = ["gentle", "balanced", "challenging", "expert"] as const;
   if (variant === "segmented") {
     return (
-      <div className="inline-flex items-center rounded-full border border-border bg-card p-0.5">
+      <div className="grid w-full grid-cols-4 items-stretch gap-0.5 rounded-full border border-border bg-card p-0.5 sm:inline-grid sm:w-auto">
         {opts.map((o) => {
           const active = value === o;
           return (
@@ -338,7 +338,7 @@ function DifficultyPicker({
               key={o}
               onClick={() => onChange(o)}
               aria-pressed={active}
-              className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
+              className={`min-w-0 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-medium transition sm:min-w-[104px] sm:px-3 sm:text-xs ${
                 active
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -353,7 +353,7 @@ function DifficultyPicker({
   }
   if (compact) {
     return (
-      <div className="grid grid-cols-4 gap-1.5">
+      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
         {opts.map((o) => {
           const active = value === o;
           return (
@@ -361,7 +361,7 @@ function DifficultyPicker({
               key={o}
               onClick={() => onChange(o)}
               aria-pressed={active}
-              className={`rounded-full leading-none border px-1.5 py-2 text-center text-[9px] font-semibold uppercase tracking-[0.08em] transition ${
+              className={`flex min-h-9 w-full min-w-0 items-center justify-center truncate rounded-full border px-2 text-center text-[10px] font-semibold uppercase leading-none tracking-[0.08em] transition ${
                 active ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/40"
               }`}
             >
@@ -373,18 +373,18 @@ function DifficultyPicker({
     );
   }
   return (
-    <div className="grid gap-2 sm:grid-cols-4">
+    <div className="grid grid-cols-2 items-stretch gap-2 sm:grid-cols-4">
       {opts.map((o) => {
         const active = value === o;
         return (
           <button
             key={o}
             onClick={() => onChange(o)}
-            className={`rounded-lg border px-4 py-3 text-left transition ${
+            className={`flex h-full min-w-0 flex-col rounded-lg border px-4 py-3 text-left transition ${
               active ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/40"
             }`}
           >
-            <p className="text-sm font-medium">{t(`diff.${o}`)}</p>
+            <p className="truncate text-sm font-medium">{t(`diff.${o}`)}</p>
             <p className="mt-1 text-xs text-muted-foreground">{t(`diff.${o}Desc`)}</p>
           </button>
         );
