@@ -118,13 +118,15 @@ export function generateCandidates(input: {
             direction,
             usedDirections,
           }),
+          tieBreak: rng.next(),
         });
       }
     }
   }
 
-  // Shuffle BEFORE sorting so equally scored candidates vary between seeds,
-  // then sort with a total comparator so the final order is deterministic.
+  // Shuffle before sorting to decorrelate enumeration order. `tieBreak` is part
+  // of the total comparator, so equally good placements genuinely vary by seed
+  // instead of falling back to the same top-left coordinate every time.
   const jittered = shuffled(candidates, rng);
   jittered.sort(compareCandidates);
 
@@ -138,6 +140,7 @@ export function generateCandidates(input: {
  */
 function compareCandidates(a: Candidate, b: Candidate): number {
   if (b.score !== a.score) return b.score - a.score;
+  if (b.tieBreak !== a.tieBreak) return b.tieBreak - a.tieBreak;
   if (a.start.row !== b.start.row) return a.start.row - b.start.row;
   if (a.start.col !== b.start.col) return a.start.col - b.start.col;
   return a.direction.localeCompare(b.direction, "en");

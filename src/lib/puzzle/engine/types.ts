@@ -33,6 +33,8 @@ export type Candidate = {
   readonly overlapCount: number;
   /** Higher is better; used to order attempts. */
   readonly score: number;
+  /** Seeded tiebreaker so equally good placements move between puzzle sessions. */
+  readonly tieBreak: number;
 };
 
 /** Why a word could not be placed. Words are never silently dropped. */
