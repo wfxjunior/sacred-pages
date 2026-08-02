@@ -33,12 +33,15 @@ export function WordSearch({
   size = 12,
   fullBleed = false,
   journeyLabel,
+  onShuffleWords,
 }: {
   words: string[];
   size?: number;
   fullBleed?: boolean;
   /** Title of the journey these words come from, so records group per theme. */
   journeyLabel?: string;
+  /** Asked on shuffle so the parent can draw a fresh set of words, not just a new layout. */
+  onShuffleWords?: () => void;
 }) {
   const { t } = useI18n();
   // Deterministic: the same word list and size always yield the same grid, on
@@ -157,6 +160,7 @@ export function WordSearch({
   }, [storageKey, wordsKey, hydratedKey, shuffleNonce, found, revealed, elapsedMs, startedAt]);
 
   const shuffleGrid = useCallback(() => {
+    onShuffleWords?.();
     setShuffleNonce(Math.floor(Math.random() * 1_000_000_000) + 1);
     prevFoundRef.current = [];
     setFound([]);
@@ -166,7 +170,7 @@ export function WordSearch({
     setRecentlyFound([]);
     setElapsedMs(0);
     setStartedAt(null);
-  }, []);
+  }, [onShuffleWords]);
 
   // Keyed by the normalized form, which is what the engine and `found` use.
   const wordColor = useMemo(() => {
