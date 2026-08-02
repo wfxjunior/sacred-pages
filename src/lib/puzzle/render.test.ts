@@ -51,6 +51,22 @@ describe("determinism", () => {
     expect(toRows(a.grid, "display")).toEqual(toRows(b.grid, "display"));
     expect(a.seed).toBe(1234);
   });
+
+  it("moves GRATITUDE between positions when a new session uses a new seed", () => {
+    const positions = new Set(
+      [1, 2, 3, 100, 999999].map((seed) => {
+        const puzzle = buildRenderablePuzzle({
+          words: ["GRACE", "FAITH", "PEACE", "PRAYER", "HOPE", "GRATITUDE"],
+          size: 10,
+          seed,
+        });
+        const placement = puzzle.placements.find((p) => p.normalized === "GRATITUDE");
+        return `${placement?.start.row},${placement?.start.col}:${placement?.direction}`;
+      }),
+    );
+
+    expect(positions.size).toBeGreaterThan(1);
+  });
 });
 
 describe("grid shape", () => {

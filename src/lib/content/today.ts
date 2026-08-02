@@ -18,6 +18,28 @@ const TIER_COUNT: Record<DifficultyLevel, number> = {
   expert: 16,
 };
 
+/** A real rotating pool for the offline/sample journey, rather than six fixed words. */
+const FALLBACK_WORDS: { display: string; minDifficulty: DifficultyLevel }[] = [
+  { display: "GRACE", minDifficulty: "gentle" },
+  { display: "FAITH", minDifficulty: "gentle" },
+  { display: "PEACE", minDifficulty: "gentle" },
+  { display: "PRAYER", minDifficulty: "gentle" },
+  { display: "HOPE", minDifficulty: "gentle" },
+  { display: "GRATITUDE", minDifficulty: "gentle" },
+  { display: "THANKFUL", minDifficulty: "balanced" },
+  { display: "TRUST", minDifficulty: "balanced" },
+  { display: "JOY", minDifficulty: "balanced" },
+  { display: "PRESENCE", minDifficulty: "balanced" },
+  { display: "WORSHIP", minDifficulty: "challenging" },
+  { display: "PATIENCE", minDifficulty: "challenging" },
+  { display: "KINDNESS", minDifficulty: "challenging" },
+  { display: "THANKSGIVING", minDifficulty: "expert" },
+  { display: "CONTENTMENT", minDifficulty: "expert" },
+  { display: "GENEROSITY", minDifficulty: "expert" },
+  { display: "REMEMBRANCE", minDifficulty: "expert" },
+  { display: "ABUNDANCE", minDifficulty: "expert" },
+];
+
 /** Folds a journey's identity into the draw seed. */
 function hashKey(key: string): number {
   let h = 2166136261;
@@ -124,7 +146,20 @@ export function useTodayContent(
   const data = slug ? selected.data : daily.data;
 
   const content = useMemo(() => {
-    if (!data) return TODAY;
+    if (!data) {
+      const identity = "gratitude-that-transforms";
+      return {
+        ...TODAY,
+        words: wordsFor(
+          FALLBACK_WORDS,
+          difficulty,
+          variant,
+          identity,
+          recentWords(identity, difficulty),
+          lastDraw(identity, difficulty),
+        ),
+      };
+    }
     const scripture = data.scripture[0];
     const identity = data.slug ?? data.id ?? data.title;
     const words = wordsFor(
