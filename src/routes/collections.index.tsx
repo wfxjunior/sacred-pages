@@ -308,7 +308,7 @@ function EmptyState({ hasQuery, onClear }: { hasQuery: boolean; onClear: () => v
         {hasQuery ? t("coll.empty.hint") : t("coll.empty.hintNone")}
       </p>
       {hasQuery && (
-        <Button variant="outline" className="mt-6" onClick={onClear}>
+        <Button variant="editorialOutline" className="mt-6 h-11 px-6 text-[15px]" onClick={onClear}>
           {t("coll.clearFilters")}
         </Button>
       )}
