@@ -462,7 +462,7 @@ function DifficultyPicker({
   }
   if (compact) {
     return (
-      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+      <div className="grid w-full grid-cols-4 items-stretch gap-0.5 rounded-full border border-border bg-card p-0.5">
         {opts.map((o) => {
           const active = value === o;
           return (
@@ -470,11 +470,11 @@ function DifficultyPicker({
               key={o}
               onClick={() => onChange(o)}
               aria-pressed={active}
-              className={`flex min-h-9 w-full min-w-0 items-center justify-center truncate rounded-full border px-2 text-center text-[10px] font-semibold uppercase leading-none tracking-[0.08em] transition ${
-                active ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/40"
+              className={`flex min-h-8 w-full min-w-0 items-center justify-center rounded-full px-1 text-center text-[10px] font-semibold uppercase leading-none tracking-[0.06em] transition ${
+                active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {t(`diff.${o}`)}
+              <span className="truncate">{t(`diff.${o}`)}</span>
             </button>
           );
         })}
