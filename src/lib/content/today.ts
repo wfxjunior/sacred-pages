@@ -109,10 +109,17 @@ export function useTodayContent(
   const selected = useJourneyBySlug(slug);
   const data = slug ? selected.data : daily.data;
 
-  return useMemo(() => {
+  const content = useMemo(() => {
     if (!data) return TODAY;
     const scripture = data.scripture[0];
-    const words = wordsFor(data.words, difficulty, variant, data.slug ?? data.id ?? data.title);
+    const identity = data.slug ?? data.id ?? data.title;
+    const words = wordsFor(
+      data.words,
+      difficulty,
+      variant,
+      identity,
+      recentWords(identity, difficulty),
+    );
     return {
       title: data.title,
       reference: scripture?.display_reference ?? data.subtitle ?? "",
@@ -123,6 +130,15 @@ export function useTodayContent(
       words: words.length > 0 ? words : TODAY.words,
     };
   }, [data, difficulty, variant]);
+
+  const identity = data?.slug ?? data?.id ?? data?.title;
+  const drawn = content.words.join(" ");
+  useEffect(() => {
+    if (!identity || !drawn) return;
+    rememberWords(identity, difficulty, drawn.split(" "));
+  }, [identity, difficulty, drawn]);
+
+  return content;
 }
 
 /** True until the Daily Journey has resolved, so the screen can hold still. */
