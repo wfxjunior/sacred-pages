@@ -133,9 +133,10 @@ export function useBestTimes(): { loading: boolean; entries: BestTimeEntry[]; re
 
     async function load() {
       const local = readLocal();
+      const labels = readLabels();
       const merged = new Map<string, BestTimeEntry>();
       Object.entries(local).forEach(([puzzleKey, value]) =>
-        merged.set(puzzleKey, { puzzleKey, ...value }),
+        merged.set(puzzleKey, { puzzleKey, ...value, ...(labels[puzzleKey] ? { journey: labels[puzzleKey] } : {}) }),
       );
 
       if (isSupabaseConfigured()) {
@@ -154,6 +155,7 @@ export function useBestTimes(): { loading: boolean; entries: BestTimeEntry[]; re
                 bestTimeMs: Number(row.best_time_ms),
                 lastTimeMs: row.last_time_ms == null ? null : Number(row.last_time_ms),
                 completions: Number(row.completions ?? 1),
+                ...(labels[key] ? { journey: labels[key] } : {}),
               };
               const current = merged.get(key);
               merged.set(
@@ -164,6 +166,9 @@ export function useBestTimes(): { loading: boolean; entries: BestTimeEntry[]; re
                       bestTimeMs: Math.min(current.bestTimeMs, remote.bestTimeMs),
                       lastTimeMs: current.lastTimeMs ?? remote.lastTimeMs,
                       completions: Math.max(current.completions, remote.completions),
+                      ...(current.journey ?? remote.journey
+                        ? { journey: current.journey ?? remote.journey! }
+                        : {}),
                     }
                   : remote,
               );
@@ -186,6 +191,34 @@ export function useBestTimes(): { loading: boolean; entries: BestTimeEntry[]; re
   }, [nonce]);
 
   return { loading, entries, refresh };
+}
+
+/**
+ * The same records, folded per journey: one row per theme with its own best
+ * time and completion count, so progress reads clearly instead of mixed
+ * together. Different grid sizes of one journey count as variants of that row.
+ */
+export function groupByJourney(entries: BestTimeEntry[], fallbackLabel: string): JourneyBestTime[] {
+  const groups = new Map<string, JourneyBestTime>();
+  entries.forEach((entry) => {
+    const journey = entry.journey ?? fallbackLabel;
+    const current = groups.get(journey);
+    if (!current) {
+      groups.set(journey, {
+        journey,
+        bestTimeMs: entry.bestTimeMs,
+        lastTimeMs: entry.lastTimeMs,
+        completions: entry.completions,
+        variants: 1,
+      });
+      return;
+    }
+    current.bestTimeMs = Math.min(current.bestTimeMs, entry.bestTimeMs);
+    current.lastTimeMs = current.lastTimeMs ?? entry.lastTimeMs;
+    current.completions += entry.completions;
+    current.variants += 1;
+  });
+  return [...groups.values()].sort((a, b) => b.completions - a.completions || a.bestTimeMs - b.bestTimeMs);
 }
 
 /** mm:ss for a duration in milliseconds. */
