@@ -1,16 +1,13 @@
-// TODO: Wire real Journey Together backend (invitations, permissions, shared progress).
-// Design-only prototype using mock data.
-
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { AppShell } from "@/components/site/AppShell";
 import { CompanionCard } from "@/components/site/CompanionCard";
 import { InviteCompanionModal } from "@/components/site/InviteCompanionModal";
 import { SharedJourneyProgress } from "@/components/site/SharedJourneyProgress";
 import { SharedReflection } from "@/components/site/SharedReflection";
-import { COMPANIONS, ENCOURAGE_OPTIONS } from "@/lib/mock/companions";
 import { GROUPS } from "@/lib/mock/groups";
 import { Button } from "@/components/ui/button";
-import { Heart, Lock, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive } from "lucide-react";
+import { Heart, Lock, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +16,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { listMyCompanionships } from "@/lib/together/functions";
+import type { CompanionshipWithProfiles } from "@/lib/together/types";
 
 export const Route = createFileRoute("/together")({
   head: () => ({
@@ -33,23 +33,48 @@ export const Route = createFileRoute("/together")({
 });
 
 function TogetherPage() {
-  const active = COMPANIONS.filter((c) => c.status === "active");
-  const pending = COMPANIONS.filter((c) => c.status === "pending");
-  const archived = COMPANIONS.filter((c) => c.status === "archived");
+  const user = useCurrentUser();
+  const companions = useQuery({
+    queryKey: ["companionships", "mine"],
+    queryFn: () => listMyCompanionships(),
+    enabled: !!user.userId,
+  });
+
+  const active = (companions.data ?? []).filter((c) => c.status === "active");
+  const pending = (companions.data ?? []).filter((c) => c.status === "pending");
+  const archived = (companions.data ?? []).filter((c) => c.status === "archived");
 
   return (
     <AppShell>
       <div className="mx-auto max-w-5xl space-y-16">
         <IntroBlock />
-        <ActiveSection companions={active} />
-        <SharedJourneyProgress companions={active} />
-        <EncourageAndPray />
-        <SharedReflection companions={active} />
-        <PendingSection pending={pending} />
-        <GroupsSection />
-        <ArchivedSection archived={archived} />
+        {!user.userId && !user.loading ? (
+          <SignInBanner />
+        ) : (
+          <>
+            <ActiveSection companions={active} loading={companions.isLoading && !!user.userId} error={companions.isError} />
+            <SharedJourneyProgress companions={[]} />
+            <EncourageAndPray />
+            <SharedReflection companions={[]} />
+            <PendingSection pending={pending} loading={companions.isLoading} />
+            <GroupsSection />
+            <ArchivedSection archived={archived} />
+          </>
+        )}
       </div>
     </AppShell>
+  );
+}
+
+function SignInBanner() {
+  const { t } = useI18n();
+  return (
+    <div className="rounded-2xl border border-border/60 bg-card p-8 text-center">
+      <p className="font-serif text-xl">{t("together.accept.signInHint")}</p>
+      <Button asChild className="mt-5 rounded-full">
+        <Link to="/auth">{t("auth.signIn")}</Link>
+      </Button>
+    </div>
   );
 }
 
@@ -108,8 +133,9 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ActiveSection({ companions }: { companions: typeof COMPANIONS }) {
+function ActiveSection({ companions, loading, error }: { companions: CompanionshipWithProfiles[]; loading: boolean; error: boolean }) {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <section>
       <SectionHeader
@@ -122,26 +148,60 @@ function ActiveSection({ companions }: { companions: typeof COMPANIONS }) {
         }
       />
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {companions.map((c) => (
-          <div key={c.id} className="relative">
-            <CompanionCard c={c} />
-            <div className="absolute right-4 top-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="rounded-full p-1 text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label={t("together.menu.manageAria")}>
-                    <MoreHorizontal className="h-4 w-4" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuItem>{t("together.menu.change")}</DropdownMenuItem>
-                  <DropdownMenuItem>{t("together.menu.sharing")}</DropdownMenuItem>
-                  <DropdownMenuItem>{t("together.menu.pause")}</DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive">{t("together.menu.archive")}</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+        {loading && (
+          <div className="col-span-full flex items-center gap-2 text-[13px] text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" /> {t("ui.loading")}
           </div>
-        ))}
+        )}
+        {error && (
+          <p className="col-span-full text-[13px] text-destructive">{t("together.error")}</p>
+        )}
+        {!loading && !error && companions.length === 0 && (
+          <div className="col-span-full rounded-xl border border-dashed border-border/60 bg-card/60 p-6 text-center">
+            <p className="text-[14px] font-medium">{t("together.empty")}</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">{t("together.emptyHint")}</p>
+          </div>
+        )}
+        {companions.map((c) => {
+          const currentUserId = user.userId;
+          const isInviter = currentUserId === c.inviter_id;
+          const other = isInviter ? c.invitee : c.inviter;
+          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
+          const color = "var(--sage)";
+          const companion = {
+            id: c.id,
+            name,
+            color,
+            relationship: c.relationship ?? t("together.invite.relationshipLabel"),
+            journey: "",
+            reference: "",
+            yourProgress: 0,
+            theirProgress: 0,
+            lastActivity: new Date(c.updated_at).toLocaleDateString(),
+            status: c.status,
+            invitedOn: "",
+          };
+          return (
+            <div key={c.id} className="relative">
+              <CompanionCard c={companion} />
+              <div className="absolute right-4 top-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="rounded-full p-1 text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label={t("together.menu.manageAria")}>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-52">
+                    <DropdownMenuItem>{t("together.menu.change")}</DropdownMenuItem>
+                    <DropdownMenuItem>{t("together.menu.sharing")}</DropdownMenuItem>
+                    <DropdownMenuItem>{t("together.menu.pause")}</DropdownMenuItem>
+                    <DropdownMenuItem className="text-destructive">{t("together.menu.archive")}</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -151,6 +211,7 @@ function EncourageAndPray() {
   const { t } = useI18n();
   const [sent, setSent] = useState<string | null>(null);
   const [prayed, setPrayed] = useState(false);
+  const nudges = [t("together.nudge.1"), t("together.nudge.2"), t("together.nudge.3")];
   return (
     <section className="grid gap-4 md:grid-cols-2">
       <div className="rounded-2xl border border-border/60 bg-card p-6">
@@ -158,18 +219,18 @@ function EncourageAndPray() {
         <h3 className="mt-2 font-serif text-2xl">{t("together.sendQuiet")}</h3>
         <p className="mt-1 text-[13px] text-muted-foreground">{t("together.encHint")}</p>
         <div className="mt-5 flex flex-wrap gap-2">
-          {ENCOURAGE_OPTIONS.map((o) => (
+          {nudges.map((n) => (
             <button
-              key={o}
-              onClick={() => { setSent(o); setTimeout(() => setSent(null), 1800); }}
-              className="rounded-full border border-border/60 bg-background/60 px-3 py-1.5 text-[13px] transition hover:border-primary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              key={n}
+              onClick={() => setSent(n)}
+              className="rounded-full border border-border/60 px-3 py-1.5 text-[12px] transition hover:bg-secondary"
             >
-              {o}
+              {n}
             </button>
           ))}
         </div>
         <p aria-live="polite" className="mt-4 h-4 text-[12px]" style={{ color: "var(--sage)" }}>
-          {sent ? `Sent to Sarah — "${sent}"` : ""}
+          {sent ? `${t("together.sendQuiet")} — "${sent}"` : ""}
         </p>
       </div>
       <div className="rounded-2xl border border-border/60 bg-card p-6">
@@ -192,27 +253,39 @@ function EncourageAndPray() {
   );
 }
 
-function PendingSection({ pending }: { pending: typeof COMPANIONS }) {
+function PendingSection({ pending, loading }: { pending: CompanionshipWithProfiles[]; loading: boolean }) {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <section>
       <SectionHeader eyebrow={t("together.pending")} title={t("together.pendingTitle")} />
       <div className="mt-6 grid gap-3">
-        {pending.map((c) => (
-          <div key={c.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: c.color }}>
-              {c.name[0]}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-[14px] font-medium">{c.name}</p>
-              <p className="text-[12px] text-muted-foreground">{c.relationship} · {t("together.invitedOn")} {c.invitedOn}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button size="sm" variant="ghost" className="rounded-full text-muted-foreground">{t("ui.resend")}</Button>
-              <Button size="sm" variant="ghost" className="rounded-full text-destructive">{t("ui.cancel")}</Button>
-            </div>
+        {loading && (
+          <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" /> {t("ui.loading")}
           </div>
-        ))}
+        )}
+        {pending.map((c) => {
+          const currentUserId = user.userId;
+          const isInviter = currentUserId === c.inviter_id;
+          const other = isInviter ? c.invitee : c.inviter;
+          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
+          return (
+            <div key={c.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: "var(--gold)" }}>
+                {name[0] ?? "?"}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[14px] font-medium">{name}</p>
+                <p className="text-[12px] text-muted-foreground">{c.relationship} · {t("together.invitedOn")} {new Date(c.created_at).toLocaleDateString()}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="ghost" className="rounded-full text-muted-foreground">{t("ui.resend")}</Button>
+                <Button size="sm" variant="ghost" className="rounded-full text-destructive">{t("ui.cancel")}</Button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -250,24 +323,31 @@ function GroupsSection() {
   );
 }
 
-function ArchivedSection({ archived }: { archived: typeof COMPANIONS }) {
+function ArchivedSection({ archived }: { archived: CompanionshipWithProfiles[] }) {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <section>
       <SectionHeader eyebrow={t("together.archived")} title={t("together.archivedTitle")} />
       <div className="mt-6 grid gap-3">
-        {archived.map((c) => (
-          <div key={c.id} className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-4">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: c.color }}>
-              {c.name[0]}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-[14px] font-medium">{c.name} · {c.journey}</p>
-              <p className="text-[12px] text-muted-foreground">{c.lastActivity}</p>
+        {archived.map((c) => {
+          const currentUserId = user.userId;
+          const isInviter = currentUserId === c.inviter_id;
+          const other = isInviter ? c.invitee : c.inviter;
+          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
+          return (
+            <div key={c.id} className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-4">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: "var(--walnut)" }}>
+                {name[0] ?? "?"}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[14px] font-medium">{name} · {c.relationship}</p>
+                <p className="text-[12px] text-muted-foreground">{new Date(c.updated_at).toLocaleDateString()}</p>
+              </div>
+              <Archive className="h-4 w-4 text-muted-foreground" />
             </div>
-            <Archive className="h-4 w-4 text-muted-foreground" />
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

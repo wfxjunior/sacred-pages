@@ -269,6 +269,48 @@ export type Database = {
           },
         ]
       }
+      companionships: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          invitee_email: string
+          invitee_user_id: string | null
+          inviter_id: string
+          personal_message: string | null
+          relationship: string
+          status: string
+          token: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invitee_email: string
+          invitee_user_id?: string | null
+          inviter_id: string
+          personal_message?: string | null
+          relationship?: string
+          status?: string
+          token?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invitee_email?: string
+          invitee_user_id?: string | null
+          inviter_id?: string
+          personal_message?: string | null
+          relationship?: string
+          status?: string
+          token?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       consistency_days: {
         Row: {
           activity_date: string
@@ -2364,6 +2406,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_companionship: { Args: { _token: string }; Returns: boolean }
       can_edit_content: { Args: { uid: string }; Returns: boolean }
       can_publish_content: { Args: { uid: string }; Returns: boolean }
       can_review_content: { Args: { uid: string }; Returns: boolean }
@@ -2387,6 +2430,17 @@ export type Database = {
           uid: string
         }
         Returns: number
+      }
+      get_companionship_preview: {
+        Args: { _token: string }
+        Returns: {
+          expires_at: string
+          inviter_email: string
+          inviter_name: string
+          personal_message: string
+          relationship: string
+          status: string
+        }[]
       }
       has_role: {
         Args: { r: Database["public"]["Enums"]["app_role"]; uid: string }

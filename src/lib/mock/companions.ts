@@ -1,7 +1,7 @@
 // TODO: Implement real Journey Together invitations, permissions and companion state.
 // Mock data only — displayed in Journey Together frontend prototype.
 
-export type CompanionStatus = "active" | "pending" | "archived";
+export type CompanionStatus = "active" | "pending" | "archived" | "declined";
 
 export type Companion = {
   id: string;
@@ -24,6 +24,7 @@ export type Companion = {
   };
   color: string;
 };
+
 
 export const RELATIONSHIPS = [
   "Spouse",
