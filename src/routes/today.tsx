@@ -20,7 +20,7 @@ import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { Library } from "lucide-react";
+import { Library, RefreshCw } from "lucide-react";
 
 const todaySearchSchema = z.object({
   journey: z.string().optional().catch(undefined),
