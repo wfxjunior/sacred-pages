@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useSearch } from "@tanstack/react-router";
 import { TODAY } from "@/lib/mock-data";
 import { useDailyJourney, useJourneyBySlug } from "./catalog";
 import type { DifficultyLevel } from "./types";
+import { dateKey, recentWords, rememberWords } from "./word-history";
 
 export type TodayContent = typeof TODAY;
 
@@ -17,11 +18,6 @@ const TIER_COUNT: Record<DifficultyLevel, number> = {
   expert: 16,
 };
 
-/** Days since the epoch — the puzzle refreshes on its own each day. */
-export function dayVariant(now: Date = new Date()): number {
-  return Math.floor(now.getTime() / 86_400_000);
-}
-
 /** Folds a journey's identity into the draw seed. */
 function hashKey(key: string): number {
   let h = 2166136261;
@@ -30,6 +26,14 @@ function hashKey(key: string): number {
     h = Math.imul(h, 16777619);
   }
   return Math.abs(h);
+}
+
+/**
+ * Seed for the day: derived from the calendar date, so every day starts from a
+ * different draw instead of a fixed list.
+ */
+export function dayVariant(now: Date = new Date()): number {
+  return hashKey(dateKey(now)) % 1_000_003;
 }
 
 /** Small deterministic PRNG so a given variant always yields the same draw. */
@@ -54,6 +58,9 @@ function wordsFor(
   variant: number,
   /** Journey identity, so two journeys never rotate in lockstep. */
   seedKey = "",
+  /** Words already shown today — skipped while the pool can spare them. */
+  avoid: string[] = [],
+  day = dateKey(),
 ) {
   const ceiling = TIERS.indexOf(difficulty);
   const target = Math.min(TIER_COUNT[difficulty], words.length);
@@ -61,7 +68,7 @@ function wordsFor(
   const eligible = words.filter((w) => rank(w) <= ceiling + 1);
   const rest = words.filter((w) => rank(w) > ceiling + 1);
 
-  const random = seeded((Math.abs(variant) + 1) ^ hashKey(`${seedKey}|${difficulty}`));
+  const random = seeded(hashKey(`${day}|${seedKey}|${difficulty}|${Math.abs(variant)}`));
   const shuffle = <T,>(list: T[]) => {
     const copy = [...list];
     for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -71,7 +78,13 @@ function wordsFor(
     return copy;
   };
 
-  const picked = [...shuffle(eligible), ...shuffle(rest)].slice(0, target);
+  // Words seen earlier today fall to the back of the queue: they only return
+  // once the fresh ones run out, so a shuffle never replays the same list.
+  const seen = new Set(avoid.map((w) => w.toUpperCase()));
+  const isSeen = (w: { display: string }) => seen.has(w.display.toUpperCase());
+  const fresh = shuffle(eligible.filter((w) => !isSeen(w)));
+  const reused = shuffle(eligible.filter(isSeen));
+  const picked = [...fresh, ...reused, ...shuffle(rest)].slice(0, target);
   return picked.map((w) => w.display.toUpperCase());
 }
 
@@ -96,10 +109,17 @@ export function useTodayContent(
   const selected = useJourneyBySlug(slug);
   const data = slug ? selected.data : daily.data;
 
-  return useMemo(() => {
+  const content = useMemo(() => {
     if (!data) return TODAY;
     const scripture = data.scripture[0];
-    const words = wordsFor(data.words, difficulty, variant, data.slug ?? data.id ?? data.title);
+    const identity = data.slug ?? data.id ?? data.title;
+    const words = wordsFor(
+      data.words,
+      difficulty,
+      variant,
+      identity,
+      recentWords(identity, difficulty),
+    );
     return {
       title: data.title,
       reference: scripture?.display_reference ?? data.subtitle ?? "",
@@ -110,6 +130,15 @@ export function useTodayContent(
       words: words.length > 0 ? words : TODAY.words,
     };
   }, [data, difficulty, variant]);
+
+  const identity = data?.slug ?? data?.id ?? data?.title;
+  const drawn = content.words.join(" ");
+  useEffect(() => {
+    if (!identity || !drawn) return;
+    rememberWords(identity, difficulty, drawn.split(" "));
+  }, [identity, difficulty, drawn]);
+
+  return content;
 }
 
 /** True until the Daily Journey has resolved, so the screen can hold still. */
