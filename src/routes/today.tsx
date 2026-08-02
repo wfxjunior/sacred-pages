@@ -49,6 +49,13 @@ function Today() {
   // bumps it again for a fresh set right away.
   const [wordVariant, setWordVariant] = useState(() => dayVariant());
   const newWords = () => setWordVariant((v) => v + 1);
+  // Full regeneration: brand-new draw + brand-new grid, with no carry-over of
+  // found words, timer or saved progress from the previous puzzle.
+  const [puzzleSession, setPuzzleSession] = useState("s0");
+  const regenerate = () => {
+    setWordVariant((v) => v + 1 + Math.floor(Math.random() * 997));
+    setPuzzleSession(`s${Date.now().toString(36)}`);
+  };
   useEffect(() => {
     // Runs after hydration (SSR renders the daily draw) to avoid a mismatch.
     let next = 1;
