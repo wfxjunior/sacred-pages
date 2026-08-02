@@ -2431,6 +2431,17 @@ export type Database = {
         }
         Returns: number
       }
+      get_companionship_preview: {
+        Args: { _token: string }
+        Returns: {
+          expires_at: string
+          inviter_email: string
+          inviter_name: string
+          personal_message: string
+          relationship: string
+          status: string
+        }[]
+      }
       has_role: {
         Args: { r: Database["public"]["Enums"]["app_role"]; uid: string }
         Returns: boolean
