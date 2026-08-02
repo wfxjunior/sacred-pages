@@ -47,8 +47,6 @@ export const listMyCompanionships = createServerFn({ method: "GET" })
 export const getCompanionInvitationByToken = createServerFn({ method: "GET" })
   .inputValidator((data) => tokenSchema.parse(data))
   .handler(async ({ data }) => {
-    const { createClient } = await import("@supabase/supabase-js");
-    const { type Database } = await import("@/integrations/supabase/types");
     const supabasePublic = createClient<Database>(
       process.env["SUPABASE_URL"]!,
       process.env["SUPABASE_PUBLISHABLE_KEY"]!,
@@ -66,8 +64,6 @@ export const getCompanionInvitationByToken = createServerFn({ method: "GET" })
 export const getCompanionInvitationPreview = createServerFn({ method: "GET" })
   .inputValidator((data) => tokenSchema.parse(data))
   .handler(async ({ data }) => {
-    const { createClient } = await import("@supabase/supabase-js");
-    const { type Database } = await import("@/integrations/supabase/types");
     const supabasePublic = createClient<Database>(
       process.env["SUPABASE_URL"]!,
       process.env["SUPABASE_PUBLISHABLE_KEY"]!,
@@ -89,3 +85,4 @@ export const acceptCompanionInvitation = createServerFn({ method: "POST" })
     await acceptInvitation(context.supabase, data.token);
     return { success: true };
   });
+
