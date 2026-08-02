@@ -22,7 +22,7 @@ const searchSchema = z.object({
 
 type CollectionsSearch = z.infer<typeof searchSchema>;
 
-export const Route = createFileRoute("/collections")({
+export const Route = createFileRoute("/collections/")({
   validateSearch: (input: Record<string, unknown>): CollectionsSearch =>
     searchSchema.parse(input),
   head: () => ({
