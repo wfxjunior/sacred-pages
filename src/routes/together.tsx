@@ -135,6 +135,7 @@ function Row({ label, value }: { label: string; value: string }) {
 
 function ActiveSection({ companions, loading, error }: { companions: CompanionshipWithProfiles[]; loading: boolean; error: boolean }) {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <section>
       <SectionHeader
@@ -162,8 +163,10 @@ function ActiveSection({ companions, loading, error }: { companions: Companionsh
           </div>
         )}
         {companions.map((c) => {
-          const other = c.inviter_id === c.current_user_id ? c.invitee_profile : c.inviter_profile;
-          const name = other?.display_name ?? other?.email ?? t("together.activePlaceholder");
+          const currentUserId = user.userId;
+          const isInviter = currentUserId === c.inviter_id;
+          const other = isInviter ? c.invitee : c.inviter;
+          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
           const color = "var(--sage)";
           const companion = {
             id: c.id,
@@ -208,6 +211,7 @@ function EncourageAndPray() {
   const { t } = useI18n();
   const [sent, setSent] = useState<string | null>(null);
   const [prayed, setPrayed] = useState(false);
+  const nudges = [t("together.nudge.1"), t("together.nudge.2"), t("together.nudge.3")];
   return (
     <section className="grid gap-4 md:grid-cols-2">
       <div className="rounded-2xl border border-border/60 bg-card p-6">
@@ -215,7 +219,15 @@ function EncourageAndPray() {
         <h3 className="mt-2 font-serif text-2xl">{t("together.sendQuiet")}</h3>
         <p className="mt-1 text-[13px] text-muted-foreground">{t("together.encHint")}</p>
         <div className="mt-5 flex flex-wrap gap-2">
-          {t("encourage.options")}
+          {nudges.map((n) => (
+            <button
+              key={n}
+              onClick={() => setSent(n)}
+              className="rounded-full border border-border/60 px-3 py-1.5 text-[12px] transition hover:bg-secondary"
+            >
+              {n}
+            </button>
+          ))}
         </div>
         <p aria-live="polite" className="mt-4 h-4 text-[12px]" style={{ color: "var(--sage)" }}>
           {sent ? `${t("together.sendQuiet")} — "${sent}"` : ""}
@@ -243,6 +255,7 @@ function EncourageAndPray() {
 
 function PendingSection({ pending, loading }: { pending: CompanionshipWithProfiles[]; loading: boolean }) {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <section>
       <SectionHeader eyebrow={t("together.pending")} title={t("together.pendingTitle")} />
@@ -253,8 +266,10 @@ function PendingSection({ pending, loading }: { pending: CompanionshipWithProfil
           </div>
         )}
         {pending.map((c) => {
-          const other = c.inviter_id === c.current_user_id ? c.invitee_profile : c.inviter_profile;
-          const name = other?.display_name ?? other?.email ?? t("together.activePlaceholder");
+          const currentUserId = user.userId;
+          const isInviter = currentUserId === c.inviter_id;
+          const other = isInviter ? c.invitee : c.inviter;
+          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
           return (
             <div key={c.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: "var(--gold)" }}>
@@ -310,13 +325,16 @@ function GroupsSection() {
 
 function ArchivedSection({ archived }: { archived: CompanionshipWithProfiles[] }) {
   const { t } = useI18n();
+  const user = useCurrentUser();
   return (
     <section>
       <SectionHeader eyebrow={t("together.archived")} title={t("together.archivedTitle")} />
       <div className="mt-6 grid gap-3">
         {archived.map((c) => {
-          const other = c.inviter_id === c.current_user_id ? c.invitee_profile : c.inviter_profile;
-          const name = other?.display_name ?? other?.email ?? t("together.activePlaceholder");
+          const currentUserId = user.userId;
+          const isInviter = currentUserId === c.inviter_id;
+          const other = isInviter ? c.invitee : c.inviter;
+          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
           return (
             <div key={c.id} className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-4">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: "var(--walnut)" }}>
