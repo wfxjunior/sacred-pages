@@ -22,6 +22,16 @@ export function dayVariant(now: Date = new Date()): number {
   return Math.floor(now.getTime() / 86_400_000);
 }
 
+/** Folds a journey's identity into the draw seed. */
+function hashKey(key: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < key.length; i += 1) {
+    h ^= key.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h);
+}
+
 /** Small deterministic PRNG so a given variant always yields the same draw. */
 function seeded(seed: number) {
   let state = (seed * 2654435761) % 2147483647;
@@ -42,6 +52,8 @@ function wordsFor(
   words: { display: string; minDifficulty: DifficultyLevel }[],
   difficulty: DifficultyLevel,
   variant: number,
+  /** Journey identity, so two journeys never rotate in lockstep. */
+  seedKey = "",
 ) {
   const ceiling = TIERS.indexOf(difficulty);
   const target = Math.min(TIER_COUNT[difficulty], words.length);
@@ -49,7 +61,7 @@ function wordsFor(
   const eligible = words.filter((w) => rank(w) <= ceiling + 1);
   const rest = words.filter((w) => rank(w) > ceiling + 1);
 
-  const random = seeded(Math.abs(variant) + 1);
+  const random = seeded((Math.abs(variant) + 1) ^ hashKey(`${seedKey}|${difficulty}`));
   const shuffle = <T,>(list: T[]) => {
     const copy = [...list];
     for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -87,7 +99,7 @@ export function useTodayContent(
   return useMemo(() => {
     if (!data) return TODAY;
     const scripture = data.scripture[0];
-    const words = wordsFor(data.words, difficulty, variant);
+    const words = wordsFor(data.words, difficulty, variant, data.slug ?? data.id ?? data.title);
     return {
       title: data.title,
       reference: scripture?.display_reference ?? data.subtitle ?? "",
