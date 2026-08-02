@@ -597,7 +597,7 @@ export function WordSearch({
         </div>
 
         <ul
-          className="mt-4 grid gap-2 sm:grid-cols-2"
+          className="mt-4 grid grid-cols-2 items-stretch gap-2 sm:grid-cols-2"
           aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
         >
           {puzzle.words.map(({ display: w, normalized }) => {
@@ -607,7 +607,7 @@ export function WordSearch({
               <li
                 key={w}
                 aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium uppercase tracking-wider transition ${
+                className={`flex h-full min-h-10 min-w-0 items-center gap-2 rounded-lg border px-3 py-2 text-xs font-medium uppercase tracking-wider transition sm:text-sm ${
                   done ? "border-transparent line-through" : "border-border/70 text-muted-foreground"
                 } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                 style={{
