@@ -3,7 +3,7 @@ import { useSearch } from "@tanstack/react-router";
 import { TODAY } from "@/lib/mock-data";
 import { useDailyJourney, useJourneyBySlug } from "./catalog";
 import type { DifficultyLevel } from "./types";
-import { dateKey, recentWords, rememberWords } from "./word-history";
+import { dateKey, lastDraw, recentWords, rememberLastDraw, rememberWords } from "./word-history";
 
 export type TodayContent = typeof TODAY;
 
@@ -60,13 +60,21 @@ function wordsFor(
   seedKey = "",
   /** Words already shown today — skipped while the pool can spare them. */
   avoid: string[] = [],
+  /** The exact previous list — pushed to the very back so the set turns over. */
+  previous: string[] = [],
   day = dateKey(),
 ) {
   const ceiling = TIERS.indexOf(difficulty);
   const target = Math.min(TIER_COUNT[difficulty], words.length);
   const rank = (w: { minDifficulty: DifficultyLevel }) => TIERS.indexOf(w.minDifficulty);
-  const eligible = words.filter((w) => rank(w) <= ceiling + 1);
-  const rest = words.filter((w) => rank(w) > ceiling + 1);
+  // Reach one tier higher for spare words, and one tier further still when that
+  // is not enough to swap out a whole draw — variety beats a strict ceiling.
+  let reach = 1;
+  while (words.filter((w) => rank(w) <= ceiling + reach).length < target * 2 && ceiling + reach < TIERS.length) {
+    reach += 1;
+  }
+  const eligible = words.filter((w) => rank(w) <= ceiling + reach);
+  const rest = words.filter((w) => rank(w) > ceiling + reach);
 
   const random = seeded(hashKey(`${day}|${seedKey}|${difficulty}|${Math.abs(variant)}`));
   const shuffle = <T,>(list: T[]) => {
@@ -78,14 +86,19 @@ function wordsFor(
     return copy;
   };
 
-  // Words seen earlier today fall to the back of the queue: they only return
-  // once the fresh ones run out, so a shuffle never replays the same list.
+  // Three queues, in order of preference: never shown today, shown earlier but
+  // not in the immediately previous draw, and finally the previous draw itself.
+  // A shuffle therefore replaces as much of the list as the pool allows.
   const seen = new Set(avoid.map((w) => w.toUpperCase()));
-  const isSeen = (w: { display: string }) => seen.has(w.display.toUpperCase());
-  const fresh = shuffle(eligible.filter((w) => !isSeen(w)));
-  const reused = shuffle(eligible.filter(isSeen));
-  const picked = [...fresh, ...reused, ...shuffle(rest)].slice(0, target);
-  return picked.map((w) => w.display.toUpperCase());
+  const last = new Set(previous.map((w) => w.toUpperCase()));
+  const key = (w: { display: string }) => w.display.toUpperCase();
+  const fresh = shuffle(eligible.filter((w) => !seen.has(key(w)) && !last.has(key(w))));
+  const reused = shuffle(eligible.filter((w) => seen.has(key(w)) && !last.has(key(w))));
+  const repeats = shuffle(eligible.filter((w) => last.has(key(w))));
+  const picked = [...fresh, ...reused, ...repeats, ...shuffle(rest)].slice(0, target);
+  // Re-shuffle the winners so the reading order changes even when the same
+  // words come back around.
+  return shuffle(picked).map((w) => w.display.toUpperCase());
 }
 
 /**
@@ -119,6 +132,7 @@ export function useTodayContent(
       variant,
       identity,
       recentWords(identity, difficulty),
+      lastDraw(identity, difficulty),
     );
     return {
       title: data.title,
@@ -135,7 +149,9 @@ export function useTodayContent(
   const drawn = content.words.join(" ");
   useEffect(() => {
     if (!identity || !drawn) return;
-    rememberWords(identity, difficulty, drawn.split(" "));
+    const list = drawn.split(" ");
+    rememberWords(identity, difficulty, list);
+    rememberLastDraw(identity, difficulty, list);
   }, [identity, difficulty, drawn]);
 
   return content;
