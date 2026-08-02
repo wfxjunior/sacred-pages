@@ -179,7 +179,7 @@ function CollectionsPage() {
               );
             })}
           </div>
-          <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+          <div className="grid grid-cols-1 gap-3 text-xs text-muted-foreground sm:flex sm:flex-wrap sm:gap-4">
             <FilterGroup label={t("coll.filter.difficulty")} value={difficulty} options={DIFFS} labelFor={optionLabel} onChange={(v) => updateSearch({ difficulty: v as (typeof DIFFS)[number] })} />
             <FilterGroup label={t("coll.filter.access")} value={access} options={ACCESS} labelFor={optionLabel} onChange={(v) => updateSearch({ access: v as (typeof ACCESS)[number] })} />
             <FilterGroup label={t("coll.filter.language")} value={language} options={LANGUAGES} labelFor={optionLabel} onChange={(v) => updateSearch({ language: v as (typeof LANGUAGES)[number] })} />
@@ -248,12 +248,14 @@ function FilterGroup({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="uppercase tracking-wider" style={{ color: "var(--walnut)" }}>{label}:</span>
+    <div className="flex min-w-0 items-center gap-2">
+      <span className="shrink-0 uppercase tracking-wider" style={{ color: "var(--walnut)" }}>
+        {label}:
+      </span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-md border border-border bg-background px-2 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
+        className="min-w-0 flex-1 rounded-md border border-border bg-background px-2 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 sm:flex-none"
         aria-label={label}
       >
         {options.map((o) => (
