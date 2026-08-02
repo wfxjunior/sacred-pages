@@ -34,6 +34,7 @@ export function WordSearch({
   fullBleed = false,
   journeyLabel,
   onShuffleWords,
+  sessionKey,
 }: {
   words: string[];
   size?: number;
@@ -42,6 +43,8 @@ export function WordSearch({
   journeyLabel?: string;
   /** Asked on shuffle so the parent can draw a fresh set of words, not just a new layout. */
   onShuffleWords?: () => void;
+  /** Changing this starts a clean session: saved progress is not reused. */
+  sessionKey?: string;
 }) {
   const { t } = useI18n();
   // Deterministic: the same word list and size always yield the same grid, on
@@ -114,7 +117,7 @@ export function WordSearch({
   // Progress is remembered per word list + grid size, so leaving the page and
   // coming back restores what the reader already found.
   // Focus mode: the puzzle and its word list take over the whole screen.
-  const storageKey = `lumena:ws:${size}:${wordsKey}`;
+  const storageKey = `lumena:ws:${size}:${sessionKey ? `${sessionKey}:` : ""}${wordsKey}`;
   // Gate saving on state (not a ref): a ref flips synchronously inside the
   // hydrate effect, so the save effect would run in the same commit with the
   // still-empty state and wipe what was just read back.

@@ -20,7 +20,7 @@ import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { Library } from "lucide-react";
+import { Library, RefreshCw } from "lucide-react";
 
 const todaySearchSchema = z.object({
   journey: z.string().optional().catch(undefined),
@@ -49,6 +49,13 @@ function Today() {
   // bumps it again for a fresh set right away.
   const [wordVariant, setWordVariant] = useState(() => dayVariant());
   const newWords = () => setWordVariant((v) => v + 1);
+  // Full regeneration: brand-new draw + brand-new grid, with no carry-over of
+  // found words, timer or saved progress from the previous puzzle.
+  const [puzzleSession, setPuzzleSession] = useState("s0");
+  const regenerate = () => {
+    setWordVariant((v) => v + 1 + Math.floor(Math.random() * 997));
+    setPuzzleSession(`s${Date.now().toString(36)}`);
+  };
   useEffect(() => {
     // Runs after hydration (SSR renders the daily draw) to avoid a mismatch.
     let next = 1;
@@ -96,13 +103,23 @@ function Today() {
             <Button onClick={() => setComplete(true)} variant="outline" size="sm">
               <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
             </Button>
+            <Button onClick={regenerate} variant="outline" size="sm">
+              <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
+            </Button>
           </div>
         </div>
 
         <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-2 lg:items-stretch">
           <div className="min-h-0 min-w-0 overflow-y-auto">
             <div className="mx-auto w-full max-w-[min(460px,58vh)]">
-              <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} onShuffleWords={newWords} />
+              <WordSearch
+                key={`${puzzleSession}:${difficulty}`}
+                words={TODAY.words}
+                size={sizes[difficulty]}
+                journeyLabel={TODAY.title}
+                onShuffleWords={newWords}
+                sessionKey={puzzleSession}
+              />
             </div>
           </div>
           <DevotionalPanel />
@@ -117,12 +134,23 @@ function Today() {
           onComplete={() => setComplete(true)}
         />
 
-        <div className="flex-none px-4 py-2">
+        <div className="flex flex-none items-center justify-between gap-2 px-4 py-2">
           <DifficultyPicker value={difficulty} onChange={setDifficulty} compact />
+          <Button onClick={regenerate} variant="outline" size="sm" className="shrink-0">
+            <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
+          </Button>
         </div>
 
         <div className="min-h-0 flex-1 px-3 pb-2">
-          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed journeyLabel={TODAY.title} onShuffleWords={newWords} />
+          <WordSearch
+            key={`${puzzleSession}:${difficulty}`}
+            words={TODAY.words}
+            size={sizes[difficulty]}
+            fullBleed
+            journeyLabel={TODAY.title}
+            onShuffleWords={newWords}
+            sessionKey={puzzleSession}
+          />
         </div>
 
         <MobileContentSheet />
