@@ -51,8 +51,10 @@ export function WordSearch({
   // every device and across re-renders. `words` is a new array identity on each
   // parent render, so the memo keys on its content rather than the array.
   const wordsKey = words.join(" ");
-  // A shuffle asks the engine for a different layout of the same words.
-  const [shuffleNonce, setShuffleNonce] = useState(0);
+  // A shuffle asks the engine for a different layout of the same words. The
+  // starting seed is derived from the session, so a regenerated puzzle never
+  // places the same word in the same cell as the previous one.
+  const [shuffleNonce, setShuffleNonce] = useState(() => seedFromSession(sessionKey));
   const puzzle = useMemo(
     () => buildRenderablePuzzle({ words, size, ...(shuffleNonce ? { seed: shuffleNonce } : {}) }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed by content, not identity
