@@ -607,8 +607,10 @@ export function WordSearch({
               <li
                 key={w}
                 aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                className={`flex h-full min-h-10 min-w-0 items-center gap-2 rounded-lg border px-3 py-2 text-xs font-medium uppercase tracking-wider transition sm:text-sm ${
-                  done ? "border-transparent line-through" : "border-border/70 text-muted-foreground"
+                className={`flex h-full min-h-10 min-w-0 items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wider transition sm:text-sm ${
+                  done
+                    ? "border border-transparent line-through"
+                    : "border-2 border-border/80 bg-background/70 text-foreground shadow-[0_1px_2px_rgba(43,41,38,0.04)]"
                 } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                 style={{
                   color: done ? "var(--ink)" : undefined,
