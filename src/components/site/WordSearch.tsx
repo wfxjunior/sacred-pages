@@ -28,8 +28,18 @@ function useReducedMotion() {
   return reduced;
 }
 
+/** Turns the session id into a layout seed so each session lays words out anew. */
+function seedFromSession(sessionKey?: string): number {
+  if (!sessionKey) return 0;
+  let h = 2166136261;
+  for (let i = 0; i < sessionKey.length; i += 1) {
+    h ^= sessionKey.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (Math.abs(h) % 1_000_003) + 1;
+}
+
 export function WordSearch({
-  // (helper defined below the component's imports)
   words,
   size = 12,
   fullBleed = false,
