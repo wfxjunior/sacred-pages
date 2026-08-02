@@ -17,12 +17,14 @@ export interface Companionship {
 export interface CompanionshipProfile {
   display_name: string | null;
   avatar_url: string | null;
+  email: string | null;
 }
 
 export interface CompanionshipWithProfiles extends Companionship {
   inviter: CompanionshipProfile | null;
   invitee: CompanionshipProfile | null;
 }
+
 
 export interface CompanionshipPreview {
   relationship: string | null;
