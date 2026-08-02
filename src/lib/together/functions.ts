@@ -21,9 +21,9 @@ const tokenSchema = z.object({ token: z.string().uuid() });
 
 export const createCompanionInvitation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .validator((data: unknown) => createSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const input = createSchema.parse(data);
-    const invitation = await createInvitation(context.supabase, context.userId, input);
+    const invitation = await createInvitation(context.supabase, context.userId, data);
     let emailSent = false;
     try {
       const { sendCompanionInviteEmail } = await import("./email.service");
@@ -43,42 +43,44 @@ export const listMyCompanionships = createServerFn({ method: "GET" })
     return listMyCompanions(context.supabase, context.userId, email);
   });
 
-export const getCompanionInvitationByToken = createServerFn({ method: "GET" }).handler(async ({ data }) => {
-  const { token } = tokenSchema.parse(data);
-  const supabasePublic = createClient<Database>(
-    process.env["SUPABASE_URL"]!,
-    process.env["SUPABASE_PUBLISHABLE_KEY"]!,
-    {
-      auth: {
-        storage: undefined,
-        persistSession: false,
-        autoRefreshToken: false,
+export const getCompanionInvitationByToken = createServerFn({ method: "GET" })
+  .validator((data: unknown) => tokenSchema.parse(data))
+  .handler(async ({ data }) => {
+    const supabasePublic = createClient<Database>(
+      process.env["SUPABASE_URL"]!,
+      process.env["SUPABASE_PUBLISHABLE_KEY"]!,
+      {
+        auth: {
+          storage: undefined,
+          persistSession: false,
+          autoRefreshToken: false,
+        },
       },
-    },
-  );
-  return getInvitationByToken(supabasePublic, token);
-});
+    );
+    return getInvitationByToken(supabasePublic, data.token);
+  });
 
-export const getCompanionInvitationPreview = createServerFn({ method: "GET" }).handler(async ({ data }) => {
-  const { token } = tokenSchema.parse(data);
-  const supabasePublic = createClient<Database>(
-    process.env["SUPABASE_URL"]!,
-    process.env["SUPABASE_PUBLISHABLE_KEY"]!,
-    {
-      auth: {
-        storage: undefined,
-        persistSession: false,
-        autoRefreshToken: false,
+export const getCompanionInvitationPreview = createServerFn({ method: "GET" })
+  .validator((data: unknown) => tokenSchema.parse(data))
+  .handler(async ({ data }) => {
+    const supabasePublic = createClient<Database>(
+      process.env["SUPABASE_URL"]!,
+      process.env["SUPABASE_PUBLISHABLE_KEY"]!,
+      {
+        auth: {
+          storage: undefined,
+          persistSession: false,
+          autoRefreshToken: false,
+        },
       },
-    },
-  );
-  return getInvitationPreview(supabasePublic, token);
-});
+    );
+    return getInvitationPreview(supabasePublic, data.token);
+  });
 
 export const acceptCompanionInvitation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
+  .validator((data: unknown) => tokenSchema.parse(data))
   .handler(async ({ data, context }) => {
-    const { token } = tokenSchema.parse(data);
-    await acceptInvitation(context.supabase, token);
+    await acceptInvitation(context.supabase, data.token);
     return { success: true };
   });
