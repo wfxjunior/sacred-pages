@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowRight } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
 import { JournalBinding } from "@/components/journal/JournalBinding";
 import {
@@ -221,11 +221,11 @@ function Landing() {
                 </blockquote>
               </figure>
 
-              <div className="mt-7 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
+              <div className="mt-7 flex flex-col gap-3.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
                 <Button
                   asChild
                   size="lg"
-                  className="h-12 w-full justify-center rounded-full bg-[#1F1D1B] px-6 text-[15px] font-medium tracking-[0.01em] text-[#F6F2E8] shadow-[0_10px_28px_-14px_rgba(31,29,27,0.5)] hover:bg-[#2B2B2B] sm:h-12 sm:w-auto sm:min-w-[168px]"
+                  className="h-12 w-full justify-center rounded-sm border border-[#2B2B2B] bg-[#2B2B2B] px-6 font-serif text-[15px] font-medium tracking-tight text-[#F6F2E8] shadow-[0_10px_28px_-14px_rgba(43,43,43,0.35)] transition-all hover:bg-[#3D3D3D] active:scale-[0.98] sm:h-12 sm:w-auto sm:min-w-[180px]"
                 >
                   <Link to="/today">{t("hero.ctaStart")}</Link>
                 </Button>
@@ -233,11 +233,18 @@ function Landing() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="h-12 w-full justify-center rounded-full border-[#D9D3C2] bg-transparent px-6 text-[15px] font-medium text-[#2B2B2B] hover:bg-[#F1EEE6] hover:text-[#1F1D1B] sm:h-12 sm:w-auto sm:min-w-[168px]"
+                  className="group h-12 w-full justify-center gap-2 rounded-sm border-[#2B2B2B]/20 bg-transparent px-6 font-serif text-[15px] font-medium tracking-tight text-[#2B2B2B] transition-all hover:bg-[#2B2B2B]/5 hover:text-[#1F1D1B] active:scale-[0.98] sm:h-12 sm:w-auto sm:min-w-[180px]"
                 >
-                  <a href="#features">{t("hero.ctaExplore")}</a>
+                  <a href="#features">
+                    {t("hero.ctaExplore")}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
                 </Button>
               </div>
+
+              <p className="mt-3 text-center text-[11px] font-medium uppercase tracking-[0.15em] text-[#6B665C]/70">
+                {t("hero.ctaHint")}
+              </p>
 
               <div className="mt-7 flex flex-wrap justify-center gap-1.5 sm:mt-8 sm:gap-2">
                 {/* Quiet, editorial chips: ink on paper with one gold hairline.
