@@ -29,6 +29,7 @@ function useReducedMotion() {
 }
 
 export function WordSearch({
+  // (helper defined below the component's imports)
   words,
   size = 12,
   fullBleed = false,
