@@ -725,7 +725,7 @@ export function WordSearch({
       {!compact && wordsPanel(true)}
 
       {compact && (
-        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pb-1">
+        <div className="flex min-h-0 flex-none flex-col gap-2 pb-2">
           <div className="flex items-center gap-2 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 text-[10px] uppercase tracking-wider">
             <span className="text-muted-foreground">{t("wordsearch.words")}</span>
             <div className="h-1 flex-1 overflow-hidden rounded-full bg-secondary">
@@ -775,7 +775,7 @@ export function WordSearch({
             </button>
           </div>
           <ul
-            className="flex flex-wrap gap-1.5"
+            className="grid grid-cols-3 gap-1.5"
             aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
           >
             {puzzle.words.map(({ display: w, normalized }) => {
@@ -785,8 +785,10 @@ export function WordSearch({
                 <li
                   key={w}
                   aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                  className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider transition ${
-                    done ? "border-transparent line-through" : "border-border/60 text-muted-foreground"
+                  className={`flex min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1.5 text-[10px] font-medium uppercase tracking-wider transition ${
+                    done
+                      ? "border-transparent line-through"
+                      : "border-border/60 bg-background/70 text-muted-foreground"
                   } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                   style={{
                     color: done ? "var(--ink)" : undefined,
@@ -797,7 +799,7 @@ export function WordSearch({
                   {done && (
                     <Check className="h-2.5 w-2.5 shrink-0" style={{ color }} aria-hidden="true" />
                   )}
-                  {w}
+                  <span className="truncate">{w}</span>
                 </li>
               );
             })}
