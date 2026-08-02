@@ -33,6 +33,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
@@ -170,6 +171,11 @@ const NotificationsPreferencesRoute =
     path: '/preferences',
     getParentRoute: () => NotificationsRoute,
   } as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -277,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
@@ -318,6 +325,7 @@ export interface FileRoutesByTo {
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/admin': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
@@ -360,6 +368,7 @@ export interface FileRoutesById {
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
@@ -403,6 +412,7 @@ export interface FileRouteTypes {
     | '/admin/templates'
     | '/admin/translations'
     | '/collections/$slug'
+    | '/invite/$token'
     | '/notifications/preferences'
     | '/admin/'
     | '/admin/collections/$collectionId'
@@ -444,6 +454,7 @@ export interface FileRouteTypes {
     | '/admin/templates'
     | '/admin/translations'
     | '/collections/$slug'
+    | '/invite/$token'
     | '/notifications/preferences'
     | '/admin'
     | '/admin/collections/$collectionId'
@@ -485,6 +496,7 @@ export interface FileRouteTypes {
     | '/admin/templates'
     | '/admin/translations'
     | '/collections/$slug'
+    | '/invite/$token'
     | '/notifications/preferences'
     | '/admin/'
     | '/admin/collections/$collectionId'
@@ -526,6 +538,7 @@ export interface RootRouteChildren {
   AdminReviewRoute: typeof AdminReviewRoute
   AdminTemplatesRoute: typeof AdminTemplatesRoute
   AdminTranslationsRoute: typeof AdminTranslationsRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
   AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
@@ -707,6 +720,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsPreferencesRouteImport
       parentRoute: typeof NotificationsRoute
     }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/collections/$slug': {
       id: '/collections/$slug'
       path: '/$slug'
@@ -868,6 +888,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewRoute: AdminReviewRoute,
   AdminTemplatesRoute: AdminTemplatesRoute,
   AdminTranslationsRoute: AdminTranslationsRoute,
+  InviteTokenRoute: InviteTokenRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
   AdminCollectionsNewRoute: AdminCollectionsNewRoute,
