@@ -17,7 +17,7 @@ import {
 import { dayVariant, useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { JourneyThemePicker } from "@/components/site/JourneyThemePicker";
 import { useI18n } from "@/lib/i18n";
-import { CheckCircle2, HelpCircle, X } from "lucide-react";
+import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Library } from "lucide-react";
@@ -395,6 +395,11 @@ function DifficultyPicker({
 
 function HelpMenu() {
   const { t } = useI18n();
+  const hints = [
+    { icon: Type, label: t("help.revealLetter"), desc: t("help.revealLetterDesc") },
+    { icon: Compass, label: t("help.showDirection"), desc: t("help.showDirectionDesc") },
+    { icon: Eye, label: t("help.revealWord"), desc: t("help.revealWordDesc") },
+  ];
   return (
     <AlertDialog>
       <Button variant="ghost" size="sm" asChild className="h-9 px-2">
@@ -403,25 +408,54 @@ function HelpMenu() {
           <span className="hidden sm:inline">{t("journey.help")}</span>
         </AlertDialogTrigger>
       </Button>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t("help.confirmTitle")}</AlertDialogTitle>
-          <AlertDialogDescription>{t("help.confirmBody")}</AlertDialogDescription>
+      <AlertDialogContent className="max-w-md gap-0 overflow-hidden rounded-2xl p-0">
+        <AlertDialogHeader className="space-y-3 border-b border-border/60 px-6 pb-5 pt-6 text-center sm:text-center">
+          <div
+            className="mx-auto flex h-11 w-11 items-center justify-center rounded-full"
+            style={{ background: "color-mix(in oklab, var(--gold) 16%, transparent)" }}
+          >
+            <Lightbulb className="h-5 w-5" style={{ color: "var(--gold)" }} />
+          </div>
+          <AlertDialogTitle className="text-xl leading-tight">{t("help.confirmTitle")}</AlertDialogTitle>
+          <AlertDialogDescription className="text-sm leading-relaxed text-muted-foreground">
+            {t("help.confirmBody")}
+          </AlertDialogDescription>
         </AlertDialogHeader>
-        <div className="grid gap-2 text-sm">
-          {[t("help.revealLetter"), t("help.showDirection"), t("help.revealWord")].map((label) => (
-            <button
-              key={label}
-              className="rounded-md border border-border px-3 py-2 text-left hover:bg-secondary"
-            >
-              {label}
-            </button>
-          ))}
+
+        <div className="px-6 py-5">
+          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            {t("help.gentle")}
+          </p>
+          <div className="grid gap-2">
+            {hints.map(({ icon: Icon, label, desc }) => (
+              <button
+                key={label}
+                className="group flex items-center gap-3 rounded-xl border border-border/70 bg-card px-3.5 py-3 text-left transition hover:border-primary/40 hover:bg-secondary/60"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition group-hover:text-foreground">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-medium leading-tight">{label}</span>
+                  <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">{desc}</span>
+                </span>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition group-hover:translate-x-0.5 group-hover:text-muted-foreground" />
+              </button>
+            ))}
+          </div>
         </div>
-        <AlertDialogFooter>
-          <AlertDialogCancel>{t("help.cancel")}</AlertDialogCancel>
-          <AlertDialogAction>{t("help.confirm")}</AlertDialogAction>
-        </AlertDialogFooter>
+
+        <div className="border-t border-border/60 bg-secondary/30 px-6 py-5">
+          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            {t("help.finalStep")}
+          </p>
+          <AlertDialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
+            <AlertDialogAction className="w-full">{t("help.confirm")}</AlertDialogAction>
+            <AlertDialogCancel className="mt-0 w-full border-0 bg-transparent shadow-none hover:bg-secondary">
+              {t("help.cancel")}
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </div>
       </AlertDialogContent>
     </AlertDialog>
   );
