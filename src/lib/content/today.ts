@@ -99,7 +99,7 @@ export function useTodayContent(
   return useMemo(() => {
     if (!data) return TODAY;
     const scripture = data.scripture[0];
-    const words = wordsFor(data.words, difficulty, variant);
+    const words = wordsFor(data.words, difficulty, variant, data.slug ?? data.id ?? data.title);
     return {
       title: data.title,
       reference: scripture?.display_reference ?? data.subtitle ?? "",
