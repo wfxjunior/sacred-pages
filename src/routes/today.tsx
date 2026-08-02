@@ -134,8 +134,11 @@ function Today() {
           onComplete={() => setComplete(true)}
         />
 
-        <div className="flex-none px-4 py-2">
+        <div className="flex flex-none items-center justify-between gap-2 px-4 py-2">
           <DifficultyPicker value={difficulty} onChange={setDifficulty} compact />
+          <Button onClick={regenerate} variant="outline" size="sm" className="shrink-0">
+            <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
+          </Button>
         </div>
 
         <div className="min-h-0 flex-1 px-3 pb-2">
