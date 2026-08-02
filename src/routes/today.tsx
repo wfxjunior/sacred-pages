@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useTodayContent, useTodayLoading } from "@/lib/content/today";
+import { dayVariant, useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { JourneyThemePicker } from "@/components/site/JourneyThemePicker";
 import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X } from "lucide-react";
@@ -44,7 +44,10 @@ export const Route = createFileRoute("/today")({
 function Today() {
   const { t } = useI18n();
   const [difficulty, setDifficulty] = useState<"gentle" | "balanced" | "challenging" | "expert">("gentle");
-  const TODAY = useTodayContent(difficulty);
+  // The draw rotates daily on its own; a shuffle bumps it for a fresh set now.
+  const [wordVariant, setWordVariant] = useState(() => dayVariant());
+  const newWords = () => setWordVariant((v) => v + 1);
+  const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
   const sizes = { gentle: 10, balanced: 12, challenging: 14, expert: 16 } as const;
@@ -85,7 +88,7 @@ function Today() {
         <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-2 lg:items-stretch">
           <div className="min-h-0 min-w-0 overflow-y-auto">
             <div className="mx-auto w-full max-w-[min(460px,58vh)]">
-              <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} />
+              <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} onShuffleWords={newWords} />
             </div>
           </div>
           <div className="min-h-0 min-w-0 overflow-y-auto rounded-xl border border-border bg-card">
@@ -107,7 +110,7 @@ function Today() {
         </div>
 
         <div className="min-h-0 flex-1 px-3 pb-2">
-          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed journeyLabel={TODAY.title} />
+          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed journeyLabel={TODAY.title} onShuffleWords={newWords} />
         </div>
 
         <MobileContentSheet />
