@@ -67,6 +67,8 @@ function Today() {
       next = Math.floor(Math.random() * 1000) + 1;
     }
     setWordVariant(dayVariant() + next);
+    // New layout on every load too, so a word never keeps the same cells.
+    setPuzzleSession(`s${next}`);
   }, []);
   const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
