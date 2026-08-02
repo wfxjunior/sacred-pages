@@ -47,7 +47,7 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    mutation.mutate({ email: email.trim(), relationship: rel, message: message.trim() || undefined });
+    mutation.mutate({ data: { email: email.trim(), relationship: rel, message: message.trim() || undefined } });
   };
 
   const handleOpenChange = (next: boolean) => {
