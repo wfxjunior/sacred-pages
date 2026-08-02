@@ -3,6 +3,9 @@ import confetti from "canvas-confetti";
 /** Brand palette (gold, sage, dusty blue, walnut, plum) so the burst feels Lumena. */
 const COLORS = ["#C89F4F", "#7A8F73", "#5E7FA3", "#B88A3B", "#8C6E9B", "#D9C48A"];
 
+/** Above the focus-mode overlay and dialogs, but never clickable. */
+const Z_INDEX = 9999;
+
 function motionAllowed() {
   if (typeof window === "undefined") return false;
   if (document.documentElement.classList.contains("reduce-motion")) return false;
@@ -21,6 +24,9 @@ export function celebrateWord(origin?: { x: number; y: number }) {
     colors: COLORS,
     origin: origin ?? { x: 0.5, y: 0.55 },
     disableForReducedMotion: true,
+    zIndex: Z_INDEX,
+    gravity: 1.1,
+    decay: 0.9,
   });
 }
 
@@ -36,6 +42,9 @@ export function celebrateCompletion() {
     colors: COLORS,
     origin: { x: 0.5, y: 0.5 },
     disableForReducedMotion: true,
+    zIndex: Z_INDEX,
+    scalar: 0.9,
+    gravity: 1,
   });
   const side = (x: number, angle: number) =>
     confetti({
@@ -47,6 +56,8 @@ export function celebrateCompletion() {
       colors: COLORS,
       origin: { x, y: 0.65 },
       disableForReducedMotion: true,
+      zIndex: Z_INDEX,
+      scalar: 0.9,
     });
   const loop = () => {
     side(0.05, 60);

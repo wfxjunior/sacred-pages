@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildRenderablePuzzle } from "@/lib/puzzle/render";
 import { validateSelection } from "@/lib/puzzle/validation-service";
-import { SELECTION_COLORS } from "@/lib/mock-data";
+import { SELECTION_COLORS, WORD_COLORS } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
 import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
@@ -175,8 +175,15 @@ export function WordSearch({
   // Keyed by the normalized form, which is what the engine and `found` use.
   const wordColor = useMemo(() => {
     const map = new Map<string, string>();
+    // Never repeat a colour inside one puzzle: the palette is longer than any
+    // word set, and if a puzzle ever exceeded it we shift the hue instead.
     puzzle.words.forEach((word, i) => {
-      map.set(word.normalized, SELECTION_COLORS[i % SELECTION_COLORS.length].value);
+      const base = WORD_COLORS[i % WORD_COLORS.length];
+      const lap = Math.floor(i / WORD_COLORS.length);
+      map.set(
+        word.normalized,
+        lap === 0 ? base : base.replace(/([\d.]+)\)$/, (_m, h) => `${(Number(h) + lap * 17) % 360})`),
+      );
     });
     return map;
   }, [puzzle]);

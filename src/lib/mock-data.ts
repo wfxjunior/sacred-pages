@@ -61,3 +61,34 @@ export const SELECTION_COLORS = [
   { key: "amber", label: "Amber", value: "oklch(0.72 0.13 65)" },
   { key: "teal", label: "Teal", value: "oklch(0.6 0.08 200)" },
 ];
+
+/**
+ * Distinct hues for found words. Ordered so neighbouring entries never look
+ * alike, and long enough (24) that a puzzle never has to repeat a colour.
+ */
+export const WORD_COLORS = [
+  "oklch(0.635 0.115 70)", // gold
+  "oklch(0.58 0.09 250)", // dusty blue
+  "oklch(0.6 0.085 140)", // sage
+  "oklch(0.55 0.11 300)", // plum
+  "oklch(0.6 0.13 25)", // terracotta
+  "oklch(0.6 0.08 200)", // teal
+  "oklch(0.58 0.12 340)", // rose
+  "oklch(0.62 0.11 105)", // olive
+  "oklch(0.55 0.1 265)", // indigo
+  "oklch(0.68 0.13 55)", // amber
+  "oklch(0.56 0.1 175)", // pine
+  "oklch(0.54 0.12 15)", // brick
+  "oklch(0.62 0.09 320)", // mauve
+  "oklch(0.58 0.1 225)", // steel blue
+  "oklch(0.64 0.12 85)", // wheat
+  "oklch(0.52 0.09 155)", // forest
+  "oklch(0.6 0.11 355)", // cranberry
+  "oklch(0.57 0.09 280)", // violet
+  "oklch(0.66 0.1 45)", // copper
+  "oklch(0.55 0.08 190)", // deep teal
+  "oklch(0.61 0.1 120)", // moss
+  "oklch(0.53 0.11 330)", // magenta ink
+  "oklch(0.63 0.1 240)", // periwinkle
+  "oklch(0.59 0.13 40)", // rust
+];
