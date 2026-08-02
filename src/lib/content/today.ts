@@ -9,14 +9,56 @@ export type TodayContent = typeof TODAY;
 /** Each step up keeps the previous words and adds the next tier on top. */
 const TIERS: DifficultyLevel[] = ["gentle", "balanced", "challenging", "expert"];
 
+/** How many words each tier asks for. */
+const TIER_COUNT: Record<DifficultyLevel, number> = {
+  gentle: 6,
+  balanced: 9,
+  challenging: 12,
+  expert: 16,
+};
+
+/** Days since the epoch — the puzzle refreshes on its own each day. */
+export function dayVariant(now: Date = new Date()): number {
+  return Math.floor(now.getTime() / 86_400_000);
+}
+
+/** Small deterministic PRNG so a given variant always yields the same draw. */
+function seeded(seed: number) {
+  let state = (seed * 2654435761) % 2147483647;
+  if (state <= 0) state += 2147483646;
+  return () => (state = (state * 16807) % 2147483647) / 2147483647;
+}
+
+/**
+ * Draws the word list for a difficulty.
+ *
+ * The tier fixes *how many* words appear, but not *which*: the draw rotates
+ * over the journey's whole pool, seeded by `variant`, so the same journey
+ * never shows the same list two days running (nor after a shuffle). Words at
+ * or below the chosen tier are preferred, harder ones fill any gap.
+ */
 function wordsFor(
   words: { display: string; minDifficulty: DifficultyLevel }[],
   difficulty: DifficultyLevel,
+  variant: number,
 ) {
   const ceiling = TIERS.indexOf(difficulty);
-  return words
-    .filter((w) => TIERS.indexOf(w.minDifficulty) <= ceiling)
-    .map((w) => w.display.toUpperCase());
+  const target = Math.min(TIER_COUNT[difficulty], words.length);
+  const preferred = words.filter((w) => TIERS.indexOf(w.minDifficulty) <= ceiling);
+  const rest = words.filter((w) => TIERS.indexOf(w.minDifficulty) > ceiling);
+
+  const random = seeded(Math.abs(variant) + 1);
+  const shuffle = <T,>(list: T[]) => {
+    const copy = [...list];
+    for (let i = copy.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j]!, copy[i]!];
+    }
+    return copy;
+  };
+
+  const picked = [...shuffle(preferred), ...shuffle(rest)].slice(0, target);
+  return picked.map((w) => w.display.toUpperCase());
 }
 
 /**
@@ -31,7 +73,10 @@ function useSelectedJourneySlug(): string | undefined {
   return search?.journey;
 }
 
-export function useTodayContent(difficulty: DifficultyLevel = "gentle"): TodayContent {
+export function useTodayContent(
+  difficulty: DifficultyLevel = "gentle",
+  variant: number = dayVariant(),
+): TodayContent {
   const slug = useSelectedJourneySlug();
   const daily = useDailyJourney();
   const selected = useJourneyBySlug(slug);
@@ -40,7 +85,7 @@ export function useTodayContent(difficulty: DifficultyLevel = "gentle"): TodayCo
   return useMemo(() => {
     if (!data) return TODAY;
     const scripture = data.scripture[0];
-    const words = wordsFor(data.words, difficulty);
+    const words = wordsFor(data.words, difficulty, variant);
     return {
       title: data.title,
       reference: scripture?.display_reference ?? data.subtitle ?? "",
@@ -50,7 +95,7 @@ export function useTodayContent(difficulty: DifficultyLevel = "gentle"): TodayCo
       prayer: data.prayerBody ?? "",
       words: words.length > 0 ? words : TODAY.words,
     };
-  }, [data, difficulty]);
+  }, [data, difficulty, variant]);
 }
 
 /** True until the Daily Journey has resolved, so the screen can hold still. */
