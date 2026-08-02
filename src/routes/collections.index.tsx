@@ -286,6 +286,7 @@ function CardSkeleton() {
 }
 
 function EmptyState({ hasQuery, onClear }: { hasQuery: boolean; onClear: () => void }) {
+  const { t } = useI18n();
   return (
     <div
       className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border px-6 py-20 text-center"
@@ -300,15 +301,13 @@ function EmptyState({ hasQuery, onClear }: { hasQuery: boolean; onClear: () => v
       >
         <BookOpen className="h-6 w-6" style={{ color: "var(--walnut)" }} aria-hidden />
       </div>
-      <h2 className="mt-5 font-serif text-2xl">No collections match</h2>
+      <h2 className="mt-5 font-serif text-2xl">{t("coll.empty.title")}</h2>
       <p className="mt-2 max-w-md text-sm text-muted-foreground">
-        {hasQuery
-          ? "Try loosening a filter or clearing your search. The library keeps growing — your next journey is close."
-          : "Nothing here yet. Check back soon — new collections are added regularly."}
+        {hasQuery ? t("coll.empty.hint") : t("coll.empty.hintNone")}
       </p>
       {hasQuery && (
         <Button variant="outline" className="mt-6" onClick={onClear}>
-          Clear filters
+          {t("coll.clearFilters")}
         </Button>
       )}
     </div>
