@@ -15,6 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useTodayContent, useTodayLoading } from "@/lib/content/today";
+import { JourneyThemePicker } from "@/components/site/JourneyThemePicker";
 import { useI18n } from "@/lib/i18n";
 import { CheckCircle2, HelpCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -68,6 +69,7 @@ function Today() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
+            <JourneyThemePicker />
             <HelpMenu />
             <Button asChild variant="ghost" size="sm">
               <Link to="/collections">
@@ -137,6 +139,7 @@ function MobileHeader({
         </p>
       </div>
       <div className="flex shrink-0 items-center gap-1.5">
+        <JourneyThemePicker compact />
         <HelpMenu />
         <Button onClick={onComplete} variant="outline" size="icon" className="h-9 w-9">
           <CheckCircle2 className="h-4 w-4" />

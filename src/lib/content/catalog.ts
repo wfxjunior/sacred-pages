@@ -197,3 +197,19 @@ export function useJourneyBySlug(slug?: string) {
     queryFn: () => publicContent.getJourneyBySlug(slug as string, locale),
   });
 }
+
+/**
+ * Every published journey, for the "change theme" picker on the puzzle screen.
+ *
+ * Titles come back already translated, so the picker needs no extra lookups.
+ */
+export function usePublishedJourneys(limit = 60) {
+  const { locale } = useI18n();
+  return useQuery({
+    queryKey: ["catalog", "journeys", "all", locale, limit],
+    enabled: isSupabaseConfigured(),
+    staleTime: 5 * 60_000,
+    retry: false,
+    queryFn: async () => (await publicContent.searchJourneys({ limit }, locale)).items,
+  });
+}
