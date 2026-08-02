@@ -32,10 +32,13 @@ export function WordSearch({
   words,
   size = 12,
   fullBleed = false,
+  journeyLabel,
 }: {
   words: string[];
   size?: number;
   fullBleed?: boolean;
+  /** Title of the journey these words come from, so records group per theme. */
+  journeyLabel?: string;
 }) {
   const { t } = useI18n();
   // Deterministic: the same word list and size always yield the same grid, on
@@ -192,7 +195,7 @@ export function WordSearch({
             const total = elapsedMs + (Date.now() - begin);
             setElapsedMs(total);
             // Saved quietly to the reader's profile: their own record only.
-            void recordCompletion(storageKey, total).then((best) => setBestTimeMs(best));
+            void recordCompletion(storageKey, total, journeyLabel).then((best) => setBestTimeMs(best));
           }
           return null;
         });

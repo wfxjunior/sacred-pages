@@ -85,7 +85,7 @@ function Today() {
         <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-2 lg:items-stretch">
           <div className="min-h-0 min-w-0 overflow-y-auto">
             <div className="mx-auto w-full max-w-[min(460px,58vh)]">
-              <WordSearch words={TODAY.words} size={sizes[difficulty]} />
+              <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} />
             </div>
           </div>
           <div className="min-h-0 min-w-0 overflow-y-auto rounded-xl border border-border bg-card">
@@ -107,7 +107,7 @@ function Today() {
         </div>
 
         <div className="min-h-0 flex-1 px-3 pb-2">
-          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed />
+          <WordSearch words={TODAY.words} size={sizes[difficulty]} fullBleed journeyLabel={TODAY.title} />
         </div>
 
         <MobileContentSheet />
