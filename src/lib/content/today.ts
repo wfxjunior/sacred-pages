@@ -59,10 +59,7 @@ function wordsFor(
     return copy;
   };
 
-  // Keep the reader's own tier in front so an easy day still reads easy, then
-  // let the one-step-harder words fill the remaining slots as they rotate.
-  const drawn = shuffle(eligible).sort((a, b) => rank(a) - rank(b));
-  const picked = [...drawn, ...shuffle(rest)].slice(0, target);
+  const picked = [...shuffle(eligible), ...shuffle(rest)].slice(0, target);
   return picked.map((w) => w.display.toUpperCase());
 }
 
