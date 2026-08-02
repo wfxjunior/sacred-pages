@@ -52,7 +52,8 @@ function seeded(seed: number) {
  * spare words to rotate through, seeded by `variant`, while keeping the extra
  * words only a single step harder than the tier the reader picked.
  */
-function wordsFor(
+/** Exported for tests: the draw that feeds both the grid and the word list. */
+export function wordsFor(
   words: { display: string; minDifficulty: DifficultyLevel }[],
   difficulty: DifficultyLevel,
   variant: number,
