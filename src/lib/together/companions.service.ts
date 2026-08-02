@@ -34,12 +34,13 @@ export async function listMyCompanions(
   const { data, error } = await supabase
     .from("companionships")
     .select(
-      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url)",
+      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url, email), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url, email)",
     )
     .or(
       `inviter_id.eq.${userId},invitee_user_id.eq.${userId},invitee_email.eq.${email}`,
     )
     .order("created_at", { ascending: false });
+
   if (error) throw error;
   return (data ?? []) as unknown as CompanionshipWithProfiles[];
 }
