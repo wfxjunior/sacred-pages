@@ -91,9 +91,7 @@ function Today() {
               <WordSearch words={TODAY.words} size={sizes[difficulty]} journeyLabel={TODAY.title} onShuffleWords={newWords} />
             </div>
           </div>
-          <div className="min-h-0 min-w-0 overflow-y-auto rounded-xl border border-border bg-card">
-            <JourneyTabs />
-          </div>
+          <DevotionalPanel />
         </div>
       </div>
 
