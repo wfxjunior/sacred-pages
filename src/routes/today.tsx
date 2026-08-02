@@ -48,7 +48,6 @@ function Today() {
   // so the pool is recomputed instead of replaying the same list, and a shuffle
   // bumps it again for a fresh set right away.
   const [wordVariant, setWordVariant] = useState(() => dayVariant());
-  const newWords = () => setWordVariant((v) => v + 1);
   // Full regeneration: brand-new draw + brand-new grid, with no carry-over of
   // found words, timer or saved progress from the previous puzzle.
   const [puzzleSession, setPuzzleSession] = useState("s0");
@@ -75,7 +74,17 @@ function Today() {
   const [complete, setComplete] = useState(false);
   const sizes = { gentle: 10, balanced: 12, challenging: 14, expert: 16 } as const;
 
-  if (complete) return <Completion onReset={() => setComplete(false)} />;
+  if (complete) {
+    return (
+      <Completion
+        onReset={() => setComplete(false)}
+        onNext={() => {
+          regenerate();
+          setComplete(false);
+        }}
+      />
+    );
+  }
   if (loading) return <TodaySkeleton />;
 
   return (
@@ -119,7 +128,8 @@ function Today() {
                 words={TODAY.words}
                 size={sizes[difficulty]}
                 journeyLabel={TODAY.title}
-                onShuffleWords={newWords}
+                onShuffleWords={regenerate}
+                onComplete={() => setComplete(true)}
                 sessionKey={puzzleSession}
               />
             </div>
@@ -150,7 +160,8 @@ function Today() {
             size={sizes[difficulty]}
             fullBleed
             journeyLabel={TODAY.title}
-            onShuffleWords={newWords}
+            onShuffleWords={regenerate}
+            onComplete={() => setComplete(true)}
             sessionKey={puzzleSession}
           />
         </div>
@@ -570,7 +581,7 @@ function HelpMenu() {
   );
 }
 
-function Completion({ onReset }: { onReset: () => void }) {
+function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => void }) {
   const TODAY = useTodayContent();
   const { t } = useI18n();
   return (
@@ -609,7 +620,9 @@ function Completion({ onReset }: { onReset: () => void }) {
           <Button variant="outline" onClick={onReset}>{t("complete.favorite")}</Button>
           <Button variant="outline">{t("complete.share")}</Button>
           <Button asChild variant="outline"><Link to="/collections">{t("complete.another")}</Link></Button>
-          <Button asChild><Link to="/my-journey">{t("complete.home")}</Link></Button>
+          <Button onClick={onNext}>
+            {t("complete.nextPuzzle")} <ChevronRight className="ml-1.5 h-4 w-4" />
+          </Button>
         </div>
       </div>
     </AppShell>

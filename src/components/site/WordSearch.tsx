@@ -45,6 +45,7 @@ export function WordSearch({
   fullBleed = false,
   journeyLabel,
   onShuffleWords,
+  onComplete,
   sessionKey,
 }: {
   words: string[];
@@ -54,6 +55,8 @@ export function WordSearch({
   journeyLabel?: string;
   /** Asked on shuffle so the parent can draw a fresh set of words, not just a new layout. */
   onShuffleWords?: () => void;
+  /** Called once when the final word is found. */
+  onComplete?: () => void;
   /** Changing this starts a clean session: saved progress is not reused. */
   sessionKey?: string;
 }) {
@@ -105,6 +108,7 @@ export function WordSearch({
   const gridRef = useRef<HTMLDivElement | null>(null);
   const expandedGridRef = useRef<HTMLDivElement | null>(null);
   const prevFoundRef = useRef<string[]>([]);
+  const completionNotifiedRef = useRef(false);
 
   // React attaches touch listeners passively at the root, so preventDefault in
   // the JSX handlers cannot stop the page from scrolling mid-drag on mobile.
@@ -190,6 +194,7 @@ export function WordSearch({
     setRecentlyFound([]);
     setElapsedMs(0);
     setStartedAt(null);
+    completionNotifiedRef.current = false;
   }, [onShuffleWords]);
 
   // Keyed by the normalized form, which is what the engine and `found` use.
@@ -231,6 +236,10 @@ export function WordSearch({
           return null;
         });
         celebrateCompletion();
+        if (!completionNotifiedRef.current) {
+          completionNotifiedRef.current = true;
+          window.setTimeout(() => onComplete?.(), 900);
+        }
       } else {
         setStartedAt((begin) => begin ?? Date.now());
       }
@@ -245,7 +254,7 @@ export function WordSearch({
       };
     }
     prevFoundRef.current = found;
-  }, [found, words.length, displayOf]);
+  }, [found, words.length, displayOf, elapsedMs, journeyLabel, onComplete, storageKey]);
 
   // A new puzzle (different words or size) always starts hidden again.
   useEffect(() => {
