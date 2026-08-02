@@ -698,8 +698,8 @@ export function PricingPreview() {
             </ul>
             <Button
               asChild
-              className="mt-8 rounded-full"
-              variant={p.featured ? "default" : "outline"}
+              className="mt-8 h-11 w-full px-6 text-[15px]"
+              variant={p.featured ? "editorial" : "editorialOutline"}
             >
               <Link to="/signup">{p.cta}</Link>
             </Button>
@@ -770,7 +770,8 @@ export function PricingPreview() {
           <Button
             asChild
             size="lg"
-            className="group rounded-full px-7 shadow-[0_18px_40px_-18px_rgba(37,99,235,0.6)] transition-all hover:-translate-y-0.5 hover:shadow-[0_22px_50px_-16px_rgba(37,99,235,0.8)]"
+            variant="editorial"
+            className="group h-12 px-7 text-[15px]"
           >
             <Link to="/signup">
               {t("cta.startJourney")}
@@ -871,7 +872,7 @@ export function FinalCTA() {
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-[#FCFBF8] px-8 text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] hover:bg-white"
+              className="h-12 rounded-sm border border-[#FCFBF8] bg-[#FCFBF8] px-8 font-serif text-[15px] font-medium tracking-tight text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] transition-all hover:bg-white active:scale-[0.98] sm:min-w-[180px]"
             >
               <Link to="/signup">{t("cta.startFree")}</Link>
             </Button>
@@ -879,7 +880,7 @@ export function FinalCTA() {
               asChild
               size="lg"
               variant="ghost"
-              className="rounded-full px-6 text-[#F5F0E4]/75 hover:bg-white/5 hover:text-white"
+              className="h-12 rounded-sm border border-[#F5F0E4]/25 px-6 font-serif text-[15px] font-medium tracking-tight text-[#F5F0E4]/80 transition-all hover:bg-white/5 hover:text-white active:scale-[0.98] sm:min-w-[180px]"
             >
               <Link to="/today">{t("cta.exploreToday")}</Link>
             </Button>
