@@ -725,20 +725,20 @@ export function WordSearch({
       {!compact && wordsPanel(true)}
 
       {compact && (
-        <div className="flex min-h-0 flex-none flex-col gap-2 pb-2">
-          <div className="flex items-center gap-2 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 text-[10px] uppercase tracking-wider">
-            <span className="text-muted-foreground">{t("wordsearch.words")}</span>
-            <div className="h-1 flex-1 overflow-hidden rounded-full bg-secondary">
+        <div className="flex w-full min-w-0 flex-none flex-col gap-2 overflow-visible pb-2">
+          <div className="flex w-full min-w-0 items-center gap-2 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 text-[10px] uppercase tracking-wider">
+            <span className="shrink-0 text-muted-foreground">{t("wordsearch.words")}</span>
+            <div className="h-1 min-w-6 flex-1 overflow-hidden rounded-full bg-secondary">
               <div
                 className="h-full rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
               />
             </div>
-            <span className="font-medium tabular-nums">
+            <span className="shrink-0 font-medium tabular-nums">
               {found.length}/{words.length}
             </span>
             {isComplete && (
-              <span className="inline-flex items-center gap-1 font-medium tabular-nums text-muted-foreground">
+              <span className="inline-flex shrink-0 items-center gap-1 font-medium tabular-nums text-muted-foreground">
                 <Timer className="h-3 w-3" />
                 {completedTime}
               </span>
@@ -775,7 +775,7 @@ export function WordSearch({
             </button>
           </div>
           <ul
-            className="grid grid-cols-3 gap-1.5"
+            className="grid w-full grid-cols-[repeat(auto-fill,minmax(84px,1fr))] gap-1.5"
             aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
           >
             {puzzle.words.map(({ display: w, normalized }) => {
