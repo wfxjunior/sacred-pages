@@ -28,6 +28,17 @@ function useReducedMotion() {
   return reduced;
 }
 
+/** Turns the session id into a layout seed so each session lays words out anew. */
+function seedFromSession(sessionKey?: string): number {
+  if (!sessionKey) return 0;
+  let h = 2166136261;
+  for (let i = 0; i < sessionKey.length; i += 1) {
+    h ^= sessionKey.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (Math.abs(h) % 1_000_003) + 1;
+}
+
 export function WordSearch({
   words,
   size = 12,
@@ -51,8 +62,10 @@ export function WordSearch({
   // every device and across re-renders. `words` is a new array identity on each
   // parent render, so the memo keys on its content rather than the array.
   const wordsKey = words.join(" ");
-  // A shuffle asks the engine for a different layout of the same words.
-  const [shuffleNonce, setShuffleNonce] = useState(0);
+  // A shuffle asks the engine for a different layout of the same words. The
+  // starting seed is derived from the session, so a regenerated puzzle never
+  // places the same word in the same cell as the previous one.
+  const [shuffleNonce, setShuffleNonce] = useState(() => seedFromSession(sessionKey));
   const puzzle = useMemo(
     () => buildRenderablePuzzle({ words, size, ...(shuffleNonce ? { seed: shuffleNonce } : {}) }),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed by content, not identity
