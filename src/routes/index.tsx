@@ -96,7 +96,9 @@ function HeroDevotional() {
           </blockquote>
         </article>
 
-        <div className="mt-4 shrink-0 border-t border-dashed border-[#D9D3C2] pt-3">
+        {/* On the square spread the left page already lists the words, so this
+            legend only shows where there is vertical room (stacked layout). */}
+        <div className="mt-4 shrink-0 border-t border-dashed border-[#D9D3C2] pt-3 lg:hidden">
           <p className="font-['Crimson_Pro',serif] text-[10.5px] font-semibold uppercase tracking-[0.28em] text-[#2B2B2B]/60 sm:text-[11.5px]">
             {t("hero.dev.wordsTitle")}
           </p>
