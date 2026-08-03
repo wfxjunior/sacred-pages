@@ -43,6 +43,7 @@ export function WordSearch({
   words,
   size = 12,
   fullBleed = false,
+  stacked = false,
   journeyLabel,
   onShuffleWords,
   onComplete,
@@ -51,6 +52,8 @@ export function WordSearch({
   words: string[];
   size?: number;
   fullBleed?: boolean;
+  /** Desktop reading layout: large square grid with the words as chips beneath it. */
+  stacked?: boolean;
   /** Title of the journey these words come from, so records group per theme. */
   journeyLabel?: string;
   /** Asked on shuffle so the parent can draw a fresh set of words, not just a new layout. */
