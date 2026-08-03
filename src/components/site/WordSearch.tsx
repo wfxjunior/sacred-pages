@@ -527,7 +527,7 @@ export function WordSearch({
                   isCompact
                     ? "text-[11px] xs:text-[13px] sm:text-[15px]"
                     : stacked && mode === "normal"
-                      ? "text-[15px] sm:text-[16px] lg:text-[15px] xl:text-[19px]"
+                      ? "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
                       : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
