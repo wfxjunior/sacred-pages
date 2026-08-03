@@ -1012,7 +1012,11 @@ export function WordSearch({
       <div className="flex min-h-0 w-full flex-1 gap-5">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           <div className="flex items-center justify-end">{gridEdgeActions}</div>
-          <div className="min-h-0 w-full flex-1">{renderGrid(gridRef, "normal")}</div>
+          <div className="flex min-h-0 w-full flex-1 justify-center">
+            <div className="w-full max-w-[min(100%,calc(100dvh-13rem))]">
+              {renderGrid(gridRef, "normal")}
+            </div>
+          </div>
         </div>
 
         <aside className="flex w-[200px] flex-none flex-col gap-3 self-stretch xl:w-[220px]">
