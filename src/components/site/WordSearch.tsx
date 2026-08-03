@@ -883,7 +883,7 @@ export function WordSearch({
       </div>
 
       {!compact && (
-        <div className="hidden lg:block lg:w-[280px] lg:flex-none">
+        <div className="hidden lg:block lg:w-[280px] lg:flex-none lg:self-start">
           {desktopWordsPanel(true)}
         </div>
       )}
