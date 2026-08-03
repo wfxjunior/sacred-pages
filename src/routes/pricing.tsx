@@ -296,10 +296,6 @@ function Pricing() {
                 Recommended
               </span>
               <div className="flex items-center gap-2">
-                <Sparkles
-                  className="h-4 w-4"
-                  style={{ color: "var(--brand)" }}
-                />
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
                   Premium
                 </p>
