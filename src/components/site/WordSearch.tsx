@@ -837,7 +837,7 @@ export function WordSearch({
   );
 
   return (
-    <div className={`relative flex flex-col lg:flex-row lg:gap-5 ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6 lg:space-y-0"}`}>
+    <div className={`relative flex w-full min-w-0 flex-col lg:flex-row lg:gap-5 ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6 lg:space-y-0"}`}>
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
