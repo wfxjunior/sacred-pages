@@ -524,7 +524,11 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square rounded-sm font-serif font-medium uppercase tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  isCompact ? "text-[11px] xs:text-[13px] sm:text-[15px]" : "text-[13px] sm:text-[15px]"
+                  isCompact
+                    ? "text-[11px] xs:text-[13px] sm:text-[15px]"
+                    : stacked && mode === "normal"
+                      ? "text-[15px] sm:text-[17px] lg:text-[19px]"
+                      : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
