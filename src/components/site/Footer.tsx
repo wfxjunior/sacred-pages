@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { LumenaLogo } from "./LumenaLogo";
+import { LanguageSelector } from "./LanguageSelector";
+import { DarkModeToggle } from "./DarkModeToggle";
 
 export function Footer() {
   const { t } = useI18n();
@@ -45,8 +47,15 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border/60">
-        <div className="mx-auto max-w-7xl px-5 py-5 text-xs text-muted-foreground sm:px-6">
-          © {new Date().getFullYear()} {t("brand.name")}. {t("footer.rights")}
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <span>
+            © {new Date().getFullYear()} {t("brand.name")}. {t("footer.rights")}
+          </span>
+          {/* Preferences live here, out of the hero's way. */}
+          <div className="-ml-2 flex items-center gap-1 sm:ml-0">
+            <LanguageSelector variant="default" />
+            <DarkModeToggle variant="default" />
+          </div>
         </div>
       </div>
     </footer>
