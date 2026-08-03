@@ -409,21 +409,21 @@
 
 /* Journey scope — warmer, calmer, gold accents. Applied on AppShell. */
 .journey-warm {
-  --background: #F9F7F2;       /* warm gray */
+  --background: #FDFCF9;       /* light warm ivory */
   --card: #FFFFFF;
-  --secondary: #EDEAE2;
-  --muted: #EDEAE2;
+  --secondary: #F3F1EA;
+  --muted: #F3F1EA;
   --muted-foreground: #6B665C;
   --accent: #EFE7D3;
   --accent-foreground: #6B4E14;
-  --border: #E4E0D6;
-  --input: #E4E0D6;
+  --border: #E8E5DC;
+  --input: #E8E5DC;
   --primary: #C89F4F;          /* warm gold primary inside journey */
   --primary-foreground: #1B1A17;
   --ring: #C89F4F;
-  --sidebar: #F8F6F0;
-  --sidebar-accent: #EDEAE2;
-  --sidebar-border: #E4E0D6;
+  --sidebar: #FBFAF6;
+  --sidebar-accent: #F3F1EA;
+  --sidebar-border: #E8E5DC;
   --sidebar-primary: #C89F4F;
   --sidebar-ring: #C89F4F;
   --brand: #C89F4F;
