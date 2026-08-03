@@ -282,24 +282,9 @@ function Landing() {
               </div>
             </div>
 
-            {/* Open magazine spread — the product, kept above the fold */}
+            {/* Open magazine spread — the product, visible above the fold */}
             <div className="relative w-full lg:col-span-7">
-              {/*
-                The spread is taller than a viewport. On desktop we clip it and
-                fade the cut so it reads as a page continuing below the fold
-                rather than a component that got chopped.
-              */}
-              <div className="relative lg:max-h-[70vh] lg:overflow-hidden">
-                <MagazineSpread />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-[#FCFBF8] to-transparent lg:block"
-                />
-              </div>
-              {/*
-                No badge over the spread: the spread already shows a devotional
-                next to a word search, so a label restating it only adds noise.
-              */}
+              <MagazineSpread />
             </div>
           </div>
         </div>
