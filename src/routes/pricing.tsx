@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Check, Minus, Sparkles, Heart, Users, ArrowRight } from "lucide-react";
+import { Check, Minus, Heart, Users, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/pricing")({
