@@ -61,7 +61,7 @@ function HeroDevotional() {
   const restBody = bodyText.slice(1);
   return (
     <aside className="relative flex h-full w-full flex-col overflow-hidden bg-[#F9F7F2] text-left">
-      <div className="flex flex-1 flex-col px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-10 lg:pb-8 lg:pt-8">
+      <div className="flex min-h-0 flex-1 flex-col px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-8 lg:pb-6 lg:pt-6">
         <div className="flex items-center justify-between border-b border-[#2B2B2B]/10 pb-3 sm:pb-4">
           <span className="font-['Crimson_Pro',serif] text-[10px] uppercase tracking-[0.18em] text-[#2B2B2B]/40 sm:text-xs">
             {t("hero.dev.volume")}
@@ -71,15 +71,15 @@ function HeroDevotional() {
           </span>
         </div>
 
-        <article className="mt-5 flex-1">
-          <h3 className="font-['Playfair_Display',serif] text-[24px] font-bold leading-[1.05] tracking-[-0.01em] text-[#2B2B2B] sm:text-[28px] lg:text-[34px]">
+        <article className="mt-4 min-h-0 flex-1">
+          <h3 className="font-['Playfair_Display',serif] text-[24px] font-bold leading-[1.05] tracking-[-0.01em] text-[#2B2B2B] sm:text-[28px] lg:text-[30px]">
             {t("hero.dev.title")}
           </h3>
           <div
             aria-hidden
             className="mt-3 h-[2px] w-10 bg-[#C89F4F]"
           />
-          <div className="mt-5 font-['Crimson_Pro',serif] text-[15px] leading-[1.55] text-[#2B2B2B]/85 sm:text-[16px]">
+          <div className="mt-4 font-['Crimson_Pro',serif] text-[15px] leading-[1.5] text-[#2B2B2B]/85 sm:text-[15.5px]">
             <p>
               <span className="float-left mr-2 mt-1 font-['Playfair_Display',serif] text-[44px] font-semibold leading-[0.82] text-[#78866B] sm:text-[50px]">
                 {firstLetter}
@@ -88,7 +88,7 @@ function HeroDevotional() {
             </p>
           </div>
 
-          <blockquote className="mt-6 border-y border-[#C89F4F]/20 py-4 font-['Crimson_Pro',serif] text-base italic leading-snug text-[#78866B] sm:text-lg">
+          <blockquote className="mt-5 border-y border-[#C89F4F]/20 py-3 font-['Crimson_Pro',serif] text-base italic leading-snug text-[#78866B] sm:text-[17px]">
             &ldquo;{t("hero.dev.verse")}&rdquo;
             <footer className="mt-2 block font-['Crimson_Pro',serif] text-[10px] not-italic uppercase tracking-[0.2em] text-[#C89F4F]">
               {t("hero.dev.ref")}
@@ -96,15 +96,17 @@ function HeroDevotional() {
           </blockquote>
         </article>
 
-        <div className="mt-5 border-t border-dashed border-[#D9D3C2] pt-4">
+        {/* On the square spread the left page already lists the words, so this
+            legend only shows where there is vertical room (stacked layout). */}
+        <div className="mt-4 shrink-0 border-t border-dashed border-[#D9D3C2] pt-3 lg:hidden">
           <p className="font-['Crimson_Pro',serif] text-[10.5px] font-semibold uppercase tracking-[0.28em] text-[#2B2B2B]/60 sm:text-[11.5px]">
             {t("hero.dev.wordsTitle")}
           </p>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-2">
+          <ul className="mt-2.5 grid gap-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-1.5">
             {words.map((w) => (
               <li
                 key={w.key}
-                className="flex gap-2.5 font-['Crimson_Pro',serif] text-[13px] leading-[1.45] text-[#2D2926]"
+                className="flex gap-2.5 font-['Crimson_Pro',serif] text-[12.5px] leading-[1.4] text-[#2D2926]"
               >
                 <span
                   aria-hidden
@@ -114,7 +116,7 @@ function HeroDevotional() {
                     boxShadow: `0 0 0 3px ${w.color}22`,
                   }}
                 />
-                <span>{t(`hero.dev.word.${w.key}`)}</span>
+                <span className="line-clamp-2">{t(`hero.dev.word.${w.key}`)}</span>
               </li>
             ))}
           </ul>
@@ -130,7 +132,7 @@ function HeroDevotionalPage() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-[820px]">
+    <div className="relative mx-auto w-full max-w-[760px]">
       {/* Realistic drop shadow beneath the closed cover */}
       <div
         aria-hidden
@@ -139,7 +141,7 @@ function MagazineSpread() {
 
       {/* Leather cover underlay */}
       <div
-        className="relative overflow-hidden rounded-lg bg-[#78866B] p-3 shadow-2xl sm:rounded-xl sm:p-4"
+        className="relative overflow-hidden rounded-lg bg-[#78866B] p-3 shadow-2xl sm:rounded-xl sm:p-4 lg:aspect-square"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)",
@@ -173,7 +175,7 @@ function MagazineSpread() {
         />
 
         {/* Open spread */}
-        <div className="relative flex flex-col overflow-hidden rounded-sm bg-[#F9F7F2] lg:flex-row">
+        <div className="relative flex flex-col overflow-hidden rounded-sm bg-[#F9F7F2] lg:h-full lg:flex-row">
           {/* Paper grain texture */}
           <div
             aria-hidden
@@ -185,7 +187,7 @@ function MagazineSpread() {
           />
 
           {/* Left page */}
-          <div className="relative flex flex-1 flex-col justify-center border-b border-black/[0.08] lg:border-b-0 lg:border-r">
+          <div className="relative flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-b border-black/[0.08] lg:min-h-0 lg:border-b-0 lg:border-r">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-[#1F1D1B]/[0.09] to-transparent lg:block"
@@ -207,7 +209,7 @@ function MagazineSpread() {
           </div>
 
           {/* Right page */}
-          <div className="relative flex flex-1 flex-col justify-center">
+          <div className="relative flex min-w-0 flex-1 flex-col justify-center overflow-hidden lg:min-h-0">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-[#1F1D1B]/[0.09] to-transparent lg:block"
