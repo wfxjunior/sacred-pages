@@ -143,11 +143,13 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <LanguageSelector variant="default" />
-          <NotificationsMenu variant="default" />
-          <DarkModeToggle variant="default" />
-          <FullscreenToggle />
+        {/*
+          The marketing header stays deliberately bare: navigation, one quiet
+          sign-in link and one primary action. Language, theme, notifications
+          and fullscreen belong to the reading app (AppShell) and the footer —
+          in the hero they only compete with the promise.
+        */}
+        <div className="hidden items-center gap-4 lg:flex">
           <Link
             to="/signin"
             className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
