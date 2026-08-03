@@ -126,6 +126,39 @@
   animation: lj-moment-in 0.7s ease-out both;
 }
 
+/* Soft pulse for the "Now" indicator and the map dots. It is slow enough to
+   feel like a resting heartbeat, not a notification. */
+@keyframes lj-pulse-soft {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.lj-pulse-soft {
+  animation: lj-pulse-soft 2.8s ease-in-out infinite;
+}
+
+@keyframes lj-map-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.28;
+  }
+  50% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+.lj-map-pulse {
+  animation: lj-map-pulse 2.4s ease-in-out infinite;
+}
+
+
 /* Each new journal entry arrives as a fresh page rather than swapping in place. */
 @keyframes lj-entry-in {
   0% {
