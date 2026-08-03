@@ -750,7 +750,7 @@ export function WordSearch({
         </div>
 
         <ul
-          className="grid flex-1 grid-cols-2 content-start gap-x-2 gap-y-1 overflow-y-auto pr-1"
+          className="flex flex-1 flex-col content-start gap-1 overflow-y-auto pr-1"
           aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
         >
           {puzzle.words.map(({ display: w, normalized }) => {
@@ -760,8 +760,10 @@ export function WordSearch({
               <li
                 key={w}
                 aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                className={`flex min-h-7 min-w-0 items-center gap-1.5 rounded-md px-1.5 py-1 text-[11px] font-medium uppercase tracking-wider transition ${
-                  done ? "line-through text-muted-foreground" : "text-foreground"
+                className={`flex min-h-8 min-w-0 items-center gap-2 rounded-md border px-2.5 py-1.5 text-xs font-medium uppercase tracking-[0.12em] transition ${
+                  done
+                    ? "border-transparent bg-secondary/50 text-muted-foreground line-through"
+                    : "border-border/70 bg-background/60 text-foreground"
                 } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                 style={{
                   textDecorationColor: done ? color : undefined,
@@ -782,22 +784,22 @@ export function WordSearch({
           })}
         </ul>
 
-        <div className="mt-3 flex flex-wrap gap-2 border-t border-border/60 pt-3">
+        <div className="mt-3 grid grid-cols-3 gap-2 border-t border-border/60 pt-3">
           <button
             type="button"
             onClick={shuffleGrid}
             title={t("wordsearch.shuffleConfirm")}
-            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            aria-label={t("wordsearch.shuffle")}
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
             <Shuffle className="h-3.5 w-3.5" />
-            <span className="hidden xl:inline">{t("wordsearch.shuffle")}</span>
           </button>
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
             aria-pressed={expanded}
             title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
-            className={expandButtonClass}
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
             {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
           </button>
@@ -805,16 +807,19 @@ export function WordSearch({
             type="button"
             onClick={() => setRevealed((v) => !v)}
             aria-pressed={revealed}
-            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+            aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
             {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-            <span className="hidden xl:inline">{revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}</span>
           </button>
         </div>
 
-        <div className="mt-3 flex items-center gap-2 border-t border-border/60 pt-3">
-          <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
-          <div className="flex items-center gap-1.5" role="radiogroup" aria-label={t("journey.selectionColor")}>
+        <div className="mt-3 border-t border-border/60 pt-3">
+          <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            {t("journey.selectionColor")}
+          </span>
+          <div className="mt-2 flex items-center gap-2" role="radiogroup" aria-label={t("journey.selectionColor")}>
             {SELECTION_COLORS.map((c) => (
               <button
                 key={c.key}
