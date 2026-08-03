@@ -103,7 +103,7 @@ function Today() {
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
             <JourneyThemePicker />
           <div className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card p-1">
@@ -124,8 +124,15 @@ function Today() {
               <CheckCircle2 className="h-4 w-4" />
             </Button>
             <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
-            <Button onClick={regenerate} variant="ghost" size="sm" className="h-8 rounded-full px-3 text-xs">
-              <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> {t("wordsearch.regenerate")}
+            <Button
+              onClick={regenerate}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full"
+              title={t("wordsearch.regenerate")}
+              aria-label={t("wordsearch.regenerate")}
+            >
+              <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
           </div>
