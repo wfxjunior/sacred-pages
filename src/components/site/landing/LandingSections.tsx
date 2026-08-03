@@ -822,8 +822,27 @@ export function FAQ() {
 
 export function FinalCTA() {
   const { t } = useI18n();
+  const ref = React.useRef<HTMLElement>(null);
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="px-5 pb-24 pt-8 sm:px-6 md:pb-32">
+    <section ref={ref} className="px-5 pb-24 pt-8 sm:px-6 md:pb-32">
       <div
         className="relative mx-auto max-w-6xl overflow-hidden rounded-[1.5rem] p-12 text-center text-[#F5F0E4] md:rounded-[2rem] md:p-24"
         style={{
@@ -845,8 +864,28 @@ export function FinalCTA() {
         {/* Warm daylight highlight */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[70%] -translate-x-1/2 rounded-full bg-[#C89F4F]/[0.10] blur-[80px]"
+          className="final-glow pointer-events-none absolute -top-24 left-1/2 h-64 w-[70%] -translate-x-1/2 rounded-full bg-[#C89F4F]/[0.12] blur-[80px]"
         />
+        {/* Pulsing outer ring */}
+        <div
+          aria-hidden
+          className="final-pulse-ring pointer-events-none absolute inset-0 rounded-[1.5rem] border border-[#C89F4F]/20 md:rounded-[2rem]"
+        />
+        {/* Floating golden dust */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <span
+              key={i}
+              className="final-dust absolute block h-1 w-1 rounded-full bg-[#C89F4F]/60 blur-[1px]"
+              style={{
+                left: `${18 + i * 14}%`,
+                bottom: `${20 + (i % 3) * 18}%`,
+                animationDelay: `${i * 1.2}s`,
+                animationDuration: `${8 + i * 1.5}s`,
+              }}
+            />
+          ))}
+        </div>
         {/* Sewn stitch border */}
         <svg
           aria-hidden
@@ -858,21 +897,34 @@ export function FinalCTA() {
             strokeWidth="0.15" strokeDasharray="0.9 0.9"
             vectorEffect="non-scaling-stroke" />
         </svg>
-        <div className="relative z-10">
-          <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#C89F4F]/80">
+        <div className={`relative z-10 ${visible ? "final-fade-up" : "opacity-0"}`}>
+          <p
+            className="mb-4 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#C89F4F]/80"
+            style={{ animationDelay: "100ms" }}
+          >
             — Fin —
           </p>
-          <h2 className="font-serif text-3xl leading-tight md:text-5xl">
+          <h2
+            className="font-serif text-3xl leading-tight md:text-5xl"
+            style={{ animationDelay: "200ms" }}
+          >
             {t("final.title")}
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[#F5F0E4]/60 md:text-lg">
+          <p
+            className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[#F5F0E4]/60 md:text-lg"
+            style={{ animationDelay: "300ms" }}
+          >
             {t("final.sub")}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button
               asChild
               size="lg"
-              className="h-12 rounded-sm border border-[#FCFBF8] bg-[#FCFBF8] px-8 font-serif text-[15px] font-medium tracking-tight text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] transition-all hover:bg-white active:scale-[0.98] sm:min-w-[180px]"
+              className="final-shimmer group relative h-12 overflow-hidden rounded-sm border border-[#FCFBF8] bg-[#FCFBF8] px-8 font-serif text-[15px] font-medium tracking-tight text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] transition-all hover:bg-white hover:shadow-[0_14px_36px_-12px_rgba(0,0,0,0.6)] active:scale-[0.98] sm:min-w-[180px]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #FCFBF8 0%, #FFFFFF 25%, #FCFBF8 50%, #FFFFFF 75%, #FCFBF8 100%)",
+              }}
             >
               <Link to="/signup">{t("cta.startFree")}</Link>
             </Button>
@@ -880,7 +932,7 @@ export function FinalCTA() {
               asChild
               size="lg"
               variant="ghost"
-              className="h-12 rounded-sm border border-[#F5F0E4]/25 px-6 font-serif text-[15px] font-medium tracking-tight text-[#F5F0E4]/80 transition-all hover:bg-white/5 hover:text-white active:scale-[0.98] sm:min-w-[180px]"
+              className="h-12 rounded-sm border border-[#F5F0E4]/25 px-6 font-serif text-[15px] font-medium tracking-tight text-[#F5F0E4]/80 transition-all hover:border-[#F5F0E4]/50 hover:bg-white/5 hover:text-white hover:shadow-[0_10px_28px_-10px_rgba(0,0,0,0.3)] active:scale-[0.98] sm:min-w-[180px]"
             >
               <Link to="/today">{t("cta.exploreToday")}</Link>
             </Button>
