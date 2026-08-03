@@ -394,6 +394,24 @@ function JourneyTabsContent() {
   const { t } = useI18n();
   return (
     <Tabs defaultValue="scripture" className="w-full">
+      {/* The day's theme, set in a handwritten hand — the one script note in
+          the interface, as on the title line of a printed devotional page. */}
+      <header className="px-5 pt-5 text-center md:px-8 md:pt-7">
+        <p
+          className="text-[10px] font-semibold uppercase tracking-[0.28em]"
+          style={{ color: "var(--walnut)" }}
+        >
+          {TODAY.reference}
+        </p>
+        <h2 className="font-hand mt-1 text-[34px] text-foreground md:text-[42px]">
+          {TODAY.title}
+        </h2>
+        <span
+          aria-hidden
+          className="mx-auto mt-2 block h-px w-10"
+          style={{ background: "var(--gold)" }}
+        />
+      </header>
       <TabsList className="mt-4 grid w-full grid-cols-4 rounded-none border-b border-border bg-transparent p-0">
         {[
           ["scripture", t("journey.scripture")],
