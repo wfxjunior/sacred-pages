@@ -661,7 +661,7 @@ type Feature = {
   title: string;
   description: string;
   benefits: string[];
-  badge: Badge;
+  badge?: Badge;
   Preview: React.FC;
 };
 
