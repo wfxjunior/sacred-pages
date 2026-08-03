@@ -62,15 +62,15 @@ export function LivingJournalSection() {
 
         <div
           ref={ref}
-          className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12"
+          className="mt-14 grid items-stretch gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12"
         >
-          <div>
+          <div className="h-full">
             {sequence && (
               // Keyed by entry so each new page animates in instead of the text
               // snapping over the previous one.
               <div
                 key={sequence.entry.id}
-                className={reducedMotion ? undefined : "lj-entry-in"}
+                className={`h-full ${reducedMotion ? "" : "lj-entry-in"}`}
               >
                 <JournalEntryCard
                   entry={sequence.entry}
