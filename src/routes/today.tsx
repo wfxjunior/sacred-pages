@@ -613,6 +613,36 @@ function HelpMenu() {
   );
 }
 
+function CompletionSeal() {
+  return (
+    <div className="mx-auto mb-8 grid h-24 w-24 place-items-center" aria-hidden>
+      <div className="relative grid h-24 w-24 place-items-center">
+        <span
+          className="absolute inset-0 rounded-full"
+          style={{ background: "color-mix(in oklab, var(--gold) 10%, transparent)" }}
+        />
+        <span
+          className="absolute inset-[6px] rounded-full border"
+          style={{ borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)" }}
+        />
+        <span
+          className="absolute inset-[13px] rounded-full border"
+          style={{
+            borderColor: "color-mix(in oklab, var(--gold) 70%, transparent)",
+            background:
+              "linear-gradient(145deg, color-mix(in oklab, var(--gold) 22%, transparent), transparent 65%)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+          }}
+        />
+        <svg viewBox="0 0 24 24" className="relative h-8 w-8" fill="none" strokeWidth={1.6}
+          strokeLinecap="round" strokeLinejoin="round" stroke="var(--walnut)">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => void }) {
   const TODAY = useTodayContent();
   const { t } = useI18n();
