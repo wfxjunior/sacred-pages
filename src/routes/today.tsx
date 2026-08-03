@@ -88,24 +88,24 @@ function Today() {
   if (loading) return <TodaySkeleton />;
 
   return (
-    <AppShell mainClassName="p-0 md:px-8 md:py-6">
+    <AppShell mainClassName="p-0 md:px-10 md:py-6">
       {/* Desktop layout */}
-      <div className="mx-auto hidden max-w-6xl md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-4 md:overflow-hidden">
-        <div className="flex flex-none flex-wrap items-start justify-between gap-x-6 gap-y-3">
+      <div className="mx-auto hidden w-full max-w-[1360px] md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-6 md:overflow-hidden">
+        {/* Header — title, reference, difficulty and reading time only (max 96px) */}
+        <header className="flex max-h-24 flex-none items-center justify-between gap-8">
           <div className="min-w-0">
-            <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+            <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
             </p>
-            <h1 className="mt-0.5 font-serif text-2xl md:text-3xl">{TODAY.title}</h1>
+            <h1 className="mt-1 truncate font-serif text-2xl leading-tight lg:text-[28px]">{TODAY.title}</h1>
             <p className="mt-1 text-xs text-muted-foreground">
               {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
-              <JourneyThemePicker />
-            </div>
           </div>
+          <div className="flex shrink-0 items-center gap-3">
+            <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
+            <JourneyThemePicker />
           <div className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card p-1">
             <HelpMenu />
             <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
@@ -128,21 +128,34 @@ function Today() {
               <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> {t("wordsearch.regenerate")}
             </Button>
           </div>
+          </div>
+        </header>
+
+        {/* Reading spread — puzzle as the hero, scripture panel beside it */}
+        <div className="grid min-h-0 flex-1 gap-8 lg:grid-cols-[minmax(0,1fr)_410px]">
+          <div className="flex min-h-0 min-w-0 justify-center overflow-y-auto">
+            <WordSearch
+              key={`${puzzleSession}:${difficulty}`}
+              words={TODAY.words}
+              size={sizes[difficulty]}
+              stacked
+              journeyLabel={TODAY.title}
+              onShuffleWords={regenerate}
+              onComplete={() => setComplete(true)}
+              sessionKey={puzzleSession}
+            />
+          </div>
+
+          <aside className="hidden min-h-0 flex-col overflow-hidden rounded-xl border border-border bg-card lg:flex">
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <JourneyTabsContent />
+            </div>
+          </aside>
         </div>
 
-        <div className="flex min-h-0 w-full flex-1 overflow-y-auto">
-          <WordSearch
-            key={`${puzzleSession}:${difficulty}`}
-            words={TODAY.words}
-            size={sizes[difficulty]}
-            journeyLabel={TODAY.title}
-            onShuffleWords={regenerate}
-            onComplete={() => setComplete(true)}
-            sessionKey={puzzleSession}
-          />
+        <div className="flex-none lg:hidden">
+          <DevotionalDock />
         </div>
-
-        <DevotionalDock />
       </div>
 
       {/* Mobile full-bleed layout */}
