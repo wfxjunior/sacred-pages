@@ -837,7 +837,7 @@ export function WordSearch({
   );
 
   return (
-    <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
+    <div className={`relative flex flex-col lg:flex-row lg:gap-5 ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6 lg:space-y-0"}`}>
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
@@ -868,9 +868,20 @@ export function WordSearch({
         </div>
       )}
 
-      {renderGrid(gridRef, "normal")}
+      <div className="mx-auto w-full max-w-[min(460px,58vh)] lg:mx-0 lg:max-w-[min(400px,52vh)]">
+        {renderGrid(gridRef, "normal")}
+      </div>
 
-      {!compact && wordsPanel(true)}
+      {!compact && (
+        <div className="hidden lg:block lg:w-60 lg:flex-none">
+          {desktopWordsPanel(true)}
+        </div>
+      )}
+      {!compact && (
+        <div className="lg:hidden">
+          {wordsPanel(true)}
+        </div>
+      )}
 
       {compact && (
         <div className="flex w-full min-w-0 flex-none flex-col gap-2 overflow-visible pb-2">
