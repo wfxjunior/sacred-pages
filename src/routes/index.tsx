@@ -270,11 +270,10 @@ function Landing() {
                   className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-[#FCFBF8] to-transparent lg:block"
                 />
               </div>
-              <div className="pointer-events-none absolute -bottom-4 left-1/2 hidden -translate-x-1/2 bg-[#B88A3B] px-6 py-2 shadow-lg sm:block">
-                <p className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-[#FCFBF8]">
-                  {t("hero.spreadBadge")}
-                </p>
-              </div>
+              {/*
+                No badge over the spread: the spread already shows a devotional
+                next to a word search, so a label restating it only adds noise.
+              */}
             </div>
           </div>
         </div>
