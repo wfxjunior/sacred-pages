@@ -43,6 +43,7 @@ export function WordSearch({
   words,
   size = 12,
   fullBleed = false,
+  stacked = false,
   journeyLabel,
   onShuffleWords,
   onComplete,
@@ -51,6 +52,8 @@ export function WordSearch({
   words: string[];
   size?: number;
   fullBleed?: boolean;
+  /** Desktop reading layout: large square grid with the words as chips beneath it. */
+  stacked?: boolean;
   /** Title of the journey these words come from, so records group per theme. */
   journeyLabel?: string;
   /** Asked on shuffle so the parent can draw a fresh set of words, not just a new layout. */
@@ -521,7 +524,11 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square rounded-sm font-serif font-medium uppercase tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  isCompact ? "text-[11px] xs:text-[13px] sm:text-[15px]" : "text-[13px] sm:text-[15px]"
+                  isCompact
+                    ? "text-[11px] xs:text-[13px] sm:text-[15px]"
+                    : stacked && mode === "normal"
+                      ? "text-[15px] sm:text-[17px] lg:text-[19px]"
+                      : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
@@ -924,8 +931,151 @@ export function WordSearch({
     </div>
   );
 
+  const toolButtonClass =
+    "inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
+  /** Reading layout: the grid is the hero, the words wrap as chips beneath it. */
+  const stackedLayout = (
+    <div className="flex h-full w-full min-w-0 flex-col items-center gap-6">
+      {toast && (
+        <div
+          className="absolute left-1/2 top-0 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium shadow-lg"
+          style={{
+            background: "var(--ink)",
+            color: "var(--ivory)",
+            animation: "toast-in 0.25s ease-out",
+            boxShadow: "0 12px 32px -10px rgba(43,43,43,0.35)",
+          }}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.all ? <Trophy className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
+          {toast.all
+            ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
+            : `${toast.word} — ${t("wordsearch.found")}`}
+        </div>
+      )}
+
+      <div className="w-full max-w-[min(650px,calc(100dvh-24rem))] flex-none">
+        {renderGrid(gridRef, "normal")}
+      </div>
+
+      <div className="w-full max-w-[650px] space-y-4">
+        <div className="flex items-center gap-4">
+          <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {t("wordsearch.wordsToFind")}
+          </p>
+          <div className="h-1 flex-1 overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+            />
+          </div>
+          <span className="shrink-0 text-xs font-medium tabular-nums text-muted-foreground">
+            {found.length}/{words.length}
+          </span>
+          {isComplete && (
+            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium tabular-nums text-muted-foreground">
+              <Timer className="h-3.5 w-3.5" />
+              {completedTime}
+            </span>
+          )}
+        </div>
+
+        <ul
+          className="flex flex-wrap gap-2"
+          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+        >
+          {puzzle.words.map(({ display: w, normalized }) => {
+            const done = found.includes(normalized);
+            const color = wordColor.get(normalized);
+            return (
+              <li
+                key={w}
+                aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
+                className={`inline-flex min-h-9 items-center gap-2 rounded-full border px-4 py-1.5 font-serif text-sm uppercase tracking-[0.14em] transition ${
+                  done
+                    ? "border-transparent line-through"
+                    : "border-border/80 bg-background/70 text-foreground"
+                } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                style={{
+                  color: done ? "var(--ink)" : undefined,
+                  background: done ? `color-mix(in oklab, ${color} 16%, transparent)` : undefined,
+                  textDecorationColor: done ? color : undefined,
+                }}
+              >
+                {done ? (
+                  <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="h-2 w-2 shrink-0 rounded-full"
+                    style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
+                  />
+                )}
+                {w}
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="flex flex-wrap items-center gap-2 border-t border-border/60 pt-4">
+          <button type="button" onClick={shuffleGrid} title={t("wordsearch.shuffleConfirm")} className={toolButtonClass}>
+            <Shuffle className="h-3.5 w-3.5" />
+            {t("wordsearch.shuffle")}
+          </button>
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-pressed={expanded}
+            className={toolButtonClass}
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+            {t("wordsearch.expand")}
+          </button>
+          <button
+            type="button"
+            onClick={() => setRevealed((v) => !v)}
+            aria-pressed={revealed}
+            className={`${toolButtonClass} ${revealed ? "border-[color:var(--gold)] text-foreground" : ""}`}
+          >
+            {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+          </button>
+          <div
+            className="ml-auto flex items-center gap-1.5"
+            role="radiogroup"
+            aria-label={t("journey.selectionColor")}
+          >
+            {SELECTION_COLORS.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                role="radio"
+                aria-checked={colorKey === c.key}
+                onClick={() => setColorKey(c.key)}
+                aria-label={c.label}
+                className="h-5 w-5 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
+                style={{
+                  background: c.value,
+                  borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const useStacked = stacked && !compact;
+
   return (
-    <div className={`relative flex w-full min-w-0 flex-col lg:flex-row lg:gap-5 ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6 lg:space-y-0"}`}>
+    <div
+      className={`relative flex w-full min-w-0 flex-col ${
+        useStacked ? "h-full min-h-0" : "lg:flex-row lg:gap-5"
+      } ${fullBleed ? "h-full min-h-0 gap-2" : useStacked ? "" : "space-y-6 lg:space-y-0"}`}
+    >
       <p id="ws-instructions" className="sr-only">
         {t("wordsearch.instructions")}
       </p>
@@ -956,18 +1106,22 @@ export function WordSearch({
         </div>
       )}
 
-      <div className="mx-auto flex w-full max-w-[min(460px,58vh)] min-w-0 justify-center lg:mx-0 lg:max-w-none lg:flex-1">
-        <div className="w-full lg:max-w-[min(100%,calc(100dvh-13rem))]">
-          {renderGrid(gridRef, "normal")}
-        </div>
-      </div>
+      {useStacked && stackedLayout}
 
-      {!compact && (
+      {!useStacked && (
+        <div className="mx-auto flex w-full max-w-[min(460px,58vh)] min-w-0 justify-center lg:mx-0 lg:max-w-none lg:flex-1">
+          <div className="w-full lg:max-w-[min(100%,calc(100dvh-13rem))]">
+            {renderGrid(gridRef, "normal")}
+          </div>
+        </div>
+      )}
+
+      {!compact && !useStacked && (
         <div className="hidden lg:block lg:w-[280px] lg:flex-none lg:self-start">
           {desktopWordsPanel(true)}
         </div>
       )}
-      {!compact && (
+      {!compact && !useStacked && (
         <div className="lg:hidden">
           {wordsPanel(true)}
         </div>
