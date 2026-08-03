@@ -248,10 +248,6 @@ function Pricing() {
             {/* Free */}
             <div className="flex flex-col rounded-3xl border border-border/60 bg-card p-8 md:p-10">
               <div className="flex items-center gap-2">
-                <Heart
-                  className="h-4 w-4"
-                  style={{ color: "var(--sage)" }}
-                />
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--sage)" }}>
                   Free
                 </p>
