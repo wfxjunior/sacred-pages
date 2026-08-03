@@ -91,7 +91,7 @@ function Today() {
     <AppShell mainClassName="p-0 md:px-8 md:py-6">
       {/* Desktop layout */}
       <div className="mx-auto hidden max-w-6xl md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-4 md:overflow-hidden">
-        <div className="flex flex-none flex-wrap items-end justify-between gap-3">
+        <div className="flex flex-none flex-wrap items-start justify-between gap-x-6 gap-y-3">
           <div className="min-w-0">
             <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
@@ -101,21 +101,31 @@ function Today() {
               {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
+              <JourneyThemePicker />
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
-            <JourneyThemePicker />
+          <div className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card p-1">
             <HelpMenu />
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/collections">
-                <Library className="mr-1.5 h-4 w-4" /> {t("nav.collections")}
+            <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
+              <Link to="/collections" aria-label={t("nav.collections")}>
+                <Library className="h-4 w-4" />
               </Link>
             </Button>
-            <Button onClick={() => setComplete(true)} variant="outline" size="sm">
-              <CheckCircle2 className="mr-1.5 h-4 w-4" /> {t("complete.favorite")}
+            <Button
+              onClick={() => setComplete(true)}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full"
+              title={t("complete.favorite")}
+              aria-label={t("complete.favorite")}
+            >
+              <CheckCircle2 className="h-4 w-4" />
             </Button>
-            <Button onClick={regenerate} variant="outline" size="sm">
-              <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
+            <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
+            <Button onClick={regenerate} variant="ghost" size="sm" className="h-8 rounded-full px-3 text-xs">
+              <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> {t("wordsearch.regenerate")}
             </Button>
           </div>
         </div>
