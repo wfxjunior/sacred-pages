@@ -931,58 +931,6 @@ export function WordSearch({
     </div>
   );
 
-  /** Grid-edge icon actions — shuffle, focus mode and answers, no second button row. */
-  const gridEdgeActions = (
-    <div className="flex items-center gap-1.5">
-      <button
-        type="button"
-        onClick={shuffleGrid}
-        title={t("wordsearch.shuffleConfirm")}
-        aria-label={t("wordsearch.shuffle")}
-        className={compactIconButtonClass}
-      >
-        <Shuffle className="h-3.5 w-3.5" />
-      </button>
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        aria-pressed={expanded}
-        title={t("wordsearch.expand")}
-        aria-label={t("wordsearch.expand")}
-        className={compactIconButtonClass}
-      >
-        <Maximize2 className="h-3.5 w-3.5" />
-      </button>
-      <button
-        type="button"
-        onClick={() => setRevealed((v) => !v)}
-        aria-pressed={revealed}
-        title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-        aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-        className={`${compactIconButtonClass} ${revealed ? "border-[color:var(--gold)] text-foreground" : ""}`}
-      >
-        {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-      </button>
-      <span className="mx-1 h-5 w-px bg-border" aria-hidden />
-      <div className="flex items-center gap-1.5" role="radiogroup" aria-label={t("journey.selectionColor")}>
-        {SELECTION_COLORS.map((c) => (
-          <button
-            key={c.key}
-            type="button"
-            role="radio"
-            aria-checked={colorKey === c.key}
-            onClick={() => setColorKey(c.key)}
-            aria-label={c.label}
-            className="h-4 w-4 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
-            style={{
-              background: c.value,
-              borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  );
 
   /** Reading layout: the grid is the hero, the words sit in a calm rail beside it. */
   const stackedLayout = (
