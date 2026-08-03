@@ -931,9 +931,6 @@ export function WordSearch({
     </div>
   );
 
-  const toolButtonClass =
-    "inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
-
   /** Grid-edge icon actions — shuffle, focus mode and answers, no second button row. */
   const gridEdgeActions = (
     <div className="flex items-center gap-1.5">
