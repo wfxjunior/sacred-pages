@@ -154,7 +154,7 @@ function DevotionalPreview() {
         {["Read", "Reflect", "Pray"].map((s, i) => (
           <div
             key={s}
-            className="rounded-xl border border-border/60 bg-background/60 py-3 text-[11px] uppercase tracking-wider"
+            className="group cursor-pointer rounded-xl border border-border/60 bg-background/60 py-3 text-[11px] uppercase tracking-wider transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-background hover:shadow-md hover:border-border"
             style={{ color: i === 0 ? "var(--brand)" : "var(--muted-foreground)" }}
           >
             {s}
@@ -1185,9 +1185,9 @@ function FeaturesPage() {
             meaningful and consistent Scripture experience.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" variant="editorial" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
+            <Button asChild size="lg" variant="editorial" className="group h-12 px-6 text-[15px] sm:min-w-[180px]">
               <Link to="/signup">
-                Start Free <ArrowRight className="ml-1 h-4 w-4" />
+                Start Free <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="editorialOutline" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
