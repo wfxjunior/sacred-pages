@@ -723,7 +723,6 @@ const FEATURES: Feature[] = [
       "Real-life application",
       "Multiple languages",
     ],
-    badge: "Free",
     Preview: DevotionalPreview,
   },
   {
