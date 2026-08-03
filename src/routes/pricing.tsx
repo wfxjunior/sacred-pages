@@ -306,6 +306,11 @@ function Pricing() {
               </div>
               <p className="mt-5 font-serif text-2xl">Go deeper, together.</p>
               <p className="mt-3 font-serif text-5xl leading-none">
+                {cycle === "yearly" && (
+                  <span className="mr-3 align-middle font-serif text-2xl text-muted-foreground line-through">
+                    ${yearlyIfMonthly}
+                  </span>
+                )}
                 {premiumPrice}
                 <span className="ml-2 text-sm text-muted-foreground">
                   {premiumSuffix}
@@ -314,6 +319,26 @@ function Pricing() {
               <p className="mt-3 text-[13px] text-muted-foreground">
                 {premiumHint}
               </p>
+              {cycle === "yearly" && (
+                <div
+                  className="mt-4 flex items-center gap-3 rounded-2xl border px-4 py-3"
+                  style={{
+                    borderColor: "color-mix(in oklab, var(--sage) 40%, transparent)",
+                    background: "color-mix(in oklab, var(--sage) 10%, transparent)",
+                  }}
+                >
+                  <span
+                    className="rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white"
+                    style={{ background: "var(--sage)" }}
+                  >
+                    −{yearlyPercent}%
+                  </span>
+                  <p className="text-[13px] leading-snug">
+                    <span className="font-medium">You save ${yearlySavings} a year</span>
+                    <span className="text-muted-foreground"> — two months free, billed once.</span>
+                  </p>
+                </div>
+              )}
               <Button asChild variant="editorial" className="mt-8 h-11 w-full px-6 text-[15px]">
                 <Link to="/signup">
                   Start Premium <ArrowRight className="ml-1 h-4 w-4" />
