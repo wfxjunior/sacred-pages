@@ -525,6 +525,14 @@
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
   }
+
+  /* Handwritten accent — used for the day's devotional theme, as in a
+     printed devotional notebook. Decorative headings only, never body copy. */
+  .font-hand {
+    font-family: "Reenie Beanie", "Segoe Script", cursive;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+  }
 }
 
 /* Standalone / installed PWA — feel more like a native app */
