@@ -28,7 +28,7 @@ export function JournalEntryCard({
 
   return (
     <article
-      className="paper-texture lj-paper relative overflow-hidden rounded-2xl border border-[#E4E0D6] px-6 py-7 shadow-[0_18px_50px_-28px_rgba(43,43,43,0.28)] sm:px-9 sm:py-10 dark:border-border/60"
+      className="paper-texture lj-paper relative flex h-full min-h-[380px] flex-col overflow-hidden rounded-2xl border border-[#E4E0D6] px-6 py-7 shadow-[0_18px_50px_-28px_rgba(43,43,43,0.28)] sm:min-h-[460px] sm:px-9 sm:py-10 dark:border-border/60"
       aria-labelledby={`lj-entry-${entry.id}`}
     >
       {/* A single ruled margin line, as in a bound journal. Decorative only. */}
