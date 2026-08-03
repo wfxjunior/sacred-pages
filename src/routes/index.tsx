@@ -258,7 +258,18 @@ function Landing() {
 
             {/* Open magazine spread — the product, kept above the fold */}
             <div className="relative w-full lg:col-span-7">
-              <MagazineSpread />
+              {/*
+                The spread is taller than a viewport. On desktop we clip it and
+                fade the cut so it reads as a page continuing below the fold
+                rather than a component that got chopped.
+              */}
+              <div className="relative lg:max-h-[70vh] lg:overflow-hidden">
+                <MagazineSpread />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-[#FCFBF8] to-transparent lg:block"
+                />
+              </div>
               <div className="pointer-events-none absolute -bottom-4 left-1/2 hidden -translate-x-1/2 bg-[#B88A3B] px-6 py-2 shadow-lg sm:block">
                 <p className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-[#FCFBF8]">
                   {t("hero.spreadBadge")}
