@@ -130,7 +130,7 @@ function HeroDevotionalPage() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-[820px]">
+    <div className="relative mx-auto w-full max-w-[760px]">
       {/* Realistic drop shadow beneath the closed cover */}
       <div
         aria-hidden
@@ -139,7 +139,7 @@ function MagazineSpread() {
 
       {/* Leather cover underlay */}
       <div
-        className="relative overflow-hidden rounded-lg bg-[#78866B] p-3 shadow-2xl sm:rounded-xl sm:p-4"
+        className="relative overflow-hidden rounded-lg bg-[#78866B] p-3 shadow-2xl sm:rounded-xl sm:p-4 lg:aspect-square"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)",
@@ -173,7 +173,7 @@ function MagazineSpread() {
         />
 
         {/* Open spread */}
-        <div className="relative flex flex-col overflow-hidden rounded-sm bg-[#F9F7F2] lg:flex-row">
+        <div className="relative flex flex-col overflow-hidden rounded-sm bg-[#F9F7F2] lg:h-full lg:flex-row">
           {/* Paper grain texture */}
           <div
             aria-hidden
@@ -185,7 +185,7 @@ function MagazineSpread() {
           />
 
           {/* Left page */}
-          <div className="relative flex flex-1 flex-col justify-center border-b border-black/[0.08] lg:border-b-0 lg:border-r">
+          <div className="relative flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-b border-black/[0.08] lg:min-h-0 lg:border-b-0 lg:border-r">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-[#1F1D1B]/[0.09] to-transparent lg:block"
@@ -207,7 +207,7 @@ function MagazineSpread() {
           </div>
 
           {/* Right page */}
-          <div className="relative flex flex-1 flex-col justify-center">
+          <div className="relative flex min-w-0 flex-1 flex-col justify-center overflow-hidden lg:min-h-0">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-[#1F1D1B]/[0.09] to-transparent lg:block"
