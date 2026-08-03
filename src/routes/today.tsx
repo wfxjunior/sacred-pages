@@ -120,7 +120,7 @@ function Today() {
           </div>
         </div>
 
-        <div className="flex min-h-0 flex-1 justify-center overflow-y-auto">
+        <div className="flex min-h-0 w-full flex-1 overflow-y-auto">
           <WordSearch
             key={`${puzzleSession}:${difficulty}`}
             words={TODAY.words}
