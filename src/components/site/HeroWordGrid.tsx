@@ -171,9 +171,9 @@ export function HeroWordGrid() {
           transition: "opacity 700ms ease-in-out",
         }}
       >
-        <div className="p-5 sm:p-6 lg:p-8">
+        <div className="p-4 sm:p-5 lg:p-8">
           {/* Header */}
-          <header className="mb-4 border-b border-[#C89F4F]/25 pb-3 sm:mb-5 sm:pb-4">
+          <header className="mb-3 border-b border-[#C89F4F]/25 pb-2 sm:mb-4 sm:pb-4">
             <p className="font-['Playfair_Display',serif] text-xs italic text-[#C89F4F]">
               {t("hero.notebook.part")}
             </p>
