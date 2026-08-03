@@ -124,44 +124,61 @@ function HeroDevotional() {
 function MagazineSpread() {
   return (
     <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none">
-      {/* Soft ambient shadow under the book */}
+      {/* Realistic shadow cast by the closed book beneath the open spread */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-6 rounded-[3rem] bg-gradient-to-b from-[#2B2B2B]/8 via-transparent to-[#2B2B2B]/12 blur-3xl"
+        className="pointer-events-none absolute -inset-3 rounded-[2.5rem] bg-[#2B2B2B]/10 blur-2xl"
+      />
+
+      {/* Closed book block underneath, giving thickness and reality */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-2 right-2 top-4 h-full rounded-lg bg-[#2B1E15]"
+        style={{ transform: "translateY(12px) scale(0.98)" }}
       />
 
       {/* Book cover + pages block */}
       <div
         className="book-spread relative flex flex-col overflow-hidden rounded-lg sm:rounded-xl lg:flex-row"
         style={{
-          // Walnut leather cover visible behind the pages
-          background: "linear-gradient(90deg, #3D2B1F 0%, #4A3428 50%, #3D2B1F 100%)",
+          minHeight: "560px",
+          background: "linear-gradient(90deg, #3B2920 0%, #4A3428 50%, #3B2920 100%)",
           boxShadow:
-            "0 50px 100px -40px rgba(43,41,38,0.35), 0 20px 40px -20px rgba(43,41,38,0.2), inset 0 0 0 1px rgba(255,255,255,0.08)",
-          padding: "10px 16px 14px",
+            "0 60px 110px -45px rgba(43,41,38,0.38), 0 24px 44px -22px rgba(43,41,38,0.22), inset 0 0 0 1px rgba(255,255,255,0.08)",
+          padding: "10px 14px 16px",
         }}
       >
+        {/* Subtle leather grain overlay on cover */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-20"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
+
         {/* Left page */}
-        <div className="relative flex-1 overflow-hidden rounded-t-lg lg:rounded-none lg:rounded-l-lg">
+        <div className="relative flex-1 overflow-hidden rounded-t-lg bg-[#FCF9F2] lg:rounded-none lg:rounded-l-lg">
           {/* Page inset shadow (gutter side) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-black/[0.08] to-transparent lg:block"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-7 bg-gradient-to-l from-black/[0.10] to-transparent lg:block"
           />
-          <div className="relative h-full bg-[#FCF9F2]">
+          <div className="relative h-full">
             <HeroWordGrid />
           </div>
         </div>
 
-        {/* Center spine / gutter — vertical on desktop, horizontal on mobile */}
+        {/* Center spine / gutter */}
         <div
           aria-hidden
           className="pointer-events-none relative z-20 flex-shrink-0 bg-[#E9E4D8] lg:h-auto lg:w-12"
           style={{
             background:
-              "linear-gradient(180deg, rgba(31,29,27,0.06), rgba(31,29,27,0.14) 50%, rgba(31,29,27,0.06)), repeating-linear-gradient(0deg, rgba(31,29,27,0.07) 0 1px, transparent 1px 3px), linear-gradient(90deg, #E9E4D8 0%, #D9D2C1 50%, #E9E4D8 100%)",
+              "linear-gradient(180deg, rgba(31,29,27,0.06), rgba(31,29,27,0.16) 50%, rgba(31,29,27,0.06)), repeating-linear-gradient(0deg, rgba(31,29,27,0.08) 0 1px, transparent 1px 3px), linear-gradient(90deg, #E9E4D8 0%, #D6CDB9 50%, #E9E4D8 100%)",
             boxShadow:
-              "inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35), inset 0 0 16px rgba(31,29,27,0.18)",
+              "inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35), inset 0 0 18px rgba(31,29,27,0.20)",
           }}
         >
           {/* Thread binding stitches — vertical on desktop */}
@@ -169,10 +186,8 @@ function MagazineSpread() {
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
-                className="h-px w-full bg-[#8A7B6A]/40"
-                style={{
-                  boxShadow: "0 0.5px 0 rgba(255,255,255,0.35)",
-                }}
+                className="h-px w-full bg-[#7A6B5A]/50"
+                style={{ boxShadow: "0 0.5px 0 rgba(255,255,255,0.35)" }}
               />
             ))}
           </div>
@@ -181,28 +196,36 @@ function MagazineSpread() {
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
-                className="h-full w-px bg-[#8A7B6A]/40"
-                style={{
-                  boxShadow: "0.5px 0 0 rgba(255,255,255,0.35)",
-                }}
+                className="h-full w-px bg-[#7A6B5A]/50"
+                style={{ boxShadow: "0.5px 0 0 rgba(255,255,255,0.35)" }}
               />
             ))}
           </div>
-          {/* Subtle page fold shadow in the gutter */}
-          <div className="absolute inset-y-0 left-1/2 hidden h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.14] to-transparent lg:block" />
+          {/* Page fold shadow in the gutter */}
+          <div className="absolute inset-y-0 left-1/2 hidden h-full w-[30px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.16] to-transparent lg:block" />
         </div>
 
         {/* Right page */}
-        <div className="relative flex-1 overflow-hidden rounded-b-lg lg:rounded-none lg:rounded-r-lg">
+        <div className="relative flex-1 overflow-hidden rounded-b-lg bg-[#FCF9F2] lg:rounded-none lg:rounded-r-lg">
           {/* Page inset shadow (gutter side) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-black/[0.08] to-transparent lg:block"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-7 bg-gradient-to-r from-black/[0.10] to-transparent lg:block"
           />
-          <div className="relative h-full bg-[#FCF9F2]">
+          <div className="relative h-full">
             <HeroDevotional />
           </div>
         </div>
+
+        {/* Page-edge thickness / stacked pages feel at bottom */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-b from-[#FCF9F2] to-[#E9E4D8]"
+          style={{
+            borderTop: "1px solid rgba(31,29,27,0.06)",
+            boxShadow: "inset 0 2px 4px rgba(31,29,27,0.06)",
+          }}
+        />
       </div>
     </div>
   );
