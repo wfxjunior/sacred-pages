@@ -1,7 +1,6 @@
 import { memo, useEffect, useMemo, useState } from "react";
 import { buildGrid, type Placement } from "@/lib/word-search";
 import { useI18n } from "@/lib/i18n";
-import { Link } from "@tanstack/react-router";
 
 const WORDS = ["PEACE", "FAITH", "LIGHT", "GRACE", "HOPE"];
 const COLORS = ["#5E9E6E", "#3E7BC8", "#E0A63A", "#E2853F", "#9B6FCB"];
@@ -313,33 +312,9 @@ export function HeroWordGrid() {
             </div>
           </div>
 
-          {/* Progress bar */}
-          <div
-            className="mt-4 h-1 w-full overflow-hidden rounded-full sm:mt-5"
-            style={{ background: "#F3F1EC" }}
-          >
-            <div
-              className="h-full w-full origin-left rounded-full"
-              style={{
-                transform: `scaleX(${foundCount / WORDS.length})`,
-                transition: "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
-                background: "linear-gradient(90deg, #C89F4F, color-mix(in oklab, #C89F4F 60%, #7A8F73))",
-              }}
-            />
-          </div>
-
-          {/* Footer: free trial + CTA */}
-          <div className="mt-4 flex items-center justify-between border-t border-[#C89F4F]/10 pt-4 sm:mt-5">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E4ECF8] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#2E5C9E]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
-              {t("hero.notebook.firstFree")}
-            </span>
-            <Link
-              to="/today"
-              className="inline-flex items-center justify-center rounded-sm bg-[#2E5C9E] px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-white shadow-md transition-colors hover:bg-[#1F3F70] sm:px-5 sm:text-[11px]"
-            >
-              {t("hero.notebook.continue")}
-            </Link>
+          {/* Subtle completion line */}
+          <div className="mt-4 sm:mt-5">
+            <div className="h-px w-full bg-[#E4E0D6]" />
           </div>
         </div>
       </div>

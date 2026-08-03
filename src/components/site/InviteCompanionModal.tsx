@@ -82,7 +82,7 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
           <div className="space-y-4 py-6 text-center">
             <p className="text-sm text-muted-foreground">{t("together.accept.signInHint")}</p>
             <Button asChild className="rounded-full">
-              <Link to="/auth">{t("auth.signIn")}</Link>
+              <Link to="/signin">{t("auth.signIn")}</Link>
             </Button>
           </div>
         ) : (

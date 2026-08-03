@@ -123,109 +123,50 @@ function HeroDevotional() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none">
-      {/* Solid shadow under the book — no transparent fade */}
+    <div className="relative mx-auto w-full max-w-[720px]">
+      {/* Soft, realistic shadow beneath the notebook */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-3 rounded-[2.5rem] bg-[#2B2B2B]/12 blur-2xl"
+        className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-[#2B2B2B]/8 blur-xl"
       />
 
-      {/* Closed book thickness visible beneath the open spread */}
+      {/* Notebook cover / open spread */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute left-2 right-2 top-4 h-full rounded-lg bg-[#2B1E15]"
-        style={{ transform: "translateY(14px) scale(0.98)" }}
-      />
-
-      {/* Book cover + pages block */}
-      <div
-        className="book-spread relative flex flex-col overflow-hidden rounded-lg sm:rounded-xl lg:flex-row"
+        className="relative flex flex-col overflow-hidden rounded-md bg-[#3B2E26] p-1.5 shadow-xl sm:rounded-lg lg:flex-row"
         style={{
-          minHeight: "clamp(420px, 60vh, 560px)",
-          background: "linear-gradient(90deg, #3B2920 0%, #4A3428 50%, #3B2920 100%)",
-          boxShadow:
-            "0 60px 110px -45px rgba(43,41,38,0.38), 0 24px 44px -22px rgba(43,41,38,0.22), inset 0 0 0 1px rgba(255,255,255,0.08)",
-          padding: "10px 14px 18px",
+          boxShadow: "0 28px 60px -24px rgba(43,41,38,0.28), 0 12px 24px -12px rgba(43,41,38,0.16)",
         }}
       >
-        {/* Subtle leather grain overlay on cover */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
-        />
-
         {/* Left page */}
-        <div className="relative flex-1 overflow-hidden rounded-t-lg bg-[#FCF9F2] lg:rounded-none lg:rounded-l-lg">
-          {/* Page inset shadow (gutter side) */}
+        <div className="relative flex-1 bg-[#FCFAF5] lg:rounded-l-sm">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-7 bg-gradient-to-l from-black/[0.10] to-transparent lg:block"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-4 bg-gradient-to-l from-[#1F1D1B]/[0.07] to-transparent lg:block"
           />
-          <div className="relative h-full">
-            <HeroWordGrid />
-          </div>
+          <HeroWordGrid />
         </div>
 
-        {/* Center spine / gutter */}
+        {/* Center crease / gutter */}
         <div
           aria-hidden
-          className="pointer-events-none relative z-20 flex-shrink-0 bg-[#E9E4D8] lg:h-auto lg:w-12"
+          className="pointer-events-none relative z-20 flex-shrink-0 bg-[#E8E2D6] lg:h-auto lg:w-8"
           style={{
             background:
-              "linear-gradient(180deg, rgba(31,29,27,0.06), rgba(31,29,27,0.16) 50%, rgba(31,29,27,0.06)), repeating-linear-gradient(0deg, rgba(31,29,27,0.08) 0 1px, transparent 1px 3px), linear-gradient(90deg, #E9E4D8 0%, #D6CDB9 50%, #E9E4D8 100%)",
-            boxShadow:
-              "inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35), inset 0 0 18px rgba(31,29,27,0.20)",
+              "linear-gradient(180deg, rgba(31,29,27,0.04), rgba(31,29,27,0.10) 50%, rgba(31,29,27,0.04)), linear-gradient(90deg, #E8E2D6 0%, #D6CDB9 50%, #E8E2D6 100%)",
           }}
         >
-          {/* Thread binding stitches — vertical on desktop */}
-          <div className="hidden lg:absolute lg:inset-y-4 lg:left-1/2 lg:flex lg:w-5 -translate-x-1/2 flex-col justify-between py-2">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-px w-full bg-[#7A6B5A]/50"
-                style={{ boxShadow: "0 0.5px 0 rgba(255,255,255,0.35)" }}
-              />
-            ))}
-          </div>
-          {/* Thread binding stitches — horizontal on mobile */}
-          <div className="flex h-5 w-full items-center justify-between px-2 lg:hidden">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-full w-px bg-[#7A6B5A]/50"
-                style={{ boxShadow: "0.5px 0 0 rgba(255,255,255,0.35)" }}
-              />
-            ))}
-          </div>
-          {/* Page fold shadow in the gutter */}
-          <div className="absolute inset-y-0 left-1/2 hidden h-full w-[30px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.16] to-transparent lg:block" />
+          {/* Subtle central fold line */}
+          <div className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-[#1F1D1B]/8 lg:block" />
         </div>
 
         {/* Right page */}
-        <div className="relative flex-1 overflow-hidden rounded-b-lg bg-[#FCF9F2] lg:rounded-none lg:rounded-r-lg">
-          {/* Page inset shadow (gutter side) */}
+        <div className="relative flex-1 bg-[#FCFAF5] lg:rounded-r-sm">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-7 bg-gradient-to-r from-black/[0.10] to-transparent lg:block"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-4 bg-gradient-to-r from-[#1F1D1B]/[0.07] to-transparent lg:block"
           />
-          <div className="relative h-full">
-            <HeroDevotional />
-          </div>
+          <HeroDevotional />
         </div>
-
-        {/* Page-edge thickness at bottom — solid paper, not a fade */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-3 bg-[#E9E4D8]"
-          style={{
-            borderTop: "1px solid rgba(31,29,27,0.06)",
-            boxShadow: "inset 0 2px 4px rgba(31,29,27,0.06)",
-          }}
-        />
       </div>
     </div>
   );

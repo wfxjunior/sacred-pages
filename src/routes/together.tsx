@@ -72,7 +72,7 @@ function SignInBanner() {
     <div className="rounded-2xl border border-border/60 bg-card p-8 text-center">
       <p className="font-serif text-xl">{t("together.accept.signInHint")}</p>
       <Button asChild className="mt-5 rounded-full">
-        <Link to="/auth">{t("auth.signIn")}</Link>
+        <Link to="/signin">{t("auth.signIn")}</Link>
       </Button>
     </div>
   );
