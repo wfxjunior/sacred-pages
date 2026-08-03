@@ -458,7 +458,7 @@ export function WordSearch({
           isCompact ? "w-full flex-none content-start p-2" : "p-3"
         } ${
           isExpanded
-            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-start lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
+            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-center lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
             : ""
         }`}
         style={{
@@ -1236,7 +1236,7 @@ export function WordSearch({
       {/* Focus mode overlay — rendered in the DOM at all times so it can enter
           and leave with a smooth fade/scale transition instead of snapping. */}
       <div
-        className={`fixed inset-0 z-[80] flex flex-col gap-3 overflow-y-auto bg-[var(--ivory)] p-3 pt-12 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-5 sm:pt-14 lg:flex-row lg:items-start lg:justify-center lg:gap-6 lg:overflow-hidden lg:p-6 lg:pt-14 ${
+        className={`fixed inset-0 z-[80] flex flex-col gap-3 overflow-y-auto bg-[var(--ivory)] p-3 pt-12 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-5 sm:pt-14 lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:overflow-hidden lg:p-6 lg:pt-14 ${
           expanded
             ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
