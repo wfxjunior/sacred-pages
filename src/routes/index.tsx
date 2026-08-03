@@ -60,41 +60,51 @@ function HeroDevotional() {
   const firstLetter = bodyText.charAt(0);
   const restBody = bodyText.slice(1);
   return (
-    <aside className="relative flex h-full w-full flex-col overflow-hidden bg-[#FBFAF6] text-left">
-      <header className="flex items-center justify-between px-7 pt-6 sm:px-9 sm:pt-7">
-        <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#C89F4F]" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#8A6A1F] sm:text-[11px]">
-            {t("hero.dev.eyebrow")}
+    <aside className="relative flex h-full w-full flex-col overflow-hidden bg-[#F9F7F2] text-left">
+      <div className="flex flex-1 flex-col px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-10 lg:pb-8 lg:pt-8">
+        <div className="flex items-center justify-between border-b border-[#2B2B2B]/10 pb-3 sm:pb-4">
+          <span className="font-['Crimson_Pro',serif] text-[10px] uppercase tracking-[0.18em] text-[#2B2B2B]/40 sm:text-xs">
+            {t("hero.dev.volume")}
+          </span>
+          <span className="font-['Crimson_Pro',serif] text-xs italic text-[#C89F4F] sm:text-sm">
+            {t("hero.dev.page")}
           </span>
         </div>
-        <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#6B665C] sm:text-[11px]">
-          {t("hero.dev.time")}
-        </span>
-      </header>
-      <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-7 sm:pb-6 sm:pt-6 lg:px-10 lg:pb-7 lg:pt-8">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#7A4A5E] sm:text-[12px]">
-          {t("hero.dev.ref")}
-        </p>
-        <h3 className="mt-2 font-serif text-[26px] font-semibold leading-[1.05] tracking-[-0.01em] text-[#1F1D1B] sm:text-[30px] lg:text-[38px]">
-          {t("hero.dev.title")}
-        </h3>
-        <div aria-hidden className="mt-3 h-[2px] w-10 bg-[#C89F4F] sm:mt-4" />
-        <p className="mt-4 font-serif text-[14px] leading-[1.6] text-[#2D2926]/85 sm:columns-2 sm:gap-6 sm:text-[14.5px]">
-          <span className="float-left mr-2 mt-1 font-serif text-[42px] font-semibold leading-[0.82] text-[#2E5C9E] sm:text-[48px]">
-            {firstLetter}
-          </span>
-          {restBody}
-        </p>
+
+        <article className="mt-5 flex-1">
+          <h3 className="font-['Playfair_Display',serif] text-[24px] font-bold leading-[1.05] tracking-[-0.01em] text-[#2B2B2B] sm:text-[28px] lg:text-[34px]">
+            {t("hero.dev.title")}
+          </h3>
+          <div
+            aria-hidden
+            className="mt-3 h-[2px] w-10 bg-[#C89F4F]"
+          />
+          <div className="mt-5 font-['Crimson_Pro',serif] text-[15px] leading-[1.55] text-[#2B2B2B]/85 sm:text-[16px]">
+            <p>
+              <span className="float-left mr-2 mt-1 font-['Playfair_Display',serif] text-[44px] font-semibold leading-[0.82] text-[#78866B] sm:text-[50px]">
+                {firstLetter}
+              </span>
+              {restBody}
+            </p>
+          </div>
+
+          <blockquote className="mt-6 border-y border-[#C89F4F]/20 py-4 font-['Crimson_Pro',serif] text-base italic leading-snug text-[#78866B] sm:text-lg">
+            &ldquo;{t("hero.dev.verse")}&rdquo;
+            <footer className="mt-2 block font-['Crimson_Pro',serif] text-[10px] not-italic uppercase tracking-[0.2em] text-[#C89F4F]">
+              {t("hero.dev.ref")}
+            </footer>
+          </blockquote>
+        </article>
+
         <div className="mt-5 border-t border-dashed border-[#D9D3C2] pt-4">
-          <p className="text-[10.5px] font-semibold uppercase tracking-[0.28em] text-[#2E5C9E] sm:text-[11.5px]">
+          <p className="font-['Crimson_Pro',serif] text-[10.5px] font-semibold uppercase tracking-[0.28em] text-[#2B2B2B]/60 sm:text-[11.5px]">
             {t("hero.dev.wordsTitle")}
           </p>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-2">
             {words.map((w) => (
               <li
                 key={w.key}
-                className="flex gap-2.5 text-[12.5px] leading-[1.45] text-[#2D2926]"
+                className="flex gap-2.5 font-['Crimson_Pro',serif] text-[13px] leading-[1.45] text-[#2D2926]"
               >
                 <span
                   aria-hidden
@@ -109,63 +119,101 @@ function HeroDevotional() {
             ))}
           </ul>
         </div>
-        <div className="mt-auto flex items-center gap-3 pt-6">
-          <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#8A6A1F]">
-            {t("hero.dev.prompt")}
-          </span>
-          <span aria-hidden className="h-px flex-1 bg-[#E4E0D6]" />
-        </div>
       </div>
     </aside>
   );
 }
 
+function HeroDevotionalPage() {
+  return <HeroDevotional />;
+}
+
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-[720px]">
-      {/* Soft, realistic shadow beneath the notebook */}
+    <div className="relative mx-auto w-full max-w-[760px]">
+      {/* Realistic drop shadow beneath the closed cover */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-[#2B2B2B]/8 blur-xl"
+        className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-[#1F1D1B]/15 blur-2xl"
       />
 
-      {/* Notebook cover / open spread */}
+      {/* Leather cover underlay */}
       <div
-        className="relative flex flex-col overflow-hidden rounded-md bg-[#3B2E26] p-1.5 shadow-xl sm:rounded-lg lg:flex-row"
+        className="relative overflow-hidden rounded-lg bg-[#78866B] p-2 shadow-2xl sm:rounded-xl sm:p-3"
         style={{
-          boxShadow: "0 28px 60px -24px rgba(43,41,38,0.28), 0 12px 24px -12px rgba(43,41,38,0.16)",
+          backgroundImage:
+            "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)",
+          boxShadow:
+            "0 50px 100px -30px rgba(0,0,0,0.32), 0 24px 48px -24px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.1)",
         }}
       >
-        {/* Left page */}
-        <div className="relative flex-1 bg-[#FCFAF5] lg:rounded-l-sm">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-4 bg-gradient-to-l from-[#1F1D1B]/[0.07] to-transparent lg:block"
-          />
-          <HeroWordGrid />
-        </div>
-
-        {/* Center crease / gutter */}
+        {/* Leather grain texture */}
         <div
           aria-hidden
-          className="pointer-events-none relative z-20 flex-shrink-0 bg-[#E8E2D6] lg:h-auto lg:w-8"
+          className="pointer-events-none absolute inset-0 opacity-25"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")",
+            mixBlendMode: "multiply",
+          }}
+        />
+
+        {/* Pages stack visible beneath the open spread */}
+        <div aria-hidden className="pointer-events-none absolute -bottom-4 left-8 right-8 h-5 rounded-b-md bg-[#F5F3EE]/70 shadow-sm" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-7 left-12 right-12 h-5 rounded-b-md bg-[#F5F3EE]/50 shadow-sm" />
+
+        {/* Silk bookmark */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-1 right-24 z-30 h-40 w-3 rounded-b-sm bg-[#C89F4F] shadow-md"
           style={{
             background:
-              "linear-gradient(180deg, rgba(31,29,27,0.04), rgba(31,29,27,0.10) 50%, rgba(31,29,27,0.04)), linear-gradient(90deg, #E8E2D6 0%, #D6CDB9 50%, #E8E2D6 100%)",
+              "linear-gradient(90deg, #b88a3b 0%, #C89F4F 40%, #d4b466 60%, #b88a3b 100%)",
           }}
-        >
-          {/* Subtle central fold line */}
-          <div className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-[#1F1D1B]/8 lg:block" />
-        </div>
+        />
 
-        {/* Right page */}
-        <div className="relative flex-1 bg-[#FCFAF5] lg:rounded-r-sm">
+        {/* Open spread */}
+        <div className="relative flex flex-col overflow-hidden rounded-sm bg-[#F9F7F2] lg:flex-row">
+          {/* Paper grain texture */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-4 bg-gradient-to-r from-[#1F1D1B]/[0.07] to-transparent lg:block"
+            className="pointer-events-none absolute inset-0 z-10 opacity-[0.18]"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E\")",
+            }}
           />
-          <HeroDevotional />
+
+          {/* Left page */}
+          <div className="relative flex-1 border-b border-black/[0.08] lg:border-b-0 lg:border-r">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-[#1F1D1B]/[0.09] to-transparent lg:block"
+            />
+            <HeroWordGrid />
+          </div>
+
+          {/* Central gutter / spine — horizontal on mobile, vertical on desktop */}
+          <div
+            aria-hidden
+            className="pointer-events-none relative z-20 flex-shrink-0 h-3 bg-[#E8E2D6] lg:h-auto lg:w-10"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(31,29,27,0.05), rgba(31,29,27,0.14) 50%, rgba(31,29,27,0.05)), linear-gradient(90deg, #E8E2D6 0%, #CFC6B0 50%, #E8E2D6 100%)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -1px 0 rgba(255,255,255,0.25)",
+            }}
+          >
+            <div className="absolute left-1/2 top-1/2 hidden h-px w-4 -translate-x-1/2 -translate-y-1/2 bg-[#1F1D1B]/12 lg:block lg:h-auto lg:w-px lg:-translate-y-0" />
+          </div>
+
+          {/* Right page */}
+          <div className="relative flex-1">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-[#1F1D1B]/[0.09] to-transparent lg:block"
+            />
+            <HeroDevotionalPage />
+          </div>
         </div>
       </div>
     </div>

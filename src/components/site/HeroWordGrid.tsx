@@ -15,17 +15,13 @@ const GridCell = memo(function GridCell({
   const hit = Boolean(color);
   return (
     <div
-      className="flex aspect-square items-center justify-center rounded-[6px] text-[10px] font-semibold sm:text-[11px] md:text-xs"
+      className="flex aspect-square items-center justify-center font-['Crimson_Pro',serif] text-[10px] font-semibold uppercase tracking-wide sm:text-[11px]"
       style={{
-        backgroundColor: hit ? `color-mix(in oklab, ${color} 32%, white)` : "white",
-        border: hit
-          ? `1.5px solid ${color}`
-          : "1px solid color-mix(in oklab, #2B2B2B 8%, transparent)",
-        color: hit ? "#1F2A3C" : "rgba(43,43,43,0.55)",
-        boxShadow: hit ? `0 1px 2px ${color}33` : "0 1px 1px rgba(31,42,60,0.05)",
-        transform: hit ? "translateY(-1px)" : "none",
-        transition:
-          "background-color 400ms ease-out, color 400ms ease-out, border-color 400ms ease-out, transform 300ms ease-out",
+        backgroundColor: hit ? `color-mix(in oklab, ${color} 24%, #F9F7F2)` : "transparent",
+        borderRight: "1px solid rgba(43,41,38,0.08)",
+        borderBottom: "1px solid rgba(43,41,38,0.08)",
+        color: hit ? "#1F1D1B" : "rgba(43,41,38,0.55)",
+        transition: "background-color 400ms ease-out, color 400ms ease-out",
       }}
     >
       {letter}
@@ -98,34 +94,6 @@ function FoundLines({
   );
 }
 
-
-
-function CheckBullet({ checked, color }: { checked: boolean; color: string }) {
-  return (
-    <span
-      className="flex h-4 w-4 items-center justify-center rounded-full border transition-all duration-500 sm:h-5 sm:w-5"
-      style={
-        checked
-          ? {
-              borderColor: color,
-              backgroundColor: color,
-              boxShadow: `0 1px 2px ${color}40`,
-            }
-          : {
-              borderColor: "#E4E0D6",
-              backgroundColor: "white",
-            }
-      }
-    >
-      {checked && (
-        <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
-          <path d="M5 13l4 4L19 7" />
-        </svg>
-      )}
-    </span>
-  );
-}
-
 export function HeroWordGrid() {
   const size = 12;
   const { t } = useI18n();
@@ -195,52 +163,39 @@ export function HeroWordGrid() {
   }, [foundCount, placements, wordColor]);
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative h-full w-full">
       <div
-        className="relative h-full overflow-hidden bg-[#FCFBF8]"
+        className="relative h-full overflow-hidden bg-[#F9F7F2]"
         style={{
           opacity: fading ? 0.35 : 1,
           transition: "opacity 700ms ease-in-out",
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
         }}
       >
-        <div className="p-4 sm:p-6 lg:p-10">
+        <div className="p-4 sm:p-5 lg:p-8">
           {/* Header */}
-          <div className="mb-3 border-b border-[#C89F4F]/20 pb-3 sm:mb-4 sm:pb-4">
-            <div className="flex items-end justify-between gap-3">
-              <div>
-                <h2 className="font-serif text-2xl font-normal italic leading-none text-[#2E5C9E] sm:text-3xl">
-                  {/* The journal page is titled with the experience name. */}
-                  {t("brand.experience")}
-                </h2>
-                <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7A4A5E]/80">
-                  {t("hero.notebook.volume")}
-                </p>
-              </div>
-              <span
-                className="hidden font-['Reenie_Beanie',cursive] text-2xl text-[#7A8F73] sm:block sm:text-3xl"
-                style={{ transform: "rotate(-2deg)" }}
-              >
-                {t("hero.notebook.practice")}
-              </span>
-            </div>
-          </div>
+          <header className="mb-3 border-b border-[#C89F4F]/25 pb-2 sm:mb-4 sm:pb-4">
+            <p className="font-['Playfair_Display',serif] text-xs italic text-[#C89F4F]">
+              {t("hero.notebook.part")}
+            </p>
+            <h2 className="font-['Playfair_Display',serif] text-2xl font-bold text-[#2B2B2B] sm:text-3xl">
+              {t("hero.notebook.title")}
+            </h2>
+          </header>
 
           {/* Count badge */}
-          <div className="mb-3 flex items-center justify-between sm:mb-4">
+          <div className="mb-2 flex items-center justify-between">
             <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C]">
               {t("hero.grid.title")}
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F1EC] px-2 py-1 text-[10px] font-medium text-[#2B2B2B] tabular-nums">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7A8F73]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#78866B]" />
               {foundCount}/{WORDS.length} {t("hero.grid.found")}
             </span>
           </div>
 
-          {/* Grid */}
+          {/* Grid — hand-drawn notebook style */}
           <div
-            className="relative grid gap-[2px] rounded-xl bg-[#E4E0D6] p-1.5"
+            className="relative grid border border-[#2B2B2B]/10 bg-[#FFFCF7]"
             style={{ gridTemplateColumns: `repeat(${size}, minmax(0,1fr))` }}
           >
             <FoundLines
@@ -261,7 +216,7 @@ export function HeroWordGrid() {
 
             {/* Handwritten "Found it!" overlay */}
             <div
-              className="pointer-events-none absolute -right-2 top-1/4 z-10 font-['Reenie_Beanie',cursive] text-2xl text-[#2E5C9E]/40 transition-all duration-300 sm:text-3xl"
+              className="pointer-events-none absolute -right-2 top-1/4 z-10 font-['Reenie_Beanie',cursive] text-2xl text-[#2E5C9E]/50 transition-all duration-300 sm:text-3xl"
               style={{
                 transform: `rotate(12deg) ${showFoundNote ? "scale(1)" : "scale(0.85)"}`,
                 opacity: showFoundNote ? 1 : 0,
@@ -273,48 +228,33 @@ export function HeroWordGrid() {
           </div>
 
           {/* Word checklist */}
-          <div className="mt-4 sm:mt-5">
-            <h3 className="mb-2 font-serif text-sm text-[#2E5C9E] sm:mb-3 sm:text-base">
+          <div className="mt-5">
+            <h3 className="mb-3 font-['Playfair_Display',serif] text-sm text-[#78866B] sm:text-base">
               {t("hero.notebook.wordsToSeek")}
             </h3>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
+            <div className="flex flex-wrap gap-3">
               {WORDS.map((w) => {
                 const found = foundWords.has(w);
                 const color = wordColor.get(w) ?? "#C89F4F";
                 return (
-                  <div
+                  <span
                     key={w}
-                    className="flex items-center gap-1.5 rounded-full border px-2.5 py-1 transition-all duration-500 sm:px-3 sm:py-1.5"
+                    className="font-['Crimson_Pro',serif] text-sm italic transition-all duration-500"
                     style={
                       found
                         ? {
                             color: `color-mix(in oklab, ${color} 70%, #1F1F1F)`,
-                            borderColor: `color-mix(in oklab, ${color} 55%, transparent)`,
-                            background: `color-mix(in oklab, ${color} 12%, white)`,
+                            textDecoration: "line-through",
+                            textDecorationColor: `${color}80`,
                           }
-                        : {
-                            color: "#6B665C",
-                            borderColor: "#E4E0D6",
-                            background: "white",
-                          }
+                        : { color: "#2B2B2B" }
                     }
                   >
-                    <CheckBullet checked={found} color={color} />
-                    <span
-                      className="text-[10px] font-semibold uppercase tracking-[0.12em] sm:text-[11px]"
-                      style={found ? { textDecoration: "line-through", textDecorationColor: `${color}80` } : undefined}
-                    >
-                      {w}
-                    </span>
-                  </div>
+                    {w}
+                  </span>
                 );
               })}
             </div>
-          </div>
-
-          {/* Subtle completion line */}
-          <div className="mt-4 sm:mt-5">
-            <div className="h-px w-full bg-[#E4E0D6]" />
           </div>
         </div>
       </div>
