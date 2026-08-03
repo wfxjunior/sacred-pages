@@ -1079,8 +1079,8 @@ export function WordSearch({
 
         {renderGrid(expandedGridRef, "expanded")}
 
-        <div className="w-full lg:w-[340px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:overflow-y-auto">
-          {wordsPanel(true)}
+        <div className="w-full lg:w-[240px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:self-center lg:overflow-y-auto">
+          {focusPanel()}
         </div>
       </div>
     </div>
