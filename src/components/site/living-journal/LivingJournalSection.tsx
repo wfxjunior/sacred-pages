@@ -83,12 +83,6 @@ export function LivingJournalSection() {
               </div>
             )}
 
-            <p
-              className="mt-5 text-[11px] leading-relaxed"
-              style={{ color: "color-mix(in oklab, var(--walnut) 90%, transparent)" }}
-            >
-              Preview experiences shown for demonstration.
-            </p>
           </div>
 
           <GlobalMomentList

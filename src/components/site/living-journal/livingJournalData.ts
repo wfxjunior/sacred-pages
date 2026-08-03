@@ -120,15 +120,16 @@ export const LIVING_JOURNAL_ENTRIES: readonly LivingJournalEntry[] = [
  * completed Luke", not "New activity!". No counts, no timestamps, no urgency.
  */
 export const LIVING_JOURNAL_MOMENTS: readonly LivingJournalMoment[] = [
-  { id: "m-1", text: "Someone in Brazil completed Luke." },
-  { id: "m-2", text: "Someone in Canada began Psalms." },
-  { id: "m-3", text: "Someone in Australia finished a 21-day journey." },
-  { id: "m-4", text: "Someone in Mexico saved a reflection." },
-  { id: "m-5", text: "Someone in Germany returned for their seventh day." },
-  { id: "m-6", text: "Someone in Kenya read before sunrise." },
-  { id: "m-7", text: "Someone in Portugal finished Proverbs." },
-  { id: "m-8", text: "Someone in Japan started their first journey." },
+  { id: "m-1", text: "Someone in Brazil completed Luke.", countryCode: "BR" },
+  { id: "m-2", text: "Someone in Canada began Psalms.", countryCode: "CA" },
+  { id: "m-3", text: "Someone in Australia finished a 21-day journey.", countryCode: "AU" },
+  { id: "m-4", text: "Someone in Mexico saved a reflection.", countryCode: "MX" },
+  { id: "m-5", text: "Someone in Germany returned for their seventh day.", countryCode: "DE" },
+  { id: "m-6", text: "Someone in Kenya read before sunrise.", countryCode: "KE" },
+  { id: "m-7", text: "Someone in Portugal finished Proverbs.", countryCode: "PT" },
+  { id: "m-8", text: "Someone in Japan started their first journey.", countryCode: "JP" },
 ];
+
 
 /** Default typing pace, in milliseconds per character. */
 export const DEFAULT_TYPING_SPEED_MS = 55;

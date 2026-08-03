@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { WorldMap } from "./WorldMap";
 import type { LivingJournalMoment } from "./livingJournal.types";
 
 /** How long each moment rests before the next one takes its place. */
@@ -8,11 +9,13 @@ const MOMENT_INTERVAL_MS = 3400;
 const VISIBLE_COUNT = 4;
 
 /**
- * Quiet lines from a global activity journal.
+ * Quiet lines from a global activity journal, paired with a minimal world map.
  *
  * The restraint is the design. These are phrased as journal lines, not events:
  * no counters, no badges, no dots, no "new" markers, nothing that reads as a
- * notification. Each line fades in, rests, and is replaced.
+ * notification. Each line fades in, rests, and is replaced. The map is purely
+ * decorative — a soft reminder that these moments are happening in different
+ * corners of the world, without turning the section into a social feed.
  *
  * Only ever one timer, cleared on every dependency change — the same discipline
  * as the typing sequence.
@@ -41,15 +44,46 @@ export function GlobalMomentList({
     return moments[(offset + i) % moments.length];
   });
 
+  const activeCodes = visible.map((m) => m.countryCode).filter(Boolean) as string[];
+
   return (
     <aside aria-labelledby="lj-moments-heading" className="mt-10 lg:mt-0">
-      <h3
-        id="lj-moments-heading"
-        className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-        style={{ color: "var(--walnut)" }}
-      >
-        Around the world
-      </h3>
+      <div className="flex items-center justify-between gap-4">
+        <h3
+          id="lj-moments-heading"
+          className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+          style={{ color: "var(--walnut)" }}
+        >
+          Around the world
+        </h3>
+        <span
+          className="flex items-center gap-1.5 text-[10px]"
+          style={{ color: "color-mix(in oklab, var(--walnut) 80%, transparent)" }}
+        >
+          <span
+            aria-hidden
+            className="relative flex h-1.5 w-1.5"
+          >
+            <span
+              className={`absolute inline-flex h-full w-full rounded-full opacity-40 ${
+                reducedMotion ? "" : "lj-pulse-soft"
+              }`}
+              style={{ background: "var(--sage)" }}
+            />
+            <span
+              className="relative inline-flex h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--sage)" }}
+            />
+          </span>
+          Now
+        </span>
+      </div>
+
+      <div className="mt-5 overflow-hidden rounded-2xl border border-[#E4E0D6]/70 bg-[color:var(--parchment)] p-4 dark:border-border/50 dark:bg-card/50">
+        <div className="relative aspect-[2.4/1] w-full overflow-hidden rounded-xl">
+          <WorldMap activeCountryCodes={activeCodes} reducedMotion={reducedMotion} />
+        </div>
+      </div>
 
       <ul className="mt-5 space-y-4">
         {visible.map((moment, i) => (
