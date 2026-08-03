@@ -72,7 +72,7 @@ function Today() {
   const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
-  const sizes = { gentle: 10, balanced: 12, challenging: 14, expert: 16 } as const;
+  const sizes = { gentle: 12, balanced: 14, challenging: 16, expert: 18 } as const;
 
   if (complete) {
     return (
