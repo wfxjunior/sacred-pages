@@ -323,8 +323,9 @@ function JourneyTabs() {
   return <JourneyTabsContent />;
 }
 
-function DevotionalPanel() {
+function DevotionalDock() {
   const { t } = useI18n();
+  const TODAY = useTodayContent();
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
@@ -346,22 +347,28 @@ function DevotionalPanel() {
 
   return (
     <>
-      <div className="relative flex min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-card">
-        <div className="min-h-0 flex-1 overflow-y-auto">
-          <JourneyTabsContent />
-        </div>
-        <div className="pointer-events-none absolute right-3 top-3 z-10">
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className={`pointer-events-auto bg-card/90 backdrop-blur ${toggleClass}`}
-            aria-label={t("wordsearch.expand")}
+      <button
+        type="button"
+        onClick={() => setExpanded(true)}
+        className="group flex flex-none items-center gap-4 rounded-xl border border-border bg-card px-5 py-3 text-left transition hover:border-[color:var(--gold)] hover:shadow-[0_8px_24px_-16px_rgba(43,43,43,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+      >
+        <div className="min-w-0 flex-1">
+          <p
+            className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+            style={{ color: "var(--walnut)" }}
           >
-            <Maximize2 className="h-3.5 w-3.5" />
-            {t("wordsearch.expand")}
-          </button>
+            {TODAY.reference}
+          </p>
+          <p className="mt-0.5 truncate font-serif text-base text-foreground">
+            {t("journey.devotional")} · {t("journey.scripture")} · {t("journey.reflection")} ·{" "}
+            {t("journey.prayer")}
+          </p>
         </div>
-      </div>
+        <span className={`${toggleClass} pointer-events-none`}>
+          <Maximize2 className="h-3.5 w-3.5" />
+          {t("wordsearch.expand")}
+        </span>
+      </button>
 
       {expanded && (
         <div
