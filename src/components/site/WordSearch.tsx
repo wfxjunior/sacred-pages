@@ -699,6 +699,143 @@ export function WordSearch({
     </div>
   );
 
+  const desktopWordsPanel = (showToast: boolean) => (
+    <div className="flex h-full flex-col gap-3">
+      {showToast && toast && (
+        <div
+          className="flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium shadow-sm"
+          style={{
+            background: "var(--ink)",
+            color: "var(--ivory)",
+            animation: "toast-in 0.25s ease-out",
+          }}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.all ? <Trophy className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
+          {toast.all
+            ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
+            : `${toast.word} — ${t("wordsearch.found")}`}
+        </div>
+      )}
+
+      <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
+        <div className="mb-3 border-b border-border/60 pb-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {t("wordsearch.wordsToFind")}
+          </p>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <span className="text-xs font-medium tabular-nums text-muted-foreground">
+              {found.length}/{words.length}
+            </span>
+            {isComplete && (
+              <span
+                className="inline-flex items-center gap-1 text-xs font-medium tabular-nums text-muted-foreground"
+                title={t("wordsearch.completedIn")}
+              >
+                <Timer className="h-3.5 w-3.5" />
+                {completedTime}
+                {bestLabel && bestLabel !== completedTime && (
+                  <span className="text-muted-foreground/70">· {t("wordsearch.bestTime")} {bestLabel}</span>
+                )}
+              </span>
+            )}
+          </div>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+            />
+          </div>
+        </div>
+
+        <ul
+          className="grid flex-1 grid-cols-1 content-start gap-2 overflow-y-auto pr-1"
+          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+        >
+          {puzzle.words.map(({ display: w, normalized }) => {
+            const done = found.includes(normalized);
+            const color = wordColor.get(normalized);
+            return (
+              <li
+                key={w}
+                aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
+                className={`flex min-h-8 min-w-0 items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium uppercase tracking-wider transition ${
+                  done ? "line-through text-muted-foreground" : "text-foreground"
+                } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
+                style={{
+                  textDecorationColor: done ? color : undefined,
+                }}
+              >
+                {done ? (
+                  <Check className="h-3 w-3 shrink-0" style={{ color }} aria-hidden="true" />
+                ) : (
+                  <span
+                    aria-hidden
+                    className="h-2 w-2 shrink-0 rounded-full"
+                    style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
+                  />
+                )}
+                <span className="truncate">{w}</span>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-3 flex flex-wrap gap-2 border-t border-border/60 pt-3">
+          <button
+            type="button"
+            onClick={shuffleGrid}
+            title={t("wordsearch.shuffleConfirm")}
+            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          >
+            <Shuffle className="h-3.5 w-3.5" />
+            <span className="hidden xl:inline">{t("wordsearch.shuffle")}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-pressed={expanded}
+            title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+            className={expandButtonClass}
+          >
+            {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+          </button>
+          <button
+            type="button"
+            onClick={() => setRevealed((v) => !v)}
+            aria-pressed={revealed}
+            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          >
+            {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            <span className="hidden xl:inline">{revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}</span>
+          </button>
+        </div>
+
+        <div className="mt-3 flex items-center gap-2 border-t border-border/60 pt-3">
+          <span className="text-xs text-muted-foreground">{t("journey.selectionColor")}</span>
+          <div className="flex items-center gap-1.5" role="radiogroup" aria-label={t("journey.selectionColor")}>
+            {SELECTION_COLORS.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                role="radio"
+                aria-checked={colorKey === c.key}
+                onClick={() => setColorKey(c.key)}
+                aria-label={c.label}
+                className="h-5 w-5 rounded-full border-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--card)]"
+                style={{
+                  background: c.value,
+                  borderColor: colorKey === c.key ? "var(--foreground)" : "transparent",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className={`relative flex flex-col ${fullBleed ? "h-full min-h-0 gap-2" : "space-y-6"}`}>
       <p id="ws-instructions" className="sr-only">
