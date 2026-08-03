@@ -31,6 +31,7 @@ export function Header() {
   }, [isHero]);
 
   const nav: NavItem[] = [
+    { href: "/", label: t("nav.home"), type: "route" },
     { href: "/features", label: t("nav.features"), type: "route" },
     { href: "/collections", label: t("nav.collections"), type: "route" },
     // Scrolls to the landing-page section. Absolute so it also works from
