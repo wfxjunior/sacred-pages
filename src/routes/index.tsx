@@ -61,12 +61,12 @@ function HeroDevotional() {
   const restBody = bodyText.slice(1);
   return (
     <aside className="relative flex h-full w-full flex-col overflow-hidden bg-[#F9F7F2] text-left">
-      <div className="flex flex-1 flex-col px-6 pb-6 pt-6 sm:px-7 sm:pb-7 sm:pt-7 lg:px-10 lg:pb-8 lg:pt-8">
-        <div className="flex items-center justify-between border-b border-[#2B2B2B]/10 pb-4">
-          <span className="font-['Crimson_Pro',serif] text-xs uppercase tracking-[0.18em] text-[#2B2B2B]/40">
+      <div className="flex flex-1 flex-col px-4 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6 lg:px-10 lg:pb-8 lg:pt-8">
+        <div className="flex items-center justify-between border-b border-[#2B2B2B]/10 pb-3 sm:pb-4">
+          <span className="font-['Crimson_Pro',serif] text-[10px] uppercase tracking-[0.18em] text-[#2B2B2B]/40 sm:text-xs">
             {t("hero.dev.volume")}
           </span>
-          <span className="font-['Crimson_Pro',serif] text-sm italic text-[#C89F4F]">
+          <span className="font-['Crimson_Pro',serif] text-xs italic text-[#C89F4F] sm:text-sm">
             {t("hero.dev.page")}
           </span>
         </div>
