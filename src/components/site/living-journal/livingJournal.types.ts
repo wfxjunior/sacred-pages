@@ -40,7 +40,10 @@ export interface LivingJournalEntry {
 export interface LivingJournalMoment {
   readonly id: string;
   readonly text: string;
+  /** ISO 3166-1 alpha-2, used for a discreet map dot. */
+  readonly countryCode?: string;
 }
+
 
 /** Where the typing sequence currently is for one entry. */
 export type JournalEntryPhase =
