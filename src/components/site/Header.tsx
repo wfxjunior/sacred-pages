@@ -108,8 +108,10 @@ export function Header() {
     : "sticky top-0 z-40 w-full border-b border-border/50 bg-background/75 backdrop-blur-xl";
 
   const navLink = (active: boolean) =>
-    `text-[13px] font-medium transition ${
-      active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+    `relative text-[13px] font-medium transition ${
+      active
+        ? "text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-foreground"
+        : "text-muted-foreground hover:text-foreground"
     }`;
 
   return (
