@@ -1,13 +1,9 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
-import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
-import { DarkModeToggle } from "./DarkModeToggle";
-import { NotificationsMenu } from "./NotificationsMenu";
-import { FullscreenToggle } from "./FullscreenToggle";
 
 type NavItem = {
   href: string;
@@ -147,11 +143,13 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
-          <LanguageSelector variant="default" />
-          <NotificationsMenu variant="default" />
-          <DarkModeToggle variant="default" />
-          <FullscreenToggle />
+        {/*
+          The marketing header stays deliberately bare: navigation, one quiet
+          sign-in link and one primary action. Language, theme, notifications
+          and fullscreen belong to the reading app (AppShell) and the footer —
+          in the hero they only compete with the promise.
+        */}
+        <div className="hidden items-center gap-4 lg:flex">
           <Link
             to="/signin"
             className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
@@ -189,13 +187,6 @@ export function Header() {
                 () => setOpen(false),
               ),
             )}
-            <div className="mt-3 flex items-center justify-between gap-2 border-t border-border/50 pt-3">
-              <LanguageSelector variant="default" />
-              <div className="flex items-center gap-2">
-                <NotificationsMenu variant="default" />
-                <DarkModeToggle variant="default" />
-              </div>
-            </div>
             <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
               <Button asChild variant="ghost" size="sm" className="flex-1">
                 <Link to="/signin">{t("cta.signin")}</Link>
