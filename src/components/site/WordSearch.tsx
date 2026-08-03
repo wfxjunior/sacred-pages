@@ -458,7 +458,7 @@ export function WordSearch({
           isCompact ? "w-full flex-none content-start p-2" : "p-3"
         } ${
           isExpanded
-            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-start lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
+            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-center lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
             : ""
         }`}
         style={{
