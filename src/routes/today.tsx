@@ -153,11 +153,7 @@ function Today() {
             />
           </div>
 
-          <aside className="hidden min-h-0 flex-col overflow-hidden rounded-xl border border-border bg-card lg:flex">
-            <div className="min-h-0 flex-1 overflow-y-auto">
-              <JourneyTabsContent />
-            </div>
-          </aside>
+          <DevotionalPanel />
         </div>
 
         <div className="flex-none lg:hidden">
@@ -351,6 +347,82 @@ function MobileContentSheet() {
 
 function JourneyTabs() {
   return <JourneyTabsContent />;
+}
+
+function DevotionalPanel() {
+  const { t } = useI18n();
+  const TODAY = useTodayContent();
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!expanded || typeof document === "undefined") return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExpanded(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [expanded]);
+
+  const toggleClass =
+    "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+
+  return (
+    <>
+      <aside className="hidden min-h-0 flex-col overflow-hidden rounded-xl border border-border bg-card lg:flex">
+        <div className="flex flex-none items-center justify-between gap-3 border-b border-border/60 px-4 py-2.5">
+          <p
+            className="truncate text-[10px] font-semibold uppercase tracking-[0.24em]"
+            style={{ color: "var(--walnut)" }}
+          >
+            {TODAY.reference}
+          </p>
+          <button
+            type="button"
+            onClick={() => setExpanded(true)}
+            className={toggleClass}
+            title={t("wordsearch.expand")}
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+            {t("wordsearch.expand")}
+          </button>
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <JourneyTabsContent />
+        </div>
+      </aside>
+
+      {expanded && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col bg-[var(--ivory)] animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex flex-none items-center justify-between border-b border-border/60 px-6 py-3">
+            <p
+              className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+              style={{ color: "var(--walnut)" }}
+            >
+              {TODAY.reference}
+            </p>
+            <button type="button" onClick={() => setExpanded(false)} className={toggleClass}>
+              <Minimize2 className="h-3.5 w-3.5" />
+              {t("wordsearch.collapse")}
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="mx-auto w-full max-w-3xl px-2 pb-16 md:px-6">
+              <JourneyTabsContent />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
 function DevotionalDock() {
