@@ -1212,12 +1212,14 @@ function FeaturesPage() {
                 }`}
               >
                 <div className={reverse ? "md:order-2" : ""}>
-                  <p
-                    className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em]"
-                    style={{ color: "var(--walnut)" }}
-                  >
-                    {f.eyebrow}
-                  </p>
+                  {f.eyebrow && (
+                    <p
+                      className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em]"
+                      style={{ color: "var(--walnut)" }}
+                    >
+                      {f.eyebrow}
+                    </p>
+                  )}
                   <h2 className="mt-2 font-serif text-3xl leading-[1.1] md:text-[40px]">
                     {f.title}
                   </h2>
