@@ -750,7 +750,7 @@ export function WordSearch({
         </div>
 
         <ul
-          className="grid flex-1 grid-cols-1 content-start gap-2 overflow-y-auto pr-1"
+          className="grid flex-1 grid-cols-2 content-start gap-x-2 gap-y-1 overflow-y-auto pr-1"
           aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
         >
           {puzzle.words.map(({ display: w, normalized }) => {
@@ -760,7 +760,7 @@ export function WordSearch({
               <li
                 key={w}
                 aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                className={`flex min-h-8 min-w-0 items-center gap-2 rounded-md px-2 py-1.5 text-xs font-medium uppercase tracking-wider transition ${
+                className={`flex min-h-7 min-w-0 items-center gap-1.5 rounded-md px-1.5 py-1 text-[11px] font-medium uppercase tracking-wider transition ${
                   done ? "line-through text-muted-foreground" : "text-foreground"
                 } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                 style={{
