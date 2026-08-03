@@ -72,7 +72,7 @@ function Today() {
   const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
-  const sizes = { gentle: 10, balanced: 12, challenging: 14, expert: 16 } as const;
+  const sizes = { gentle: 12, balanced: 14, challenging: 16, expert: 18 } as const;
 
   if (complete) {
     return (
@@ -674,14 +674,14 @@ function HelpMenu() {
             {hints.map(({ icon: Icon, label, desc }) => (
               <button
                 key={label}
-                className="group flex items-center gap-3 rounded-xl border border-border/70 bg-card px-3.5 py-3 text-left transition hover:border-primary/40 hover:bg-secondary/60"
+                className="group flex min-h-[72px] items-center gap-3 rounded-xl border border-border/70 bg-card px-3.5 py-3 text-left transition hover:border-primary/40 hover:bg-secondary/60"
               >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition group-hover:text-foreground">
                   <Icon className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-medium leading-tight">{label}</span>
-                  <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">{desc}</span>
+                  <span className="mt-0.5 line-clamp-2 block text-xs leading-snug text-muted-foreground">{desc}</span>
                 </span>
                 <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition group-hover:translate-x-0.5 group-hover:text-muted-foreground" />
               </button>

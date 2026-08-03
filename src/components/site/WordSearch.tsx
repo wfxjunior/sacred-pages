@@ -956,11 +956,11 @@ export function WordSearch({
         </div>
       )}
 
-      <div className="w-full max-w-[min(650px,calc(100dvh-24rem))] flex-none">
+      <div className="w-full max-w-[min(100%,calc(100dvh-16rem))] flex-none">
         {renderGrid(gridRef, "normal")}
       </div>
 
-      <div className="w-full max-w-[650px] space-y-4">
+      <div className="w-full space-y-4">
         <div className="flex items-center gap-4">
           <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {t("wordsearch.wordsToFind")}
