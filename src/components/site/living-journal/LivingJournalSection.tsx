@@ -62,7 +62,7 @@ export function LivingJournalSection() {
 
         <div
           ref={ref}
-          className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:gap-14"
+          className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12"
         >
           <div>
             {sequence && (
