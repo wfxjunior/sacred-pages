@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { HeroMockup } from "@/components/site/HeroMockup";
 import { HeroWordGrid } from "@/components/site/HeroWordGrid";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
@@ -8,7 +7,6 @@ import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
-import { JournalBinding } from "@/components/journal/JournalBinding";
 import {
   ProductOverview,
   HowItWorks,
@@ -126,54 +124,82 @@ function HeroDevotional() {
 function MagazineSpread() {
   return (
     <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none">
+      {/* Soft ambient shadow under the book */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-gradient-to-b from-[#2B2B2B]/8 via-transparent to-[#2B2B2B]/12 blur-3xl"
+        className="pointer-events-none absolute -inset-6 rounded-[3rem] bg-gradient-to-b from-[#2B2B2B]/8 via-transparent to-[#2B2B2B]/12 blur-3xl"
       />
+
+      {/* Book cover + pages block */}
       <div
-        className="paper-page relative overflow-hidden rounded-[10px] border border-[#E1DBCB] text-left sm:rounded-[14px]"
-        style={{ perspective: "1600px" }}
+        className="book-spread relative flex flex-col overflow-hidden rounded-lg sm:rounded-xl lg:flex-row"
+        style={{
+          // Walnut leather cover visible behind the pages
+          background: "linear-gradient(90deg, #3D2B1F 0%, #4A3428 50%, #3D2B1F 100%)",
+          boxShadow:
+            "0 50px 100px -40px rgba(43,41,38,0.35), 0 20px 40px -20px rgba(43,41,38,0.2), inset 0 0 0 1px rgba(255,255,255,0.08)",
+          padding: "10px 16px 14px",
+        }}
       >
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 lg:items-stretch">
-          <div className="relative">
-            <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/[0.06] to-transparent" />
+        {/* Left page */}
+        <div className="relative flex-1 overflow-hidden rounded-t-lg lg:rounded-none lg:rounded-l-lg">
+          {/* Page inset shadow (gutter side) */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-black/[0.08] to-transparent lg:block"
+          />
+          <div className="relative h-full bg-[#FCF9F2]">
             <HeroWordGrid />
           </div>
-          {/* Sewn linen spine — desktop */}
+        </div>
+
+        {/* Center spine / gutter — vertical on desktop, horizontal on mobile */}
+        <div
+          aria-hidden
+          className="pointer-events-none relative z-20 flex-shrink-0 bg-[#E9E4D8] lg:h-auto lg:w-12"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(31,29,27,0.06), rgba(31,29,27,0.14) 50%, rgba(31,29,27,0.06)), repeating-linear-gradient(0deg, rgba(31,29,27,0.07) 0 1px, transparent 1px 3px), linear-gradient(90deg, #E9E4D8 0%, #D9D2C1 50%, #E9E4D8 100%)",
+            boxShadow:
+              "inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35), inset 0 0 16px rgba(31,29,27,0.18)",
+          }}
+        >
+          {/* Thread binding stitches — vertical on desktop */}
+          <div className="hidden lg:absolute lg:inset-y-4 lg:left-1/2 lg:flex lg:w-5 -translate-x-1/2 flex-col justify-between py-2">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-px w-full bg-[#8A7B6A]/40"
+                style={{
+                  boxShadow: "0 0.5px 0 rgba(255,255,255,0.35)",
+                }}
+              />
+            ))}
+          </div>
+          {/* Thread binding stitches — horizontal on mobile */}
+          <div className="flex h-5 w-full items-center justify-between px-2 lg:hidden">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-full w-px bg-[#8A7B6A]/40"
+                style={{
+                  boxShadow: "0.5px 0 0 rgba(255,255,255,0.35)",
+                }}
+              />
+            ))}
+          </div>
+          {/* Subtle page fold shadow in the gutter */}
+          <div className="absolute inset-y-0 left-1/2 hidden h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.14] to-transparent lg:block" />
+        </div>
+
+        {/* Right page */}
+        <div className="relative flex-1 overflow-hidden rounded-b-lg lg:rounded-none lg:rounded-r-lg">
+          {/* Page inset shadow (gutter side) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-8 -translate-x-1/2 lg:block"
-          >
-            {/* Gutter shadow (page fold) */}
-            <div className="absolute inset-y-0 left-1/2 h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.10] to-transparent" />
-            {/* Linen spine strip */}
-            <div className="linen-spine absolute inset-y-2 left-1/2 h-[calc(100%-1rem)] w-[10px] -translate-x-1/2 rounded-[2px]" />
-            {/* Spiral binding — sits above the linen gutter, which is kept
-                underneath as the page fold. */}
-            <JournalBinding orientation="vertical" />
-          </div>
-          {/* Sewn linen spine — mobile horizontal */}
-          <div
-            aria-hidden
-            className="pointer-events-none relative h-5 lg:hidden"
-          >
-            <div className="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-transparent via-[#1F1D1B]/[0.10] to-transparent" />
-            <div
-              className="linen-spine absolute inset-x-3 top-1/2 h-[8px] -translate-y-1/2 rounded-[2px]"
-              style={{
-                background:
-                  "linear-gradient(90deg, rgba(31,29,27,0.05), rgba(31,29,27,0.12) 50%, rgba(31,29,27,0.05)), repeating-linear-gradient(90deg, rgba(31,29,27,0.06) 0 1px, transparent 1px 3px), linear-gradient(0deg, #E9E4D8, #D9D2C1)",
-              }}
-            />
-            {/*
-              Below lg the spread stacks, so the two halves genuinely read as
-              pages turning vertically — the one case where a horizontal binding
-              is honest rather than decoration forced through unrelated content.
-            */}
-            <JournalBinding orientation="horizontal" />
-          </div>
-          <div className="relative">
-            <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-3 bg-gradient-to-l from-black/[0.06] to-transparent" />
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-black/[0.08] to-transparent lg:block"
+          />
+          <div className="relative h-full bg-[#FCF9F2]">
             <HeroDevotional />
           </div>
         </div>
@@ -256,24 +282,9 @@ function Landing() {
               </div>
             </div>
 
-            {/* Open magazine spread — the product, kept above the fold */}
+            {/* Open magazine spread — the product, visible above the fold */}
             <div className="relative w-full lg:col-span-7">
-              {/*
-                The spread is taller than a viewport. On desktop we clip it and
-                fade the cut so it reads as a page continuing below the fold
-                rather than a component that got chopped.
-              */}
-              <div className="relative lg:max-h-[70vh] lg:overflow-hidden">
-                <MagazineSpread />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-[#FCFBF8] to-transparent lg:block"
-                />
-              </div>
-              {/*
-                No badge over the spread: the spread already shows a devotional
-                next to a word search, so a label restating it only adds noise.
-              */}
+              <MagazineSpread />
             </div>
           </div>
         </div>
