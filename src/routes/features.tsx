@@ -1205,7 +1205,6 @@ function FeaturesPage() {
           {FEATURES.map((f, i) => {
             const reverse = i % 2 === 1;
             const Preview = f.Preview;
-            const Icon = f.icon;
             return (
               <div
                 key={f.id}
@@ -1216,16 +1215,6 @@ function FeaturesPage() {
               >
                 <div className={reverse ? "md:order-2" : ""}>
                   <div className="flex items-center gap-3">
-                    <span
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-xl"
-                      style={{
-                        background:
-                          "color-mix(in oklab, var(--brand) 12%, transparent)",
-                        color: "var(--brand)",
-                      }}
-                    >
-                      <Icon className="h-4.5 w-4.5" strokeWidth={1.6} />
-                    </span>
                     <PlanBadge kind={f.badge} />
                   </div>
                   <p
