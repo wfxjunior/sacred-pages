@@ -545,7 +545,7 @@ export function WordSearch({
                       ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
                       : revealColorValue
                         ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
-                        : `1px solid color-mix(in oklab, var(--border) 70%, transparent)`,
+                        : `1px solid color-mix(in oklab, var(--card) 78%, var(--border))`,
                   outlineOffset: inActive ? "-1px" : undefined,
                 }}
               >
