@@ -657,7 +657,7 @@ function CrossDevicePreview() {
 type Feature = {
   id: string;
   icon: LucideIcon;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: string;
   benefits: string[];
@@ -714,7 +714,6 @@ const FEATURES: Feature[] = [
   {
     id: "devotionals",
     icon: BookOpen,
-    eyebrow: "Daily Devotionals",
     title: "Short, thoughtful writing that meets you where you are.",
     description:
       "Every devotional grounds the day's passage in real, everyday life — never preachy, never performative.",
@@ -1213,13 +1212,15 @@ function FeaturesPage() {
                 }`}
               >
                 <div className={reverse ? "md:order-2" : ""}>
-                  <p
-                    className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em]"
-                    style={{ color: "var(--walnut)" }}
-                  >
-                    {f.eyebrow}
-                  </p>
-                  <h2 className="mt-2 font-serif text-3xl leading-[1.1] md:text-[40px]">
+                  {f.eyebrow && (
+                    <p
+                      className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em]"
+                      style={{ color: "var(--walnut)" }}
+                    >
+                      {f.eyebrow}
+                    </p>
+                  )}
+                  <h2 className={`font-serif text-3xl leading-[1.1] md:text-[40px] ${f.eyebrow ? "mt-2" : ""}`}>
                     {f.title}
                   </h2>
                   <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground md:text-base">
