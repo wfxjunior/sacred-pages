@@ -157,38 +157,19 @@ export function WorldMap({
 
         <rect x="0" y="0" width={W} height={H} fill="url(#world-glow)" />
 
-        {/* Faint graticule — gives the map a chart-like calm without labels. */}
-        <g
-          stroke="currentColor"
-          strokeWidth="1"
-          style={{ color: "color-mix(in oklab, var(--walnut) 8%, transparent)" }}
-        >
-          {[-40, -20, 0, 20, 40, 60].map((lat) => (
-            <line key={lat} x1="0" x2={W} y1={((78 - lat) / 140) * H} y2={((78 - lat) / 140) * H} />
-          ))}
-          {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map((lon) => (
-            <line key={lon} y1="0" y2={H} x1={((lon + 180) / 360) * W} x2={((lon + 180) / 360) * W} />
-          ))}
-        </g>
-
-        {/* Continent silhouettes. */}
-        <g
+        {/* Land, drawn as a halftone dot grid from real coastlines. */}
+        <path
+          d={dotPath}
           fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          style={{ color: "color-mix(in oklab, var(--walnut) 22%, transparent)" }}
-        >
-          {LAND.map((poly, i) => (
-            <path key={i} d={toPath(poly)} />
-          ))}
-        </g>
+          fillRule="nonzero"
+          style={{ color: "color-mix(in oklab, var(--walnut) 34%, transparent)" }}
+        />
 
         {/* Country dots, active ones pulsing. */}
         <g>
           {Object.entries(COUNTRY_COORDS).map(([code, coord]) => {
             const isActive = activeSet.has(code);
-            const [x, y] = project(coord).split(",").map(Number);
+            const [x, y] = project(coord);
             return (
               <g
                 key={code}
@@ -199,12 +180,13 @@ export function WorldMap({
                 onMouseLeave={handleLeave}
               >
                 {isActive && !reducedMotion && (
-                  <circle r="14" fill="var(--gold)" opacity="0.25" className="lj-map-pulse" />
+                  <circle r="13" fill="var(--gold)" opacity="0.22" className="lj-map-pulse" />
                 )}
+                <circle r="9" fill="transparent" />
                 <circle
-                  r={isActive ? 6 : 3.5}
+                  r={isActive ? 5 : 2.8}
                   fill={isActive ? "var(--gold)" : "var(--walnut)"}
-                  opacity={isActive ? 1 : 0.4}
+                  opacity={isActive ? 1 : 0.45}
                   filter={isActive ? "url(#dot-glow)" : undefined}
                 />
               </g>
