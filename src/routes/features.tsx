@@ -1205,7 +1205,6 @@ function FeaturesPage() {
           {FEATURES.map((f, i) => {
             const reverse = i % 2 === 1;
             const Preview = f.Preview;
-            const Icon = f.icon;
             return (
               <div
                 key={f.id}
