@@ -120,20 +120,19 @@ function Today() {
           </div>
         </div>
 
-        <div className="grid min-h-0 flex-1 gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-stretch">
-          <div className="flex min-h-0 min-w-0 items-start justify-center overflow-y-auto">
-            <WordSearch
-              key={`${puzzleSession}:${difficulty}`}
-              words={TODAY.words}
-              size={sizes[difficulty]}
-              journeyLabel={TODAY.title}
-              onShuffleWords={regenerate}
-              onComplete={() => setComplete(true)}
-              sessionKey={puzzleSession}
-            />
-          </div>
-          <DevotionalPanel />
+        <div className="flex min-h-0 flex-1 justify-center overflow-y-auto">
+          <WordSearch
+            key={`${puzzleSession}:${difficulty}`}
+            words={TODAY.words}
+            size={sizes[difficulty]}
+            journeyLabel={TODAY.title}
+            onShuffleWords={regenerate}
+            onComplete={() => setComplete(true)}
+            sessionKey={puzzleSession}
+          />
         </div>
+
+        <DevotionalDock />
       </div>
 
       {/* Mobile full-bleed layout */}
