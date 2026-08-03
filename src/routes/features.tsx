@@ -142,8 +142,8 @@ function ReadingPreview() {
 function DevotionalPreview() {
   return (
     <PreviewFrame>
-      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-        <BookOpen className="h-3.5 w-3.5" /> Daily Devotional
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        Daily Devotional
       </div>
       <h4 className="mt-3 font-serif text-2xl leading-snug">A quiet place to begin.</h4>
       <p className="mt-4 text-[15px] leading-relaxed text-foreground/85">
