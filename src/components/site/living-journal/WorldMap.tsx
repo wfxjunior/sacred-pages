@@ -1,15 +1,22 @@
 /**
- * A minimal world map for the Living Journal.
+ * A dot-matrix world map for the Living Journal.
  *
- * Continents are simplified equirectangular polygons projected from real
- * lon/lat coordinates, so the silhouette actually reads as the world rather
- * than as abstract blobs. Active country dots sit on top with a gentle golden
- * pulse; hovering a dot reveals the region name and the journey it is linked
- * to, giving the reader a quiet moment of orientation before any click.
+ * The land is drawn as a halftone grid of dots sampled from real Natural Earth
+ * coastlines (see worldDots.ts), which reads as a proper world map while
+ * staying quiet and editorial. Every dot lives in one SVG path so the DOM stays
+ * light. Active country dots sit on top with a gentle golden pulse; hovering a
+ * dot reveals the region name and the journey it is linked to.
  */
 
 import { useMemo, useState } from "react";
 import type { LivingJournalMoment } from "./livingJournal.types";
+import {
+  DOT_GRID_COLS,
+  DOT_GRID_ROWS,
+  DOT_LAT_BOTTOM,
+  DOT_LAT_TOP,
+  DOT_MAP_ENCODED,
+} from "./worldDots";
 
 interface WorldMapProps {
   activeCountryCodes?: readonly string[];
@@ -17,67 +24,33 @@ interface WorldMapProps {
   reducedMotion?: boolean;
 }
 
-const W = 1000;
-const H = 460;
+const CELL = 6;
+const DOT_R = 2.1;
+const W = DOT_GRID_COLS * CELL;
+const H = DOT_GRID_ROWS * CELL;
 
-/** Equirectangular projection, cropped below ~60°S (no Antarctica). */
-function project([lon, lat]: readonly [number, number]): string {
-  const x = ((lon + 180) / 360) * W;
-  const y = ((78 - lat) / 140) * H;
-  return `${x.toFixed(1)},${y.toFixed(1)}`;
+/** Equirectangular projection matching the generated dot grid. */
+function project([lon, lat]: readonly [number, number]): readonly [number, number] {
+  const x = ((lon + 180) / 360) * (DOT_GRID_COLS - 1) * CELL + CELL / 2;
+  const y =
+    ((DOT_LAT_TOP - lat) / (DOT_LAT_TOP - DOT_LAT_BOTTOM)) * (DOT_GRID_ROWS - 1) * CELL +
+    CELL / 2;
+  return [x, y];
 }
 
-const toPath = (pts: readonly (readonly [number, number])[]) =>
-  `M${pts.map(project).join(" L")} Z`;
-
-const LAND: readonly (readonly (readonly [number, number])[])[] = [
-  // North America
-  [
-    [-168, 65], [-156, 71], [-125, 70], [-95, 70], [-80, 70], [-65, 60], [-55, 52],
-    [-60, 47], [-70, 42], [-75, 35], [-80, 32], [-81, 25], [-90, 29], [-97, 26],
-    [-105, 22], [-114, 27], [-117, 32], [-124, 42], [-130, 54], [-140, 60], [-155, 58],
-  ],
-  // Central America
-  [[-105, 22], [-97, 16], [-88, 15], [-83, 10], [-77, 8], [-83, 15], [-92, 18], [-99, 19]],
-  // Greenland
-  [[-45, 60], [-20, 70], [-20, 82], [-50, 83], [-60, 76], [-55, 66]],
-  // South America
-  [
-    [-81, 0], [-75, -15], [-70, -23], [-72, -40], [-75, -52], [-68, -55], [-63, -42],
-    [-58, -38], [-53, -34], [-48, -25], [-40, -20], [-35, -8], [-45, -2], [-50, 2],
-    [-60, 8], [-70, 12], [-77, 8],
-  ],
-  // Africa
-  [
-    [-17, 15], [-16, 22], [-9, 31], [-5, 36], [10, 37], [20, 32], [32, 31], [37, 22],
-    [43, 12], [51, 12], [42, -2], [40, -15], [35, -25], [27, -34], [18, -34], [12, -18],
-    [9, -1], [8, 5], [-5, 5], [-13, 9],
-  ],
-  // Madagascar
-  [[45, -13], [50, -16], [47, -25], [44, -20]],
-  // Europe + Asia
-  [
-    [-10, 36], [-1, 43], [3, 43], [12, 45], [16, 41], [20, 40], [28, 41], [35, 36],
-    [36, 31], [43, 30], [48, 30], [56, 27], [60, 25], [67, 24], [72, 19], [77, 8],
-    [80, 13], [88, 21], [95, 16], [99, 10], [105, 9], [109, 15], [110, 21], [118, 24],
-    [122, 31], [122, 40], [128, 42], [131, 47], [141, 53], [155, 60], [170, 66],
-    [180, 66], [180, 73], [140, 74], [100, 78], [70, 73], [50, 70], [35, 70], [30, 62],
-    [22, 60], [12, 58], [8, 63], [4, 59], [-2, 51], [-5, 44],
-  ],
-  // British Isles
-  [[-6, 50], [-2, 53], [-1, 58], [-5, 57], [-6, 54]],
-  // Japan
-  [[131, 32], [136, 35], [141, 40], [143, 44], [140, 42], [136, 37], [130, 33]],
-  // Indonesia / Philippines
-  [[96, 5], [104, 1], [116, -3], [120, -8], [110, -7], [100, 0]],
-  // Australia
-  [
-    [113, -22], [114, -34], [129, -32], [138, -35], [146, -39], [150, -37], [153, -28],
-    [146, -19], [142, -11], [136, -12], [130, -12], [125, -14], [117, -20],
-  ],
-  // New Zealand
-  [[172, -41], [175, -37], [178, -38], [174, -42], [168, -46], [170, -43]],
-];
+/** Expand the encoded grid into a single path of dots (one DOM node). */
+function buildDotPath(): string {
+  let d = "";
+  for (const rowChunk of DOT_MAP_ENCODED.split(";")) {
+    const [rowStr, colsStr] = rowChunk.split(":");
+    const y = Number(rowStr) * CELL + CELL / 2;
+    for (const colStr of colsStr.split(",")) {
+      const x = Number(colStr) * CELL + CELL / 2;
+      d += `M${x - DOT_R} ${y}a${DOT_R} ${DOT_R} 0 1 0 ${DOT_R * 2} 0a${DOT_R} ${DOT_R} 0 1 0 ${-DOT_R * 2} 0`;
+    }
+  }
+  return d;
+}
 
 /** Capital-ish coordinates, projected the same way as the land. */
 const COUNTRY_COORDS: Record<string, readonly [number, number]> = {
