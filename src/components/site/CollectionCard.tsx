@@ -2,6 +2,7 @@ import type { Collection } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 export function CollectionCard({ c }: { c: Collection }) {
   const { t } = useI18n();
@@ -16,7 +17,7 @@ export function CollectionCard({ c }: { c: Collection }) {
     .toUpperCase();
   const progress = c.progress ?? 0;
   const progressPct = Math.round(progress * 100);
-  // Roman numeral for a subtle "volume" mark on the spine
+
   const toRoman = (n: number) => {
     const map: [number, string][] = [
       [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
@@ -25,33 +26,32 @@ export function CollectionCard({ c }: { c: Collection }) {
     for (const [v, s] of map) { while (x >= v) { r += s; x -= v; } }
     return r;
   };
-  // Stable-ish volume number from slug hash
+
   const vol = (c.slug.split("").reduce((a, ch) => a + ch.charCodeAt(0), 0) % 12) + 1;
 
   return (
     <Link
       to="/collections/$slug"
       params={{ slug: c.slug }}
-      className="group relative flex overflow-hidden rounded-r-[10px] border border-[#E5DFCE] bg-card shadow-[0_1px_2px_rgba(43,41,38,0.05),0_10px_30px_-18px_rgba(43,41,38,0.18)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(43,41,38,0.06),0_28px_60px_-24px_rgba(43,41,38,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+      className="group relative flex overflow-hidden rounded-sm border border-black/[0.03] bg-card shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-12px_rgba(0,0,0,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
     >
-      {/* Bound linen spine — a small volume in your library */}
+      {/* Archival linen spine — the volume marker that makes it feel like a real book */}
       <div
         aria-hidden
-        className="linen-spine relative w-8 shrink-0 border-r border-[#D6CFBE] dark:border-[#3B3E39]"
+        className="relative w-10 shrink-0 border-r border-black/5 bg-[#E8E6E2]"
       >
-        {/* Sewn stitch line */}
-        <svg
-          className="absolute inset-y-4 left-1/2 h-[calc(100%-2rem)] w-[3px] -translate-x-1/2"
-          viewBox="0 0 2 100" preserveAspectRatio="none"
-        >
-          <line x1="1" y1="0" x2="1" y2="100"
-            stroke="#8A6A1F" strokeOpacity="0.6" strokeWidth="0.6"
-            strokeDasharray="2.2 2" vectorEffect="non-scaling-stroke" />
-        </svg>
+        {/* Subtle thread texture */}
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(0deg, transparent 0 1px, rgba(0,0,0,0.45) 1px 2px)",
+          }}
+        />
         {/* Gold-foil volume band */}
-        <div className="absolute inset-x-1 top-8 h-14 rounded-[2px] bg-gradient-to-b from-[#D9B569] via-[#C89F4F] to-[#A78033] shadow-[inset_0_1px_0_rgba(255,255,255,0.4),inset_0_-1px_0_rgba(0,0,0,0.15)] flex items-center justify-center">
+        <div className="absolute inset-x-1.5 top-9 h-16 rounded-[2px] bg-gradient-to-b from-[#D4AF37] via-[#C5A059] to-[#B38B45] shadow-[inset_0_1px_0_rgba(255,255,255,0.4),inset_0_-1px_0_rgba(0,0,0,0.15),0_2px_4px_rgba(0,0,0,0.1)] flex items-center justify-center">
           <span
-            className="font-serif text-[10px] font-semibold tracking-[0.18em] text-[#3A2A08]"
+            className="font-sans text-[10px] font-bold tracking-[0.2em] text-white/90 uppercase"
             style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
           >
             VOL · {toRoman(vol)}
@@ -59,10 +59,20 @@ export function CollectionCard({ c }: { c: Collection }) {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main content */}
       <div className="flex flex-1 flex-col min-w-0">
-        {/* Editorial Image Header */}
-        <div className="relative aspect-video w-full overflow-hidden">
+        {/* Archival illustration header */}
+        <div className="relative h-60 flex overflow-hidden bg-[#F5F3EF]">
+          {/* Paper texture overlay on the image area */}
+          <div
+            aria-hidden
+            className="absolute inset-0 z-10 opacity-40 mix-blend-multiply pointer-events-none"
+            style={{
+              backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/></svg>")`,
+              backgroundSize: "220px 220px",
+            }}
+          />
+
           {showImage ? (
             <>
               <img
@@ -73,7 +83,7 @@ export function CollectionCard({ c }: { c: Collection }) {
                 height={1024}
                 onLoad={() => setLoaded(true)}
                 onError={() => setErrored(true)}
-                className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-[900ms] ease-out will-change-transform group-hover:scale-[1.045] ${
+                className={`h-full w-full object-cover object-center transition-all duration-[900ms] ease-out will-change-transform group-hover:scale-105 ${
                   loaded ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -90,7 +100,7 @@ export function CollectionCard({ c }: { c: Collection }) {
             </>
           ) : (
             <div
-              className="relative flex h-full w-full items-center justify-center"
+              className="relative flex h-full w-full flex-1 items-center justify-center"
               style={{
                 background: `linear-gradient(160deg, color-mix(in oklab, ${c.hue} 40%, var(--parchment)) 0%, color-mix(in oklab, ${c.hue} 15%, var(--background)) 100%)`,
               }}
@@ -104,31 +114,31 @@ export function CollectionCard({ c }: { c: Collection }) {
             </div>
           )}
 
-          {/* Vitral Sagrado overlay — subtle light tint, not a dark wash */}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1F1D1B]/[0.12]"
-          />
-
-          {/* Count badge */}
-          <div className="absolute right-4 top-4">
-            <span className="inline-flex items-center rounded-[3px] border border-white/60 bg-white/85 px-2.5 py-0.5 font-serif text-lg leading-none text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.06)] dark:bg-[#272927]/85 dark:text-[#F5F2EB]">
+          {/* Journey count badge */}
+          <div className="absolute right-4 top-4 z-20">
+            <span className="inline-flex items-center rounded-sm border border-black/5 bg-white/90 px-2.5 py-1 font-serif text-lg leading-none text-foreground shadow-sm backdrop-blur-sm">
               {c.count}
             </span>
           </div>
         </div>
 
-        {/* Text Content */}
-        <div className="flex flex-1 flex-col p-6 sm:p-7">
-          <h3 className="font-serif text-[22px] leading-[1.15] tracking-[-0.01em] text-[#1F1D1B] transition-colors duration-500 group-hover:text-[color:var(--brand)]">
+        {/* Text content */}
+        <div className="flex flex-1 flex-col p-7 sm:p-8">
+          <h3 className="font-serif text-2xl font-bold leading-[1.15] tracking-tight text-foreground transition-colors duration-500 group-hover:text-[color:var(--brand)]">
             {c.title}
           </h3>
 
-          <p className="mt-2.5 line-clamp-2 text-[13.5px] leading-[1.55] text-muted-foreground">
+          <p className="mt-3 line-clamp-2 text-[15px] leading-[1.6] text-muted-foreground">
             {c.description}
           </p>
 
-          {/* Luminous Progress Section */}
+          {/* Hover reveal: a quiet invitation to click */}
+          <div className="mt-5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[color:var(--gold)] opacity-0 -translate-x-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">
+            {t("collection.explore")}
+            <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
+          </div>
+
+          {/* Progress section */}
           {c.progress != null && (
             <div className="mt-auto pt-6 border-t border-dashed border-[#E5DFCE] dark:border-[#3B3E39]">
               <div className="flex items-baseline justify-between mb-2">
@@ -150,7 +160,7 @@ export function CollectionCard({ c }: { c: Collection }) {
         </div>
       </div>
 
-      {/* Right page edge (fore-edge shadow) */}
+      {/* Right fore-edge shadow */}
       <div
         aria-hidden
         className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-l from-black/[0.06] to-transparent"
