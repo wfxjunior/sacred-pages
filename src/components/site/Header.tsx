@@ -183,13 +183,18 @@ export function Header() {
       {open && (
         <div className="border-t border-border/50 bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:px-6">
-            {nav.map((n) =>
-              renderLink(
+            {nav.map((n) => {
+              const active = n.type === "route" && pathname === n.href;
+              return renderLink(
                 n,
-                "rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground",
+                `rounded-lg px-3 py-2.5 text-sm transition ${
+                  active
+                    ? "bg-secondary/60 font-medium text-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                }`,
                 () => setOpen(false),
-              ),
-            )}
+              );
+            })}
             <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
               <Button asChild variant="ghost" size="sm" className="flex-1">
                 <Link to="/signin">{t("cta.signin")}</Link>
