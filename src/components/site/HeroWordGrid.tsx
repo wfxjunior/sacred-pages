@@ -206,9 +206,9 @@ export function HeroWordGrid() {
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
         }}
       >
-        <div className="p-5 sm:p-8 lg:p-10">
+        <div className="p-4 sm:p-6 lg:p-10">
           {/* Header */}
-          <div className="mb-4 border-b border-[#C89F4F]/20 pb-3 sm:mb-5 sm:pb-4">
+          <div className="mb-3 border-b border-[#C89F4F]/20 pb-3 sm:mb-4 sm:pb-4">
             <div className="flex items-end justify-between gap-3">
               <div>
                 <h2 className="font-serif text-2xl font-normal italic leading-none text-[#2E5C9E] sm:text-3xl">
