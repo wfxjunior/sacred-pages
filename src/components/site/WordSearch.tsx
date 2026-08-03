@@ -551,6 +551,86 @@ export function WordSearch({
     );
   };
 
+  /** Focus mode: only the essentials — progress, words, reveal. */
+  const focusPanel = () => (
+    <div className="space-y-3">
+      {toast && (
+        <div
+          className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
+          style={{ background: "var(--ink)", color: "var(--ivory)", animation: "toast-in 0.25s ease-out" }}
+          role="status"
+          aria-live="polite"
+        >
+          {toast.all ? <Trophy className="h-4 w-4" /> : <Check className="h-4 w-4" />}
+          {toast.all
+            ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
+            : `${toast.word} — ${t("wordsearch.found")}`}
+        </div>
+      )}
+
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {t("wordsearch.wordsToFind")}
+        </p>
+        <span className="text-xs font-medium tabular-nums text-muted-foreground">
+          {found.length}/{words.length}
+          {isComplete && ` · ${completedTime}`}
+        </span>
+      </div>
+
+      <div className="h-1 overflow-hidden rounded-full bg-secondary">
+        <div
+          className="h-full rounded-full transition-all duration-500 ease-out"
+          style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+        />
+      </div>
+
+      <ul
+        className="grid grid-cols-2 gap-1.5 lg:grid-cols-1"
+        aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+      >
+        {puzzle.words.map(({ display: w, normalized }) => {
+          const done = found.includes(normalized);
+          const color = wordColor.get(normalized);
+          return (
+            <li
+              key={w}
+              aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
+              className={`flex min-h-9 min-w-0 items-center gap-2 rounded-lg px-3 py-1.5 font-serif text-sm uppercase tracking-[0.14em] transition ${
+                done ? "line-through opacity-70" : "text-foreground"
+              }`}
+              style={{
+                background: done ? `color-mix(in oklab, ${color} 14%, transparent)` : undefined,
+                textDecorationColor: done ? color : undefined,
+              }}
+            >
+              {done ? (
+                <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
+              ) : (
+                <span
+                  aria-hidden
+                  className="h-1.5 w-1.5 shrink-0 rounded-full"
+                  style={{ background: `color-mix(in oklab, ${color} 55%, transparent)` }}
+                />
+              )}
+              <span className="truncate">{w}</span>
+            </li>
+          );
+        })}
+      </ul>
+
+      <button
+        type="button"
+        onClick={() => setRevealed((v) => !v)}
+        aria-pressed={revealed}
+        className="mt-1 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-border px-3 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+      >
+        {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+      </button>
+    </div>
+  );
+
   const wordsPanel = (showToast: boolean) => (
     <div className="space-y-4">
       {showToast && toast && (
@@ -999,8 +1079,8 @@ export function WordSearch({
 
         {renderGrid(expandedGridRef, "expanded")}
 
-        <div className="w-full lg:w-[340px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:overflow-y-auto">
-          {wordsPanel(true)}
+        <div className="w-full lg:w-[240px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:self-center lg:overflow-y-auto">
+          {focusPanel()}
         </div>
       </div>
     </div>
