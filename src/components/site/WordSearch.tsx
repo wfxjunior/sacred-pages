@@ -427,8 +427,10 @@ export function WordSearch({
   const expandButtonClass =
     "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
 
+  // Borderless, letters-only grid: the page itself is the frame, as in a
+  // printed devotional notebook. Spacing (not rules) separates the cells.
   const gridBaseClass =
-    "grid select-none gap-1 rounded-lg border border-border bg-card touch-none";
+    "grid select-none gap-1.5 rounded-lg bg-transparent touch-none sm:gap-2";
 
   // Compact toolbar icon buttons: keep a comfortable 32px touch target on mobile.
   const compactIconButtonClass =
@@ -518,8 +520,8 @@ export function WordSearch({
                 }}
                 data-r={r}
                 data-c={c}
-                className={`aspect-square rounded-sm font-medium uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  isCompact ? "text-[10px] xs:text-xs sm:text-sm" : "text-xs sm:text-sm"
+                className={`aspect-square rounded-sm font-serif font-medium uppercase tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
+                  isCompact ? "text-[11px] xs:text-[13px] sm:text-[15px]" : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
