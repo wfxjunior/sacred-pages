@@ -42,7 +42,10 @@ export interface LivingJournalMoment {
   readonly text: string;
   /** ISO 3166-1 alpha-2, used for a discreet map dot. */
   readonly countryCode?: string;
+  /** Short journey label shown in the map tooltip, e.g. "Luke" or "Psalms". */
+  readonly journeyLabel?: string;
 }
+
 
 
 /** Where the typing sequence currently is for one entry. */
