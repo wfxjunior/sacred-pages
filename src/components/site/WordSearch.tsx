@@ -433,7 +433,7 @@ export function WordSearch({
   // Borderless, letters-only grid: the page itself is the frame, as in a
   // printed devotional notebook. Spacing (not rules) separates the cells.
   const gridBaseClass =
-    "grid select-none gap-1.5 rounded-lg bg-transparent touch-none sm:gap-2";
+    "grid select-none gap-1 rounded-lg bg-transparent touch-none sm:gap-1.5 xl:gap-2";
 
   // Compact toolbar icon buttons: keep a comfortable 32px touch target on mobile.
   const compactIconButtonClass =
@@ -527,7 +527,7 @@ export function WordSearch({
                   isCompact
                     ? "text-[11px] xs:text-[13px] sm:text-[15px]"
                     : stacked && mode === "normal"
-                      ? "text-[15px] sm:text-[17px] lg:text-[19px]"
+                      ? "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
                       : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
@@ -986,7 +986,7 @@ export function WordSearch({
 
   /** Reading layout: the grid is the hero, the words sit in a rail beside it. */
   const stackedLayout = (
-    <div className="flex h-full w-full min-w-0 flex-col gap-4">
+    <div className="flex h-auto w-full min-w-0 flex-col gap-4 md:h-full">
       {toast && (
         <div
           className="absolute left-1/2 top-0 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium shadow-lg"
@@ -1006,17 +1006,24 @@ export function WordSearch({
         </div>
       )}
 
-      <div className="flex min-h-0 w-full flex-1 gap-5">
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
+      <div className="flex w-full flex-none flex-col gap-4 md:min-h-0 md:flex-1 md:flex-row md:gap-4 lg:gap-5">
+        <div className="flex min-w-0 flex-none flex-col gap-2 md:min-h-0 md:flex-1">
           <div className="flex items-center justify-end">{gridEdgeActions}</div>
-          <div className="flex min-h-0 w-full flex-1 justify-center">
-            <div className="w-full max-w-[min(100%,calc(100dvh-13rem))]">
+          <div className="flex w-full flex-none justify-center md:min-h-0 md:flex-1">
+            <div
+              className="w-full [--ws-h:calc(100dvh-22rem)] md:[--ws-h:calc(100dvh-20rem)] lg:[--ws-h:calc(100dvh-22rem)] xl:[--ws-h:calc(100dvh-14rem)]"
+              style={{
+                maxWidth: `min(100%, calc(var(--ws-h) * ${
+                  (grid.cells[0]?.length ?? 1) / Math.max(grid.cells.length, 1)
+                }))`,
+              }}
+            >
               {renderGrid(gridRef, "normal")}
             </div>
           </div>
         </div>
 
-        <aside className="flex w-[200px] flex-none flex-col gap-3 self-stretch xl:w-[220px]">
+        <aside className="flex w-full flex-none flex-col gap-3 self-stretch md:w-[164px] lg:w-[180px] xl:w-[220px]">
           <div className="flex items-baseline justify-between gap-2">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               {t("wordsearch.wordsToFind")}
@@ -1044,7 +1051,7 @@ export function WordSearch({
           )}
 
           <ul
-            className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1"
+            className="grid auto-rows-min grid-cols-2 gap-1.5 pr-1 sm:grid-cols-3 md:flex md:min-h-0 md:flex-1 md:flex-col md:overflow-y-auto "
             aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
           >
             {puzzle.words.map(({ display: w, normalized }) => {

@@ -92,8 +92,8 @@ function Today() {
       {/* Desktop layout */}
       <div className="mx-auto hidden w-full max-w-[1360px] md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-6 md:overflow-hidden">
         {/* Header — title, reference, difficulty and reading time only (max 96px) */}
-        <header className="flex flex-none flex-wrap items-center justify-between gap-x-6 gap-y-2 py-1">
-          <div className="min-w-0 flex-1 basis-[240px]">
+        <header className="flex flex-none flex-wrap items-center justify-between gap-x-6 gap-y-3 py-1">
+          <div className="min-w-0 flex-1 basis-[220px]">
             <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
             </p>
@@ -103,9 +103,9 @@ function Today() {
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card p-1">
+          <div className="flex w-full min-w-0 flex-wrap items-center justify-end gap-1.5 rounded-full border border-border bg-card p-1 lg:w-auto lg:flex-nowrap">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
-            <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
+            <span className="mx-0.5 hidden h-5 w-px bg-border sm:block" aria-hidden />
             <HelpMenu />
             <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
               <Link to="/collections" aria-label={t("nav.collections")}>
@@ -132,13 +132,13 @@ function Today() {
             >
               <RefreshCw className="h-4 w-4" />
             </Button>
-            <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
+            <span className="mx-0.5 hidden h-5 w-px bg-border sm:block" aria-hidden />
             <JourneyThemePicker />
           </div>
         </header>
 
         {/* Reading spread — puzzle as the hero, scripture panel beside it */}
-        <div className="grid min-h-0 flex-1 gap-8 lg:grid-cols-[minmax(0,1fr)_410px]">
+        <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-8">
           <div className="flex min-h-0 min-w-0 justify-center overflow-y-auto">
             <WordSearch
               key={`${puzzleSession}:${difficulty}`}
@@ -152,10 +152,10 @@ function Today() {
             />
           </div>
 
-          <DevotionalPanel />
+          <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col"><DevotionalPanel /></div>
         </div>
 
-        <div className="flex-none lg:hidden">
+        <div className="flex-none xl:hidden">
           <DevotionalDock />
         </div>
       </div>
@@ -576,7 +576,7 @@ function DifficultyPicker({
   const opts = ["gentle", "balanced", "challenging", "expert"] as const;
   if (variant === "segmented") {
     return (
-      <div className="grid w-full grid-cols-4 items-stretch gap-0.5 rounded-full border border-border bg-card p-0.5 sm:inline-grid sm:w-auto">
+      <div className="grid w-full min-w-0 grid-cols-4 items-stretch gap-0.5 rounded-full border border-border bg-card p-0.5 md:inline-grid md:w-auto">
         {opts.map((o) => {
           const active = value === o;
           return (
@@ -584,7 +584,7 @@ function DifficultyPicker({
               key={o}
               onClick={() => onChange(o)}
               aria-pressed={active}
-              className={`min-w-0 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-medium transition sm:min-w-[104px] sm:px-3 sm:text-xs ${
+              className={`min-w-0 truncate rounded-full px-2 py-1.5 text-center text-[11px] font-medium transition lg:px-3 lg:text-xs xl:min-w-[100px] ${
                 active
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:text-foreground"
