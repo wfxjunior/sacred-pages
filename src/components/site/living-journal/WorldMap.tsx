@@ -112,6 +112,7 @@ export function WorldMap({
 }: WorldMapProps) {
   const activeSet = new Set(activeCountryCodes.map((c) => c.toUpperCase()));
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+  const dotPath = useMemo(buildDotPath, []);
 
   const journeyByCode = useMemo(() => {
     const map = new Map<string, string>();
