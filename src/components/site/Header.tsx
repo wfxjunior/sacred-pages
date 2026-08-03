@@ -1,13 +1,9 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
-import { LanguageSelector } from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
-import { DarkModeToggle } from "./DarkModeToggle";
-import { NotificationsMenu } from "./NotificationsMenu";
-import { FullscreenToggle } from "./FullscreenToggle";
 
 type NavItem = {
   href: string;
