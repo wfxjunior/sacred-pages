@@ -714,7 +714,6 @@ const FEATURES: Feature[] = [
   {
     id: "devotionals",
     icon: BookOpen,
-    eyebrow: "Daily Devotionals",
     title: "Short, thoughtful writing that meets you where you are.",
     description:
       "Every devotional grounds the day's passage in real, everyday life — never preachy, never performative.",
