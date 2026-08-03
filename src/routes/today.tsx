@@ -613,18 +613,43 @@ function HelpMenu() {
   );
 }
 
+function CompletionSeal() {
+  return (
+    <div className="mx-auto mb-8 grid h-24 w-24 place-items-center" aria-hidden>
+      <div className="relative grid h-24 w-24 place-items-center">
+        <span
+          className="absolute inset-0 rounded-full"
+          style={{ background: "color-mix(in oklab, var(--gold) 10%, transparent)" }}
+        />
+        <span
+          className="absolute inset-[6px] rounded-full border"
+          style={{ borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)" }}
+        />
+        <span
+          className="absolute inset-[13px] rounded-full border"
+          style={{
+            borderColor: "color-mix(in oklab, var(--gold) 70%, transparent)",
+            background:
+              "linear-gradient(145deg, color-mix(in oklab, var(--gold) 22%, transparent), transparent 65%)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
+          }}
+        />
+        <svg viewBox="0 0 24 24" className="relative h-8 w-8" fill="none" strokeWidth={1.6}
+          strokeLinecap="round" strokeLinejoin="round" stroke="var(--walnut)">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => void }) {
   const TODAY = useTodayContent();
   const { t } = useI18n();
   return (
     <AppShell>
       <div className="mx-auto max-w-2xl py-16 text-center">
-        <div
-          className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full"
-          style={{ background: "color-mix(in oklab, var(--sage) 22%, transparent)" }}
-        >
-          <CheckCircle2 className="h-8 w-8" style={{ color: "var(--sage)" }} />
-        </div>
+        <CompletionSeal />
         <h1 className="font-serif text-4xl leading-tight">{t("complete.title")}</h1>
         <p className="mt-4 text-base text-muted-foreground">{t("complete.sub")}</p>
 
