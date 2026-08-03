@@ -72,14 +72,14 @@ function HeroDevotional() {
           {t("hero.dev.time")}
         </span>
       </header>
-      <div className="flex flex-1 flex-col px-7 pb-6 pt-6 sm:px-9 sm:pb-7 sm:pt-8 lg:px-10">
+      <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-7 sm:pb-6 sm:pt-6 lg:px-10 lg:pb-7 lg:pt-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#7A4A5E] sm:text-[12px]">
           {t("hero.dev.ref")}
         </p>
-        <h3 className="mt-2 font-serif text-[28px] font-semibold leading-[1.05] tracking-[-0.01em] text-[#1F1D1B] sm:text-[32px] lg:text-[38px]">
+        <h3 className="mt-2 font-serif text-[26px] font-semibold leading-[1.05] tracking-[-0.01em] text-[#1F1D1B] sm:text-[30px] lg:text-[38px]">
           {t("hero.dev.title")}
         </h3>
-        <div aria-hidden className="mt-4 h-[2px] w-10 bg-[#C89F4F]" />
+        <div aria-hidden className="mt-3 h-[2px] w-10 bg-[#C89F4F] sm:mt-4" />
         <p className="mt-4 font-serif text-[14px] leading-[1.6] text-[#2D2926]/85 sm:columns-2 sm:gap-6 sm:text-[14.5px]">
           <span className="float-left mr-2 mt-1 font-serif text-[42px] font-semibold leading-[0.82] text-[#2E5C9E] sm:text-[48px]">
             {firstLetter}
