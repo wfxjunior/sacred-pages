@@ -33,36 +33,16 @@ export function celebrateWord(origin?: { x: number; y: number }) {
 /** Full celebration when every word in the set is found. */
 export function celebrateCompletion() {
   if (!motionAllowed()) return;
-  const end = Date.now() + 900;
   confetti({
-    particleCount: 120,
-    spread: 90,
+    particleCount: 140,
+    spread: 100,
     startVelocity: 42,
     ticks: 200,
     colors: COLORS,
-    origin: { x: 0.5, y: 0.5 },
+    origin: { x: 0.5, y: 0.52 },
     disableForReducedMotion: true,
     zIndex: Z_INDEX,
     scalar: 0.9,
     gravity: 1,
   });
-  const side = (x: number, angle: number) =>
-    confetti({
-      particleCount: 40,
-      angle,
-      spread: 70,
-      startVelocity: 45,
-      ticks: 220,
-      colors: COLORS,
-      origin: { x, y: 0.65 },
-      disableForReducedMotion: true,
-      zIndex: Z_INDEX,
-      scalar: 0.9,
-    });
-  const loop = () => {
-    side(0.05, 60);
-    side(0.95, 120);
-    if (Date.now() < end) setTimeout(loop, 300);
-  };
-  setTimeout(loop, 120);
 }
