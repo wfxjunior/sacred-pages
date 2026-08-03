@@ -619,12 +619,7 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
   return (
     <AppShell>
       <div className="mx-auto max-w-2xl py-16 text-center">
-        <div
-          className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full"
-          style={{ background: "color-mix(in oklab, var(--sage) 22%, transparent)" }}
-        >
-          <CheckCircle2 className="h-8 w-8" style={{ color: "var(--sage)" }} />
-        </div>
+        <CompletionSeal />
         <h1 className="font-serif text-4xl leading-tight">{t("complete.title")}</h1>
         <p className="mt-4 text-base text-muted-foreground">{t("complete.sub")}</p>
 
