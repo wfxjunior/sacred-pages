@@ -97,7 +97,7 @@ function Today() {
             <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
             </p>
-            <h1 className="mt-1 truncate font-serif text-2xl leading-tight lg:text-[28px]">{TODAY.title}</h1>
+            <h1 className="mt-1 truncate font-serif text-xl leading-tight lg:text-[23px]">{TODAY.title}</h1>
             <p className="mt-1 truncate text-xs text-muted-foreground">
               {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
