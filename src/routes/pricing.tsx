@@ -160,6 +160,9 @@ function Pricing() {
   const [cycle, setCycle] = useState<Cycle>("monthly");
   const premiumMonthly = 6;
   const premiumYearly = 60; // ~ $5/mo billed yearly
+  const yearlyIfMonthly = premiumMonthly * 12; // 72
+  const yearlySavings = yearlyIfMonthly - premiumYearly; // 12
+  const yearlyPercent = Math.round((yearlySavings / yearlyIfMonthly) * 100); // 17
   const premiumPrice = cycle === "monthly" ? `$${premiumMonthly}` : `$${premiumYearly}`;
   const premiumSuffix = cycle === "monthly" ? "/month" : "/year";
   const premiumHint =
@@ -215,9 +218,20 @@ function Pricing() {
                   style={active ? { background: "var(--brand)" } : undefined}
                 >
                   {c === "monthly" ? "Monthly" : "Yearly"}
-                  {c === "yearly" && !active && (
-                    <span className="ml-1.5 text-[10px] uppercase tracking-widest" style={{ color: "var(--sage)" }}>
-                      −2 mo
+                  {c === "yearly" && (
+                    <span
+                      className="ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest"
+                      style={
+                        active
+                          ? { background: "rgba(255,255,255,0.2)", color: "#fff" }
+                          : {
+                              background:
+                                "color-mix(in oklab, var(--sage) 16%, transparent)",
+                              color: "var(--sage)",
+                            }
+                      }
+                    >
+                      Save {yearlyPercent}%
                     </span>
                   )}
                 </button>
