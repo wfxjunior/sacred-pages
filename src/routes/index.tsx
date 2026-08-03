@@ -130,7 +130,7 @@ function HeroDevotionalPage() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-[760px]">
+    <div className="relative mx-auto w-full max-w-[820px]">
       {/* Realistic drop shadow beneath the closed cover */}
       <div
         aria-hidden
@@ -139,7 +139,7 @@ function MagazineSpread() {
 
       {/* Leather cover underlay */}
       <div
-        className="relative overflow-hidden rounded-lg bg-[#78866B] p-2 shadow-2xl sm:rounded-xl sm:p-3"
+        className="relative overflow-hidden rounded-lg bg-[#78866B] p-3 shadow-2xl sm:rounded-xl sm:p-4"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.12) 100%)",
@@ -162,10 +162,10 @@ function MagazineSpread() {
         <div aria-hidden className="pointer-events-none absolute -bottom-4 left-8 right-8 h-5 rounded-b-md bg-[#F5F3EE]/70 shadow-sm" />
         <div aria-hidden className="pointer-events-none absolute -bottom-7 left-12 right-12 h-5 rounded-b-md bg-[#F5F3EE]/50 shadow-sm" />
 
-        {/* Silk bookmark */}
+        {/* Silk bookmark — tucked into the spine so it never crosses the text */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-1 right-24 z-30 h-40 w-3 rounded-b-sm bg-[#C89F4F] shadow-md"
+          className="pointer-events-none absolute -top-1 left-1/2 z-30 hidden h-24 w-2.5 -translate-x-1/2 rounded-b-sm shadow-md lg:block"
           style={{
             background:
               "linear-gradient(90deg, #b88a3b 0%, #C89F4F 40%, #d4b466 60%, #b88a3b 100%)",
@@ -185,7 +185,7 @@ function MagazineSpread() {
           />
 
           {/* Left page */}
-          <div className="relative flex-1 border-b border-black/[0.08] lg:border-b-0 lg:border-r">
+          <div className="relative flex flex-1 flex-col justify-center border-b border-black/[0.08] lg:border-b-0 lg:border-r">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-[#1F1D1B]/[0.09] to-transparent lg:block"
@@ -207,7 +207,7 @@ function MagazineSpread() {
           </div>
 
           {/* Right page */}
-          <div className="relative flex-1">
+          <div className="relative flex flex-1 flex-col justify-center">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-[#1F1D1B]/[0.09] to-transparent lg:block"
