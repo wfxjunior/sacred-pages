@@ -871,20 +871,22 @@ export function FinalCTA() {
           aria-hidden
           className="final-pulse-ring pointer-events-none absolute inset-0 rounded-[1.5rem] border border-[#C89F4F]/20 md:rounded-[2rem]"
         />
-        {/* Floating golden dust */}
+        {/* Soft warm light — two wide gradient washes instead of speckles */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          {[...Array(6)].map((_, i) => (
-            <span
-              key={i}
-              className="final-dust absolute block h-1 w-1 rounded-full bg-[#C89F4F]/60 blur-[1px]"
-              style={{
-                left: `${18 + i * 14}%`,
-                bottom: `${20 + (i % 3) * 18}%`,
-                animationDelay: `${i * 1.2}s`,
-                animationDuration: `${8 + i * 1.5}s`,
-              }}
-            />
-          ))}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(90% 55% at 20% 105%, rgba(200,159,79,0.16) 0%, transparent 70%), radial-gradient(70% 50% at 85% 90%, rgba(120,134,107,0.14) 0%, transparent 72%)",
+            }}
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-1/2"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(200,159,79,0.10), transparent 80%)",
+            }}
+          />
         </div>
         {/* Sewn stitch border */}
         <svg
