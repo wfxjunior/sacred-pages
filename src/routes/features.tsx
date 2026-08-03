@@ -1220,7 +1220,7 @@ function FeaturesPage() {
                       {f.eyebrow}
                     </p>
                   )}
-                  <h2 className="mt-2 font-serif text-3xl leading-[1.1] md:text-[40px]">
+                  <h2 className={`font-serif text-3xl leading-[1.1] md:text-[40px] ${f.eyebrow ? "mt-2" : ""}`}>
                     {f.title}
                   </h2>
                   <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground md:text-base">
