@@ -92,12 +92,12 @@ function Today() {
       {/* Desktop layout */}
       <div className="mx-auto hidden w-full max-w-[1360px] md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-6 md:overflow-hidden">
         {/* Header — title, reference, difficulty and reading time only (max 96px) */}
-        <header className="flex flex-none items-center justify-between gap-8 py-1">
-          <div className="min-w-[260px] flex-1">
+        <header className="flex flex-none flex-wrap items-center justify-between gap-x-6 gap-y-2 py-1">
+          <div className="min-w-0 flex-1 basis-[240px]">
             <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
             </p>
-            <h1 className="mt-0.5 font-serif text-lg leading-snug text-balance lg:text-xl">{TODAY.title}</h1>
+            <h1 className="mt-0.5 truncate font-serif text-lg leading-snug lg:text-xl">{TODAY.title}</h1>
             <p className="mt-0.5 truncate text-xs text-muted-foreground">
               {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
