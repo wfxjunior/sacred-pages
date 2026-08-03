@@ -657,7 +657,7 @@ function CrossDevicePreview() {
 type Feature = {
   id: string;
   icon: LucideIcon;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: string;
   benefits: string[];
