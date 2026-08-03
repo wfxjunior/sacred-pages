@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { HeroMockup } from "@/components/site/HeroMockup";
 import { HeroWordGrid } from "@/components/site/HeroWordGrid";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
@@ -8,7 +7,6 @@ import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
-import { JournalBinding } from "@/components/journal/JournalBinding";
 import {
   ProductOverview,
   HowItWorks,
