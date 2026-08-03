@@ -125,7 +125,7 @@ function HeroDevotional() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-6xl">
+    <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none">
       <div
         aria-hidden
         className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-gradient-to-b from-[#2B2B2B]/8 via-transparent to-[#2B2B2B]/12 blur-3xl"
@@ -195,84 +195,87 @@ function Landing() {
           <div className="aurora-blob-1 absolute -right-[18%] -top-[18%] h-[55%] w-[55%] rounded-full bg-[#C89F4F]/[0.08] blur-[140px]" />
           <div className="aurora-blob-2 absolute -left-[14%] top-[22%] h-[48%] w-[42%] rounded-full bg-[#2E5C9E]/[0.06] blur-[140px]" />
         </div>
-        <div className="relative mx-auto w-full max-w-4xl px-5 sm:px-8 md:px-10 lg:px-12">
-          <div className="flex flex-col items-center gap-12 pb-16 pt-6 text-center sm:gap-14 sm:pb-20 sm:pt-8 md:gap-16 md:pb-24 md:pt-10 lg:pb-28 lg:pt-12">
+        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 lg:px-12">
+          {/*
+            Conversion layout: the promise and the single primary action sit on
+            the left, and the product itself — the journal spread — sits beside
+            them so it is visible without scrolling. Below lg it stacks, copy
+            first.
+          */}
+          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-14 lg:pb-24 lg:pt-10 xl:gap-16">
             {/* Text column */}
-            <div className="w-full">
-              <h1 className="mt-5 font-serif text-[clamp(2.5rem,10vw,3.75rem)] font-medium leading-[1.02] tracking-tight text-[#2D2926] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.75rem)] sm:leading-[0.98] md:text-[clamp(3.5rem,5.5vw,4.5rem)] md:leading-[0.96] lg:text-[clamp(4.25rem,5.5vw,5.5rem)] lg:leading-[0.94]">
+            <div className="w-full text-center lg:col-span-5 lg:text-left">
+              <div className="flex items-center justify-center gap-3 lg:justify-start">
+                <span aria-hidden className="h-px w-8 bg-[#C89F4F]" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#78866B]">
+                  {t("hero.socialProof")}
+                </span>
+              </div>
+
+              <h1 className="mt-5 font-serif text-[clamp(2.75rem,11vw,3.75rem)] font-medium leading-[1.03] tracking-tight text-[#1F1D1B] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.5rem)] lg:text-[clamp(3.5rem,4.6vw,4.75rem)] lg:leading-[1.02]">
                 {/* The hero headline names the experience, not the brand —
                     the Lumena mark in the header supplies the brand. */}
-                <span className="text-[#1F1D1B]">{t("brand.experience")}</span>
+                {t("brand.experience")}
               </h1>
 
-              <p className="mx-auto mt-5 max-w-md text-[15px] leading-[1.55] text-[#6B665C] sm:mt-6 sm:max-w-lg sm:text-[17px] md:max-w-xl md:text-[18px] lg:text-[19px] lg:leading-[1.5]">
-                {t("hero.subAtmospheric")}
+              <p className="mx-auto mt-5 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-6 sm:text-[18px] lg:mx-0 lg:text-[19px]">
+                {t("hero.promise")}
               </p>
 
-              <figure className="mx-auto mt-6 max-w-md sm:mt-7 sm:max-w-lg md:max-w-xl">
-                <div className="flex items-center justify-center gap-3">
-                  <span aria-hidden className="h-px w-8 bg-[#C89F4F]/70" />
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#C89F4F]/90 sm:text-[11px]">
-                    {verse.ref}
-                  </span>
-                </div>
-                <blockquote className="mt-2 font-serif text-[17px] italic leading-[1.45] text-[#2B2B2B]/85 sm:text-[19px] md:text-[20px]">
-                  &ldquo;{verse.text}&rdquo;
-                </blockquote>
-              </figure>
-
-              <div className="mt-7 flex flex-col gap-3.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
+              <div className="mt-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-8 lg:justify-start">
                 <Button
                   asChild
                   size="lg"
                   variant="editorial"
-                  className="h-12 w-full justify-center px-6 text-[15px] sm:w-auto sm:min-w-[180px]"
+                  className="h-13 w-full justify-center px-9 py-4 text-[15px] sm:w-auto sm:min-w-[210px]"
                 >
                   <Link to="/today">{t("hero.ctaStart")}</Link>
                 </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="editorialOutline"
-                  className="group h-12 w-full justify-center gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]"
+                {/*
+                  Demoted to a quiet link on purpose: two equally heavy buttons
+                  split the click, and the primary action is the one that starts
+                  the journey.
+                */}
+                <a
+                  href="#features"
+                  className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F]"
                 >
-                  <a href="#features">
-                    {t("hero.ctaExplore")}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </Button>
+                  {t("hero.ctaExplore")}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
               </div>
 
-              <p className="mt-3 text-center text-[11px] font-medium uppercase tracking-[0.15em] text-[#6B665C]/70">
-                {t("hero.ctaHint")}
-              </p>
-
-              <div className="mt-7 flex flex-wrap justify-center gap-1.5 sm:mt-8 sm:gap-2">
-                {/* Quiet, editorial chips: ink on paper with one gold hairline.
-                    Four saturated pills read as edtech; this reads as a masthead. */}
-                {[
-                  { label: t("hero.chip.time") },
-                  { label: t("hero.chip.devotional") },
-                  { label: t("hero.chip.wordsearch") },
-                  { label: t("hero.chip.reflection") },
-                ].map((c) => (
-                  <span
-                    key={c.label}
-                    className="rounded-full border px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] sm:px-3 sm:text-[10.5px]"
-                    style={{
-                      color: "#6B665C",
-                      backgroundColor: "transparent",
-                      borderColor: "#D9D3C2",
-                    }}
-                  >
-                    {c.label}
-                  </span>
-                ))}
+              <div className="mt-7 flex flex-col gap-1.5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B88A3B]">
+                  {t("hero.freeNote")}
+                </p>
+                {/* The verse supports the promise now instead of competing with it. */}
+                <p className="font-serif text-[13px] italic leading-[1.5] text-[#2D2926]/50">
+                  &ldquo;{verse.text}&rdquo; &mdash; {verse.ref}
+                </p>
               </div>
             </div>
 
-            {/* Open magazine spread */}
-            <MagazineSpread />
+            {/* Open magazine spread — the product, kept above the fold */}
+            <div className="relative w-full lg:col-span-7">
+              {/*
+                The spread is taller than a viewport. On desktop we clip it and
+                fade the cut so it reads as a page continuing below the fold
+                rather than a component that got chopped.
+              */}
+              <div className="relative lg:max-h-[70vh] lg:overflow-hidden">
+                <MagazineSpread />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-28 bg-gradient-to-t from-[#FCFBF8] to-transparent lg:block"
+                />
+              </div>
+              <div className="pointer-events-none absolute -bottom-4 left-1/2 hidden -translate-x-1/2 bg-[#B88A3B] px-6 py-2 shadow-lg sm:block">
+                <p className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.2em] text-[#FCFBF8]">
+                  {t("hero.spreadBadge")}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
