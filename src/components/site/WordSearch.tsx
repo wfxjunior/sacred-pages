@@ -868,12 +868,14 @@ export function WordSearch({
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-[min(460px,58vh)] lg:mx-0 lg:max-w-[min(400px,52vh)]">
-        {renderGrid(gridRef, "normal")}
+      <div className="mx-auto flex w-full max-w-[min(460px,58vh)] min-w-0 justify-center lg:mx-0 lg:max-w-none lg:flex-1">
+        <div className="w-full lg:max-w-[min(100%,calc(100dvh-13rem))]">
+          {renderGrid(gridRef, "normal")}
+        </div>
       </div>
 
       {!compact && (
-        <div className="hidden lg:block lg:w-60 lg:flex-none">
+        <div className="hidden lg:block lg:w-[280px] lg:flex-none">
           {desktopWordsPanel(true)}
         </div>
       )}
