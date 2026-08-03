@@ -105,7 +105,6 @@ function Today() {
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
-            <JourneyThemePicker />
           <div className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card p-1">
             <HelpMenu />
             <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
@@ -135,6 +134,7 @@ function Today() {
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
+            <JourneyThemePicker />
           </div>
         </header>
 
