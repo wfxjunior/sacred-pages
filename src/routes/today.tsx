@@ -92,8 +92,8 @@ function Today() {
       {/* Desktop layout */}
       <div className="mx-auto hidden w-full max-w-[1360px] md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-6 md:overflow-hidden">
         {/* Header — title, reference, difficulty and reading time only (max 96px) */}
-        <header className="flex max-h-24 flex-none items-center justify-between gap-8">
-          <div className="min-w-0 flex-1">
+        <header className="flex flex-none items-center justify-between gap-8 py-1">
+          <div className="min-w-[220px] flex-1">
             <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
               {TODAY.reference}
             </p>
