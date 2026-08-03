@@ -1214,9 +1214,6 @@ function FeaturesPage() {
                 }`}
               >
                 <div className={reverse ? "md:order-2" : ""}>
-                  <div className="flex items-center gap-3">
-                    <PlanBadge kind={f.badge} />
-                  </div>
                   <p
                     className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em]"
                     style={{ color: "var(--walnut)" }}
