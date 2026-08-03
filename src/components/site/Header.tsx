@@ -187,13 +187,6 @@ export function Header() {
                 () => setOpen(false),
               ),
             )}
-            <div className="mt-3 flex items-center justify-between gap-2 border-t border-border/50 pt-3">
-              <LanguageSelector variant="default" />
-              <div className="flex items-center gap-2">
-                <NotificationsMenu variant="default" />
-                <DarkModeToggle variant="default" />
-              </div>
-            </div>
             <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
               <Button asChild variant="ghost" size="sm" className="flex-1">
                 <Link to="/signin">{t("cta.signin")}</Link>
