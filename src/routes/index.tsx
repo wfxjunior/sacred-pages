@@ -165,7 +165,7 @@ function MagazineSpread() {
           }}
         >
           {/* Thread binding stitches — vertical on desktop */}
-          <div className="hidden lg:absolute lg:inset-y-4 lg:left-1/2 lg:flex lg:w-5 -lg:translate-x-1/2 flex-col justify-between py-2">
+          <div className="hidden lg:absolute lg:inset-y-4 lg:left-1/2 lg:flex lg:w-5 -translate-x-1/2 flex-col justify-between py-2">
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
