@@ -132,7 +132,7 @@ function MagazineSpread() {
 
       {/* Book cover + pages block */}
       <div
-        className="book-spread relative flex overflow-hidden rounded-lg sm:rounded-xl"
+        className="book-spread relative flex flex-col overflow-hidden rounded-lg sm:rounded-xl lg:flex-row"
         style={{
           // Walnut leather cover visible behind the pages
           background: "linear-gradient(90deg, #3D2B1F 0%, #4A3428 50%, #3D2B1F 100%)",
@@ -142,21 +142,21 @@ function MagazineSpread() {
         }}
       >
         {/* Left page */}
-        <div className="relative flex-1 overflow-hidden rounded-l-md sm:rounded-l-lg">
+        <div className="relative flex-1 overflow-hidden rounded-t-lg lg:rounded-none lg:rounded-l-lg">
           {/* Page inset shadow (gutter side) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-black/[0.08] to-transparent"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-6 bg-gradient-to-l from-black/[0.08] to-transparent lg:block"
           />
           <div className="relative h-full bg-[#FCF9F2]">
             <HeroWordGrid />
           </div>
         </div>
 
-        {/* Center spine / gutter */}
+        {/* Center spine / gutter — vertical on desktop, horizontal on mobile */}
         <div
           aria-hidden
-          className="pointer-events-none relative z-20 w-10 flex-shrink-0 bg-[#E9E4D8] sm:w-12"
+          className="pointer-events-none relative z-20 flex-shrink-0 bg-[#E9E4D8] lg:h-auto lg:w-12"
           style={{
             background:
               "linear-gradient(180deg, rgba(31,29,27,0.06), rgba(31,29,27,0.14) 50%, rgba(31,29,27,0.06)), repeating-linear-gradient(0deg, rgba(31,29,27,0.07) 0 1px, transparent 1px 3px), linear-gradient(90deg, #E9E4D8 0%, #D9D2C1 50%, #E9E4D8 100%)",
@@ -164,8 +164,8 @@ function MagazineSpread() {
               "inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35), inset 0 0 16px rgba(31,29,27,0.18)",
           }}
         >
-          {/* Thread binding stitches */}
-          <div className="absolute inset-y-4 left-1/2 flex w-5 -translate-x-1/2 flex-col justify-between py-2">
+          {/* Thread binding stitches — vertical on desktop */}
+          <div className="hidden lg:absolute lg:inset-y-4 lg:left-1/2 lg:flex lg:w-5 -lg:translate-x-1/2 flex-col justify-between py-2">
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
@@ -176,16 +176,28 @@ function MagazineSpread() {
               />
             ))}
           </div>
+          {/* Thread binding stitches — horizontal on mobile */}
+          <div className="flex h-5 w-full items-center justify-between px-2 lg:hidden">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-full w-px bg-[#8A7B6A]/40"
+                style={{
+                  boxShadow: "0.5px 0 0 rgba(255,255,255,0.35)",
+                }}
+              />
+            ))}
+          </div>
           {/* Subtle page fold shadow in the gutter */}
-          <div className="absolute inset-y-0 left-1/2 h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.14] to-transparent" />
+          <div className="absolute inset-y-0 left-1/2 hidden h-full w-[28px] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1F1D1B]/[0.14] to-transparent lg:block" />
         </div>
 
         {/* Right page */}
-        <div className="relative flex-1 overflow-hidden rounded-r-md sm:rounded-r-lg">
+        <div className="relative flex-1 overflow-hidden rounded-b-lg lg:rounded-none lg:rounded-r-lg">
           {/* Page inset shadow (gutter side) */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-black/[0.08] to-transparent"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-6 bg-gradient-to-r from-black/[0.08] to-transparent lg:block"
           />
           <div className="relative h-full bg-[#FCF9F2]">
             <HeroDevotional />
