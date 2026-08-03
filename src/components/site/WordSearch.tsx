@@ -538,14 +538,14 @@ export function WordSearch({
                       ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
                       : revealColorValue
                         ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
-                        : "transparent",
+                        : "color-mix(in oklab, var(--card) 92%, white)",
                   outline: inActive
                     ? `2px solid color-mix(in oklab, ${selectionColor} 75%, transparent)`
                     : isFound
                       ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
                       : revealColorValue
                         ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
-                        : `1px solid color-mix(in oklab, var(--card) 78%, var(--border))`,
+                        : `1px solid color-mix(in oklab, var(--border) 60%, transparent)`,
                   outlineOffset: inActive ? "-1px" : undefined,
                 }}
               >
