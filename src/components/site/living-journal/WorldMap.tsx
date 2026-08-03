@@ -4,11 +4,16 @@
  * Continents are simplified equirectangular polygons projected from real
  * lon/lat coordinates, so the silhouette actually reads as the world rather
  * than as abstract blobs. Active country dots sit on top with a gentle golden
- * pulse. No labels, no tooltips, no counts — decoration, not a dashboard.
+ * pulse; hovering a dot reveals the region name and the journey it is linked
+ * to, giving the reader a quiet moment of orientation before any click.
  */
+
+import { useMemo, useState } from "react";
+import type { LivingJournalMoment } from "./livingJournal.types";
 
 interface WorldMapProps {
   activeCountryCodes?: readonly string[];
+  activeMoments?: readonly LivingJournalMoment[];
   reducedMotion?: boolean;
 }
 
@@ -98,79 +103,168 @@ const COUNTRY_COORDS: Record<string, readonly [number, number]> = {
   ID: [113, -1],
 };
 
-export function WorldMap({ activeCountryCodes = [], reducedMotion = false }: WorldMapProps) {
+const COUNTRY_NAMES: Record<string, string> = {
+  BR: "Brazil",
+  CA: "Canada",
+  AU: "Australia",
+  MX: "Mexico",
+  DE: "Germany",
+  KE: "Kenya",
+  PT: "Portugal",
+  JP: "Japan",
+  US: "United States",
+  GB: "United Kingdom",
+  FR: "France",
+  IN: "India",
+  ZA: "South Africa",
+  NG: "Nigeria",
+  KR: "South Korea",
+  PH: "Philippines",
+  IT: "Italy",
+  ES: "Spain",
+  AR: "Argentina",
+  ID: "Indonesia",
+};
+
+interface TooltipState {
+  code: string;
+  x: number;
+  y: number;
+}
+
+export function WorldMap({
+  activeCountryCodes = [],
+  activeMoments = [],
+  reducedMotion = false,
+}: WorldMapProps) {
   const activeSet = new Set(activeCountryCodes.map((c) => c.toUpperCase()));
+  const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+
+  const journeyByCode = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const m of activeMoments) {
+      if (m.countryCode && m.journeyLabel) {
+        map.set(m.countryCode.toUpperCase(), m.journeyLabel);
+      }
+    }
+    return map;
+  }, [activeMoments]);
+
+  const handleEnter = (code: string) => (e: React.MouseEvent) => {
+    setTooltip({ code, x: e.clientX, y: e.clientY });
+  };
+
+  const handleMove = (e: React.MouseEvent) => {
+    setTooltip((prev) => (prev ? { ...prev, x: e.clientX, y: e.clientY } : null));
+  };
+
+  const handleLeave = () => setTooltip(null);
 
   return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      className="h-full w-full"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden="true"
-    >
-      <defs>
-        <radialGradient id="world-glow" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="var(--gold)" stopOpacity="0" />
-        </radialGradient>
-        <filter id="dot-glow" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      <rect x="0" y="0" width={W} height={H} fill="url(#world-glow)" />
-
-      {/* Faint graticule — gives the map a chart-like calm without labels. */}
-      <g
-        stroke="currentColor"
-        strokeWidth="1"
-        style={{ color: "color-mix(in oklab, var(--walnut) 8%, transparent)" }}
+    <>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="h-full w-full"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
       >
-        {[-40, -20, 0, 20, 40, 60].map((lat) => (
-          <line key={lat} x1="0" x2={W} y1={((78 - lat) / 140) * H} y2={((78 - lat) / 140) * H} />
-        ))}
-        {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map((lon) => (
-          <line key={lon} y1="0" y2={H} x1={((lon + 180) / 360) * W} x2={((lon + 180) / 360) * W} />
-        ))}
-      </g>
+        <defs>
+          <radialGradient id="world-glow" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="var(--gold)" stopOpacity="0" />
+          </radialGradient>
+          <filter id="dot-glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
 
-      {/* Continent silhouettes. */}
-      <g
-        fill="currentColor"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-        style={{ color: "color-mix(in oklab, var(--walnut) 22%, transparent)" }}
-      >
-        {LAND.map((poly, i) => (
-          <path key={i} d={toPath(poly)} />
-        ))}
-      </g>
+        <rect x="0" y="0" width={W} height={H} fill="url(#world-glow)" />
 
-      {/* Country dots, active ones pulsing. */}
-      <g>
-        {Object.entries(COUNTRY_COORDS).map(([code, coord]) => {
-          const isActive = activeSet.has(code);
-          const [x, y] = project(coord).split(",").map(Number);
-          return (
-            <g key={code} transform={`translate(${x}, ${y})`}>
-              {isActive && !reducedMotion && (
-                <circle r="14" fill="var(--gold)" opacity="0.25" className="lj-map-pulse" />
-              )}
-              <circle
-                r={isActive ? 6 : 3.5}
-                fill={isActive ? "var(--gold)" : "var(--walnut)"}
-                opacity={isActive ? 1 : 0.4}
-                filter={isActive ? "url(#dot-glow)" : undefined}
-              />
-            </g>
-          );
-        })}
-      </g>
-    </svg>
+        {/* Faint graticule — gives the map a chart-like calm without labels. */}
+        <g
+          stroke="currentColor"
+          strokeWidth="1"
+          style={{ color: "color-mix(in oklab, var(--walnut) 8%, transparent)" }}
+        >
+          {[-40, -20, 0, 20, 40, 60].map((lat) => (
+            <line key={lat} x1="0" x2={W} y1={((78 - lat) / 140) * H} y2={((78 - lat) / 140) * H} />
+          ))}
+          {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map((lon) => (
+            <line key={lon} y1="0" y2={H} x1={((lon + 180) / 360) * W} x2={((lon + 180) / 360) * W} />
+          ))}
+        </g>
+
+        {/* Continent silhouettes. */}
+        <g
+          fill="currentColor"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          style={{ color: "color-mix(in oklab, var(--walnut) 22%, transparent)" }}
+        >
+          {LAND.map((poly, i) => (
+            <path key={i} d={toPath(poly)} />
+          ))}
+        </g>
+
+        {/* Country dots, active ones pulsing. */}
+        <g>
+          {Object.entries(COUNTRY_COORDS).map(([code, coord]) => {
+            const isActive = activeSet.has(code);
+            const [x, y] = project(coord).split(",").map(Number);
+            return (
+              <g
+                key={code}
+                transform={`translate(${x}, ${y})`}
+                className="cursor-pointer"
+                onMouseEnter={handleEnter(code)}
+                onMouseMove={handleMove}
+                onMouseLeave={handleLeave}
+              >
+                {isActive && !reducedMotion && (
+                  <circle r="14" fill="var(--gold)" opacity="0.25" className="lj-map-pulse" />
+                )}
+                <circle
+                  r={isActive ? 6 : 3.5}
+                  fill={isActive ? "var(--gold)" : "var(--walnut)"}
+                  opacity={isActive ? 1 : 0.4}
+                  filter={isActive ? "url(#dot-glow)" : undefined}
+                />
+              </g>
+            );
+          })}
+        </g>
+      </svg>
+
+      {tooltip && (
+        <div
+          className="pointer-events-none fixed z-50 rounded-md border border-[#E4E0D6]/70 bg-[#FBFAF6] px-3 py-2 shadow-lg dark:border-border/50 dark:bg-card"
+          style={{
+            left: tooltip.x,
+            top: tooltip.y - 44,
+            transform: "translate(-50%, 0)",
+          }}
+        >
+          <div className="flex items-center gap-1.5">
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ background: activeSet.has(tooltip.code) ? "var(--gold)" : "var(--walnut)" }}
+            />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.16em]" style={{ color: "var(--walnut)" }}>
+              {COUNTRY_NAMES[tooltip.code] ?? tooltip.code}
+            </span>
+          </div>
+          {journeyByCode.get(tooltip.code) && (
+            <p className="mt-0.5 font-serif text-[13px] leading-tight" style={{ color: "var(--ink)" }}>
+              {journeyByCode.get(tooltip.code)}
+            </p>
+          )}
+        </div>
+      )}
+    </>
   );
 }
