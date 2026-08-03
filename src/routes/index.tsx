@@ -124,28 +124,28 @@ function HeroDevotional() {
 function MagazineSpread() {
   return (
     <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none">
-      {/* Realistic shadow cast by the closed book beneath the open spread */}
+      {/* Solid shadow under the book — no transparent fade */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-3 rounded-[2.5rem] bg-[#2B2B2B]/10 blur-2xl"
+        className="pointer-events-none absolute -inset-3 rounded-[2.5rem] bg-[#2B2B2B]/12 blur-2xl"
       />
 
-      {/* Closed book block underneath, giving thickness and reality */}
+      {/* Closed book thickness visible beneath the open spread */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-2 right-2 top-4 h-full rounded-lg bg-[#2B1E15]"
-        style={{ transform: "translateY(12px) scale(0.98)" }}
+        style={{ transform: "translateY(14px) scale(0.98)" }}
       />
 
       {/* Book cover + pages block */}
       <div
         className="book-spread relative flex flex-col overflow-hidden rounded-lg sm:rounded-xl lg:flex-row"
         style={{
-          minHeight: "560px",
+          minHeight: "clamp(420px, 60vh, 560px)",
           background: "linear-gradient(90deg, #3B2920 0%, #4A3428 50%, #3B2920 100%)",
           boxShadow:
             "0 60px 110px -45px rgba(43,41,38,0.38), 0 24px 44px -22px rgba(43,41,38,0.22), inset 0 0 0 1px rgba(255,255,255,0.08)",
-          padding: "10px 14px 16px",
+          padding: "10px 14px 18px",
         }}
       >
         {/* Subtle leather grain overlay on cover */}
@@ -217,10 +217,10 @@ function MagazineSpread() {
           </div>
         </div>
 
-        {/* Page-edge thickness / stacked pages feel at bottom */}
+        {/* Page-edge thickness at bottom — solid paper, not a fade */}
         <div
           aria-hidden
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-b from-[#FCF9F2] to-[#E9E4D8]"
+          className="pointer-events-none absolute bottom-0 left-0 right-0 h-3 bg-[#E9E4D8]"
           style={{
             borderTop: "1px solid rgba(31,29,27,0.06)",
             boxShadow: "inset 0 2px 4px rgba(31,29,27,0.06)",
