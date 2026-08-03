@@ -125,7 +125,7 @@ function HeroDevotional() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-6xl">
+    <div className="relative mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-none">
       <div
         aria-hidden
         className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-gradient-to-b from-[#2B2B2B]/8 via-transparent to-[#2B2B2B]/12 blur-3xl"
