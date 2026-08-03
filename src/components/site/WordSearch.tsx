@@ -956,7 +956,7 @@ export function WordSearch({
         </div>
       )}
 
-      <div className="w-full max-w-[min(650px,calc(100dvh-21rem))] flex-none">
+      <div className="w-full max-w-[min(650px,calc(100dvh-24rem))] flex-none">
         {renderGrid(gridRef, "normal")}
       </div>
 
