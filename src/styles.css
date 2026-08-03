@@ -281,6 +281,53 @@
 }
 .animate-page-rise { animation: page-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 
+/* Final CTA — editorial closing card effects */
+@keyframes final-glow {
+  0%, 100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+@keyframes final-dust {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-80px) translateX(20px); opacity: 0; }
+}
+@keyframes final-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes final-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes final-pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.45; }
+  50% { transform: scale(1.05); opacity: 0.25; }
+  100% { transform: scale(0.95); opacity: 0.45; }
+}
+.final-glow {
+  animation: final-glow 8s ease-in-out infinite;
+}
+.final-dust {
+  animation: final-dust 10s ease-in-out infinite;
+}
+.final-fade-up {
+  animation: final-fade-up 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.final-shimmer {
+  background-size: 200% 100%;
+  animation: final-shimmer 4s linear infinite;
+}
+.final-pulse-ring {
+  animation: final-pulse-ring 4s ease-in-out infinite;
+}
+
 /* Reduced motion: honor OS preference and .reduce-motion opt-in (mock) */
 @media (prefers-reduced-motion: reduce) {
   *,
