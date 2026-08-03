@@ -79,8 +79,8 @@ export function GlobalMomentList({
         </span>
       </div>
 
-      <div className="mt-5 overflow-hidden rounded-2xl border border-[#E4E0D6]/70 bg-[color:var(--parchment)] p-4 dark:border-border/50 dark:bg-card/50">
-        <div className="relative aspect-[1000/460] w-full overflow-hidden rounded-xl">
+      <div className="mt-5 overflow-hidden rounded-[26px] border border-[#E4E0D6]/70 bg-[color:var(--parchment)] p-5 shadow-[0_18px_46px_-32px_rgba(43,43,43,0.45)] sm:p-7 dark:border-border/50 dark:bg-card/50">
+        <div className="relative aspect-[1086/426] w-full overflow-hidden rounded-2xl">
           <WorldMap activeCountryCodes={activeCodes} activeMoments={visible} reducedMotion={reducedMotion} />
         </div>
       </div>
