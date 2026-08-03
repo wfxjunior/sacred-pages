@@ -661,7 +661,7 @@ type Feature = {
   title: string;
   description: string;
   benefits: string[];
-  badge: Badge;
+  badge?: Badge;
   Preview: React.FC;
 };
 
@@ -723,7 +723,6 @@ const FEATURES: Feature[] = [
       "Real-life application",
       "Multiple languages",
     ],
-    badge: "Free",
     Preview: DevotionalPreview,
   },
   {
