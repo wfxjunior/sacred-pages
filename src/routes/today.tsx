@@ -103,9 +103,9 @@ function Today() {
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card p-1">
             <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
-          <div className="flex shrink-0 items-center gap-1 rounded-full border border-border bg-card p-1">
+            <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
             <HelpMenu />
             <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
               <Link to="/collections" aria-label={t("nav.collections")}>
@@ -122,7 +122,6 @@ function Today() {
             >
               <CheckCircle2 className="h-4 w-4" />
             </Button>
-            <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
             <Button
               onClick={regenerate}
               variant="ghost"
@@ -133,7 +132,7 @@ function Today() {
             >
               <RefreshCw className="h-4 w-4" />
             </Button>
-          </div>
+            <span className="mx-0.5 h-5 w-px bg-border" aria-hidden />
             <JourneyThemePicker />
           </div>
         </header>
@@ -391,7 +390,7 @@ function DevotionalPanel() {
             {t("wordsearch.expand")}
           </button>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-hidden">
           <JourneyTabsContent />
         </div>
       </aside>
@@ -499,17 +498,17 @@ function JourneyTabsContent() {
   const TODAY = useTodayContent();
   const { t } = useI18n();
   return (
-    <Tabs defaultValue="scripture" className="w-full">
+    <Tabs defaultValue="devotional" className="flex h-full w-full flex-col">
       {/* The day's theme, set in a handwritten hand — the one script note in
           the interface, as on the title line of a printed devotional page. */}
-      <header className="px-5 pt-5 text-center md:px-8 md:pt-7">
+      <header className="flex-none px-5 pt-5 text-center md:px-8 md:pt-6">
         <p
           className="text-[10px] font-semibold uppercase tracking-[0.28em]"
           style={{ color: "var(--walnut)" }}
         >
           {TODAY.reference}
         </p>
-        <h2 className="font-hand mt-1 text-[34px] text-foreground md:text-[42px]">
+        <h2 className="font-hand mt-1 text-[30px] leading-tight text-foreground md:text-[36px]">
           {TODAY.title}
         </h2>
         <span
@@ -518,9 +517,18 @@ function JourneyTabsContent() {
           style={{ background: "var(--gold)" }}
         />
       </header>
-      <TabsList className="mt-4 grid w-full grid-cols-4 rounded-none border-b border-border bg-transparent p-0">
+
+      {/* The verse stays pinned: it is the anchor of the whole page, and it
+          keeps the panel from opening on an empty stretch of paper. */}
+      <blockquote
+        className="mx-5 mt-4 flex-none rounded-lg border-l-2 bg-secondary/40 px-4 py-3 font-serif text-base leading-relaxed md:mx-8"
+        style={{ borderColor: "var(--gold)" }}
+      >
+        "{TODAY.scripture}"
+      </blockquote>
+
+      <TabsList className="mt-4 grid w-full flex-none grid-cols-3 rounded-none border-b border-border bg-transparent p-0">
         {[
-          ["scripture", t("journey.scripture")],
           ["devotional", t("journey.devotional")],
           ["reflection", t("journey.reflection")],
           ["prayer", t("journey.prayer")],
@@ -534,21 +542,15 @@ function JourneyTabsContent() {
           </TabsTrigger>
         ))}
       </TabsList>
-      <div className="p-5 md:p-8">
-        <TabsContent value="scripture" className="mt-0 space-y-3">
-          <p className="text-xs uppercase tracking-widest" style={{ color: "var(--walnut)" }}>
-            {TODAY.reference}
-          </p>
-          <p className="font-serif text-lg leading-relaxed md:text-xl">"{TODAY.scripture}"</p>
-        </TabsContent>
+      <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-6">
         <TabsContent value="devotional" className="mt-0 text-sm leading-relaxed text-foreground/90 md:text-base">
           {TODAY.devotional}
         </TabsContent>
-        <TabsContent value="reflection" className="mt-0 space-y-4">
+        <TabsContent value="reflection" className="mt-0 flex h-full flex-col gap-4">
           <p className="text-sm leading-relaxed text-foreground/90 md:text-base">{TODAY.reflection}</p>
           <textarea
             placeholder="Write your reflection…"
-            className="min-h-32 w-full rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
+            className="min-h-32 w-full flex-1 rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
           />
         </TabsContent>
         <TabsContent value="prayer" className="mt-0 font-serif text-lg leading-relaxed">
