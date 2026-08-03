@@ -108,8 +108,10 @@ export function Header() {
     : "sticky top-0 z-40 w-full border-b border-border/50 bg-background/75 backdrop-blur-xl";
 
   const navLink = (active: boolean) =>
-    `text-[13px] font-medium transition ${
-      active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+    `relative text-[13px] font-medium transition ${
+      active
+        ? "text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-foreground"
+        : "text-muted-foreground hover:text-foreground"
     }`;
 
   return (
@@ -181,13 +183,18 @@ export function Header() {
       {open && (
         <div className="border-t border-border/50 bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:px-6">
-            {nav.map((n) =>
-              renderLink(
+            {nav.map((n) => {
+              const active = n.type === "route" && pathname === n.href;
+              return renderLink(
                 n,
-                "rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground",
+                `rounded-lg px-3 py-2.5 text-sm transition ${
+                  active
+                    ? "bg-secondary/60 font-medium text-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                }`,
                 () => setOpen(false),
-              ),
-            )}
+              );
+            })}
             <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
               <Button asChild variant="ghost" size="sm" className="flex-1">
                 <Link to="/signin">{t("cta.signin")}</Link>
