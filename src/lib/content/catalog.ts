@@ -180,7 +180,11 @@ export function useDailyJourney() {
   return useQuery({
     queryKey: ["catalog", "daily", locale],
     enabled: isSupabaseConfigured(),
-    staleTime: 5 * 60_000,
+    staleTime: Infinity,
+    gcTime: 60 * 60_000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     retry: false,
     queryFn: () => publicContent.getDailyJourney(locale),
   });
@@ -192,7 +196,11 @@ export function useJourneyBySlug(slug?: string) {
   return useQuery({
     queryKey: ["catalog", "journey", slug ?? "", locale],
     enabled: isSupabaseConfigured() && Boolean(slug),
-    staleTime: 5 * 60_000,
+    staleTime: Infinity,
+    gcTime: 60 * 60_000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     retry: false,
     queryFn: () => publicContent.getJourneyBySlug(slug as string, locale),
   });
