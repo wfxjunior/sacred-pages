@@ -633,7 +633,21 @@ function CrossDevicePreview() {
           <p className="mt-3 font-serif text-lg leading-snug">
             The same journey, everywhere.
           </p>
-          <div className="mt-4 h-16 rounded-lg bg-[color:var(--surface-2)]" />
+          <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+            “Your word is a lamp to my feet and a light to my path.” — Psalm
+            119:105
+          </p>
+          <div className="mt-4 flex items-center justify-between rounded-lg border border-border/60 px-3 py-2">
+            <span className="text-[11px] text-muted-foreground">
+              Day 4 · Light &amp; Guidance
+            </span>
+            <span
+              className="text-[11px] font-medium"
+              style={{ color: "var(--walnut)" }}
+            >
+              6 / 8 words
+            </span>
+          </div>
         </div>
         <div className="rounded-[26px] border-4 border-border/70 bg-background p-3">
           <p
@@ -645,7 +659,16 @@ function CrossDevicePreview() {
           <p className="mt-2 font-serif text-[13px] leading-snug">
             Read anywhere.
           </p>
-          <div className="mt-3 h-24 rounded-md bg-[color:var(--surface-2)]" />
+          <div className="mt-3 space-y-1.5">
+            {["Read", "Reflect", "Pray", "Word search"].map((s) => (
+              <div
+                key={s}
+                className="rounded-md border border-border/60 px-2 py-1.5 text-[10px] text-muted-foreground"
+              >
+                {s}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </PreviewFrame>
