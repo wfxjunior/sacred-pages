@@ -700,7 +700,7 @@ export function WordSearch({
   );
 
   const desktopWordsPanel = (showToast: boolean) => (
-    <div className="flex h-full flex-col gap-3">
+    <div className="flex flex-col gap-3">
       {showToast && toast && (
         <div
           className="flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium shadow-sm"
@@ -719,7 +719,7 @@ export function WordSearch({
         </div>
       )}
 
-      <div className="flex flex-1 flex-col rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
+      <div className="flex flex-col rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
         <div className="mb-3 border-b border-border/60 pb-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {t("wordsearch.wordsToFind")}
@@ -750,7 +750,7 @@ export function WordSearch({
         </div>
 
         <ul
-          className="flex flex-1 flex-col content-start gap-1 overflow-y-auto pr-1"
+          className="flex max-h-[46vh] flex-col gap-1.5 overflow-y-auto pr-1"
           aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
         >
           {puzzle.words.map(({ display: w, normalized }) => {
@@ -784,24 +784,26 @@ export function WordSearch({
           })}
         </ul>
 
-        <div className="mt-3 grid grid-cols-3 gap-2 border-t border-border/60 pt-3">
+        <div className="mt-4 grid grid-cols-2 gap-2 border-t border-border/60 pt-3">
           <button
             type="button"
             onClick={shuffleGrid}
             title={t("wordsearch.shuffleConfirm")}
             aria-label={t("wordsearch.shuffle")}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
-            <Shuffle className="h-3.5 w-3.5" />
+            <Shuffle className="h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">{t("wordsearch.shuffle")}</span>
           </button>
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
             aria-pressed={expanded}
             title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
-            {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+            {expanded ? <Minimize2 className="h-3.5 w-3.5 shrink-0" /> : <Maximize2 className="h-3.5 w-3.5 shrink-0" />}
+            <span className="truncate">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
           </button>
           <button
             type="button"
@@ -809,9 +811,10 @@ export function WordSearch({
             aria-pressed={revealed}
             title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
             aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            className="col-span-2 inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
-            {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            {revealed ? <EyeOff className="h-3.5 w-3.5 shrink-0" /> : <Eye className="h-3.5 w-3.5 shrink-0" />}
+            <span className="truncate">{revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}</span>
           </button>
         </div>
 
