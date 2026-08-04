@@ -180,7 +180,7 @@ function HeroWordGrid() {
             {t("hero.grid.title")}
           </p>
           <h2 className="font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] text-[#2B2B2B] sm:text-[26px]">
-            {t("hero.dev.title")}
+            {t("hero.notebook.title")}
           </h2>
           <p className="mt-1 font-['Crimson_Pro',serif] text-xs uppercase tracking-[0.15em] text-[#6B665C]">
             {t("hero.dev.ref")}
