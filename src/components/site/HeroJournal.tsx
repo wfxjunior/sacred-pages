@@ -32,7 +32,7 @@ const GridCell = memo(function GridCell({
   hit: boolean;
 }) {
   return (
-    <div className="relative flex aspect-square items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]">
+    <div className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]">
       <span
         className="relative z-10 font-['Crimson_Pro',serif] text-[10px] font-medium uppercase tracking-[0.04em] transition-colors duration-500 sm:text-[12px] lg:text-[13px]"
         style={{ color: hit ? INK : "rgba(31,29,27,0.62)" }}
@@ -294,7 +294,7 @@ function DevotionalPage() {
   const { t } = useI18n();
 
   return (
-    <div className="flex h-full flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-10 lg:py-11">
+    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-7 xl:px-9 xl:py-8">
       <div className="flex items-center justify-between gap-3">
         <PageLabel>{t("hero.dev.eyebrow")}</PageLabel>
         <span
@@ -307,29 +307,29 @@ function DevotionalPage() {
       </div>
 
       <p
-        className="mt-7 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px]"
+        className="mt-6 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px]"
         style={{ color: "#6B665C" }}
       >
         {t("hero.dev.ref")}
       </p>
 
       <h3
-        className="mt-2 font-['Playfair_Display',serif] text-[26px] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[32px] lg:text-[36px]"
+        className="mt-2 font-['Playfair_Display',serif] text-[26px] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[32px] lg:text-[30px] xl:text-[34px]"
         style={{ color: INK }}
       >
         {t("hero.dev.title")}
       </h3>
 
-      <span aria-hidden className="mt-5 block h-px w-10" style={{ background: MARK }} />
+      <span aria-hidden className="mt-4 block h-px w-10" style={{ background: MARK }} />
 
       <p
-        className="mt-5 text-[13px] leading-[1.7] sm:text-[14px] lg:text-[15px]"
+        className="mt-4 text-[13px] leading-[1.7] sm:text-[14px] lg:text-[14px]"
         style={{ color: "rgba(31,29,27,0.78)" }}
       >
         {t("hero.dev.body")}
       </p>
 
-      <div className="mt-7 flex items-center justify-between border-b border-[#1F1D1B]/10 text-[9px] font-semibold uppercase tracking-[0.16em] sm:text-[10px]">
+      <div className="mt-5 flex items-center justify-between border-b border-[#1F1D1B]/10 text-[9px] font-semibold uppercase tracking-[0.16em] sm:text-[10px]">
         <span className="-mb-px border-b pb-2.5" style={{ borderColor: INK, color: INK }}>
           Scripture
         </span>
@@ -342,7 +342,7 @@ function DevotionalPage() {
       </div>
 
       <figure
-        className="relative mt-6 rounded-[6px] px-5 py-5 sm:px-6 sm:py-6"
+        className="relative mt-5 rounded-[6px] px-5 py-5 sm:px-6 sm:py-6"
         style={{ background: "#EDE9DF" }}
       >
         <span
@@ -367,7 +367,7 @@ function DevotionalPage() {
       </figure>
 
       {/* Ruled writing lines — the reader's own space, as in the reference. */}
-      <div aria-hidden className="mt-auto space-y-6 pt-8">
+      <div aria-hidden className="mt-auto space-y-5 pt-6">
         {[0, 1, 2].map((i) => (
           <span
             key={i}
@@ -382,7 +382,7 @@ function DevotionalPage() {
 
 export function HeroJournal() {
   return (
-    <div className="relative mx-auto w-full max-w-[min(94vw,540px)] sm:max-w-[640px] lg:max-w-[min(860px,calc(100dvh-9rem))]">
+    <div className="relative mx-auto w-full max-w-[min(94vw,540px)] sm:max-w-[640px] lg:max-w-none">
       {/* The book lifts off the desk, nothing more. */}
       <div
         aria-hidden
@@ -390,7 +390,7 @@ export function HeroJournal() {
       />
 
       <div
-        className="relative overflow-hidden rounded-[10px]"
+        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.5/1] lg:h-[min(560px,calc(100dvh-11rem))] lg:w-auto lg:max-w-full"
         style={{
           background: PAPER,
           boxShadow:
