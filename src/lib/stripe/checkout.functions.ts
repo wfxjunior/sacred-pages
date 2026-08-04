@@ -1,7 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getStripe } from "./server";
+
 
 const checkoutInput = z.object({
   cycle: z.enum(["monthly", "yearly"]),
@@ -51,11 +54,12 @@ async function ensurePremiumPrice(cycle: "monthly" | "yearly") {
 }
 
 async function getOrCreateCustomer(
-  supabase: ReturnType<typeof getStripe> extends never ? never : any,
+  supabase: SupabaseClient<Database>,
   userId: string,
   email: string,
   displayName: string | null,
 ) {
+
   const { data: existing } = await supabase
     .from("customers")
     .select("stripe_customer_id")
