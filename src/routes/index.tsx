@@ -104,7 +104,7 @@ function Landing() {
                 */}
                 <a
                   href="#features"
-                  className="group inline-flex items-center gap-2 border-b-2 border-transparent pb-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F]"
+                  className="group inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-transparent pb-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F]"
                 >
                   {t("hero.ctaExplore")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
