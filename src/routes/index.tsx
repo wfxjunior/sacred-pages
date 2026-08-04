@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { HeroWordGrid } from "@/components/site/HeroWordGrid";
+import { HeroJournal } from "@/components/site/HeroJournal";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { getHeroVerse } from "@/lib/hero-verses";
