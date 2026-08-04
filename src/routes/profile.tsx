@@ -131,6 +131,8 @@ function ProfilePage() {
           </div>
         </section>
 
+        <AccessCircle userId={user.userId} email={user.email} />
+
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
