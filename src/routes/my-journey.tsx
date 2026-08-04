@@ -48,7 +48,7 @@ function MyJourney() {
               {TODAY.devotional}
             </p>
             <div className="mt-6">
-              <Button asChild size="lg" variant="editorial" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
+              <Button asChild size="lg" variant="editorial" className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
                 <Link to="/today">{t("cta.begin")}</Link>
               </Button>
             </div>
