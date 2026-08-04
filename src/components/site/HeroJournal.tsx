@@ -327,7 +327,7 @@ function DevotionalPage() {
       <span aria-hidden className="mt-3.5 block h-px w-10 flex-none" style={{ background: MARK }} />
 
       <p
-        className="mt-3.5 min-h-0 text-[13px] leading-[1.6] sm:text-[13.5px] lg:line-clamp-5"
+        className="mt-3.5 min-h-0 text-[13px] leading-[1.6] sm:text-[13.5px] lg:line-clamp-4 xl:line-clamp-5"
         style={{ color: "rgba(31,29,27,0.78)" }}
       >
         {t("hero.dev.body")}
