@@ -251,8 +251,15 @@ function WordSearchPage() {
       </div>
 
       <div className="mt-4 flex-none lg:mt-3">
-        <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
-        <div className="mt-2 flex flex-wrap gap-1.5">
+        <div className="flex items-center justify-between gap-3">
+          <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
+          <div className="flex flex-none gap-1.5">
+            <ToolButton icon={Shuffle} label="Shuffle" />
+            <ToolButton icon={Lightbulb} label="Hint" />
+            <ToolButton icon={RotateCcw} label="Reset" />
+          </div>
+        </div>
+        <div className="mt-2.5 flex flex-wrap gap-1.5">
           {WORDS.map((w) => {
             const found = foundWords.has(w);
             return (
@@ -282,12 +289,6 @@ function WordSearchPage() {
             );
           })}
         </div>
-      </div>
-
-      <div className="mt-3 flex flex-none flex-wrap gap-1.5">
-        <ToolButton icon={Shuffle} label="Shuffle" />
-        <ToolButton icon={Lightbulb} label="Hint" />
-        <ToolButton icon={RotateCcw} label="Reset" />
       </div>
     </div>
   );
