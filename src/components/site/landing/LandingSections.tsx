@@ -771,7 +771,7 @@ export function PricingPreview() {
             asChild
             size="lg"
             variant="editorial"
-            className="group h-12 px-7 text-[15px]"
+            className="group h-12 w-full px-7 text-[15px] sm:w-auto"
           >
             <Link to="/signup">
               {t("cta.startJourney")}
@@ -918,11 +918,11 @@ export function FinalCTA() {
           >
             {t("final.sub")}
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-10 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
             <Button
               asChild
               size="lg"
-              className="final-shimmer group relative h-12 overflow-hidden rounded-sm border border-[#FCFBF8] bg-[#FCFBF8] px-8 font-serif text-[15px] font-medium tracking-tight text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] transition-all hover:bg-white hover:shadow-[0_14px_36px_-12px_rgba(0,0,0,0.6)] active:scale-[0.98] sm:min-w-[180px]"
+              className="final-shimmer group relative h-12 w-full overflow-hidden rounded-sm border border-[#FCFBF8] bg-[#FCFBF8] px-8 font-serif text-[15px] font-medium tracking-tight text-[#1F1D1B] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)] transition-all hover:bg-white hover:shadow-[0_14px_36px_-12px_rgba(0,0,0,0.6)] active:scale-[0.98] sm:w-auto sm:min-w-[180px]"
               style={{
                 backgroundImage:
                   "linear-gradient(90deg, #FCFBF8 0%, #FFFFFF 25%, #FCFBF8 50%, #FFFFFF 75%, #FCFBF8 100%)",
@@ -934,7 +934,7 @@ export function FinalCTA() {
               asChild
               size="lg"
               variant="ghost"
-              className="h-12 rounded-sm border border-[#F5F0E4]/25 px-6 font-serif text-[15px] font-medium tracking-tight text-[#F5F0E4]/80 transition-all hover:border-[#F5F0E4]/50 hover:bg-white/5 hover:text-white hover:shadow-[0_10px_28px_-10px_rgba(0,0,0,0.3)] active:scale-[0.98] sm:min-w-[180px]"
+              className="h-12 w-full rounded-sm border border-[#F5F0E4]/25 px-6 font-serif text-[15px] font-medium tracking-tight text-[#F5F0E4]/80 transition-all hover:border-[#F5F0E4]/50 hover:bg-white/5 hover:text-white hover:shadow-[0_10px_28px_-10px_rgba(0,0,0,0.3)] active:scale-[0.98] sm:w-auto sm:min-w-[180px]"
             >
               <Link to="/today">{t("cta.exploreToday")}</Link>
             </Button>
