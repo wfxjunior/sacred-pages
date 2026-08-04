@@ -351,11 +351,21 @@ function Pricing() {
                   </p>
                 </div>
               )}
-              <Button asChild variant="editorial" className="mt-8 h-11 w-full px-6 text-[15px]">
-                <Link to="/signup">
-                  Start Premium <ArrowRight className="ml-1 h-4 w-4" />
-                </Link>
+              <Button
+                variant="editorial"
+                className="mt-8 h-11 w-full px-6 text-[15px]"
+                onClick={handleStartPremium}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    Start Premium <ArrowRight className="ml-1 h-4 w-4" />
+                  </>
+                )}
               </Button>
+
               <ul className="mt-8 space-y-3 text-[14px]">
                 {PREMIUM_FEATURES.map((f) => (
                   <li key={f} className="flex items-start gap-2.5">
