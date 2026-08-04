@@ -6,7 +6,7 @@ export function getStripe(): Stripe {
     throw new Error("STRIPE_SECRET_KEY is not configured");
   }
   return new Stripe(key, {
-    apiVersion: "2025-07-30.basil",
+    apiVersion: "2026-07-29.dahlia",
     typescript: true,
   });
 }
@@ -14,3 +14,4 @@ export function getStripe(): Stripe {
 export function getStripePublishableKey(): string {
   return process.env["STRIPE_PUBLISHABLE_KEY"] ?? "";
 }
+

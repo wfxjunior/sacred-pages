@@ -51,7 +51,7 @@ async function ensurePremiumPrice(cycle: "monthly" | "yearly") {
 }
 
 async function getOrCreateCustomer(
-  supabase: Awaited<ReturnType<typeof import("@/integrations/supabase/client").getSupabaseClient>>,
+  supabase: ReturnType<typeof getStripe> extends never ? never : any,
   userId: string,
   email: string,
   displayName: string | null,
@@ -125,3 +125,4 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
 
     return { url: session.url ?? "/pricing" };
   });
+
