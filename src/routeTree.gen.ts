@@ -35,6 +35,8 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
+import { Route as CheckoutCancelRouteImport } from './routes/checkout/cancel'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
 import { Route as AdminReviewRouteImport } from './routes/admin.review'
@@ -181,6 +183,16 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
+  id: '/checkout/cancel',
+  path: '/checkout/cancel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
   id: '/admin/translations',
   path: '/admin/translations',
@@ -281,6 +293,8 @@ export interface FileRoutesByFullPath {
   '/admin/review': typeof AdminReviewRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
@@ -323,6 +337,8 @@ export interface FileRoutesByTo {
   '/admin/review': typeof AdminReviewRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
@@ -366,6 +382,8 @@ export interface FileRoutesById {
   '/admin/review': typeof AdminReviewRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
@@ -410,6 +428,8 @@ export interface FileRouteTypes {
     | '/admin/review'
     | '/admin/templates'
     | '/admin/translations'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
@@ -452,6 +472,8 @@ export interface FileRouteTypes {
     | '/admin/review'
     | '/admin/templates'
     | '/admin/translations'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
@@ -494,6 +516,8 @@ export interface FileRouteTypes {
     | '/admin/review'
     | '/admin/templates'
     | '/admin/translations'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
@@ -537,6 +561,8 @@ export interface RootRouteChildren {
   AdminReviewRoute: typeof AdminReviewRoute
   AdminTemplatesRoute: typeof AdminTemplatesRoute
   AdminTranslationsRoute: typeof AdminTranslationsRoute
+  CheckoutCancelRoute: typeof CheckoutCancelRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -735,6 +761,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/cancel': {
+      id: '/checkout/cancel'
+      path: '/checkout/cancel'
+      fullPath: '/checkout/cancel'
+      preLoaderRoute: typeof CheckoutCancelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/translations': {
       id: '/admin/translations'
       path: '/admin/translations'
@@ -876,6 +916,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewRoute: AdminReviewRoute,
   AdminTemplatesRoute: AdminTemplatesRoute,
   AdminTranslationsRoute: AdminTranslationsRoute,
+  CheckoutCancelRoute: CheckoutCancelRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
   AdminIndexRoute: AdminIndexRoute,
