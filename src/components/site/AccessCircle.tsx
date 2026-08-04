@@ -4,6 +4,7 @@ import { Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { resolveAvatarUrl } from "@/lib/auth/avatar";
 import { listMyCompanions } from "@/lib/together/companions.service";
 import type { CompanionshipWithProfiles } from "@/lib/together/types";
 
@@ -52,7 +53,15 @@ export function AccessCircle({ userId, email }: { userId: string | null; email: 
       try {
         const rows = await listMyCompanions(getSupabaseClient(), userId, email ?? "");
         if (cancelled) return;
-        setPeople(rows.map((row) => toPerson(row, userId)));
+        // Avatars are stored as private paths, so each needs its own signed URL.
+        const resolved = await Promise.all(
+          rows.map(async (row) => {
+            const person = toPerson(row, userId);
+            return { ...person, avatarUrl: await resolveAvatarUrl(person.avatarUrl) };
+          }),
+        );
+        if (cancelled) return;
+        setPeople(resolved);
       } catch {
         if (!cancelled) setPeople([]);
       }
