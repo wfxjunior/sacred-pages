@@ -132,7 +132,7 @@ function HeroDevotionalPage() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-[760px] lg:max-w-[min(760px,calc(100dvh-13rem))]">
+    <div className="relative mx-auto w-full max-w-[760px] lg:max-w-[min(760px,calc(100dvh-17rem))]">
       {/* Realistic drop shadow beneath the closed cover */}
       <div
         aria-hidden
