@@ -11,7 +11,8 @@ import {
 import { Check, Minus, Users, ArrowRight, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { createCheckoutSession } from "@/lib/stripe/checkout.functions";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+
 
 
 export const Route = createFileRoute("/pricing")({
