@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 
 type NavItem = {
   href: string;
@@ -19,6 +20,8 @@ export function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const user = useCurrentUser();
+  const signedIn = !!user.userId;
 
   const isHero = pathname === "/";
 
@@ -153,22 +156,57 @@ export function Header() {
           in the hero they only compete with the promise.
         */}
         <div className="hidden items-center gap-4 lg:flex">
-          <Link
-            to="/signin"
-            className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
-          >
-            {t("cta.signin")}
-          </Link>
-          <Button
-            asChild
-            size="sm"
-            className="rounded-full bg-[#2B2B2B] px-4 text-white hover:bg-[#2B2B2B]/90"
-          >
-            <Link to="/signup">{t("cta.startFree")}</Link>
-          </Button>
+          {signedIn ? (
+            <>
+              <Link
+                to="/today"
+                className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
+              >
+                {t("nav.today")}
+              </Link>
+              <Link
+                to="/profile"
+                className="inline-flex items-center gap-2 rounded-full border border-border/70 py-1 pl-1 pr-3 text-[13px] font-medium transition hover:bg-secondary"
+              >
+                <span
+                  className="grid h-7 w-7 place-items-center rounded-full text-[12px] font-semibold text-white"
+                  style={{ background: "var(--walnut)" }}
+                >
+                  {user.initial}
+                </span>
+                <span className="max-w-[140px] truncate">{user.displayName}</span>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/signin"
+                className="px-3 text-[13px] font-medium text-muted-foreground transition hover:text-foreground"
+              >
+                {t("cta.signin")}
+              </Link>
+              <Button
+                asChild
+                size="sm"
+                className="rounded-full bg-[#2B2B2B] px-4 text-white hover:bg-[#2B2B2B]/90"
+              >
+                <Link to="/signup">{t("cta.startFree")}</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
+          {signedIn && (
+            <Link
+              to="/profile"
+              aria-label={user.displayName ?? t("nav.profile")}
+              className="grid h-9 w-9 place-items-center rounded-full text-[13px] font-semibold text-white"
+              style={{ background: "var(--walnut)" }}
+            >
+              {user.initial}
+            </Link>
+          )}
           <button
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur transition hover:bg-secondary"
             onClick={() => setOpen((v) => !v)}
@@ -196,16 +234,37 @@ export function Header() {
               );
             })}
             <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
-              <Button asChild variant="ghost" size="sm" className="flex-1">
-                <Link to="/signin">{t("cta.signin")}</Link>
-              </Button>
-              <Button
-                asChild
-                size="sm"
-                className="flex-1 rounded-full bg-[#2B2B2B] text-white hover:bg-[#2B2B2B]/90"
-              >
-                <Link to="/signup">{t("cta.startFree")}</Link>
-              </Button>
+              {signedIn ? (
+                <>
+                  <Button asChild variant="ghost" size="sm" className="flex-1">
+                    <Link to="/profile" onClick={() => setOpen(false)}>
+                      {user.displayName ?? t("nav.profile")}
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="sm"
+                    className="flex-1 rounded-full bg-[#2B2B2B] text-white hover:bg-[#2B2B2B]/90"
+                  >
+                    <Link to="/today" onClick={() => setOpen(false)}>
+                      {t("nav.today")}
+                    </Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild variant="ghost" size="sm" className="flex-1">
+                    <Link to="/signin">{t("cta.signin")}</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="sm"
+                    className="flex-1 rounded-full bg-[#2B2B2B] text-white hover:bg-[#2B2B2B]/90"
+                  >
+                    <Link to="/signup">{t("cta.startFree")}</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
