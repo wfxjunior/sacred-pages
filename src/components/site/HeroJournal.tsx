@@ -342,7 +342,7 @@ function DevotionalPage() {
       </div>
 
       <figure
-        className="relative mt-5 rounded-[6px] px-5 py-5 sm:px-6 sm:py-6"
+        className="relative mt-5 rounded-[6px] px-5 py-5 sm:px-6 sm:py-6 lg:mb-1 lg:mt-auto"
         style={{ background: "#EDE9DF" }}
       >
         <span
@@ -365,17 +365,6 @@ function DevotionalPage() {
           {t("hero.dev.ref")}
         </figcaption>
       </figure>
-
-      {/* Ruled writing lines — the reader's own space, as in the reference. */}
-      <div aria-hidden className="mt-auto space-y-5 pt-6">
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            className="block h-px w-full"
-            style={{ background: "rgba(31,29,27,0.1)" }}
-          />
-        ))}
-      </div>
     </div>
   );
 }
@@ -390,7 +379,7 @@ export function HeroJournal() {
       />
 
       <div
-        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.4/1] lg:h-auto lg:w-[min(100%,calc((100dvh-10rem)*1.4))]"
+        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.4/1] lg:h-auto lg:w-[min(100%,calc((100dvh-14rem)*1.4))]"
         style={{
           background: PAPER,
           boxShadow:

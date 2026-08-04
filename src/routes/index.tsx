@@ -68,7 +68,7 @@ function Landing() {
             them so it is visible without scrolling. Below lg it stacks, copy
             first.
           */}
-          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-14 lg:pb-12 lg:pt-6 xl:gap-16">
+          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-14 lg:pb-20 lg:pt-6 xl:gap-16">
             {/* Text column */}
             <div className="w-full text-center lg:col-span-5 xl:col-span-4 lg:text-left">
               <div className="flex items-center justify-center gap-3 lg:justify-start">
@@ -137,7 +137,7 @@ function Landing() {
 
         <a
           href="#features"
-          className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 text-[10px] tracking-widest text-[#6B665C]/60 transition hover:text-[#6B665C] sm:bottom-6 sm:flex sm:text-[11px]"
+          className="absolute bottom-1.5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-0.5 text-[10px] tracking-widest text-[#6B665C]/60 transition hover:text-[#6B665C] sm:bottom-2 sm:flex sm:text-[11px]"
           aria-label={t("hero.scrollAria")}
         >
           {t("hero.scrollHint")}
