@@ -35,6 +35,8 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
+import { Route as CheckoutCancelRouteImport } from './routes/checkout/cancel'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
 import { Route as AdminReviewRouteImport } from './routes/admin.review'
@@ -43,6 +45,7 @@ import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminJourneysIndexRouteImport } from './routes/admin.journeys.index'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
+import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.new'
 import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
 import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collections.new'
@@ -181,6 +184,16 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
+  id: '/checkout/cancel',
+  path: '/checkout/cancel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
   id: '/admin/translations',
   path: '/admin/translations',
@@ -219,6 +232,11 @@ const AdminJourneysIndexRoute = AdminJourneysIndexRouteImport.update({
 const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
   id: '/admin/collections/',
   path: '/admin/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
+  id: '/api/public/stripe-webhook',
+  path: '/api/public/stripe-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminJourneysNewRoute = AdminJourneysNewRouteImport.update({
@@ -281,6 +299,8 @@ export interface FileRoutesByFullPath {
   '/admin/review': typeof AdminReviewRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
@@ -290,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -323,6 +344,8 @@ export interface FileRoutesByTo {
   '/admin/review': typeof AdminReviewRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
@@ -332,6 +355,7 @@ export interface FileRoutesByTo {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/journeys': typeof AdminJourneysIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -366,6 +390,8 @@ export interface FileRoutesById {
   '/admin/review': typeof AdminReviewRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
+  '/checkout/cancel': typeof CheckoutCancelRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
@@ -375,6 +401,7 @@ export interface FileRoutesById {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -410,6 +437,8 @@ export interface FileRouteTypes {
     | '/admin/review'
     | '/admin/templates'
     | '/admin/translations'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
@@ -419,6 +448,7 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
+    | '/api/public/stripe-webhook'
     | '/admin/collections/'
     | '/admin/journeys/'
     | '/lovable/email/auth/preview'
@@ -452,6 +482,8 @@ export interface FileRouteTypes {
     | '/admin/review'
     | '/admin/templates'
     | '/admin/translations'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
@@ -461,6 +493,7 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
+    | '/api/public/stripe-webhook'
     | '/admin/collections'
     | '/admin/journeys'
     | '/lovable/email/auth/preview'
@@ -494,6 +527,8 @@ export interface FileRouteTypes {
     | '/admin/review'
     | '/admin/templates'
     | '/admin/translations'
+    | '/checkout/cancel'
+    | '/checkout/success'
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
@@ -503,6 +538,7 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
+    | '/api/public/stripe-webhook'
     | '/admin/collections/'
     | '/admin/journeys/'
     | '/lovable/email/auth/preview'
@@ -537,6 +573,8 @@ export interface RootRouteChildren {
   AdminReviewRoute: typeof AdminReviewRoute
   AdminTemplatesRoute: typeof AdminTemplatesRoute
   AdminTranslationsRoute: typeof AdminTranslationsRoute
+  CheckoutCancelRoute: typeof CheckoutCancelRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -545,6 +583,7 @@ export interface RootRouteChildren {
   AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
   AdminJourneysJourneyIdRoute: typeof AdminJourneysJourneyIdRoute
   AdminJourneysNewRoute: typeof AdminJourneysNewRoute
+  ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminJourneysIndexRoute: typeof AdminJourneysIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -735,6 +774,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/cancel': {
+      id: '/checkout/cancel'
+      path: '/checkout/cancel'
+      fullPath: '/checkout/cancel'
+      preLoaderRoute: typeof CheckoutCancelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/translations': {
       id: '/admin/translations'
       path: '/admin/translations'
@@ -789,6 +842,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/collections'
       fullPath: '/admin/collections/'
       preLoaderRoute: typeof AdminCollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/stripe-webhook': {
+      id: '/api/public/stripe-webhook'
+      path: '/api/public/stripe-webhook'
+      fullPath: '/api/public/stripe-webhook'
+      preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/journeys/new': {
@@ -876,6 +936,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewRoute: AdminReviewRoute,
   AdminTemplatesRoute: AdminTemplatesRoute,
   AdminTranslationsRoute: AdminTranslationsRoute,
+  CheckoutCancelRoute: CheckoutCancelRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -884,6 +946,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCollectionsNewRoute: AdminCollectionsNewRoute,
   AdminJourneysJourneyIdRoute: AdminJourneysJourneyIdRoute,
   AdminJourneysNewRoute: AdminJourneysNewRoute,
+  ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminJourneysIndexRoute: AdminJourneysIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,

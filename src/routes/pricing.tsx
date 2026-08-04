@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,8 +8,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Check, Minus, Users, ArrowRight } from "lucide-react";
+import { Check, Minus, Users, ArrowRight, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { createCheckoutSession } from "@/lib/stripe/checkout.functions";
+import { toast } from "sonner";
+
+
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
@@ -158,6 +163,8 @@ const FAQS = [
 
 function Pricing() {
   const [cycle, setCycle] = useState<Cycle>("monthly");
+  const [isLoading, setIsLoading] = useState(false);
+  const checkout = useServerFn(createCheckoutSession);
   const premiumMonthly = 6;
   const premiumYearly = 60; // ~ $5/mo billed yearly
   const yearlyIfMonthly = premiumMonthly * 12; // 72
@@ -170,7 +177,20 @@ function Pricing() {
       ? "Billed monthly, cancel anytime."
       : "That's $5/month — save 2 months.";
 
+  const handleStartPremium = async () => {
+    setIsLoading(true);
+    try {
+      const { url } = await checkout({ data: { cycle, returnPath: "/pricing" } });
+      window.location.href = url;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Could not start checkout";
+      toast.error(message);
+      setIsLoading(false);
+    }
+  };
+
   return (
+
     <SiteLayout>
       {/* Hero */}
       <section className="relative overflow-hidden">
@@ -331,11 +351,21 @@ function Pricing() {
                   </p>
                 </div>
               )}
-              <Button asChild variant="editorial" className="mt-8 h-11 w-full px-6 text-[15px]">
-                <Link to="/signup">
-                  Start Premium <ArrowRight className="ml-1 h-4 w-4" />
-                </Link>
+              <Button
+                variant="editorial"
+                className="mt-8 h-11 w-full px-6 text-[15px]"
+                onClick={handleStartPremium}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    Start Premium <ArrowRight className="ml-1 h-4 w-4" />
+                  </>
+                )}
               </Button>
+
               <ul className="mt-8 space-y-3 text-[14px]">
                 {PREMIUM_FEATURES.map((f) => (
                   <li key={f} className="flex items-start gap-2.5">
