@@ -2,7 +2,6 @@ import { memo, useEffect, useMemo, useState } from "react";
 import { buildGrid, type Placement } from "@/lib/word-search";
 import { useI18n } from "@/lib/i18n";
 import { Clock, RotateCcw, Maximize2, Check, BookOpen } from "lucide-react";
-import { LetterTile } from "./BrandMark";
 
 const WORDS = ["PEACE", "FAITH", "LIGHT", "GRACE", "HOPE"];
 const COLORS = [
