@@ -386,7 +386,7 @@ export function HeroJournal() {
       />
 
       <div
-        className="relative overflow-hidden rounded-[10px] lg:aspect-[3/2]"
+        className="relative overflow-hidden rounded-[10px]"
         style={{
           background: PAPER,
           boxShadow:
