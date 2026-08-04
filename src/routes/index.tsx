@@ -124,7 +124,7 @@ function Landing() {
 
             {/* Open magazine spread — the product, visible above the fold */}
             <div className="relative w-full lg:col-span-7">
-              <MagazineSpread />
+              <HeroJournal />
             </div>
           </div>
         </div>
