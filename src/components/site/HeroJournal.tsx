@@ -124,7 +124,7 @@ function ToolButton({
 }) {
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] sm:text-[10px]"
+      className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em] lg:px-2 xl:px-2.5 xl:text-[10px]"
       style={{ borderColor: "rgba(31,29,27,0.14)", color: INK }}
     >
       <Icon className="h-3 w-3" strokeWidth={1.8} />
