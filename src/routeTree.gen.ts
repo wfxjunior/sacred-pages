@@ -45,6 +45,7 @@ import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminJourneysIndexRouteImport } from './routes/admin.journeys.index'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
+import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.new'
 import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
 import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collections.new'
@@ -233,6 +234,11 @@ const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
   path: '/admin/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
+  id: '/api/public/stripe-webhook',
+  path: '/api/public/stripe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminJourneysNewRoute = AdminJourneysNewRouteImport.update({
   id: '/admin/journeys/new',
   path: '/admin/journeys/new',
@@ -304,6 +310,7 @@ export interface FileRoutesByFullPath {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -348,6 +355,7 @@ export interface FileRoutesByTo {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/journeys': typeof AdminJourneysIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -393,6 +401,7 @@ export interface FileRoutesById {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
@@ -439,6 +448,7 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
+    | '/api/public/stripe-webhook'
     | '/admin/collections/'
     | '/admin/journeys/'
     | '/lovable/email/auth/preview'
@@ -483,6 +493,7 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
+    | '/api/public/stripe-webhook'
     | '/admin/collections'
     | '/admin/journeys'
     | '/lovable/email/auth/preview'
@@ -527,6 +538,7 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
+    | '/api/public/stripe-webhook'
     | '/admin/collections/'
     | '/admin/journeys/'
     | '/lovable/email/auth/preview'
@@ -571,6 +583,7 @@ export interface RootRouteChildren {
   AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
   AdminJourneysJourneyIdRoute: typeof AdminJourneysJourneyIdRoute
   AdminJourneysNewRoute: typeof AdminJourneysNewRoute
+  ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminJourneysIndexRoute: typeof AdminJourneysIndexRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -831,6 +844,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/stripe-webhook': {
+      id: '/api/public/stripe-webhook'
+      path: '/api/public/stripe-webhook'
+      fullPath: '/api/public/stripe-webhook'
+      preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/journeys/new': {
       id: '/admin/journeys/new'
       path: '/admin/journeys/new'
@@ -926,6 +946,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCollectionsNewRoute: AdminCollectionsNewRoute,
   AdminJourneysJourneyIdRoute: AdminJourneysJourneyIdRoute,
   AdminJourneysNewRoute: AdminJourneysNewRoute,
+  ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminJourneysIndexRoute: AdminJourneysIndexRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,

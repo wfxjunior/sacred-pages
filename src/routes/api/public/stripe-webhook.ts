@@ -115,8 +115,12 @@ async function syncSubscription(
     price_id: price?.id ?? null,
     product_id: price?.product ? (price.product as string) : null,
     cancel_at_period_end: subscription.cancel_at_period_end,
-    current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-    current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+    current_period_start: subscription.current_period_start
+      ? new Date(subscription.current_period_start * 1000).toISOString()
+      : null,
+    current_period_end: subscription.current_period_end
+      ? new Date(subscription.current_period_end * 1000).toISOString()
+      : null,
     updated_at: new Date().toISOString(),
   };
 
@@ -127,3 +131,4 @@ async function syncSubscription(
     throw new Error(`Failed to sync subscription: ${error.message}`);
   }
 }
+
