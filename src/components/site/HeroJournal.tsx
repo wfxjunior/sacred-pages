@@ -296,7 +296,7 @@ function DevotionalPage() {
   const { t } = useI18n();
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-6 xl:px-9 xl:py-7">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 py-6 sm:px-8 sm:py-8 lg:px-6 lg:py-5 xl:px-8 xl:py-6">
       <div className="flex items-center justify-between gap-3">
         <PageLabel>{t("hero.dev.eyebrow")}</PageLabel>
         <span
@@ -309,29 +309,29 @@ function DevotionalPage() {
       </div>
 
       <p
-        className="mt-6 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px]"
+        className="mt-5 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px] lg:mt-4"
         style={{ color: "#6B665C" }}
       >
         {t("hero.dev.ref")}
       </p>
 
       <h3
-        className="mt-2 font-['Playfair_Display',serif] text-[26px] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[32px] lg:text-[30px] xl:text-[34px]"
+        className="mt-2 font-['Playfair_Display',serif] text-[25px] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[30px] lg:text-[27px] xl:text-[32px]"
         style={{ color: INK }}
       >
         {t("hero.dev.title")}
       </h3>
 
-      <span aria-hidden className="mt-4 block h-px w-10" style={{ background: MARK }} />
+      <span aria-hidden className="mt-3.5 block h-px w-10 flex-none" style={{ background: MARK }} />
 
       <p
-        className="mt-4 text-[13px] leading-[1.7] sm:text-[14px] lg:text-[14px]"
+        className="mt-3.5 text-[13px] leading-[1.65] sm:text-[13.5px]"
         style={{ color: "rgba(31,29,27,0.78)" }}
       >
         {t("hero.dev.body")}
       </p>
 
-      <div className="mt-5 flex items-center justify-between border-b border-[#1F1D1B]/10 text-[9px] font-semibold uppercase tracking-[0.16em] sm:text-[10px]">
+      <div className="mt-4 flex flex-none items-center justify-between border-b border-[#1F1D1B]/10 text-[9px] font-semibold uppercase tracking-[0.16em] sm:text-[10px]">
         <span className="-mb-px border-b pb-2.5" style={{ borderColor: INK, color: INK }}>
           Scripture
         </span>
@@ -344,7 +344,7 @@ function DevotionalPage() {
       </div>
 
       <figure
-        className="relative mt-5 rounded-[6px] px-5 py-5 sm:px-6 sm:py-6 lg:mb-1 lg:mt-auto"
+        className="relative mt-4 flex-none rounded-[6px] px-5 py-4 sm:px-6 sm:py-5"
         style={{ background: "#EDE9DF" }}
       >
         <span
@@ -361,7 +361,7 @@ function DevotionalPage() {
           {t("hero.dev.verse")}
         </blockquote>
         <figcaption
-          className="mt-4 pl-7 text-[9px] font-semibold uppercase tracking-[0.22em] sm:pl-8 sm:text-[10px]"
+          className="mt-3 pl-7 text-[9px] font-semibold uppercase tracking-[0.22em] sm:pl-8 sm:text-[10px]"
           style={{ color: MUTED }}
         >
           {t("hero.dev.ref")}
