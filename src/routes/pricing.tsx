@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,8 +8,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Check, Minus, Users, ArrowRight } from "lucide-react";
+import { Check, Minus, Users, ArrowRight, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { createCheckoutSession } from "@/lib/stripe/checkout.functions";
+import { useToast } from "@/hooks/use-toast";
+
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
