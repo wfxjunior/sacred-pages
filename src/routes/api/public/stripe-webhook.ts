@@ -20,7 +20,9 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
 
         let event: Stripe.Event;
         try {
-          event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+          // Async variant: the Worker runtime only exposes WebCrypto (SubtleCrypto),
+          // which cannot be used by the synchronous constructEvent.
+          event = await stripe.webhooks.constructEventAsync(payload, signature, webhookSecret);
         } catch (err) {
           const message = err instanceof Error ? err.message : "Invalid signature";
           console.error("Stripe webhook signature verification failed", message);
