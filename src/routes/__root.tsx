@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
 import {
   Outlet,
   Link,
@@ -140,6 +141,7 @@ function RootComponent() {
         <ThemeProvider>
           <NotifPrefsProvider>
             <Outlet />
+            <Toaster />
           </NotifPrefsProvider>
         </ThemeProvider>
       </I18nProvider>
