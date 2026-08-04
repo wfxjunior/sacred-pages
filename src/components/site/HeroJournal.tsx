@@ -390,7 +390,7 @@ export function HeroJournal() {
       />
 
       <div
-        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.5/1] lg:h-[min(560px,calc(100dvh-11rem))] lg:w-auto lg:max-w-full"
+        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.5/1] lg:h-auto lg:w-[min(100%,calc((100dvh-11rem)*1.5))]"
         style={{
           background: PAPER,
           boxShadow:
