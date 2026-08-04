@@ -68,7 +68,7 @@ function Landing() {
             them so it is visible without scrolling. Below lg it stacks, copy
             first.
           */}
-          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-14 lg:pb-20 lg:pt-6 xl:gap-16">
+          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-10 lg:pb-20 lg:pt-6 xl:gap-14">
             {/* Text column */}
             <div className="w-full text-center lg:col-span-5 xl:col-span-4 lg:text-left">
               <div className="flex items-center justify-center gap-3 lg:justify-start">
