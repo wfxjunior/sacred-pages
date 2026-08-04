@@ -582,11 +582,11 @@ function Pricing() {
           <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
             Spend a few meaningful minutes each day growing in God's Word.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" variant="editorial" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-center">
+            <Button asChild size="lg" variant="editorial" className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
               <Link to="/signup">Start Free</Link>
             </Button>
-            <Button asChild size="lg" variant="editorialOutline" className="h-12 px-6 text-[15px] sm:min-w-[180px]">
+            <Button asChild size="lg" variant="editorialOutline" className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
               <Link to="/today">View Today's Journey</Link>
             </Button>
           </div>
