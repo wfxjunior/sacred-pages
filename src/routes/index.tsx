@@ -132,7 +132,7 @@ function HeroDevotionalPage() {
 
 function MagazineSpread() {
   return (
-    <div className="relative mx-auto w-full max-w-[760px] lg:max-w-[min(760px,calc(100dvh-17rem))]">
+    <div className="relative mx-auto w-full max-w-[760px] lg:max-w-[min(760px,calc(100dvh-8rem))]">
       {/* Realistic drop shadow beneath the closed cover */}
       <div
         aria-hidden
@@ -229,7 +229,7 @@ function Landing() {
   return (
     <SiteLayout>
       {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
-      <section className="paper-texture relative overflow-hidden pt-20 sm:pt-24 md:pt-24 lg:pt-28">
+      <section className="paper-texture relative overflow-hidden pt-20 sm:pt-24 md:pt-24 lg:pt-20">
         {/* Soft daylight — two very gentle warm halos, almost imperceptible */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="aurora-blob-1 absolute -right-[18%] -top-[18%] h-[55%] w-[55%] rounded-full bg-[#C89F4F]/[0.08] blur-[140px]" />
@@ -242,7 +242,7 @@ function Landing() {
             them so it is visible without scrolling. Below lg it stacks, copy
             first.
           */}
-          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-14 lg:pb-24 lg:pt-10 xl:gap-16">
+          <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-14 lg:pb-12 lg:pt-6 xl:gap-16">
             {/* Text column */}
             <div className="w-full text-center lg:col-span-5 lg:text-left">
               <div className="flex items-center justify-center gap-3 lg:justify-start">
