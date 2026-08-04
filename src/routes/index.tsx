@@ -229,7 +229,7 @@ function Landing() {
   return (
     <SiteLayout>
       {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
-      <section className="paper-texture relative overflow-hidden pt-20 sm:pt-24 md:pt-24 lg:pt-28">
+      <section className="paper-texture relative overflow-hidden pt-20 sm:pt-24 md:pt-24 lg:pt-20">
         {/* Soft daylight — two very gentle warm halos, almost imperceptible */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="aurora-blob-1 absolute -right-[18%] -top-[18%] h-[55%] w-[55%] rounded-full bg-[#C89F4F]/[0.08] blur-[140px]" />
