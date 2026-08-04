@@ -34,8 +34,8 @@ const GridCell = memo(function GridCell({
   return (
     <div className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]">
       <span
-        className="relative z-10 font-['Crimson_Pro',serif] text-[10px] font-medium uppercase tracking-[0.04em] transition-colors duration-500 sm:text-[12px] lg:text-[13px]"
-        style={{ color: hit ? INK : "rgba(31,29,27,0.62)" }}
+        className="relative z-10 font-['Crimson_Pro',serif] font-medium uppercase leading-none tracking-[0.02em] transition-colors duration-500"
+        style={{ color: hit ? INK : "rgba(31,29,27,0.62)", fontSize: "4.6cqw" }}
       >
         {letter}
       </span>
@@ -124,7 +124,7 @@ function ToolButton({
 }) {
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.1em] sm:text-[10px]"
+      className="inline-flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[9px] font-semibold uppercase tracking-[0.08em] lg:px-2 xl:px-2.5 xl:text-[10px]"
       style={{ borderColor: "rgba(31,29,27,0.14)", color: INK }}
     >
       <Icon className="h-3 w-3" strokeWidth={1.8} />
@@ -193,17 +193,17 @@ function WordSearchPage() {
   }, [foundCount, placements]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-6 xl:px-9 xl:py-7">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 py-6 sm:px-8 sm:py-8 lg:px-6 lg:py-5 xl:px-8 xl:py-6">
       <PageLabel>{t("hero.grid.title")}</PageLabel>
 
       <h2
-        className="mt-2 font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[27px] lg:text-[26px] xl:text-[30px]"
+        className="mt-1.5 font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[26px] lg:text-[24px] xl:text-[28px]"
         style={{ color: INK }}
       >
         {t("hero.notebook.title")}
       </h2>
 
-      <div className="mt-2 flex items-center justify-between gap-3">
+      <div className="mt-1.5 flex items-center justify-between gap-3">
         <p
           className="text-[9px] font-medium uppercase tracking-[0.2em] sm:text-[10px]"
           style={{ color: MUTED }}
@@ -218,38 +218,41 @@ function WordSearchPage() {
         </span>
       </div>
 
-      <div
-        className="relative mt-4 aspect-square w-full min-h-0 flex-none rounded-[4px] border border-[#1F1D1B]/10 lg:mx-auto lg:max-h-full lg:w-auto lg:flex-1"
-        style={{
-          background: "rgba(255,255,255,0.35)",
-          opacity: fading ? 0.4 : 1,
-          transition: "opacity 700ms ease-in-out",
-        }}
-      >
+      {/* Square grid: fills whatever vertical room the page has left. */}
+      <div className="mt-3 flex min-h-0 flex-1 items-center justify-center lg:mt-4">
         <div
-          className="relative grid h-full w-full overflow-hidden rounded-[4px]"
+          className="relative aspect-square h-auto w-full max-w-full rounded-[4px] border border-[#1F1D1B]/10 lg:h-full lg:w-auto"
           style={{
-            gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
-            gridTemplateRows: `repeat(${size}, minmax(0,1fr))`,
-            aspectRatio: "1 / 1",
+            background: "rgba(255,255,255,0.35)",
+            opacity: fading ? 0.4 : 1,
+            transition: "opacity 700ms ease-in-out",
           }}
         >
-          {grid.map((row, r) =>
-            row.map((letter, c) => (
-              <GridCell
-                key={`${r}-${c}`}
-                letter={letter}
-                hit={highlighted.has(`${r},${c}`)}
-              />
-            )),
-          )}
-          <FoundMarks placements={placements} foundWords={foundWords} size={size} />
+          <div
+            className="relative grid h-full w-full overflow-hidden rounded-[4px]"
+            style={{
+              gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
+              gridTemplateRows: `repeat(${size}, minmax(0,1fr))`,
+              containerType: "inline-size",
+            }}
+          >
+            {grid.map((row, r) =>
+              row.map((letter, c) => (
+                <GridCell
+                  key={`${r}-${c}`}
+                  letter={letter}
+                  hit={highlighted.has(`${r},${c}`)}
+                />
+              )),
+            )}
+            <FoundMarks placements={placements} foundWords={foundWords} size={size} />
+          </div>
         </div>
       </div>
 
-      <div className="mt-4 flex-none">
+      <div className="mt-4 flex-none lg:mt-3">
         <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
+        <div className="mt-2 flex flex-wrap gap-1.5">
           {WORDS.map((w) => {
             const found = foundWords.has(w);
             return (
@@ -279,12 +282,11 @@ function WordSearchPage() {
             );
           })}
         </div>
-      </div>
-
-      <div className="mt-auto flex flex-none flex-wrap gap-1.5 pt-4">
-        <ToolButton icon={Shuffle} label="Shuffle" />
-        <ToolButton icon={Lightbulb} label="Hint" />
-        <ToolButton icon={RotateCcw} label="Reset" />
+        <div className="mt-2.5 flex flex-wrap gap-1.5">
+          <ToolButton icon={Shuffle} label="Shuffle" />
+          <ToolButton icon={Lightbulb} label="Hint" />
+          <ToolButton icon={RotateCcw} label="Reset" />
+        </div>
       </div>
     </div>
   );
@@ -294,7 +296,7 @@ function DevotionalPage() {
   const { t } = useI18n();
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-6 xl:px-9 xl:py-7">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 py-6 sm:px-8 sm:py-8 lg:px-6 lg:py-5 xl:px-8 xl:py-6">
       <div className="flex items-center justify-between gap-3">
         <PageLabel>{t("hero.dev.eyebrow")}</PageLabel>
         <span
@@ -307,29 +309,29 @@ function DevotionalPage() {
       </div>
 
       <p
-        className="mt-6 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px]"
+        className="mt-5 text-[10px] font-semibold uppercase tracking-[0.24em] sm:text-[11px] lg:mt-4"
         style={{ color: "#6B665C" }}
       >
         {t("hero.dev.ref")}
       </p>
 
       <h3
-        className="mt-2 font-['Playfair_Display',serif] text-[26px] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[32px] lg:text-[30px] xl:text-[34px]"
+        className="mt-2 font-['Playfair_Display',serif] text-[25px] font-bold leading-[1.08] tracking-[-0.02em] sm:text-[30px] lg:text-[27px] xl:text-[32px]"
         style={{ color: INK }}
       >
         {t("hero.dev.title")}
       </h3>
 
-      <span aria-hidden className="mt-4 block h-px w-10" style={{ background: MARK }} />
+      <span aria-hidden className="mt-3.5 block h-px w-10 flex-none" style={{ background: MARK }} />
 
       <p
-        className="mt-4 text-[13px] leading-[1.7] sm:text-[14px] lg:text-[14px]"
+        className="mt-3.5 min-h-0 text-[13px] leading-[1.6] sm:text-[13.5px] lg:line-clamp-4 xl:line-clamp-5"
         style={{ color: "rgba(31,29,27,0.78)" }}
       >
         {t("hero.dev.body")}
       </p>
 
-      <div className="mt-5 flex items-center justify-between border-b border-[#1F1D1B]/10 text-[9px] font-semibold uppercase tracking-[0.16em] sm:text-[10px]">
+      <div className="mt-4 flex flex-none items-center justify-between border-b border-[#1F1D1B]/10 text-[9px] font-semibold uppercase tracking-[0.16em] sm:text-[10px]">
         <span className="-mb-px border-b pb-2.5" style={{ borderColor: INK, color: INK }}>
           Scripture
         </span>
@@ -342,7 +344,7 @@ function DevotionalPage() {
       </div>
 
       <figure
-        className="relative mt-5 rounded-[6px] px-5 py-5 sm:px-6 sm:py-6 lg:mb-1 lg:mt-auto"
+        className="relative mt-4 flex-none rounded-[6px] px-5 py-4 sm:px-6 sm:py-5 lg:mt-auto"
         style={{ background: "#EDE9DF" }}
       >
         <span
@@ -353,13 +355,13 @@ function DevotionalPage() {
           &ldquo;
         </span>
         <blockquote
-          className="pl-7 text-[12.5px] leading-[1.65] sm:pl-8 sm:text-[13.5px]"
+          className="pl-7 text-[12.5px] leading-[1.6] sm:pl-8 sm:text-[13px]"
           style={{ color: "rgba(31,29,27,0.8)" }}
         >
           {t("hero.dev.verse")}
         </blockquote>
         <figcaption
-          className="mt-4 pl-7 text-[9px] font-semibold uppercase tracking-[0.22em] sm:pl-8 sm:text-[10px]"
+          className="mt-3 pl-7 text-[9px] font-semibold uppercase tracking-[0.22em] sm:pl-8 sm:text-[10px]"
           style={{ color: MUTED }}
         >
           {t("hero.dev.ref")}
@@ -379,7 +381,7 @@ export function HeroJournal() {
       />
 
       <div
-        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.4/1] lg:h-auto lg:w-[min(100%,calc((100dvh-14rem)*1.4))]"
+        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.3/1] lg:h-auto lg:w-[min(100%,calc((100dvh-11rem)*1.3))]"
         style={{
           background: PAPER,
           boxShadow:
