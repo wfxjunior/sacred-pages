@@ -193,17 +193,17 @@ function WordSearchPage() {
   }, [foundCount, placements]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-6 xl:px-9 xl:py-7">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 py-6 sm:px-8 sm:py-8 lg:px-6 lg:py-5 xl:px-8 xl:py-6">
       <PageLabel>{t("hero.grid.title")}</PageLabel>
 
       <h2
-        className="mt-2 font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[27px] lg:text-[26px] xl:text-[30px]"
+        className="mt-1.5 font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[26px] lg:text-[24px] xl:text-[28px]"
         style={{ color: INK }}
       >
         {t("hero.notebook.title")}
       </h2>
 
-      <div className="mt-2 flex items-center justify-between gap-3">
+      <div className="mt-1.5 flex items-center justify-between gap-3">
         <p
           className="text-[9px] font-medium uppercase tracking-[0.2em] sm:text-[10px]"
           style={{ color: MUTED }}
@@ -218,38 +218,40 @@ function WordSearchPage() {
         </span>
       </div>
 
-      <div
-        className="relative mt-4 aspect-square w-full min-h-0 flex-none rounded-[4px] border border-[#1F1D1B]/10 lg:mx-auto lg:max-h-full lg:w-auto lg:flex-1"
-        style={{
-          background: "rgba(255,255,255,0.35)",
-          opacity: fading ? 0.4 : 1,
-          transition: "opacity 700ms ease-in-out",
-        }}
-      >
+      {/* Square grid: fills whatever vertical room the page has left. */}
+      <div className="mt-3 flex min-h-0 flex-1 items-center justify-center lg:mt-4">
         <div
-          className="relative grid h-full w-full overflow-hidden rounded-[4px]"
+          className="relative aspect-square h-auto w-full max-w-full rounded-[4px] border border-[#1F1D1B]/10 lg:h-full lg:w-auto"
           style={{
-            gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
-            gridTemplateRows: `repeat(${size}, minmax(0,1fr))`,
-            aspectRatio: "1 / 1",
+            background: "rgba(255,255,255,0.35)",
+            opacity: fading ? 0.4 : 1,
+            transition: "opacity 700ms ease-in-out",
           }}
         >
-          {grid.map((row, r) =>
-            row.map((letter, c) => (
-              <GridCell
-                key={`${r}-${c}`}
-                letter={letter}
-                hit={highlighted.has(`${r},${c}`)}
-              />
-            )),
-          )}
-          <FoundMarks placements={placements} foundWords={foundWords} size={size} />
+          <div
+            className="relative grid h-full w-full overflow-hidden rounded-[4px]"
+            style={{
+              gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
+              gridTemplateRows: `repeat(${size}, minmax(0,1fr))`,
+            }}
+          >
+            {grid.map((row, r) =>
+              row.map((letter, c) => (
+                <GridCell
+                  key={`${r}-${c}`}
+                  letter={letter}
+                  hit={highlighted.has(`${r},${c}`)}
+                />
+              )),
+            )}
+            <FoundMarks placements={placements} foundWords={foundWords} size={size} />
+          </div>
         </div>
       </div>
 
-      <div className="mt-4 flex-none">
+      <div className="mt-4 flex-none lg:mt-3">
         <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
+        <div className="mt-2 flex flex-wrap gap-1.5">
           {WORDS.map((w) => {
             const found = foundWords.has(w);
             return (
@@ -281,7 +283,7 @@ function WordSearchPage() {
         </div>
       </div>
 
-      <div className="mt-auto flex flex-none flex-wrap gap-1.5 pt-4">
+      <div className="mt-3 flex flex-none flex-wrap gap-1.5">
         <ToolButton icon={Shuffle} label="Shuffle" />
         <ToolButton icon={Lightbulb} label="Hint" />
         <ToolButton icon={RotateCcw} label="Reset" />
