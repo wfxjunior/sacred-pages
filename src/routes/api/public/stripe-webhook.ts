@@ -20,7 +20,9 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
 
         let event: Stripe.Event;
         try {
-          event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+          // Async variant: the Worker runtime only exposes WebCrypto (SubtleCrypto),
+          // which cannot be used by the synchronous constructEvent.
+          event = await stripe.webhooks.constructEventAsync(payload, signature, webhookSecret);
         } catch (err) {
           const message = err instanceof Error ? err.message : "Invalid signature";
           console.error("Stripe webhook signature verification failed", message);
@@ -107,6 +109,12 @@ async function syncSubscription(
   subscription: Stripe.Subscription,
 ) {
   const price = subscription.items.data[0]?.price;
+  const item = subscription.items.data[0] as unknown as
+    | { current_period_start?: number; current_period_end?: number }
+    | undefined;
+  const periodStart =
+    (subscription as any).current_period_start ?? item?.current_period_start ?? null;
+  const periodEnd = (subscription as any).current_period_end ?? item?.current_period_end ?? null;
   const upsert = {
     user_id: userId,
     stripe_subscription_id: subscription.id,
@@ -115,12 +123,8 @@ async function syncSubscription(
     price_id: price?.id ?? null,
     product_id: price?.product ? (price.product as string) : null,
     cancel_at_period_end: subscription.cancel_at_period_end,
-    current_period_start: (subscription as any).current_period_start
-      ? new Date((subscription as any).current_period_start * 1000).toISOString()
-      : null,
-    current_period_end: (subscription as any).current_period_end
-      ? new Date((subscription as any).current_period_end * 1000).toISOString()
-      : null,
+    current_period_start: periodStart ? new Date(periodStart * 1000).toISOString() : null,
+    current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
     updated_at: new Date().toISOString(),
 
   };
