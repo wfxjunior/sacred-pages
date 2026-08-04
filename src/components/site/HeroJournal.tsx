@@ -193,7 +193,7 @@ function WordSearchPage() {
   }, [foundCount, placements]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-7 xl:px-9 xl:py-8">
+    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-6 xl:px-9 xl:py-7">
       <PageLabel>{t("hero.grid.title")}</PageLabel>
 
       <h2
@@ -294,7 +294,7 @@ function DevotionalPage() {
   const { t } = useI18n();
 
   return (
-    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-7 xl:px-9 xl:py-8">
+    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-6 xl:px-9 xl:py-7">
       <div className="flex items-center justify-between gap-3">
         <PageLabel>{t("hero.dev.eyebrow")}</PageLabel>
         <span
@@ -390,7 +390,7 @@ export function HeroJournal() {
       />
 
       <div
-        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.5/1] lg:h-auto lg:w-[min(100%,calc((100dvh-11rem)*1.5))]"
+        className="relative overflow-hidden rounded-[10px] lg:mx-auto lg:aspect-[1.4/1] lg:h-auto lg:w-[min(100%,calc((100dvh-10rem)*1.4))]"
         style={{
           background: PAPER,
           boxShadow:
