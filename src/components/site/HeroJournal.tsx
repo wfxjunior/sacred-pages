@@ -34,8 +34,8 @@ const GridCell = memo(function GridCell({
   return (
     <div className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]">
       <span
-        className="relative z-10 font-['Crimson_Pro',serif] text-[10px] font-medium uppercase tracking-[0.04em] transition-colors duration-500 sm:text-[12px] lg:text-[13px]"
-        style={{ color: hit ? INK : "rgba(31,29,27,0.62)" }}
+        className="relative z-10 font-['Crimson_Pro',serif] font-medium uppercase leading-none tracking-[0.02em] transition-colors duration-500"
+        style={{ color: hit ? INK : "rgba(31,29,27,0.62)", fontSize: "4.6cqw" }}
       >
         {letter}
       </span>
@@ -233,6 +233,7 @@ function WordSearchPage() {
             style={{
               gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
               gridTemplateRows: `repeat(${size}, minmax(0,1fr))`,
+              containerType: "inline-size",
             }}
           >
             {grid.map((row, r) =>
