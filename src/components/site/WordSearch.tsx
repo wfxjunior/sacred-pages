@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildRenderablePuzzle } from "@/lib/puzzle/render";
 import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS, WORD_COLORS } from "@/lib/mock-data";
+import { usePreferences } from "@/lib/preferences";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
 import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
@@ -90,8 +91,13 @@ export function WordSearch({
 
   const reducedMotion = useReducedMotion();
 
-  const [colorKey, setColorKey] = useState("gold");
-  const selectionColor = SELECTION_COLORS.find((c) => c.key === colorKey)!.value;
+  // The highlight colour is a reader preference, so Settings and the in-puzzle
+  // picker are two views of one value rather than two independent states.
+  const { prefs, setPref } = usePreferences();
+  const colorKey = prefs.selectionColor;
+  const selectionColor =
+    (SELECTION_COLORS.find((c) => c.key === colorKey) ?? SELECTION_COLORS[0]!).value;
+  const setColorKey = (key: string) => setPref("selectionColor", key);
 
   const [start, setStart] = useState<Cell | null>(null);
   const [end, setEnd] = useState<Cell | null>(null);

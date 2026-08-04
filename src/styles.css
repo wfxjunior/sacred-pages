@@ -349,6 +349,28 @@
   scroll-behavior: auto !important;
 }
 
+/* Higher contrast: darker ink, firmer borders — the palette stays warm. */
+.high-contrast {
+  --foreground: #141414;
+  --muted-foreground: #4A4A4A;
+  --border: #9A9385;
+}
+.high-contrast a,
+.high-contrast button {
+  text-underline-offset: 3px;
+}
+.high-contrast :focus-visible {
+  outline: 3px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+/* Dyslexia-friendly type: looser rhythm, no serif ambiguity in body copy. */
+.dyslexia-friendly body {
+  letter-spacing: 0.035em;
+  word-spacing: 0.12em;
+  line-height: 1.75;
+}
+
 :root {
   --radius: 0.625rem;
   /* Public — premium SaaS palette (Apple / Linear / Notion register) */
