@@ -436,11 +436,11 @@ export function HeroJournal() {
   const { t } = useI18n();
 
   return (
-    <div className="relative mx-auto w-full max-w-[min(840px,calc(100dvh-7rem))]">
+    <div className="relative mx-auto w-full max-w-[min(92vw,520px)] sm:max-w-[min(640px,calc(100dvh-18rem))] lg:max-w-[min(840px,calc(100dvh-7rem))]">
       {/* Outer shadow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-4 rounded-[2.5rem] bg-[#1F1D1B]/12 blur-2xl"
+        className="pointer-events-none absolute -inset-3 rounded-[2rem] bg-[#1F1D1B]/12 blur-2xl sm:-inset-4 sm:rounded-[2.5rem]"
       />
 
       {/* Notebook cover */}
