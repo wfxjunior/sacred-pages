@@ -169,10 +169,14 @@ export function Header() {
                 className="inline-flex items-center gap-2 rounded-full border border-border/70 py-1 pl-1 pr-3 text-[13px] font-medium transition hover:bg-secondary"
               >
                 <span
-                  className="grid h-7 w-7 place-items-center rounded-full text-[12px] font-semibold text-white"
+                  className="grid h-7 w-7 place-items-center overflow-hidden rounded-full text-[12px] font-semibold text-white"
                   style={{ background: "var(--walnut)" }}
                 >
-                  {user.initial}
+                  {user.avatarUrl ? (
+                    <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    user.initial
+                  )}
                 </span>
                 <span className="max-w-[140px] truncate">{user.displayName}</span>
               </Link>
@@ -201,10 +205,14 @@ export function Header() {
             <Link
               to="/profile"
               aria-label={user.displayName ?? t("nav.profile")}
-              className="grid h-9 w-9 place-items-center rounded-full text-[13px] font-semibold text-white"
+              className="grid h-9 w-9 place-items-center overflow-hidden rounded-full text-[13px] font-semibold text-white"
               style={{ background: "var(--walnut)" }}
             >
-              {user.initial}
+              {user.avatarUrl ? (
+                <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                user.initial
+              )}
             </Link>
           )}
           <button
