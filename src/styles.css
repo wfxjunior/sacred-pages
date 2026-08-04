@@ -501,6 +501,9 @@
   html {
     min-height: 100%;
     scroll-behavior: smooth;
+    /* Disable the browser's pull-to-refresh: a downward drag started next to
+       the puzzle used to reload the page mid-game on mobile. */
+    overscroll-behavior-y: contain;
   }
 
   body {
@@ -514,7 +517,7 @@
     -webkit-font-smoothing: antialiased;
     /* Safe-area & native-feel defaults */
     min-height: 100dvh;
-    overscroll-behavior-y: auto;
+    overscroll-behavior-y: contain;
     touch-action: pan-y;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: transparent;
