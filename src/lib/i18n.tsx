@@ -1172,7 +1172,7 @@ const APP_EN: Dict = {
   "profile.avatar.remove": "Remove photo",
   "profile.avatar.alt": "Your profile photo",
   "profile.avatar.updated": "Profile photo updated.",
-  "profile.avatar.failed": "We couldn"t update your photo. Please try again.",
+  "profile.avatar.failed": "We couldn’t update your photo. Please try again.",
   "profile.avatar.tooLarge": "Please choose an image under 4 MB.",
   "profile.access.eyebrow": "Access",
   "profile.access.title": "Who walks with you",
