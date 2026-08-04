@@ -193,17 +193,17 @@ function WordSearchPage() {
   }, [foundCount, placements]);
 
   return (
-    <div className="flex h-full flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-10 lg:py-11">
+    <div className="flex h-full min-h-0 flex-col px-6 py-7 sm:px-8 sm:py-9 lg:px-7 lg:py-7 xl:px-9 xl:py-8">
       <PageLabel>{t("hero.grid.title")}</PageLabel>
 
       <h2
-        className="mt-3 font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[27px] lg:text-[30px]"
+        className="mt-2 font-['Playfair_Display',serif] text-[22px] font-bold leading-[1.05] tracking-[-0.015em] sm:text-[27px] lg:text-[26px] xl:text-[30px]"
         style={{ color: INK }}
       >
         {t("hero.notebook.title")}
       </h2>
 
-      <div className="mt-2.5 flex items-center justify-between gap-3">
+      <div className="mt-2 flex items-center justify-between gap-3">
         <p
           className="text-[9px] font-medium uppercase tracking-[0.2em] sm:text-[10px]"
           style={{ color: MUTED }}
@@ -219,7 +219,7 @@ function WordSearchPage() {
       </div>
 
       <div
-        className="relative mt-5 rounded-[4px] border border-[#1F1D1B]/10"
+        className="relative mt-4 aspect-square w-full min-h-0 flex-none rounded-[4px] border border-[#1F1D1B]/10 lg:mx-auto lg:max-h-full lg:w-auto lg:flex-1"
         style={{
           background: "rgba(255,255,255,0.35)",
           opacity: fading ? 0.4 : 1,
@@ -227,8 +227,12 @@ function WordSearchPage() {
         }}
       >
         <div
-          className="relative grid overflow-hidden rounded-[4px]"
-          style={{ gridTemplateColumns: `repeat(${size}, minmax(0,1fr))` }}
+          className="relative grid h-full w-full overflow-hidden rounded-[4px]"
+          style={{
+            gridTemplateColumns: `repeat(${size}, minmax(0,1fr))`,
+            gridTemplateRows: `repeat(${size}, minmax(0,1fr))`,
+            aspectRatio: "1 / 1",
+          }}
         >
           {grid.map((row, r) =>
             row.map((letter, c) => (
@@ -243,9 +247,9 @@ function WordSearchPage() {
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4 flex-none">
         <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-2.5 flex flex-wrap gap-1.5">
           {WORDS.map((w) => {
             const found = foundWords.has(w);
             return (
@@ -277,7 +281,7 @@ function WordSearchPage() {
         </div>
       </div>
 
-      <div className="mt-auto flex flex-wrap gap-2 pt-6">
+      <div className="mt-auto flex flex-none flex-wrap gap-1.5 pt-4">
         <ToolButton icon={Shuffle} label="Shuffle" />
         <ToolButton icon={Lightbulb} label="Hint" />
         <ToolButton icon={RotateCcw} label="Reset" />
