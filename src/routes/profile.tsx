@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { MilestoneCard } from "@/components/site/MilestoneCard";
 import { CompanionCard } from "@/components/site/CompanionCard";
 import { ShareModal } from "@/components/site/ShareModal";
+import { AvatarUploader } from "@/components/site/AvatarUploader";
+import { AccessCircle } from "@/components/site/AccessCircle";
 import { MILESTONE_LIST } from "@/lib/mock/milestones";
 import { COMPANIONS } from "@/lib/mock/companions";
 import { Sparkles, Share2, Settings as SettingsIcon, Flame } from "lucide-react";
@@ -39,12 +41,13 @@ function ProfilePage() {
       <div className="mx-auto max-w-5xl space-y-14">
         <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 sm:flex sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-center gap-4">
-            <div
-              className="grid h-16 w-16 shrink-0 place-items-center rounded-full font-serif text-xl text-white"
-              style={{ background: "linear-gradient(135deg, var(--gold), var(--walnut))" }}
-            >
-              {user.initial}
-            </div>
+            <AvatarUploader
+              userId={user.userId}
+              initial={user.initial}
+              avatarUrl={user.avatarUrl}
+              avatarPath={user.avatarPath}
+              onChanged={user.refresh}
+            />
             <div className="min-w-0">
               <p className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("profile.eyebrow")}</p>
               <h1 className="mt-1 truncate font-serif text-3xl leading-tight md:text-4xl">
