@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { WordSearch } from "@/components/site/WordSearch";
+import { usePreferences } from "@/lib/preferences";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -43,7 +44,23 @@ export const Route = createFileRoute("/today")({
 
 function Today() {
   const { t } = useI18n();
-  const [difficulty, setDifficulty] = useState<"gentle" | "balanced" | "challenging" | "expert">("gentle");
+  // The reader's saved difficulty is the starting point; changing it here is a
+  // per-visit override and does not rewrite the preference.
+  const { prefs } = usePreferences();
+  const [difficulty, setDifficulty] = useState<"gentle" | "balanced" | "challenging" | "expert">(
+    prefs.difficulty,
+  );
+  const [difficultyTouched, setDifficultyTouched] = useState(false);
+
+  useEffect(() => {
+    if (difficultyTouched) return;
+    setDifficulty(prefs.difficulty);
+  }, [prefs.difficulty, difficultyTouched]);
+
+  const chooseDifficulty = (value: typeof difficulty) => {
+    setDifficultyTouched(true);
+    setDifficulty(value);
+  };
   // The draw rotates daily on its own; every load advances a persisted counter
   // so the pool is recomputed instead of replaying the same list, and a shuffle
   // bumps it again for a fresh set right away.
@@ -104,7 +121,7 @@ function Today() {
             </p>
           </div>
           <div className="flex w-full min-w-0 flex-wrap items-center justify-end gap-1.5 rounded-full border border-border bg-card p-1 lg:w-auto lg:flex-nowrap">
-            <DifficultyPicker value={difficulty} onChange={setDifficulty} variant="segmented" />
+            <DifficultyPicker value={difficulty} onChange={chooseDifficulty} variant="segmented" />
             <span className="mx-0.5 hidden h-5 w-px bg-border sm:block" aria-hidden />
             <HelpMenu />
             <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
@@ -169,7 +186,7 @@ function Today() {
         />
 
         <div className="flex flex-none flex-col gap-2 px-4 py-2">
-          <DifficultyPicker value={difficulty} onChange={setDifficulty} compact />
+          <DifficultyPicker value={difficulty} onChange={chooseDifficulty} compact />
           <Button onClick={regenerate} variant="outline" size="sm" className="w-full">
             <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
           </Button>
