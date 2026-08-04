@@ -445,7 +445,7 @@ export function HeroJournal() {
 
       {/* Notebook cover */}
       <div
-        className="relative overflow-hidden rounded-[2rem] bg-[#78866B] p-4 shadow-2xl sm:p-5 lg:aspect-square"
+        className="relative overflow-hidden rounded-[1.5rem] bg-[#78866B] p-3 shadow-2xl sm:rounded-[2rem] sm:p-4 lg:aspect-square lg:p-5"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 50%, rgba(0,0,0,0.14) 100%)",
