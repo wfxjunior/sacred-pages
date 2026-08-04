@@ -326,7 +326,7 @@ function DevotionalPage() {
       <span aria-hidden className="mt-3.5 block h-px w-10 flex-none" style={{ background: MARK }} />
 
       <p
-        className="mt-3.5 text-[13px] leading-[1.65] sm:text-[13.5px]"
+        className="mt-3.5 min-h-0 text-[13px] leading-[1.6] sm:text-[13.5px] lg:line-clamp-5"
         style={{ color: "rgba(31,29,27,0.78)" }}
       >
         {t("hero.dev.body")}
@@ -345,7 +345,7 @@ function DevotionalPage() {
       </div>
 
       <figure
-        className="relative mt-4 flex-none rounded-[6px] px-5 py-4 sm:px-6 sm:py-5"
+        className="relative mt-4 flex-none rounded-[6px] px-5 py-4 sm:px-6 sm:py-5 lg:mt-auto"
         style={{ background: "#EDE9DF" }}
       >
         <span
@@ -356,7 +356,7 @@ function DevotionalPage() {
           &ldquo;
         </span>
         <blockquote
-          className="pl-7 text-[12.5px] leading-[1.65] sm:pl-8 sm:text-[13.5px]"
+          className="pl-7 text-[12.5px] leading-[1.6] sm:pl-8 sm:text-[13px]"
           style={{ color: "rgba(31,29,27,0.8)" }}
         >
           {t("hero.dev.verse")}
