@@ -136,10 +136,18 @@ function useSelectedJourneySlug(): string | undefined {
   return search?.journey;
 }
 
+/** TodayContent plus the identity progress recording needs. The ids are null
+ * while the sample journey is on screen — recording only happens for real,
+ * published journeys. */
+export type TodayContentWithIdentity = TodayContent & {
+  journeyId: string | null;
+  collectionId: string | null;
+};
+
 export function useTodayContent(
   difficulty: DifficultyLevel = "gentle",
   variant: number = dayVariant(),
-): TodayContent {
+): TodayContentWithIdentity {
   const slug = useSelectedJourneySlug();
   const daily = useDailyJourney();
   const selected = useJourneyBySlug(slug);
@@ -150,6 +158,8 @@ export function useTodayContent(
       const identity = "gratitude-that-transforms";
       return {
         ...TODAY,
+        journeyId: null,
+        collectionId: null,
         words: wordsFor(
           FALLBACK_WORDS,
           difficulty,
@@ -178,6 +188,8 @@ export function useTodayContent(
       reflection: data.reflectionPrompt ?? "",
       prayer: data.prayerBody ?? "",
       words: words.length > 0 ? words : TODAY.words,
+      journeyId: data.id ?? null,
+      collectionId: data.collectionId ?? null,
     };
   }, [data, difficulty, variant]);
 

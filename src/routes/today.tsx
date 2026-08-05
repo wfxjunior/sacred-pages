@@ -18,8 +18,13 @@ import {
 import { dayVariant, useTodayContent, useTodayLoading } from "@/lib/content/today";
 import { JourneyThemePicker } from "@/components/site/JourneyThemePicker";
 import { useI18n } from "@/lib/i18n";
+import { journeyApi } from "@/lib/journey/api";
+import { encouragementKey } from "@/lib/journey/consistency";
+import { useConsistency, useJourneyCompletionRecorder } from "@/lib/journey/hooks";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { toast } from "sonner";
 import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Library, RefreshCw } from "lucide-react";
 
@@ -43,7 +48,7 @@ export const Route = createFileRoute("/today")({
 });
 
 function Today() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   // The reader's saved difficulty is the starting point; changing it here is a
   // per-visit override and does not rewrite the preference.
   const { prefs } = usePreferences();
@@ -91,6 +96,21 @@ function Today() {
   const [complete, setComplete] = useState(false);
   const sizes = { gentle: 12, balanced: 14, challenging: 16, expert: 18 } as const;
 
+  // Recording the finished journey is what turns today into a real active day
+  // (streak, milestones, history) — fire-and-forget, never blocks the moment.
+  const recordCompletion = useJourneyCompletionRecorder();
+  const startedAtRef = useRef(Date.now());
+  const finishToday = () => {
+    recordCompletion({
+      journeyId: TODAY.journeyId,
+      collectionId: TODAY.collectionId,
+      languageCode: locale,
+      difficulty,
+      elapsedMs: Date.now() - startedAtRef.current,
+    });
+    setComplete(true);
+  };
+
   if (complete) {
     return (
       <Completion
@@ -130,12 +150,12 @@ function Today() {
               </Link>
             </Button>
             <Button
-              onClick={() => setComplete(true)}
+              onClick={finishToday}
               variant="ghost"
               size="icon"
               className="h-8 w-8 rounded-full"
-              title={t("complete.favorite")}
-              aria-label={t("complete.favorite")}
+              title={t("complete.markDone")}
+              aria-label={t("complete.markDone")}
             >
               <CheckCircle2 className="h-4 w-4" />
             </Button>
@@ -164,7 +184,7 @@ function Today() {
               stacked
               journeyLabel={TODAY.title}
               onShuffleWords={regenerate}
-              onComplete={() => setComplete(true)}
+              onComplete={finishToday}
               sessionKey={puzzleSession}
             />
           </div>
@@ -182,7 +202,7 @@ function Today() {
         <MobileHeader
           wordCount={TODAY.words.length}
           difficultyLabel={t(`diff.${difficulty}`)}
-          onComplete={() => setComplete(true)}
+          onComplete={finishToday}
         />
 
         <div className="flex flex-none flex-col gap-2 px-4 py-2">
@@ -200,7 +220,7 @@ function Today() {
             fullBleed
             journeyLabel={TODAY.title}
             onShuffleWords={regenerate}
-            onComplete={() => setComplete(true)}
+            onComplete={finishToday}
             sessionKey={puzzleSession}
           />
         </div>
@@ -756,7 +776,49 @@ function CompletionSeal() {
 
 function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => void }) {
   const TODAY = useTodayContent();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const user = useCurrentUser();
+  // Real consistency, freshly invalidated by the completion recorder — the
+  // number the reader sees here is the day they just earned.
+  const { summary, signedIn } = useConsistency();
+
+  const share = async () => {
+    const card = journeyApi.buildShareCard({
+      journeyTitle: TODAY.title,
+      scriptureReference: TODAY.reference || undefined,
+      completionDate: new Date().toISOString().slice(0, 10),
+      locale,
+    });
+    const text = `${card.journeyTitle}${card.scriptureReference ? ` — ${card.scriptureReference}` : ""}`;
+    const url = typeof window !== "undefined" ? window.location.origin : "https://lumenadaily.com";
+    try {
+      if (typeof navigator !== "undefined" && navigator.share) {
+        await navigator.share({ title: card.journeyTitle, text, url });
+        return;
+      }
+      await navigator.clipboard.writeText(`${text}\n${url}`);
+      toast(t("complete.shareCopied"));
+    } catch {
+      /* the reader closed the share sheet — not an error */
+    }
+  };
+
+  const favorite = async () => {
+    if (!user.userId || !TODAY.journeyId) return;
+    try {
+      const { favorited } = await journeyApi.toggleFavorite({
+        userId: user.userId,
+        entityType: "journey",
+        entityId: TODAY.journeyId,
+      });
+      toast(favorited ? t("complete.favoriteSaved") : t("complete.favoriteRemoved"));
+    } catch {
+      toast(t("complete.favoriteError"));
+    }
+  };
+
+  const canFavorite = Boolean(user.userId && TODAY.journeyId);
+
   return (
     <AppShell>
       <div className="mx-auto max-w-2xl py-16 text-center">
@@ -766,9 +828,15 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
 
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {[
-            { label: "Words found", value: `${TODAY.words.length}/${TODAY.words.length}` },
-            { label: "Current streak", value: "13 days" },
-            { label: "Passage", value: TODAY.reference },
+            {
+              label: t("complete.words"),
+              value: `${TODAY.words.length}/${TODAY.words.length}`,
+            },
+            {
+              label: t("progress.currentStreak"),
+              value: signedIn ? `${summary.currentRun} ${t("progress.streakUnit")}` : "—",
+            },
+            { label: t("complete.passage"), value: TODAY.reference },
           ].map((s) => (
             <div key={s.label} className="rounded-xl border border-border bg-card p-5">
               <p className="text-xs uppercase tracking-wider text-muted-foreground">{s.label}</p>
@@ -776,6 +844,12 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
             </div>
           ))}
         </div>
+
+        {signedIn && (
+          <p className="mt-4 text-sm" style={{ color: "var(--walnut)" }}>
+            {t(encouragementKey(summary))}
+          </p>
+        )}
 
         <blockquote className="mt-10 border-l-2 pl-6 text-left font-serif text-lg italic leading-relaxed" style={{ borderColor: "var(--gold)" }}>
           "{TODAY.scripture}"
@@ -785,9 +859,18 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
         </blockquote>
 
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Button variant="outline" onClick={onReset}>{t("complete.favorite")}</Button>
-          <Button variant="outline">{t("complete.share")}</Button>
+          {canFavorite && (
+            <Button variant="outline" onClick={favorite}>
+              {t("complete.favorite")}
+            </Button>
+          )}
+          <Button variant="outline" onClick={share}>
+            {t("complete.share")}
+          </Button>
           <Button asChild variant="outline"><Link to="/collections">{t("complete.another")}</Link></Button>
+          <Button variant="ghost" onClick={onReset}>
+            {t("ui.back")}
+          </Button>
           <Button onClick={onNext}>
             {t("complete.nextPuzzle")} <ChevronRight className="ml-1.5 h-4 w-4" />
           </Button>

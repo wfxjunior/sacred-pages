@@ -6,6 +6,7 @@ import { MILESTONES, TODAY } from "@/lib/mock-data";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { useConsistency, useConsistencyWindow } from "@/lib/journey/hooks";
 
 export const Route = createFileRoute("/my-journey")({
   head: () => ({
@@ -22,6 +23,9 @@ export const Route = createFileRoute("/my-journey")({
 function MyJourney() {
   const { t } = useI18n();
   const user = useCurrentUser();
+  // Real rhythm data — zeros when signed out, never sample numbers.
+  const { summary, signedIn } = useConsistency();
+  const week = useConsistencyWindow(7);
   return (
     <AppShell>
       <div className="space-y-12">
@@ -54,15 +58,19 @@ function MyJourney() {
             </div>
           </div>
           <div className="grid gap-4">
-            <StatCard label={t("app.streak")} value={`12 ${t("app.days")}`} />
+            <StatCard
+              label={t("app.streak")}
+              value={signedIn ? `${summary.currentRun} ${t("app.days")}` : "—"}
+            />
             <div className="rounded-2xl border border-border bg-card p-6">
               <p className="text-xs uppercase tracking-widest text-muted-foreground">{t("app.week")}</p>
               <div className="mt-4 grid grid-cols-7 gap-1.5">
-                {[1, 1, 1, 0, 1, 1, 0].map((d, i) => (
+                {week.window.map((day, i) => (
                   <div
-                    key={i}
+                    key={day.date || i}
+                    title={day.date || undefined}
                     className="aspect-square rounded-sm"
-                    style={{ background: d ? "color-mix(in oklab, var(--gold) 45%, transparent)" : "var(--parchment)" }}
+                    style={{ background: day.active ? "color-mix(in oklab, var(--gold) 45%, transparent)" : "var(--parchment)" }}
                   />
                 ))}
               </div>

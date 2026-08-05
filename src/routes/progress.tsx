@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { MILESTONES } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
+import { useConsistency, useConsistencyWindow, useProgressStats } from "@/lib/journey/hooks";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
@@ -17,8 +18,11 @@ export const Route = createFileRoute("/progress")({
 
 function ProgressPage() {
   const { t } = useI18n();
-  const days = Array.from({ length: 35 }, (_, i) => i);
-  const active = new Set([1, 2, 3, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 20, 21, 22, 24, 25, 26, 27, 28]);
+  // Real rhythm and completion data; zeros when signed out — never samples.
+  const { summary, signedIn } = useConsistency();
+  const month = useConsistencyWindow(35);
+  const stats = useProgressStats();
+  const dash = (value: number | string) => (signedIn ? String(value) : "—");
   return (
     <AppShell>
       <div className="mx-auto max-w-5xl space-y-10">
@@ -30,10 +34,16 @@ function ProgressPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[
-            [t("progress.currentStreak"), `12 ${t("progress.streakUnit")}`],
-            [t("progress.longestStreak"), `31 ${t("progress.streakUnit")}`],
-            [t("progress.journeys"), "38"],
-            [t("progress.collections"), "3"],
+            [
+              t("progress.currentStreak"),
+              signedIn ? `${summary.currentRun} ${t("progress.streakUnit")}` : "—",
+            ],
+            [
+              t("progress.longestStreak"),
+              signedIn ? `${summary.longestRun} ${t("progress.streakUnit")}` : "—",
+            ],
+            [t("progress.journeys"), dash(stats.journeysCompleted)],
+            [t("progress.collections"), dash(stats.collectionsStarted)],
           ].map(([l, v]) => (
             <div key={l} className="rounded-xl border border-border bg-card p-5">
               <p className="text-xs uppercase tracking-wider text-muted-foreground">{l}</p>
@@ -48,12 +58,13 @@ function ProgressPage() {
             <span className="text-xs uppercase tracking-wider" style={{ color: "var(--walnut)" }}>{t("progress.thisMonth")}</span>
           </div>
           <div className="mt-6 grid grid-cols-7 gap-2">
-            {days.map((d) => (
+            {month.window.map((day, i) => (
               <div
-                key={d}
+                key={day.date || i}
+                title={day.date || undefined}
                 className="aspect-square rounded-md"
                 style={{
-                  background: active.has(d)
+                  background: day.active
                     ? "color-mix(in oklab, var(--gold) 45%, transparent)"
                     : "var(--parchment)",
                 }}
