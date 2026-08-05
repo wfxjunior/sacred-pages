@@ -1033,7 +1033,7 @@ export function WordSearch({
                 className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
                 <Shuffle className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">{t("wordsearch.shuffle")}</span>
+                <span className="hidden truncate xl:inline">{t("wordsearch.shuffle")}</span>
               </button>
               <button
                 type="button"
@@ -1044,7 +1044,7 @@ export function WordSearch({
                 className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
                 {expanded ? <Minimize2 className="h-3.5 w-3.5 shrink-0" /> : <Maximize2 className="h-3.5 w-3.5 shrink-0" />}
-                <span className="truncate">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
+                <span className="hidden truncate xl:inline">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
               </button>
               <button
                 type="button"
