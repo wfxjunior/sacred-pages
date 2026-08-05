@@ -8,6 +8,7 @@ import {
   Heart,
   Home,
   PanelLeft,
+  Puzzle,
   Sparkles,
   User,
   Users,
@@ -50,6 +51,7 @@ export function AppShell({
   const items = [
     { to: "/my-journey", label: t("nav.myJourney"), icon: Home },
     { to: "/today", label: t("nav.today"), icon: Sparkles },
+    { to: "/play", label: t("nav.play"), icon: Puzzle },
     { to: "/collections", label: t("nav.collections"), icon: BookOpen },
     { to: "/together", label: t("nav.together"), icon: Users },
     { to: "/progress", label: t("nav.progress"), icon: Compass },

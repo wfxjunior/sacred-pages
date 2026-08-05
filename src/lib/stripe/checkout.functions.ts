@@ -1,9 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { getStripe } from "./server";
+import { getStripe, resolveReturnOrigin } from "./server";
 
 
 const checkoutInput = z.object({
@@ -110,7 +111,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       (profile?.display_name as string | null) ?? null,
     );
 
-    const origin = process.env["VITE_SITE_URL"] ?? "http://localhost:8080";
+    const origin = resolveReturnOrigin(getRequest());
     const successUrl = `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}${data.returnPath ?? "/pricing"}`;
 

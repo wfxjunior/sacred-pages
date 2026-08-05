@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { useI18n } from "@/lib/i18n";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import {
@@ -162,6 +164,9 @@ const FAQS = [
 ];
 
 function Pricing() {
+  const { t } = useI18n();
+  const user = useCurrentUser();
+  const navigate = useNavigate();
   const [cycle, setCycle] = useState<Cycle>("monthly");
   const [isLoading, setIsLoading] = useState(false);
   const checkout = useServerFn(createCheckoutSession);
@@ -178,13 +183,24 @@ function Pricing() {
       : "That's $5/month — save 2 months.";
 
   const handleStartPremium = async () => {
+    // Signed-out readers get a door, not an Unauthorized error.
+    if (!user.loading && !user.userId) {
+      toast(t("pricing.signInFirst"));
+      navigate({ to: "/signin" });
+      return;
+    }
     setIsLoading(true);
     try {
       const { url } = await checkout({ data: { cycle, returnPath: "/pricing" } });
       window.location.href = url;
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not start checkout";
-      toast.error(message);
+      const message = err instanceof Error ? err.message : "";
+      // A missing Stripe key is a deployment state, not the reader's fault.
+      toast.error(
+        /STRIPE_SECRET_KEY|not configured/i.test(message)
+          ? t("pricing.paymentsSoon")
+          : t("pricing.checkoutError"),
+      );
       setIsLoading(false);
     }
   };

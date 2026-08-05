@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { getStripe } from "./server";
+import { getStripe, resolveReturnOrigin } from "./server";
 import { portalInput } from "./billing.schemas";
 
 export const getSubscriptionStatus = createServerFn({ method: "GET" })
@@ -42,7 +43,7 @@ export const createBillingPortalSession = createServerFn({ method: "POST" })
     }
 
     const stripe = getStripe();
-    const origin = process.env["VITE_SITE_URL"] ?? "http://localhost:8080";
+    const origin = resolveReturnOrigin(getRequest());
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.stripe_customer_id,
       return_url: `${origin}${data.returnPath ?? "/settings"}`,

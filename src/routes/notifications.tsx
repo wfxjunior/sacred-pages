@@ -26,10 +26,16 @@ export const Route = createFileRoute("/notifications")({
 function NotificationsPage() {
   const { t } = useI18n();
   const [filter, setFilter] = useState<(typeof FILTER_KEYS)[number]>("all");
+  // "Mark all read" acts on this local overlay: the demo data stays pristine
+  // while the button does something true on screen.
+  const [readAll, setReadAll] = useState(false);
   const { prefs } = useNotifPrefs();
   const allowed = useMemo(
-    () => NOTIFICATIONS.filter((n) => isCategoryVisible(prefs, n.kind)),
-    [prefs]
+    () =>
+      NOTIFICATIONS.filter((n) => isCategoryVisible(prefs, n.kind)).map((n) =>
+        readAll ? { ...n, read: true } : n,
+      ),
+    [prefs, readAll]
   );
   const items = useMemo(() => {
     if (filter === "all") return allowed;
@@ -54,7 +60,14 @@ function NotificationsPage() {
             >
               <Settings2 className="h-3.5 w-3.5" /> {t("ui.preferences")}
             </Link>
-            <Button variant="outline" className="rounded-full">{t("ui.markAllRead")}</Button>
+            <Button
+              variant="outline"
+              className="rounded-full"
+              onClick={() => setReadAll(true)}
+              disabled={readAll || allowed.every((n) => n.read)}
+            >
+              {t("ui.markAllRead")}
+            </Button>
           </div>
         </div>
         {(prefs.pauseAll || hiddenCount > 0) && (

@@ -488,8 +488,14 @@ export function WordSearch({
 
   // Borderless, letters-only grid: the page itself is the frame, as in a
   // printed devotional notebook. Spacing (not rules) separates the cells.
-  const gridBaseClass =
-    "grid select-none gap-1 rounded-lg bg-transparent touch-none sm:gap-1.5 xl:gap-2";
+  // content-start is load-bearing: inside the stacked layout the grid box is
+  // stretched by its flex column, and without it align-content: stretch
+  // inflates the row tracks — cells turn into tall ovals and the grid
+  // overflows the height the wrapper computed for it. Gaps tighten on large
+  // grids (16+ words) so expert boards stay in proportion.
+  const gridBaseClass = `grid select-none content-start rounded-lg bg-transparent touch-none ${
+    size >= 16 ? "gap-[3px] sm:gap-1 xl:gap-1.5" : "gap-1 sm:gap-1.5 xl:gap-2"
+  }`;
 
   // Compact toolbar icon buttons: keep a comfortable 32px touch target on mobile.
   const compactIconButtonClass =
@@ -519,6 +525,16 @@ export function WordSearch({
         }`}
         style={{
           gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`,
+          // In the stacked spread the grid box itself owns the square shape:
+          // explicit 1fr rows plus an aspect ratio keep every track square
+          // even when the flex column stretches the box or a cell's text
+          // min-height would otherwise inflate its row (large expert grids).
+          ...(stacked && !isCompact && !isExpanded
+            ? {
+                aspectRatio: `${grid.cells[0]?.length ?? 1} / ${Math.max(grid.cells.length, 1)}`,
+                gridTemplateRows: `repeat(${Math.max(grid.cells.length, 1)}, minmax(0, 1fr))`,
+              }
+            : {}),
           touchAction: "none",
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
@@ -579,11 +595,13 @@ export function WordSearch({
                 }}
                 data-r={r}
                 data-c={c}
-                className={`aspect-square rounded-sm font-serif font-medium uppercase tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
+                className={`aspect-square min-h-0 rounded-sm font-serif font-medium uppercase leading-none tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
                   isCompact
                     ? "text-[11px] xs:text-[13px] sm:text-[15px]"
                     : stacked && mode === "normal"
-                      ? "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
+                      ? size >= 16
+                        ? "text-[11px] sm:text-[12px] xl:text-[14px]"
+                        : "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
                       : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{

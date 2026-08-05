@@ -7,6 +7,7 @@ import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useConsistency, useConsistencyWindow } from "@/lib/journey/hooks";
+import { Puzzle } from "lucide-react";
 
 export const Route = createFileRoute("/my-journey")({
   head: () => ({
@@ -76,6 +77,27 @@ function MyJourney() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section>
+          <Link
+            to="/play"
+            className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-6 transition hover:border-[color:var(--gold)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          >
+            <div className="min-w-0">
+              <p className="text-xs uppercase tracking-widest" style={{ color: "var(--walnut)" }}>
+                {t("games.eyebrow")}
+              </p>
+              <p className="mt-1 font-serif text-2xl">{t("games.hub.title")}</p>
+              <p className="mt-1 truncate text-sm text-muted-foreground">{t("games.hub.sub")}</p>
+            </div>
+            <span
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full"
+              style={{ background: "color-mix(in oklab, var(--gold) 14%, transparent)" }}
+            >
+              <Puzzle className="h-5 w-5" style={{ color: "var(--gold)" }} aria-hidden="true" />
+            </span>
+          </Link>
         </section>
 
         <section>

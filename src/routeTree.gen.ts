@@ -43,6 +43,7 @@ import { Route as CollectionsIndexRouteImport } from './routes/collections.index
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as PlayIndexRouteImport } from './routes/play.index'
 import { Route as PlayWhoAmIRouteImport } from './routes/play.who-am-i'
 import { Route as PlayWordGuessRouteImport } from './routes/play.word-guess'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
@@ -226,6 +227,11 @@ const NotificationsPreferencesRoute =
     path: '/preferences',
     getParentRoute: () => NotificationsRoute,
   } as any)
+const PlayIndexRoute = PlayIndexRouteImport.update({
+  id: '/play/',
+  path: '/play/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayWhoAmIRoute = PlayWhoAmIRouteImport.update({
   id: '/play/who-am-i',
   path: '/play/who-am-i',
@@ -320,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
+  '/play/': typeof PlayIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
@@ -367,6 +374,7 @@ export interface FileRoutesByTo {
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin': typeof AdminIndexRoute
   '/collections': typeof CollectionsIndexRoute
+  '/play': typeof PlayIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
@@ -415,6 +423,7 @@ export interface FileRoutesById {
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
+  '/play/': typeof PlayIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
@@ -464,6 +473,7 @@ export interface FileRouteTypes {
     | '/play/word-guess'
     | '/admin/'
     | '/collections/'
+    | '/play/'
     | '/admin/collections/$collectionId'
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
@@ -511,6 +521,7 @@ export interface FileRouteTypes {
     | '/play/word-guess'
     | '/admin'
     | '/collections'
+    | '/play'
     | '/admin/collections/$collectionId'
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
@@ -558,6 +569,7 @@ export interface FileRouteTypes {
     | '/play/word-guess'
     | '/admin/'
     | '/collections/'
+    | '/play/'
     | '/admin/collections/$collectionId'
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
@@ -605,6 +617,7 @@ export interface RootRouteChildren {
   PlayWordGuessRoute: typeof PlayWordGuessRoute
   AdminIndexRoute: typeof AdminIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
+  PlayIndexRoute: typeof PlayIndexRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
   AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
   AdminJourneysJourneyIdRoute: typeof AdminJourneysJourneyIdRoute
@@ -856,6 +869,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsPreferencesRouteImport
       parentRoute: typeof NotificationsRoute
     }
+    '/play/': {
+      id: '/play/'
+      path: '/play'
+      fullPath: '/play/'
+      preLoaderRoute: typeof PlayIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/who-am-i': {
       id: '/play/who-am-i'
       path: '/play/who-am-i'
@@ -984,6 +1004,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlayWordGuessRoute: PlayWordGuessRoute,
   AdminIndexRoute: AdminIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
+  PlayIndexRoute: PlayIndexRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
   AdminCollectionsNewRoute: AdminCollectionsNewRoute,
   AdminJourneysJourneyIdRoute: AdminJourneysJourneyIdRoute,

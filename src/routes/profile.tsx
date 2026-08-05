@@ -1,4 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "sonner";
+import { getSubscriptionStatus, createBillingPortalSession } from "@/lib/stripe/billing.functions";
 import { AppShell } from "@/components/site/AppShell";
 import { Button } from "@/components/ui/button";
 import { MilestoneCard } from "@/components/site/MilestoneCard";
@@ -28,6 +33,34 @@ export const Route = createFileRoute("/profile")({
 function ProfilePage() {
   const { t } = useI18n();
   const user = useCurrentUser();
+  // Real membership state — the fake "Premium — annual" card told every free
+  // reader they were paying customers.
+  const fetchSubscription = useServerFn(getSubscriptionStatus);
+  const openPortal = useServerFn(createBillingPortalSession);
+  const [portalLoading, setPortalLoading] = useState(false);
+  const subscription = useQuery({
+    queryKey: ["billing", user.userId ?? "anonymous", "status"],
+    enabled: Boolean(user.userId),
+    staleTime: 60_000,
+    queryFn: () => fetchSubscription({}),
+  });
+  const isPremium = subscription.data?.isPremium ?? false;
+
+  const handleBilling = async () => {
+    if (!user.userId) return;
+    setPortalLoading(true);
+    try {
+      const { url } = await openPortal({ data: { returnPath: "/profile" } });
+      if (url) {
+        window.location.href = url;
+        return;
+      }
+      toast(t("profile.noBillingYet"));
+    } catch {
+      toast.error(t("pricing.paymentsSoon"));
+    }
+    setPortalLoading(false);
+  };
   const achieved = MILESTONE_LIST.filter((m) => m.achieved);
   const upcoming = MILESTONE_LIST.filter((m) => !m.achieved).slice(0, 3);
   const { entries: bestTimes } = useBestTimes();
@@ -153,11 +186,26 @@ function ProfilePage() {
             <Sparkles className="h-4 w-4" style={{ color: "var(--gold)" }} />
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("profile.membership")}</p>
           </div>
-          <h3 className="mt-2 font-serif text-2xl">{t("profile.premiumAnnual")}</h3>
-          <p className="mt-1 text-[13px] text-muted-foreground">{t("profile.renews")}</p>
+          <h3 className="mt-2 font-serif text-2xl">
+            {isPremium ? t("profile.planPremium") : t("profile.planFree")}
+          </h3>
+          <p className="mt-1 text-[13px] text-muted-foreground">
+            {isPremium ? t("profile.planPremiumHint") : t("profile.planFreeHint")}
+          </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button variant="outline" className="rounded-full">{t("profile.managePlan")}</Button>
-            <Button variant="ghost" className="rounded-full">{t("profile.billing")}</Button>
+            <Button asChild variant="outline" className="rounded-full">
+              <Link to="/pricing">{t("profile.managePlan")}</Link>
+            </Button>
+            {user.userId && (
+              <Button
+                variant="ghost"
+                className="rounded-full"
+                onClick={handleBilling}
+                disabled={portalLoading}
+              >
+                {t("profile.billing")}
+              </Button>
+            )}
           </div>
         </section>
       </div>
