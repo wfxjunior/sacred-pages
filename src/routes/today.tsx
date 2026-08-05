@@ -107,7 +107,7 @@ function Today() {
   return (
     <AppShell mainClassName="p-0 md:px-10 md:py-6">
       {/* Desktop layout */}
-      <div className="mx-auto hidden w-full max-w-[1360px] md:flex md:h-[calc(100dvh-3rem)] md:flex-col md:gap-6 md:overflow-hidden">
+      <div className="mx-auto hidden w-full max-w-[1360px] md:flex md:h-[calc(100dvh-3rem)] md:min-h-[680px] md:flex-col md:gap-6 md:overflow-hidden">
         {/* Header — title, reference, difficulty and reading time only (max 96px) */}
         <header className="flex flex-none flex-wrap items-center justify-between gap-x-6 gap-y-3 py-1">
           <div className="min-w-0 flex-1 basis-[220px]">
