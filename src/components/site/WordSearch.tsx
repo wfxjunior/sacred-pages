@@ -6,7 +6,18 @@ import { usePreferences } from "@/lib/preferences";
 import { useI18n } from "@/lib/i18n";
 import { celebrateCompletion } from "@/lib/confetti";
 import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
-import { Check, Eye, EyeOff, Maximize2, Minimize2, Shuffle, Timer, Trophy, X } from "lucide-react";
+import {
+  Check,
+  Eye,
+  EyeOff,
+  Maximize2,
+  Minimize2,
+  RefreshCw,
+  Shuffle,
+  Timer,
+  Trophy,
+  X,
+} from "lucide-react";
 
 type Cell = { r: number; c: number };
 
@@ -87,7 +98,14 @@ export function WordSearch({
     return map;
   }, [puzzle]);
 
-  const targetWords = useMemo(() => puzzle.words.map((word) => word.normalized), [puzzle]);
+  // Words the engine could not fit have no path in the grid, so they can never
+  // be found. Every chip, counter and the completion check work from the
+  // placeable set — one unplaced word must not make finishing impossible.
+  const playableWords = useMemo(
+    () => puzzle.words.filter((word) => !puzzle.unplaced.includes(word.normalized)),
+    [puzzle],
+  );
+  const targetWords = useMemo(() => playableWords.map((word) => word.normalized), [playableWords]);
 
   const reducedMotion = useReducedMotion();
 
@@ -233,7 +251,7 @@ export function WordSearch({
     const next = found.filter((w) => !prev.includes(w));
     if (next.length) {
       setRecentlyFound(next);
-      const complete = found.length === words.length && words.length > 0;
+      const complete = found.length >= playableWords.length && playableWords.length > 0;
       if (complete) {
         setStartedAt((begin) => {
           if (begin != null) {
@@ -253,7 +271,7 @@ export function WordSearch({
         setStartedAt((begin) => begin ?? Date.now());
       }
       // `next` holds normalized forms; the reader is shown their own spelling.
-      setToast({ word: displayOf.get(next[0]) ?? next[0], all: found.length === words.length });
+      setToast({ word: displayOf.get(next[0]) ?? next[0], all: complete });
       const timer = setTimeout(() => setRecentlyFound([]), 500);
       const toastTimer = setTimeout(() => setToast(null), 2200);
       prevFoundRef.current = found;
@@ -263,15 +281,15 @@ export function WordSearch({
       };
     }
     prevFoundRef.current = found;
-  }, [found, words.length, displayOf, elapsedMs, journeyLabel, onComplete, storageKey]);
+  }, [found, playableWords.length, displayOf, elapsedMs, journeyLabel, onComplete, storageKey]);
 
   // A new puzzle (different words or size) always starts hidden again.
   useEffect(() => {
     setRevealed(false);
   }, [wordsKey, size]);
 
-  const progress = words.length ? found.length / words.length : 0;
-  const isComplete = words.length > 0 && found.length === words.length;
+  const progress = playableWords.length ? Math.min(1, found.length / playableWords.length) : 0;
+  const isComplete = playableWords.length > 0 && found.length >= playableWords.length;
   const completedTime = (() => {
     const total = Math.max(0, Math.round(elapsedMs / 1000));
     return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
@@ -280,6 +298,38 @@ export function WordSearch({
     bestTimeMs != null
       ? `${Math.floor(Math.round(bestTimeMs / 1000) / 60)}:${String(Math.round(bestTimeMs / 1000) % 60).padStart(2, "0")}`
       : null;
+
+  // A solved grid must never be a dead end: whether the reader just finished or
+  // came back to a restored complete session, this offers the way to a fresh
+  // puzzle (a new draw of words via onShuffleWords, plus a new layout).
+  const completionBanner = (
+    <div
+      className="rounded-xl border p-4 text-center"
+      style={{
+        borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)",
+        background: "color-mix(in oklab, var(--gold) 10%, transparent)",
+      }}
+      role="status"
+    >
+      <p className="flex items-center justify-center gap-2 text-sm font-medium">
+        <Trophy className="h-4 w-4 shrink-0" style={{ color: "var(--gold)" }} aria-hidden="true" />
+        {t("wordsearch.foundAll")}
+      </p>
+      <p className="mt-1 text-xs tabular-nums text-muted-foreground">
+        {t("wordsearch.completedIn")} {completedTime}
+        {bestLabel && bestLabel !== completedTime && ` · ${t("wordsearch.bestTime")} ${bestLabel}`}
+      </p>
+      <button
+        type="button"
+        onClick={shuffleGrid}
+        className="mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full px-4 text-[11px] font-semibold uppercase tracking-[0.14em] transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+        style={{ background: "var(--ink)", color: "var(--ivory)" }}
+      >
+        <RefreshCw className="h-3.5 w-3.5 shrink-0" />
+        {t("wordsearch.regenerate")}
+      </button>
+    </div>
+  );
 
   function cellsBetween(a: Cell, b: Cell): Cell[] {
     const dr = Math.sign(b.r - a.r);
@@ -581,12 +631,14 @@ export function WordSearch({
         </div>
       )}
 
+      {isComplete && completionBanner}
+
       <div className="flex items-baseline justify-between gap-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           {t("wordsearch.wordsToFind")}
         </p>
         <span className="text-xs font-medium tabular-nums text-muted-foreground">
-          {found.length}/{words.length}
+          {found.length}/{playableWords.length}
           {isComplete && ` · ${completedTime}`}
         </span>
       </div>
@@ -600,9 +652,9 @@ export function WordSearch({
 
       <ul
         className="grid grid-cols-2 gap-1.5 lg:grid-cols-1"
-        aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+        aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${playableWords.length}`}
       >
-        {puzzle.words.map(({ display: w, normalized }) => {
+        {playableWords.map(({ display: w, normalized }) => {
           const done = found.includes(normalized);
           const color = wordColor.get(normalized);
           return (
@@ -664,6 +716,8 @@ export function WordSearch({
         </div>
       )}
 
+      {isComplete && completionBanner}
+
       <div className="rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
           <div className="min-w-0">
@@ -673,7 +727,7 @@ export function WordSearch({
           </div>
           <div className="flex shrink-0 items-center gap-3">
             <span className="text-xs font-medium tabular-nums text-muted-foreground">
-              {found.length}/{words.length}
+              {found.length}/{playableWords.length}
             </span>
             {isComplete && (
               <span
@@ -729,9 +783,9 @@ export function WordSearch({
 
         <ul
           className="mt-4 grid grid-cols-2 items-stretch gap-2 sm:grid-cols-2"
-          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${playableWords.length}`}
         >
-          {puzzle.words.map(({ display: w, normalized }) => {
+          {playableWords.map(({ display: w, normalized }) => {
             const done = found.includes(normalized);
             const color = wordColor.get(normalized);
             return (
@@ -812,6 +866,8 @@ export function WordSearch({
         </div>
       )}
 
+      {isComplete && completionBanner}
+
       <div className="flex flex-col rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)]">
         <div className="mb-3 border-b border-border/60 pb-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -819,7 +875,7 @@ export function WordSearch({
           </p>
           <div className="mt-2 flex items-center justify-between gap-2">
             <span className="text-xs font-medium tabular-nums text-muted-foreground">
-              {found.length}/{words.length}
+              {found.length}/{playableWords.length}
             </span>
             {isComplete && (
               <span
@@ -844,9 +900,9 @@ export function WordSearch({
 
         <ul
           className="flex max-h-[46vh] flex-col gap-1.5 overflow-y-auto pr-1"
-          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+          aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${playableWords.length}`}
         >
-          {puzzle.words.map(({ display: w, normalized }) => {
+          {playableWords.map(({ display: w, normalized }) => {
             const done = found.includes(normalized);
             const color = wordColor.get(normalized);
             return (
@@ -958,6 +1014,7 @@ export function WordSearch({
         </div>
 
         <aside className="flex w-full flex-none flex-col gap-4 self-stretch md:min-h-0 md:w-[164px] lg:w-[180px] xl:w-[220px]">
+          {isComplete && completionBanner}
           <div className="flex flex-col rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)] md:min-h-0 md:flex-1 md:p-5">
             <div className="mb-3 border-b border-border/60 pb-3">
               <div className="flex items-start justify-between gap-3">
@@ -965,7 +1022,7 @@ export function WordSearch({
                   {t("wordsearch.wordsToFind")}
                 </p>
                 <span className="text-xs font-medium tabular-nums text-muted-foreground">
-                  {found.length}/{words.length}
+                  {found.length}/{playableWords.length}
                 </span>
               </div>
               <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-secondary">
@@ -989,9 +1046,9 @@ export function WordSearch({
 
             <ul
               className="grid auto-rows-min grid-cols-2 gap-2 pr-1 sm:grid-cols-3 md:flex md:min-h-0 md:flex-1 md:flex-col md:overflow-y-auto"
-              aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+              aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${playableWords.length}`}
             >
-              {puzzle.words.map(({ display: w, normalized }) => {
+              {playableWords.map(({ display: w, normalized }) => {
                 const done = found.includes(normalized);
                 const color = wordColor.get(normalized);
                 return (
@@ -1148,6 +1205,7 @@ export function WordSearch({
 
       {compact && (
         <div className="flex w-full min-w-0 flex-none flex-col gap-2 overflow-visible pb-2">
+          {isComplete && completionBanner}
           <div className="flex w-full min-w-0 items-center gap-2 rounded-full border border-border/60 bg-card/90 px-3 py-1.5 text-[10px] uppercase tracking-wider">
             <span className="shrink-0 text-muted-foreground">{t("wordsearch.words")}</span>
             <div className="h-1 min-w-6 flex-1 overflow-hidden rounded-full bg-secondary">
@@ -1157,7 +1215,7 @@ export function WordSearch({
               />
             </div>
             <span className="shrink-0 font-medium tabular-nums">
-              {found.length}/{words.length}
+              {found.length}/{playableWords.length}
             </span>
             {isComplete && (
               <span className="inline-flex shrink-0 items-center gap-1 font-medium tabular-nums text-muted-foreground">
@@ -1198,9 +1256,9 @@ export function WordSearch({
           </div>
           <ul
             className="grid w-full grid-cols-[repeat(auto-fill,minmax(84px,1fr))] gap-1.5"
-            aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
+            aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${playableWords.length}`}
           >
-            {puzzle.words.map(({ display: w, normalized }) => {
+            {playableWords.map(({ display: w, normalized }) => {
               const done = found.includes(normalized);
               const color = done ? wordColor.get(normalized) : undefined;
               return (

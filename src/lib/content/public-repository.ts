@@ -330,6 +330,11 @@ export const publicContent = {
    * Resolves the Daily Journey for a date, falling back to the default locale's
    * assignment. Future dates are invisible to the public via RLS, so a request
    * for tomorrow returns nothing rather than leaking upcoming content.
+   *
+   * The calendar can have gaps: when the date has no assignment, the most
+   * recent one on or before it is served instead. Without this, a gap drops the
+   * reader to the sample journey — which exists only in English, so the
+   * devotional would silently stop being translated.
    */
   async getDailyJourney(locale: Locale, date = new Date()): Promise<PublicJourneyDetail | null> {
     const client = getSupabaseClient();
@@ -338,14 +343,22 @@ export const publicContent = {
     const { data, error } = await client
       .from("daily_journeys")
       .select("journey_date, language_code, journey_id, is_fallback, notes")
-      .eq("journey_date", isoDate)
-      .in("language_code", [locale, "en"]);
+      .lte("journey_date", isoDate)
+      .in("language_code", [locale, "en"])
+      .order("journey_date", { ascending: false })
+      .limit(6);
 
     if (error) throw fromPostgrestError(error);
 
     const rows = (data ?? []) as DailyJourneyRow[];
+    // Only the most recent assigned date competes; within it the reader's
+    // locale wins. An "en" assignment still renders translated, because the
+    // journey's own translations are resolved against the locale below.
+    const latestDate = rows[0]?.journey_date;
+    const dayRows = rows.filter((r) => r.journey_date === latestDate);
     const assignment =
-      rows.find((r) => r.language_code === locale) ?? rows.find((r) => r.language_code === "en");
+      dayRows.find((r) => r.language_code === locale) ??
+      dayRows.find((r) => r.language_code === "en");
     if (!assignment) return null;
 
     const { data: journeyRow, error: journeyError } = await publishedJourneys(
