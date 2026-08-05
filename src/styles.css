@@ -94,6 +94,20 @@
   }
 }
 
+/* Word Guess — a gentle sideways nudge for a not-yet answer. Applied with the
+   motion-safe variant, so reduced-motion readers see only the text notice. */
+@keyframes wg-nudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
 /* The Living Journal — a resting pen cursor and a gently arriving line.
    Both are neutralised by the reduced-motion rules further down, and the
    components additionally render a readable static state, so nothing depends on
