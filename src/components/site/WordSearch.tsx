@@ -988,7 +988,7 @@ export function WordSearch({
             </div>
 
             <ul
-              className="grid auto-rows-min grid-cols-2 gap-2 pr-1 sm:grid-cols-3 md:flex md:min-h-[16vh] md:flex-1 md:flex-col md:overflow-y-auto"
+              className="grid auto-rows-min grid-cols-2 gap-2 pr-1 sm:grid-cols-3 md:flex md:min-h-0 md:flex-1 md:flex-col md:overflow-y-auto"
               aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
             >
               {puzzle.words.map(({ display: w, normalized }) => {
