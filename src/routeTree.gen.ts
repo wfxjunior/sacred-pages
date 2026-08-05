@@ -44,6 +44,7 @@ import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
 import { Route as PlayIndexRouteImport } from './routes/play.index'
+import { Route as PlayDailyRouteImport } from './routes/play.daily'
 import { Route as PlayWhoAmIRouteImport } from './routes/play.who-am-i'
 import { Route as PlayWordGuessRouteImport } from './routes/play.word-guess'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
@@ -232,6 +233,11 @@ const PlayIndexRoute = PlayIndexRouteImport.update({
   path: '/play/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayDailyRoute = PlayDailyRouteImport.update({
+  id: '/play/daily',
+  path: '/play/daily',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayWhoAmIRoute = PlayWhoAmIRouteImport.update({
   id: '/play/who-am-i',
   path: '/play/who-am-i',
@@ -322,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/play/daily': typeof PlayDailyRoute
   '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
@@ -370,6 +377,7 @@ export interface FileRoutesByTo {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/play/daily': typeof PlayDailyRoute
   '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin': typeof AdminIndexRoute
@@ -419,6 +427,7 @@ export interface FileRoutesById {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/play/daily': typeof PlayDailyRoute
   '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
@@ -469,6 +478,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
+    | '/play/daily'
     | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin/'
@@ -517,6 +527,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
+    | '/play/daily'
     | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin'
@@ -565,6 +576,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
+    | '/play/daily'
     | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin/'
@@ -613,6 +625,7 @@ export interface RootRouteChildren {
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
+  PlayDailyRoute: typeof PlayDailyRoute
   PlayWhoAmIRoute: typeof PlayWhoAmIRoute
   PlayWordGuessRoute: typeof PlayWordGuessRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -876,6 +889,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/daily': {
+      id: '/play/daily'
+      path: '/play/daily'
+      fullPath: '/play/daily'
+      preLoaderRoute: typeof PlayDailyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/who-am-i': {
       id: '/play/who-am-i'
       path: '/play/who-am-i'
@@ -1000,6 +1020,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
+  PlayDailyRoute: PlayDailyRoute,
   PlayWhoAmIRoute: PlayWhoAmIRoute,
   PlayWordGuessRoute: PlayWordGuessRoute,
   AdminIndexRoute: AdminIndexRoute,

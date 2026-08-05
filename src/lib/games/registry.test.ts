@@ -39,19 +39,27 @@ describe("game registry integrity", () => {
 
   it("gives every active mode a valid route, and only the shipped games are active", () => {
     const active = listActiveGames();
-    expect(active.map((game) => game.id)).toEqual(["word_search", "word_guess", "who_am_i"]);
+    expect(active.map((game) => game.id)).toEqual([
+      "word_search",
+      "word_guess",
+      "who_am_i",
+      "daily_challenge",
+    ]);
     for (const game of active) {
       expect(game.route).toMatch(/^\//);
     }
     expect(GAME_REGISTRY.word_search.route).toBe("/today");
     expect(GAME_REGISTRY.word_guess.route).toBe("/play/word-guess");
     expect(GAME_REGISTRY.who_am_i.route).toBe("/play/who-am-i");
+    expect(GAME_REGISTRY.daily_challenge.route).toBe("/play/daily");
   });
 
-  it("marks all unshipped modes as coming_soon without routes", () => {
+  it("keeps unshipped modes without routes: a short coming_soon promise, the rest hidden", () => {
     const comingSoon = listGames().filter((game) => game.availability === "coming_soon");
-    expect(comingSoon).toHaveLength(GAME_MODES.length - 3);
-    for (const game of comingSoon) {
+    const hidden = listGames().filter((game) => game.availability === "hidden");
+    expect(comingSoon.map((game) => game.id)).toEqual(["finish_the_verse", "unscramble"]);
+    expect(hidden).toHaveLength(GAME_MODES.length - 4 - comingSoon.length);
+    for (const game of [...comingSoon, ...hidden]) {
       expect(game.route).toBeNull();
     }
   });
