@@ -886,7 +886,7 @@ export function WordSearch({
             className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
             <Shuffle className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{t("wordsearch.shuffle")}</span>
+            <span className="hidden truncate xl:inline">{t("wordsearch.shuffle")}</span>
           </button>
           <button
             type="button"
@@ -896,7 +896,7 @@ export function WordSearch({
             className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
             {expanded ? <Minimize2 className="h-3.5 w-3.5 shrink-0" /> : <Maximize2 className="h-3.5 w-3.5 shrink-0" />}
-            <span className="truncate">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
+            <span className="hidden truncate xl:inline">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
           </button>
           <button
             type="button"
@@ -957,8 +957,8 @@ export function WordSearch({
           </div>
         </div>
 
-        <aside className="flex w-full flex-none flex-col gap-4 self-stretch md:w-[164px] lg:w-[180px] xl:w-[220px]">
-          <div className="rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)] md:p-5">
+        <aside className="flex w-full flex-none flex-col gap-4 self-stretch md:min-h-0 md:w-[164px] lg:w-[180px] xl:w-[220px]">
+          <div className="flex flex-col rounded-xl border border-border bg-card p-4 shadow-[0_1px_2px_rgba(43,41,38,0.04)] md:min-h-0 md:flex-1 md:p-5">
             <div className="mb-3 border-b border-border/60 pb-3">
               <div className="flex items-start justify-between gap-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -988,7 +988,7 @@ export function WordSearch({
             </div>
 
             <ul
-              className="grid auto-rows-min grid-cols-2 gap-2 pr-1 sm:grid-cols-3 md:flex md:min-h-[16vh] md:flex-1 md:flex-col md:overflow-y-auto"
+              className="grid auto-rows-min grid-cols-2 gap-2 pr-1 sm:grid-cols-3 md:flex md:min-h-0 md:flex-1 md:flex-col md:overflow-y-auto"
               aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${words.length}`}
             >
               {puzzle.words.map(({ display: w, normalized }) => {
@@ -1033,7 +1033,7 @@ export function WordSearch({
                 className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
                 <Shuffle className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">{t("wordsearch.shuffle")}</span>
+                <span className="hidden truncate xl:inline">{t("wordsearch.shuffle")}</span>
               </button>
               <button
                 type="button"
@@ -1044,7 +1044,7 @@ export function WordSearch({
                 className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
                 {expanded ? <Minimize2 className="h-3.5 w-3.5 shrink-0" /> : <Maximize2 className="h-3.5 w-3.5 shrink-0" />}
-                <span className="truncate">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
+                <span className="hidden truncate xl:inline">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
               </button>
               <button
                 type="button"
