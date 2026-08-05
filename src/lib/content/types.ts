@@ -25,8 +25,10 @@ export type TranslationStatus = (typeof TRANSLATION_STATUSES)[number];
 export const ACCESS_LEVELS = ["free", "premium", "preview", "internal"] as const;
 export type AccessLevel = (typeof ACCESS_LEVELS)[number];
 
-export const DIFFICULTY_LEVELS = ["gentle", "balanced", "challenging", "expert"] as const;
-export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
+// Difficulty is owned by the shared game platform (lib/games); the content
+// domain re-exports it so DB rows and game modes speak one vocabulary.
+export { GAME_DIFFICULTIES as DIFFICULTY_LEVELS } from "@/lib/games/difficulty";
+export type { GameDifficulty as DifficultyLevel } from "@/lib/games/difficulty";
 
 export const SCRIPTURE_STRATEGIES = ["reference_only", "public_domain", "licensed", "api"] as const;
 export type ScriptureStrategy = (typeof SCRIPTURE_STRATEGIES)[number];

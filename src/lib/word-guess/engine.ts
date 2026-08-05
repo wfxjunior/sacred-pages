@@ -1,4 +1,5 @@
 import { normalizeWord } from "@/lib/content/normalize";
+import { isTerminalGameStatus } from "@/lib/games";
 import { resolveWordGuessSettings } from "./config";
 import type {
   WordGuessCell,
@@ -103,7 +104,7 @@ export function createInitialWordGuessState(
 }
 
 function isTerminal(state: WordGuessState): boolean {
-  return state.status === "completed" || state.status === "revealed" || state.status === "failed";
+  return isTerminalGameStatus(state.status);
 }
 
 function hiddenLetterIndexes(state: WordGuessState, cells: WordGuessCell[]): number[] {

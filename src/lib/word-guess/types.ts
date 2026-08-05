@@ -3,10 +3,14 @@
 // The domain is framework-independent: nothing in src/lib/word-guess imports
 // React or touches the DOM. Components render state; these modules own it.
 
-/** Mirrors the app's Locale without importing the React-bound i18n module. */
-export type WordGuessLocale = "en" | "pt" | "es";
+import type { GameDifficulty, GameLocale, GameStatus } from "@/lib/games";
 
-export type WordGuessDifficulty = "gentle" | "balanced" | "challenging" | "expert";
+// Locale, difficulty and lifecycle status come from the shared game platform
+// (lib/games); the aliases below keep this domain's established names working
+// at every existing import site.
+export type WordGuessLocale = GameLocale;
+
+export type WordGuessDifficulty = GameDifficulty;
 
 export type WordGuessRevealMode =
   "first_letter" | "first_and_last" | "random_letters" | "custom" | "none";
@@ -47,7 +51,7 @@ export interface WordGuessCell {
   kind: "letter" | "space" | "punctuation";
 }
 
-export type WordGuessStatus = "not_started" | "in_progress" | "completed" | "revealed" | "failed";
+export type WordGuessStatus = GameStatus;
 
 export interface WordGuessState {
   questionId: string;
