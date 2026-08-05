@@ -529,11 +529,11 @@
     border-color: var(--color-border);
   }
 
-  html,
-  body {
-    overflow-y: auto;
-  }
-
+  /* Scrolling belongs to the viewport. Never set overflow-y on BOTH html and
+     body: that turns them into two nested scroll containers and the window's
+     scroll range clamps short of the content — the "page stops before the
+     footer" bug. The pull-to-refresh guard is overscroll-behavior, not
+     overflow. */
   html {
     min-height: 100%;
     scroll-behavior: smooth;
@@ -582,7 +582,6 @@
     padding-right: env(safe-area-inset-right);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
-    overflow-y: auto;
     overscroll-behavior-y: contain;
     touch-action: pan-y;
     /* Lock user selection on chrome; inputs & prose re-enable below */
