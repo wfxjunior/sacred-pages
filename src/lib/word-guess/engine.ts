@@ -1,5 +1,5 @@
 import { normalizeWord } from "@/lib/content/normalize";
-import { isTerminalGameStatus } from "@/lib/games";
+import { isTerminalGameStatus, seededRandomFromString, shuffleWithRandom } from "@/lib/games";
 import { resolveWordGuessSettings } from "./config";
 import type {
   WordGuessCell,
@@ -36,18 +36,6 @@ export function answerCells(question: WordGuessQuestion): WordGuessCell[] {
   });
 }
 
-/** Deterministic PRNG (Lehmer, same generator family the app already uses for
- * daily draws) seeded from a string via FNV-1a — never Math.random. */
-function seededRandom(seedKey: string): () => number {
-  let h = 2166136261;
-  for (let i = 0; i < seedKey.length; i += 1) {
-    h ^= seedKey.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  let state = (Math.abs(h) % 2147483646) + 1;
-  return () => (state = (state * 16807) % 2147483647) / 2147483647;
-}
-
 /**
  * Which letter positions start revealed, per the resolved reveal mode. The
  * result is deterministic: random_letters draws from a PRNG seeded by
@@ -75,12 +63,11 @@ export function resolveVisibleIndexes(
       return letters.filter((cell) => wanted.has(cell.index)).map((cell) => cell.index);
     }
     case "random_letters": {
-      const random = seededRandom(question.seed ?? question.id);
-      const pool = letters.map((cell) => cell.index);
-      for (let i = pool.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j]!, pool[i]!];
-      }
+      const random = seededRandomFromString(question.seed ?? question.id);
+      const pool = shuffleWithRandom(
+        letters.map((cell) => cell.index),
+        random,
+      );
       const count = Math.min(settings.randomRevealCount, Math.max(0, pool.length - 1));
       return pool.slice(0, count).sort((a, b) => a - b);
     }

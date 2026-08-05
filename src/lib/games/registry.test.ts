@@ -37,19 +37,20 @@ describe("game registry integrity", () => {
     expect(new Set(routes).size).toBe(routes.length);
   });
 
-  it("gives every active mode a valid route, and only the two shipped games are active", () => {
+  it("gives every active mode a valid route, and only the shipped games are active", () => {
     const active = listActiveGames();
-    expect(active.map((game) => game.id)).toEqual(["word_search", "word_guess"]);
+    expect(active.map((game) => game.id)).toEqual(["word_search", "word_guess", "who_am_i"]);
     for (const game of active) {
       expect(game.route).toMatch(/^\//);
     }
     expect(GAME_REGISTRY.word_search.route).toBe("/today");
     expect(GAME_REGISTRY.word_guess.route).toBe("/play/word-guess");
+    expect(GAME_REGISTRY.who_am_i.route).toBe("/play/who-am-i");
   });
 
   it("marks all unshipped modes as coming_soon without routes", () => {
     const comingSoon = listGames().filter((game) => game.availability === "coming_soon");
-    expect(comingSoon).toHaveLength(GAME_MODES.length - 2);
+    expect(comingSoon).toHaveLength(GAME_MODES.length - 3);
     for (const game of comingSoon) {
       expect(game.route).toBeNull();
     }

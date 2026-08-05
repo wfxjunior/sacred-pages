@@ -38,3 +38,4 @@ export {
   type GameProgressSnapshot,
   type GameProgressStore,
 } from "./persistence.types";
+export { seededRandomFromString, shuffleWithRandom } from "./random";

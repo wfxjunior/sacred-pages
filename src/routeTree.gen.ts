@@ -43,6 +43,7 @@ import { Route as CollectionsIndexRouteImport } from './routes/collections.index
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as PlayWhoAmIRouteImport } from './routes/play.who-am-i'
 import { Route as PlayWordGuessRouteImport } from './routes/play.word-guess'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
 import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin.collections.$collectionId'
@@ -225,6 +226,11 @@ const NotificationsPreferencesRoute =
     path: '/preferences',
     getParentRoute: () => NotificationsRoute,
   } as any)
+const PlayWhoAmIRoute = PlayWhoAmIRouteImport.update({
+  id: '/play/who-am-i',
+  path: '/play/who-am-i',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayWordGuessRoute = PlayWordGuessRouteImport.update({
   id: '/play/word-guess',
   path: '/play/word-guess',
@@ -310,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -356,6 +363,7 @@ export interface FileRoutesByTo {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin': typeof AdminIndexRoute
   '/collections': typeof CollectionsIndexRoute
@@ -403,6 +411,7 @@ export interface FileRoutesById {
   '/collections/$slug': typeof CollectionsSlugRoute
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
+  '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
@@ -451,6 +460,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
+    | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin/'
     | '/collections/'
@@ -497,6 +507,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
+    | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin'
     | '/collections'
@@ -543,6 +554,7 @@ export interface FileRouteTypes {
     | '/collections/$slug'
     | '/invite/$token'
     | '/notifications/preferences'
+    | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin/'
     | '/collections/'
@@ -589,6 +601,7 @@ export interface RootRouteChildren {
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
+  PlayWhoAmIRoute: typeof PlayWhoAmIRoute
   PlayWordGuessRoute: typeof PlayWordGuessRoute
   AdminIndexRoute: typeof AdminIndexRoute
   CollectionsIndexRoute: typeof CollectionsIndexRoute
@@ -843,6 +856,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsPreferencesRouteImport
       parentRoute: typeof NotificationsRoute
     }
+    '/play/who-am-i': {
+      id: '/play/who-am-i'
+      path: '/play/who-am-i'
+      fullPath: '/play/who-am-i'
+      preLoaderRoute: typeof PlayWhoAmIRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/word-guess': {
       id: '/play/word-guess'
       path: '/play/word-guess'
@@ -960,6 +980,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   CollectionsSlugRoute: CollectionsSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
+  PlayWhoAmIRoute: PlayWhoAmIRoute,
   PlayWordGuessRoute: PlayWordGuessRoute,
   AdminIndexRoute: AdminIndexRoute,
   CollectionsIndexRoute: CollectionsIndexRoute,
