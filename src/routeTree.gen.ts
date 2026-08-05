@@ -45,6 +45,7 @@ import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
 import { Route as PlayIndexRouteImport } from './routes/play.index'
 import { Route as PlayDailyRouteImport } from './routes/play.daily'
+import { Route as PlayUnscrambleRouteImport } from './routes/play.unscramble'
 import { Route as PlayWhoAmIRouteImport } from './routes/play.who-am-i'
 import { Route as PlayWordGuessRouteImport } from './routes/play.word-guess'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
@@ -238,6 +239,11 @@ const PlayDailyRoute = PlayDailyRouteImport.update({
   path: '/play/daily',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayUnscrambleRoute = PlayUnscrambleRouteImport.update({
+  id: '/play/unscramble',
+  path: '/play/unscramble',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayWhoAmIRoute = PlayWhoAmIRouteImport.update({
   id: '/play/who-am-i',
   path: '/play/who-am-i',
@@ -329,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/play/daily': typeof PlayDailyRoute
+  '/play/unscramble': typeof PlayUnscrambleRoute
   '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
@@ -378,6 +385,7 @@ export interface FileRoutesByTo {
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/play/daily': typeof PlayDailyRoute
+  '/play/unscramble': typeof PlayUnscrambleRoute
   '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin': typeof AdminIndexRoute
@@ -428,6 +436,7 @@ export interface FileRoutesById {
   '/invite/$token': typeof InviteTokenRoute
   '/notifications/preferences': typeof NotificationsPreferencesRoute
   '/play/daily': typeof PlayDailyRoute
+  '/play/unscramble': typeof PlayUnscrambleRoute
   '/play/who-am-i': typeof PlayWhoAmIRoute
   '/play/word-guess': typeof PlayWordGuessRoute
   '/admin/': typeof AdminIndexRoute
@@ -479,6 +488,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/notifications/preferences'
     | '/play/daily'
+    | '/play/unscramble'
     | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin/'
@@ -528,6 +538,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/notifications/preferences'
     | '/play/daily'
+    | '/play/unscramble'
     | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin'
@@ -577,6 +588,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/notifications/preferences'
     | '/play/daily'
+    | '/play/unscramble'
     | '/play/who-am-i'
     | '/play/word-guess'
     | '/admin/'
@@ -626,6 +638,7 @@ export interface RootRouteChildren {
   CollectionsSlugRoute: typeof CollectionsSlugRoute
   InviteTokenRoute: typeof InviteTokenRoute
   PlayDailyRoute: typeof PlayDailyRoute
+  PlayUnscrambleRoute: typeof PlayUnscrambleRoute
   PlayWhoAmIRoute: typeof PlayWhoAmIRoute
   PlayWordGuessRoute: typeof PlayWordGuessRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -896,6 +909,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayDailyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/unscramble': {
+      id: '/play/unscramble'
+      path: '/play/unscramble'
+      fullPath: '/play/unscramble'
+      preLoaderRoute: typeof PlayUnscrambleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/who-am-i': {
       id: '/play/who-am-i'
       path: '/play/who-am-i'
@@ -1021,6 +1041,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsSlugRoute: CollectionsSlugRoute,
   InviteTokenRoute: InviteTokenRoute,
   PlayDailyRoute: PlayDailyRoute,
+  PlayUnscrambleRoute: PlayUnscrambleRoute,
   PlayWhoAmIRoute: PlayWhoAmIRoute,
   PlayWordGuessRoute: PlayWordGuessRoute,
   AdminIndexRoute: AdminIndexRoute,

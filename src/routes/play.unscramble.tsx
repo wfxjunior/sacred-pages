@@ -1,0 +1,144 @@
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { AppShell } from "@/components/site/AppShell";
+import { Button } from "@/components/ui/button";
+import { UnscrambleGame } from "@/components/games/unscramble/UnscrambleGame";
+import { dateKey } from "@/lib/content/word-history";
+import { useDailyJourney } from "@/lib/content/catalog";
+import { GAME_REGISTRY, type GameDifficulty } from "@/lib/games";
+import { useI18n } from "@/lib/i18n";
+import { unscrambleRounds } from "@/lib/unscramble/engine";
+
+// Unscramble draws its words from the day's real journey, so the game and the
+// devotional speak the same vocabulary. The sample pool below only appears
+// when no journey is available (offline/unconfigured), mirroring Today.
+
+const GAME = GAME_REGISTRY.unscramble;
+
+const FALLBACK_WORDS = [
+  "GRACE",
+  "FAITH",
+  "PEACE",
+  "PRAYER",
+  "HOPE",
+  "GRATITUDE",
+  "THANKFUL",
+  "TRUST",
+  "PRESENCE",
+  "WORSHIP",
+  "PATIENCE",
+  "KINDNESS",
+  "CONTENTMENT",
+  "GENEROSITY",
+  "ABUNDANCE",
+];
+
+export const Route = createFileRoute("/play/unscramble")({
+  head: () => ({
+    meta: [
+      { title: "Unscramble — Lumena" },
+      {
+        name: "description",
+        content:
+          "Put the letters of today's Scripture words back in order, one calm word at a time.",
+      },
+    ],
+  }),
+  component: UnscramblePage,
+});
+
+function UnscramblePage() {
+  const { t, locale } = useI18n();
+  const [difficulty, setDifficulty] = useState<GameDifficulty>("gentle");
+  const [cursor, setCursor] = useState(0);
+  // Date resolves after hydration so SSR and client never disagree at midnight.
+  const [seed, setSeed] = useState(() => dateKey());
+  useEffect(() => setSeed(dateKey()), []);
+
+  const daily = useDailyJourney();
+  const words = useMemo(
+    () => (daily.data ? daily.data.words.map((w) => w.display) : FALLBACK_WORDS),
+    [daily.data],
+  );
+  const scriptureReference = daily.data?.scripture[0]?.display_reference ?? undefined;
+
+  const rounds = useMemo(
+    () => unscrambleRounds(words, difficulty, `${seed}:${locale}`),
+    [words, difficulty, seed, locale],
+  );
+  const round = rounds.length > 0 ? rounds[cursor % rounds.length]! : null;
+
+  const chooseDifficulty = (next: GameDifficulty) => {
+    setDifficulty(next);
+    setCursor(0);
+  };
+
+  return (
+    <AppShell>
+      <div className="mx-auto w-full max-w-3xl px-1 py-6 sm:py-10">
+        <header className="mb-6 text-center">
+          <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
+            {t("games.eyebrow")}
+          </p>
+          <h1 className="mt-1 font-serif text-3xl leading-tight sm:text-4xl">{t(GAME.nameKey)}</h1>
+          <p className="mx-auto mt-2 max-w-md text-[14px] text-muted-foreground">
+            {t(GAME.descriptionKey)}
+          </p>
+
+          <div
+            className="mx-auto mt-5 inline-flex flex-wrap items-center justify-center gap-1 rounded-full border border-border bg-card p-1"
+            role="radiogroup"
+            aria-label={t("games.difficultyLabel")}
+          >
+            {GAME.supportedDifficulties.map((level) => {
+              const active = level === difficulty;
+              return (
+                <button
+                  key={level}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => chooseDifficulty(level)}
+                  className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] ${
+                    active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  style={{
+                    background: active
+                      ? "color-mix(in oklab, var(--gold) 14%, transparent)"
+                      : undefined,
+                  }}
+                >
+                  {t(`diff.${level}`)}
+                </button>
+              );
+            })}
+          </div>
+
+          {rounds.length > 0 && (
+            <p className="mt-3 text-[12px] tabular-nums text-muted-foreground">
+              {(cursor % rounds.length) + 1} {t("ui.of")} {rounds.length}
+            </p>
+          )}
+        </header>
+
+        {round ? (
+          <UnscrambleGame
+            key={`${round.word}:${cursor}:${difficulty}`}
+            round={round}
+            difficulty={difficulty}
+            scriptureReference={scriptureReference}
+            onContinue={() => setCursor((c) => c + 1)}
+            onTryAnother={() => setCursor((c) => c + Math.max(1, Math.floor(rounds.length / 2)))}
+          />
+        ) : (
+          <div className="mx-auto max-w-md rounded-2xl border border-border/60 bg-card p-6 text-center">
+            <p className="text-[14px] text-muted-foreground">{t("unscr.empty")}</p>
+            <Button asChild className="mt-4 rounded-full">
+              <Link to="/today">{t("nav.today")}</Link>
+            </Button>
+          </div>
+        )}
+      </div>
+    </AppShell>
+  );
+}
