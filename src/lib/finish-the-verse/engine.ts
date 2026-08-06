@@ -12,6 +12,7 @@ import type {
   FinishVerseSubmitOutcome,
   VerseBankEntry,
   VersePassage,
+  VerseSlotReview,
   VerseToken,
 } from "./types";
 
@@ -319,4 +320,50 @@ export function availableBankEntries(
   round: FinishVerseRound,
 ): VerseBankEntry[] {
   return round.bank.filter((entry) => bankEntryAvailable(state, entry.id));
+}
+
+/**
+ * What the reader got right and wrong, slot by slot — the material for the
+ * end-of-round review.
+ *
+ * Takes the placements to judge explicitly rather than reading them from the
+ * state, because the interesting array is the reader's own last attempt: by
+ * the time a round is revealed, state.placed already holds the solution.
+ */
+export function reviewFinishVerse(
+  round: FinishVerseRound,
+  placed: readonly (number | null)[],
+): VerseSlotReview[] {
+  return round.hiddenSlots.map((tokenIndex, slotIndex) => {
+    const truth = round.tokens[tokenIndex]!;
+    const id = placed[slotIndex] ?? null;
+    // Looked up defensively rather than through bankWord: a stale snapshot
+    // must produce an "empty" slot, never a crash mid-review.
+    const placedWord = id == null ? null : (round.bank.find((e) => e.id === id)?.word ?? null);
+    const status: VerseSlotReview["status"] =
+      placedWord == null ? "empty" : placedWord === truth.matchable ? "correct" : "wrong";
+    return {
+      slotIndex,
+      tokenIndex,
+      correctText: truth.text,
+      correctWord: truth.matchable!,
+      placedWord,
+      status,
+    };
+  });
+}
+
+/** Counts of the review, for the summary line. */
+export function summarizeFinishVerseReview(review: readonly VerseSlotReview[]): {
+  correct: number;
+  wrong: number;
+  empty: number;
+  total: number;
+} {
+  return {
+    correct: review.filter((slot) => slot.status === "correct").length,
+    wrong: review.filter((slot) => slot.status === "wrong").length,
+    empty: review.filter((slot) => slot.status === "empty").length,
+    total: review.length,
+  };
 }

@@ -16,6 +16,7 @@ import {
   wordGuessKeyboardFeedback,
 } from "@/lib/word-guess/engine";
 import { playWordGuessSound } from "@/lib/word-guess/sound";
+import { celebrateCompletion } from "@/lib/confetti";
 import type { WordGuessQuestion } from "@/lib/word-guess/types";
 import { WordGuessAnswerCells } from "./WordGuessAnswerCells";
 import { WordGuessCompletion } from "./WordGuessCompletion";
@@ -56,6 +57,7 @@ export function WordGuessGame({
     setState(next);
     if (result === "exact_match") {
       playWordGuessSound("correct");
+      celebrateCompletion();
       setNotice(null);
       setAnnouncement(`${t("wordguess.a11y.correctAnnouncement")} ${question.answer}.`);
     } else if (result === "incorrect") {

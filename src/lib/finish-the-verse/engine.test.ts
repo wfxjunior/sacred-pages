@@ -13,7 +13,9 @@ import {
   resetFinishVerse,
   resolveFinishVerseSettings,
   revealFinishVerse,
+  reviewFinishVerse,
   submitFinishVerse,
+  summarizeFinishVerseReview,
   tokenizeVerse,
 } from "./engine";
 import { finishVersePassagesForLocale } from "./verses";
@@ -220,6 +222,56 @@ describe("hint, reveal, reset", () => {
   it("resets to a fresh round", () => {
     const r = round();
     expect(resetFinishVerse(r)).toEqual(createInitialFinishVerseState(r));
+  });
+});
+
+describe("review", () => {
+  it("judges every slot: correct, wrong and left empty", () => {
+    const r = round();
+    const solved = solve(createInitialFinishVerseState(r), r);
+    // keep slot 0 correct, make slot 1 wrong, leave slot 2 empty
+    const placed = [...solved.placed];
+    const wrongEntry = r.bank.find(
+      (e) =>
+        !placed.slice(0, 1).includes(e.id) && e.word !== r.tokens[r.hiddenSlots[1]!]!.matchable,
+    )!;
+    placed[1] = wrongEntry.id;
+    placed[2] = null;
+
+    const review = reviewFinishVerse(r, placed);
+    expect(review).toHaveLength(r.hiddenSlots.length);
+    expect(review[0]!.status).toBe("correct");
+    expect(review[0]!.placedWord).toBe(review[0]!.correctWord);
+    expect(review[1]!.status).toBe("wrong");
+    expect(review[1]!.placedWord).toBe(wrongEntry.word);
+    expect(review[1]!.correctWord).toBe(r.tokens[r.hiddenSlots[1]!]!.matchable);
+    expect(review[2]!.status).toBe("empty");
+    expect(review[2]!.placedWord).toBeNull();
+    // display text keeps the verse's own casing and punctuation
+    expect(review[0]!.correctText).toBe(r.tokens[r.hiddenSlots[0]!]!.text);
+  });
+
+  it("marks a fully solved round as all correct, and an untouched one as all empty", () => {
+    const r = round();
+    const solved = solve(createInitialFinishVerseState(r), r);
+    expect(summarizeFinishVerseReview(reviewFinishVerse(r, solved.placed))).toMatchObject({
+      correct: r.hiddenSlots.length,
+      wrong: 0,
+      empty: 0,
+      total: r.hiddenSlots.length,
+    });
+    const untouched = createInitialFinishVerseState(r);
+    expect(summarizeFinishVerseReview(reviewFinishVerse(r, untouched.placed))).toMatchObject({
+      correct: 0,
+      wrong: 0,
+      empty: r.hiddenSlots.length,
+    });
+  });
+
+  it("treats an unknown bank id as an empty slot instead of throwing", () => {
+    const r = round();
+    const review = reviewFinishVerse(r, [9999, ...r.hiddenSlots.slice(1).map(() => null)]);
+    expect(review[0]!.status).toBe("empty");
   });
 });
 

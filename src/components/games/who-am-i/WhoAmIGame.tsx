@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useI18n } from "@/lib/i18n";
 import { isTerminalGameStatus } from "@/lib/games";
+import { celebrateCompletion } from "@/lib/confetti";
 import { resolveWhoAmISettings } from "@/lib/who-am-i/config";
 import {
   createInitialWhoAmIState,
@@ -63,6 +64,7 @@ export function WhoAmIGame({
     setState(next);
     if (result === "correct") {
       setNotice(false);
+      celebrateCompletion();
       setAnnouncement(`${t("whoami.a11y.correct")} ${question.answer}.`);
     } else if (result === "incorrect") {
       setNotice(true);

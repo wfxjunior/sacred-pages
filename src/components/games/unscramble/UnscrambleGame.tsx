@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { isTerminalGameStatus, type GameDifficulty } from "@/lib/games";
+import { celebrateCompletion } from "@/lib/confetti";
 import {
   applyUnscrambleHint,
   clearUnscramble,
@@ -69,6 +70,7 @@ export function UnscrambleGame({
     setState(next);
     if (result === "correct") {
       setNotice(null);
+      celebrateCompletion();
       setAnnouncement(`${t("unscr.a11y.correct")} ${round.word}.`);
     } else if (result === "incorrect") {
       setNotice("incorrect");

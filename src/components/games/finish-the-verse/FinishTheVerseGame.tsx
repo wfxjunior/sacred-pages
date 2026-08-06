@@ -1,6 +1,16 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, CheckCircle2, Delete, Eye, Lightbulb, RefreshCw, Check } from "lucide-react";
+import {
+  BookOpen,
+  Check,
+  CheckCircle2,
+  Delete,
+  Eye,
+  Lightbulb,
+  Minus,
+  RefreshCw,
+  X,
+} from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { isTerminalGameStatus, type GameDifficulty } from "@/lib/games";
+import { celebrateCompletion } from "@/lib/confetti";
 import {
   applyFinishVerseHint,
   clearAllPlacements,
@@ -27,7 +38,9 @@ import {
   resetFinishVerse,
   resolveFinishVerseSettings,
   revealFinishVerse,
+  reviewFinishVerse,
   submitFinishVerse,
+  summarizeFinishVerseReview,
 } from "@/lib/finish-the-verse/engine";
 import type { FinishVerseRound } from "@/lib/finish-the-verse/types";
 
@@ -53,6 +66,15 @@ export function FinishTheVerseGame({
   const { t } = useI18n();
   const settings = useMemo(() => resolveFinishVerseSettings(difficulty), [difficulty]);
   const [state, setState] = useState(() => createInitialFinishVerseState(round));
+  // The reader's own last attempt, kept so the end-of-round review can show
+  // what they wrote — by the time a round is revealed, state.placed already
+  // holds the solution.
+  const [attempt, setAttempt] = useState<readonly (number | null)[]>(
+    () => createInitialFinishVerseState(round).placed,
+  );
+  // Which slots the last check confirmed — those stay, visibly, so a wrong
+  // answer never feels like losing everything.
+  const [confirmed, setConfirmed] = useState<readonly boolean[] | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const [notice, setNotice] = useState<"incorrect" | "incomplete" | null>(null);
   const [nudge, setNudge] = useState(0);
@@ -76,19 +98,38 @@ export function FinishTheVerseGame({
   const nextEmptySlot = state.placed.indexOf(null);
 
   const submit = () => {
-    const { state: next, result } = submitFinishVerse(state, round, settings);
+    const { state: next, result, slotCorrect } = submitFinishVerse(state, round, settings);
     setState(next);
     if (result === "correct") {
+      setAttempt(state.placed);
+      setConfirmed(null);
       setNotice(null);
+      celebrateCompletion();
       setAnnouncement(t("verse.a11y.correct"));
     } else if (result === "incorrect") {
+      setAttempt(state.placed);
+      setConfirmed(slotCorrect ?? null);
       setNotice("incorrect");
       setNudge((n) => n + 1);
-      setAnnouncement(t("verse.a11y.incorrect"));
+      const kept = (slotCorrect ?? []).filter(Boolean).length;
+      setAnnouncement(
+        `${t("verse.a11y.incorrect")} ${t("verse.a11y.kept").replace("{n}", String(kept))}`,
+      );
     } else if (result === "incomplete") {
       setNotice("incomplete");
       setAnnouncement(t("verse.incomplete"));
     }
+  };
+
+  /**
+   * Reveal keeps the reader's attempt for the review before overwriting it.
+   * A wrong check has already returned the wrong words to the bank, so an
+   * empty board here means the last submitted attempt is the truthful one to
+   * show — otherwise the review would claim they never tried.
+   */
+  const reveal = () => {
+    setAttempt((previous) => (state.placed.some((id) => id != null) ? state.placed : previous));
+    setState((s) => revealFinishVerse(s, round));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -98,6 +139,7 @@ export function FinishTheVerseGame({
     if (!action) return;
     event.preventDefault();
     setNotice(null);
+    setConfirmed(null);
     if (action.type === "char") setState((s) => placeByChar(s, round, action.char));
     else if (action.type === "remove") setState((s) => removeLastPlacement(s));
     else submit();
@@ -124,11 +166,7 @@ export function FinishTheVerseGame({
               <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
               {t("games.tryAgain")}
             </Button>
-            <Button
-              onClick={() => setState((s) => revealFinishVerse(s, round))}
-              variant="outline"
-              className="rounded-full"
-            >
+            <Button onClick={reveal} variant="outline" className="rounded-full">
               <Eye className="mr-1.5 h-4 w-4" aria-hidden="true" />
               {t("games.revealAnswer")}
             </Button>
@@ -147,19 +185,15 @@ export function FinishTheVerseGame({
         <p className="mt-3 font-serif text-2xl">
           {completed ? t("games.correct") : t("games.revealedTitle")}
         </p>
-        <blockquote
-          className="mt-5 border-l-2 pl-5 text-left font-serif text-lg italic leading-relaxed"
-          style={{ borderColor: "var(--gold)" }}
+        <VerseReview round={round} attempt={attempt} />
+
+        <p
+          className="mt-3 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest"
+          style={{ color: "var(--walnut)" }}
         >
-          "{round.tokens.map((token) => token.text).join(" ")}"
-          <footer
-            className="mt-2 inline-flex items-center gap-1.5 text-xs not-italic uppercase tracking-widest"
-            style={{ color: "var(--walnut)" }}
-          >
-            <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-            {round.reference}
-          </footer>
-        </blockquote>
+          <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+          {round.reference}
+        </p>
         <dl className="mt-5 grid grid-cols-3 gap-2 border-t border-border/60 pt-4 text-center">
           <div>
             <dt className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
@@ -247,26 +281,38 @@ export function FinishTheVerseGame({
             const entry = placedId != null ? bankById.get(placedId) : undefined;
             const isNext = slotIndex === nextEmptySlot;
             const ghost = settings.showInitialLetter ? token.matchable![0] : null;
+            // A word the last check confirmed: shown as kept, so the reader
+            // sees exactly which of their words survived a wrong attempt.
+            const isConfirmed = Boolean(entry && confirmed?.[slotIndex]);
             return (
               <span key={tokenIndex}>
                 <button
                   type="button"
                   onClick={() => {
                     setNotice(null);
+                    setConfirmed(null);
                     setState((s) => clearSlot(s, slotIndex));
                   }}
                   disabled={entry == null}
                   aria-label={
-                    entry ? `${t("verse.a11y.placed")} ${entry.word}` : t("verse.a11y.blank")
+                    entry
+                      ? `${t("verse.a11y.placed")} ${entry.word}${
+                          isConfirmed ? `, ${t("verse.review.yoursCorrect")}` : ""
+                        }`
+                      : t("verse.a11y.blank")
                   }
                   className="mx-0.5 inline-flex min-w-14 items-center justify-center rounded-lg border px-2 py-0.5 align-baseline font-serif uppercase tracking-[0.04em] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
                   style={{
-                    borderColor: isNext
-                      ? "color-mix(in oklab, var(--gold) 70%, transparent)"
-                      : "color-mix(in oklab, var(--border) 80%, transparent)",
-                    background: entry
-                      ? "color-mix(in oklab, var(--gold) 10%, transparent)"
-                      : "var(--surface-2)",
+                    borderColor: isConfirmed
+                      ? "color-mix(in oklab, var(--sage) 55%, transparent)"
+                      : isNext
+                        ? "color-mix(in oklab, var(--gold) 70%, transparent)"
+                        : "color-mix(in oklab, var(--border) 80%, transparent)",
+                    background: isConfirmed
+                      ? "color-mix(in oklab, var(--sage) 18%, transparent)"
+                      : entry
+                        ? "color-mix(in oklab, var(--gold) 10%, transparent)"
+                        : "var(--surface-2)",
                     color: entry ? "var(--ink)" : "var(--walnut)",
                   }}
                 >
@@ -366,13 +412,121 @@ export function FinishTheVerseGame({
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>{t("ui.cancel")}</AlertDialogCancel>
-              <AlertDialogAction onClick={() => setState((s) => revealFinishVerse(s, round))}>
-                {t("games.revealAnswer")}
-              </AlertDialogAction>
+              <AlertDialogAction onClick={reveal}>{t("games.revealAnswer")}</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
       </div>
+    </div>
+  );
+}
+
+/**
+ * The round, judged in place: the verse reads whole, and each gap shows what
+ * belonged there — with the reader's own word struck through beside it when
+ * they missed. Seeing the mistake inside the sentence is what teaches the
+ * verse; a list of right answers would not.
+ *
+ * Status never rests on colour alone: every gap carries an icon and a
+ * screen-reader label.
+ */
+function VerseReview({
+  round,
+  attempt,
+}: {
+  round: FinishVerseRound;
+  attempt: readonly (number | null)[];
+}) {
+  const { t } = useI18n();
+  const review = useMemo(() => reviewFinishVerse(round, attempt), [round, attempt]);
+  const totals = useMemo(() => summarizeFinishVerseReview(review), [review]);
+  const bySlotToken = useMemo(
+    () => new Map(review.map((slot) => [slot.tokenIndex, slot])),
+    [review],
+  );
+
+  return (
+    <div className="mt-5">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        {t("verse.review.title")}
+      </p>
+
+      <p
+        className="mt-4 border-l-2 pl-5 text-left font-serif text-lg leading-[2] italic"
+        style={{ borderColor: "var(--gold)" }}
+      >
+        {round.tokens.map((token, tokenIndex) => {
+          const slot = bySlotToken.get(tokenIndex);
+          if (!slot) return <span key={tokenIndex}>{token.text} </span>;
+
+          if (slot.status === "correct") {
+            return (
+              <span
+                key={tokenIndex}
+                className="mx-0.5 inline-flex items-center gap-1 whitespace-nowrap rounded-md px-1.5 py-0.5 align-middle not-italic"
+                style={{
+                  background: "color-mix(in oklab, var(--sage) 16%, transparent)",
+                  color: "var(--ink)",
+                }}
+              >
+                <Check
+                  className="h-3.5 w-3.5 shrink-0"
+                  style={{ color: "var(--sage)" }}
+                  aria-hidden="true"
+                />
+                <span className="italic">{token.text}</span>
+                <span className="sr-only">({t("verse.review.yoursCorrect")})</span>{" "}
+              </span>
+            );
+          }
+
+          return (
+            <span
+              key={tokenIndex}
+              className="mx-0.5 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md px-1.5 py-0.5 align-middle not-italic"
+              style={{
+                background:
+                  slot.status === "wrong"
+                    ? "color-mix(in oklab, var(--gold) 16%, transparent)"
+                    : "var(--surface-2)",
+              }}
+            >
+              {slot.status === "wrong" ? (
+                <X
+                  className="h-3.5 w-3.5 shrink-0"
+                  style={{ color: "var(--gold)" }}
+                  aria-hidden="true"
+                />
+              ) : (
+                <Minus className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+              )}
+              <span className="italic" style={{ color: "var(--ink)" }}>
+                {token.text}
+              </span>
+              {slot.status === "wrong" && (
+                <span className="text-[13px] text-muted-foreground line-through">
+                  {slot.placedWord}
+                </span>
+              )}
+              <span className="sr-only">
+                {slot.status === "wrong"
+                  ? `${t("verse.review.yoursWrong")} ${slot.placedWord}`
+                  : t("verse.review.missed")}
+              </span>{" "}
+            </span>
+          );
+        })}
+      </p>
+
+      <p className="mt-4 text-[13px] text-muted-foreground" role="status">
+        {t("verse.review.summary")
+          .replace("{correct}", String(totals.correct))
+          .replace("{total}", String(totals.total))}
+        {totals.wrong > 0 &&
+          ` · ${t("verse.review.wrongCount").replace("{n}", String(totals.wrong))}`}
+        {totals.empty > 0 &&
+          ` · ${t("verse.review.emptyCount").replace("{n}", String(totals.empty))}`}
+      </p>
     </div>
   );
 }

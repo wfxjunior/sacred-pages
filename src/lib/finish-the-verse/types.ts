@@ -63,6 +63,20 @@ export interface FinishVerseState {
   status: GameStatus;
 }
 
+/** One gap, judged: what belonged there and what the reader put. */
+export interface VerseSlotReview {
+  slotIndex: number;
+  /** Position in round.tokens, for rendering inside the verse. */
+  tokenIndex: number;
+  /** The true word as the verse displays it ("Yahweh", "heart,"). */
+  correctText: string;
+  /** Its normalized matching form. */
+  correctWord: string;
+  /** What the reader placed, or null if they left it empty. */
+  placedWord: string | null;
+  status: "correct" | "wrong" | "empty";
+}
+
 export type FinishVerseSubmitResult =
   "correct" | "incorrect" | "incomplete" | "already_completed" | "solution_revealed";
 
