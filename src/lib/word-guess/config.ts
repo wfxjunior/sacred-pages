@@ -3,14 +3,20 @@ import type { WordGuessDifficulty, WordGuessQuestion, WordGuessSettings } from "
 // Difficulty is configuration, not scattered conditionals. Components receive
 // a resolved WordGuessSettings and never inspect the difficulty name again.
 //
-// gentle      — first and last letters shown, unlimited attempts, hint on.
-// balanced    — first letter shown, a few attempts, hint on.
-// challenging — one deterministic random letter shown, fewer attempts.
+// gentle      — two revealed letters, unlimited attempts, hint on.
+// balanced    — one revealed letter, a few attempts, hint on.
+// challenging — one revealed letter, fewer attempts.
 // expert      — nothing shown, fewest attempts, no hint and no reveal-letter;
 //               a timed variant is prepared by the state model but not enabled.
+//
+// Reveals use random_letters everywhere: the revealed POSITIONS vary from
+// question to question (deterministically, seeded per puzzle) instead of
+// always showing first/last — a fixed pattern reads as a template, varied
+// positions read as a puzzle. first_letter/first_and_last remain available
+// as per-question overrides.
 export const WORD_GUESS_DIFFICULTY_PRESETS: Record<WordGuessDifficulty, WordGuessSettings> = {
   gentle: {
-    revealMode: "first_and_last",
+    revealMode: "random_letters",
     randomRevealCount: 2,
     maximumIncorrectAttempts: null,
     hintAvailable: true,
@@ -18,8 +24,8 @@ export const WORD_GUESS_DIFFICULTY_PRESETS: Record<WordGuessDifficulty, WordGues
     clearOnIncorrect: false,
   },
   balanced: {
-    revealMode: "first_letter",
-    randomRevealCount: 2,
+    revealMode: "random_letters",
+    randomRevealCount: 1,
     maximumIncorrectAttempts: 5,
     hintAvailable: true,
     revealLetterAvailable: true,

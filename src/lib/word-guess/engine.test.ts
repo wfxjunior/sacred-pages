@@ -28,6 +28,10 @@ function question(overrides: Partial<WordGuessQuestion> = {}): WordGuessQuestion
     answer: "MOSES",
     difficulty: "gentle",
     hint: "Raised in Pharaoh's palace.",
+    // Pinned so gameplay tests know exactly which positions are hidden; the
+    // difficulty presets themselves use varied random_letters positions and
+    // are covered separately below.
+    revealMode: "first_and_last",
     ...overrides,
   };
 }
@@ -338,7 +342,11 @@ describe("keyboard", () => {
 describe("settings resolution", () => {
   it("derives behaviour from difficulty, with question overrides", () => {
     expect(resolveWordGuessSettings(question()).maximumIncorrectAttempts).toBeNull();
-    expect(resolveWordGuessSettings(question({ difficulty: "expert", hint: "h" }))).toMatchObject({
+    expect(
+      resolveWordGuessSettings(
+        question({ difficulty: "expert", hint: "h", revealMode: undefined }),
+      ),
+    ).toMatchObject({
       revealMode: "none",
       hintAvailable: false,
       revealLetterAvailable: false,
@@ -347,6 +355,22 @@ describe("settings resolution", () => {
       resolveWordGuessSettings(question({ maximumIncorrectAttempts: 2 })).maximumIncorrectAttempts,
     ).toBe(2);
     expect(resolveWordGuessSettings(question({ hint: undefined })).hintAvailable).toBe(false);
+  });
+
+  it("presets reveal varied positions per question, not a fixed pattern", () => {
+    expect(WORD_GUESS_DIFFICULTY_PRESETS.gentle.revealMode).toBe("random_letters");
+    expect(WORD_GUESS_DIFFICULTY_PRESETS.gentle.randomRevealCount).toBe(2);
+    expect(WORD_GUESS_DIFFICULTY_PRESETS.balanced.revealMode).toBe("random_letters");
+    expect(WORD_GUESS_DIFFICULTY_PRESETS.balanced.randomRevealCount).toBe(1);
+
+    const patterns = new Set(
+      ["wg-a", "wg-b", "wg-c", "wg-d", "wg-e", "wg-f"].map((id) =>
+        resolveVisibleIndexes(question({ id, answer: "GRATITUDE", revealMode: undefined })).join(
+          ",",
+        ),
+      ),
+    );
+    expect(patterns.size).toBeGreaterThan(1);
   });
 });
 

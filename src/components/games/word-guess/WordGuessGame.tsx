@@ -131,8 +131,9 @@ export function WordGuessGame({
             className="text-center text-[12px] tabular-nums text-muted-foreground"
             aria-hidden="true"
           >
-            {filled}/{hidden} {notice === "incorrect" && `· ${t("wordguess.incorrect")}`}
-            {notice === "incomplete" && `· ${t("wordguess.incomplete")}`}
+            {filled}/{hidden} {t("wordguess.letters")}
+            {notice === "incorrect" && ` · ${t("wordguess.incorrect")}`}
+            {notice === "incomplete" && ` · ${t("wordguess.incomplete")}`}
           </p>
 
           {question.hint && <WordGuessHint hint={question.hint} shown={state.hintUsed} />}

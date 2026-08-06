@@ -61,7 +61,11 @@ export function WordGuessKeyboard({
   };
 
   return (
-    <div role="group" aria-label={t("wordguess.keyboardLabel")} className="flex flex-col gap-1.5">
+    <div
+      role="group"
+      aria-label={t("wordguess.keyboardLabel")}
+      className="mx-auto flex w-full max-w-xl flex-col gap-1.5"
+    >
       <div className="flex gap-1.5">{Array.from(ROWS[0]).map(renderLetter)}</div>
       <div className="flex gap-1.5 px-[4%]">
         {Array.from(ROWS[1]).map(renderLetter)}
