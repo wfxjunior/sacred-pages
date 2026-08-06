@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { WhoAmIGame } from "@/components/games/who-am-i/WhoAmIGame";
 import { useI18n } from "@/lib/i18n";
 import { GameDifficultyPicker } from "@/components/games/GameDifficultyPicker";
 import { useGamePosition } from "@/lib/games/useGamePosition";
-import { GAME_REGISTRY, type GameDifficulty } from "@/lib/games";
+import { GAME_REGISTRY, seededRandomFromString, shuffleWithRandom } from "@/lib/games";
+import { dateKey } from "@/lib/content/word-history";
 import { whoAmIQuestionsForLocale } from "@/lib/who-am-i/questions";
 
 // Who Am I lives under /play beside Word Guess, absent from primary
@@ -33,11 +34,24 @@ function WhoAmIPage() {
   // the journey and coming back resumes exactly where the reader stood.
   const { difficulty, chooseDifficulty, cursor, setCursor } = useGamePosition("who_am_i");
 
+  // Every question is playable at every level (difficulty decides the clues
+  // and attempts); the day decides the order.
+  const [seed, setSeed] = useState(() => dateKey());
+  useEffect(() => setSeed(dateKey()), []);
   const pool = useMemo(() => {
     const all = whoAmIQuestionsForLocale(locale);
-    const filtered = all.filter((q) => q.difficulty === difficulty);
-    return filtered.length > 0 ? filtered : all;
-  }, [locale, difficulty]);
+    const random = seededRandomFromString(`who-am-i:${seed}:${locale}:${difficulty}`);
+    return [
+      ...shuffleWithRandom(
+        all.filter((q) => q.difficulty === difficulty),
+        random,
+      ),
+      ...shuffleWithRandom(
+        all.filter((q) => q.difficulty !== difficulty),
+        random,
+      ),
+    ];
+  }, [locale, difficulty, seed]);
 
   const question = pool[cursor % pool.length]!;
 

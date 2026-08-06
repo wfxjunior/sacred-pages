@@ -24,6 +24,12 @@ export interface UnscrambleSettings {
   /** `null` means unlimited attempts. */
   maximumIncorrectAttempts: number | null;
   hintAvailable: boolean;
+  /**
+   * Which letters are shown as ghosts in the empty slots. Without them a pool
+   * like P-E-R-U spells both PURE and PERU, and the reader is told a valid
+   * word is wrong — the puzzle has to say which word it wants.
+   */
+  ghostLetters: "first_and_last" | "first" | "none";
 }
 
 export interface UnscrambleState {

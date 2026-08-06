@@ -23,10 +23,34 @@ import type {
 // challenging — longer words, fewer attempts, hint on.
 // expert — the longest words, fewest attempts, no hint.
 export const UNSCRAMBLE_DIFFICULTY_PRESETS: Record<GameDifficulty, UnscrambleSettings> = {
-  gentle: { minLength: 3, maxLength: 5, maximumIncorrectAttempts: null, hintAvailable: true },
-  balanced: { minLength: 4, maxLength: 7, maximumIncorrectAttempts: 5, hintAvailable: true },
-  challenging: { minLength: 6, maxLength: 9, maximumIncorrectAttempts: 4, hintAvailable: true },
-  expert: { minLength: 8, maxLength: null, maximumIncorrectAttempts: 3, hintAvailable: false },
+  gentle: {
+    minLength: 3,
+    maxLength: 5,
+    maximumIncorrectAttempts: null,
+    hintAvailable: true,
+    ghostLetters: "first_and_last",
+  },
+  balanced: {
+    minLength: 4,
+    maxLength: 7,
+    maximumIncorrectAttempts: 5,
+    hintAvailable: true,
+    ghostLetters: "first",
+  },
+  challenging: {
+    minLength: 6,
+    maxLength: 9,
+    maximumIncorrectAttempts: 4,
+    hintAvailable: true,
+    ghostLetters: "first",
+  },
+  expert: {
+    minLength: 8,
+    maxLength: null,
+    maximumIncorrectAttempts: 3,
+    hintAvailable: false,
+    ghostLetters: "none",
+  },
 };
 
 export function resolveUnscrambleSettings(difficulty: GameDifficulty): UnscrambleSettings {
@@ -204,6 +228,25 @@ export function revealUnscramble(state: UnscrambleState, round: UnscrambleRound)
 
 export function resetUnscramble(round: UnscrambleRound): UnscrambleState {
   return createInitialUnscrambleState(round);
+}
+
+/**
+ * The letter shown faintly in an empty slot, or null. Ghosts identify the
+ * target word without solving it: with P at the start and E at the end, a
+ * P-E-R-U pool can only be PURE.
+ */
+export function ghostLetterFor(
+  round: UnscrambleRound,
+  settings: UnscrambleSettings,
+  slot: number,
+): string | null {
+  const letters = Array.from(round.word);
+  if (settings.ghostLetters === "none") return null;
+  if (slot === 0) return letters[0] ?? null;
+  if (settings.ghostLetters === "first_and_last" && slot === letters.length - 1) {
+    return letters[letters.length - 1] ?? null;
+  }
+  return null;
 }
 
 /** Physical-keyboard mapping, pure and testable. */

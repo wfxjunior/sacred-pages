@@ -9,6 +9,7 @@ import {
   pickUnscrambleLetter,
   removeLastUnscrambleLetter,
   resetUnscramble,
+  ghostLetterFor,
   resolveUnscrambleSettings,
   revealUnscramble,
   scrambleWord,
@@ -177,6 +178,31 @@ describe("hint and reveal", () => {
     const played = pickUnscrambleLetter(createInitialUnscrambleState(r), r, 1);
     expect(resetUnscramble(r)).toEqual(createInitialUnscrambleState(r));
     expect(played.picked).toHaveLength(1);
+  });
+});
+
+describe("ghost letters", () => {
+  it("anchors gentle rounds at both ends so the target word is unambiguous", () => {
+    const r = round("PURE");
+    const settings = resolveUnscrambleSettings("gentle");
+    expect(ghostLetterFor(r, settings, 0)).toBe("P");
+    expect(ghostLetterFor(r, settings, r.letters.length - 1)).toBe("E");
+    expect(ghostLetterFor(r, settings, 1)).toBeNull();
+  });
+
+  it("shows only the first letter at balanced and challenging", () => {
+    for (const level of ["balanced", "challenging"] as const) {
+      const r = round("GRATITUDE");
+      const settings = resolveUnscrambleSettings(level);
+      expect(ghostLetterFor(r, settings, 0)).toBe("G");
+      expect(ghostLetterFor(r, settings, r.letters.length - 1)).toBeNull();
+    }
+  });
+
+  it("shows nothing at expert", () => {
+    const r = round("CONTENTMENT");
+    const settings = resolveUnscrambleSettings("expert");
+    expect(ghostLetterFor(r, settings, 0)).toBeNull();
   });
 });
 

@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { WordGuessGame } from "@/components/games/word-guess/WordGuessGame";
 import { useI18n } from "@/lib/i18n";
 import { GameDifficultyPicker } from "@/components/games/GameDifficultyPicker";
 import { useGamePosition } from "@/lib/games/useGamePosition";
-import { wordGuessQuestionsForLocale } from "@/lib/word-guess/questions";
+import { wordGuessPool } from "@/lib/word-guess/pool";
+import { dateKey } from "@/lib/content/word-history";
 import type { WordGuessDifficulty } from "@/lib/word-guess/types";
 
 // Word Guess lives under /play — a sibling experience to the Today word
@@ -34,11 +35,10 @@ function WordGuessPage() {
   // the journey and coming back resumes exactly where the reader stood.
   const { difficulty, chooseDifficulty, cursor, setCursor } = useGamePosition("word_guess");
 
-  const pool = useMemo(() => {
-    const all = wordGuessQuestionsForLocale(locale);
-    const filtered = all.filter((q) => q.difficulty === difficulty);
-    return filtered.length > 0 ? filtered : all;
-  }, [locale, difficulty]);
+  // The whole pool is playable at every level; the day decides the order.
+  const [seed, setSeed] = useState(() => dateKey());
+  useEffect(() => setSeed(dateKey()), []);
+  const pool = useMemo(() => wordGuessPool(locale, difficulty, seed), [locale, difficulty, seed]);
 
   const question = pool[cursor % pool.length]!;
 

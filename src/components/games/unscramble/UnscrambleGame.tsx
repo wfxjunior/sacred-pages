@@ -18,6 +18,7 @@ import { isTerminalGameStatus, type GameDifficulty } from "@/lib/games";
 import { celebrateCompletion } from "@/lib/confetti";
 import {
   applyUnscrambleHint,
+  ghostLetterFor,
   clearUnscramble,
   createInitialUnscrambleState,
   mapUnscrambleKey,
@@ -216,7 +217,17 @@ export function UnscrambleGame({
           {t("games.unscramble.name")} · {t(`diff.${difficulty}`)}
         </p>
         <h2 className="mt-2 font-serif text-2xl leading-snug sm:text-3xl">{t("unscr.prompt")}</h2>
+        {scriptureReference && (
+          <p
+            className="mt-2 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-widest"
+            style={{ color: "var(--walnut)" }}
+          >
+            <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+            {scriptureReference}
+          </p>
+        )}
         <p className="mt-2 text-[12px] text-muted-foreground" aria-live="polite">
+          {round.word.length} {t("unscr.lettersLabel")} ·{" "}
           {remaining == null
             ? t("games.attemptsUnlimited")
             : `${t("games.attemptsRemaining")}: ${remaining}`}
@@ -237,6 +248,7 @@ export function UnscrambleGame({
         {Array.from(round.letters, (_, slot) => {
           const pickedIndex = state.picked[slot];
           const filled = pickedIndex !== undefined;
+          const ghost = filled ? null : ghostLetterFor(round, settings, slot);
           return (
             <span
               key={slot}
@@ -252,6 +264,10 @@ export function UnscrambleGame({
             >
               {filled ? (
                 round.letters[pickedIndex]
+              ) : ghost ? (
+                <span aria-hidden className="opacity-40">
+                  {ghost}
+                </span>
               ) : (
                 <span aria-hidden className="mb-1 inline-block h-px w-4 bg-current opacity-40" />
               )}
