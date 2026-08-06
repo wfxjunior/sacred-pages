@@ -53,7 +53,10 @@ function imageFor(slug: string, title: string) {
   return FALLBACK_IMAGES[hash(slug) % FALLBACK_IMAGES.length];
 }
 
-const LANGUAGE_LABELS: Record<string, Collection["languages"] extends (infer T)[] | undefined ? T : never> = {
+const LANGUAGE_LABELS: Record<
+  string,
+  Collection["languages"] extends (infer T)[] | undefined ? T : never
+> = {
   en: "English",
   pt: "Português",
   es: "Español",
@@ -127,6 +130,26 @@ async function fetchCatalogExtras(): Promise<{
   return { counts, languages };
 }
 
+// Slugs of the authored packs the self-heal endpoint can install. When the
+// live list lacks any of them, one background call installs and the list
+// refetches — so a publish is enough for the packs to appear, no studio
+// visit required. Module-level flag: one attempt per page load.
+const PACK_SLUGS = ["women-of-faith", "proverbs-everyday-man"];
+let packHealAttempted = false;
+
+async function healMissingPacks(): Promise<boolean> {
+  if (packHealAttempted || typeof window === "undefined") return false;
+  packHealAttempted = true;
+  try {
+    const response = await fetch("/api/public/content-packs", { method: "POST" });
+    if (!response.ok) return false;
+    const report = (await response.json()) as { installed?: string[] };
+    return (report.installed?.length ?? 0) > 0;
+  } catch {
+    return false;
+  }
+}
+
 export function useCatalogCollections() {
   const { locale } = useI18n();
   return useQuery({
@@ -134,16 +157,26 @@ export function useCatalogCollections() {
     enabled: isSupabaseConfigured(),
     staleTime: 5 * 60_000,
     queryFn: async (): Promise<CatalogCollection[]> => {
-      const [collections, extras] = await Promise.all([
-        publicContent.getCollections(locale),
-        fetchCatalogExtras(),
-      ]);
-      return collections.map((c) =>
-        toUiCollection(c, {
-          count: extras.counts[c.id] ?? 0,
-          languages: extras.languages[c.id] ?? [],
-        }),
-      );
+      const load = async () => {
+        const [collections, extras] = await Promise.all([
+          publicContent.getCollections(locale),
+          fetchCatalogExtras(),
+        ]);
+        return collections.map((c) =>
+          toUiCollection(c, {
+            count: extras.counts[c.id] ?? 0,
+            languages: extras.languages[c.id] ?? [],
+          }),
+        );
+      };
+
+      let items = await load();
+      const slugs = new Set(items.map((c) => c.slug));
+      if (PACK_SLUGS.some((slug) => !slugs.has(slug))) {
+        const installed = await healMissingPacks();
+        if (installed) items = await load();
+      }
+      return items;
     },
   });
 }
