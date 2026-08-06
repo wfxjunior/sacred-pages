@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { GameDevotionalMoment } from "@/components/games/GameDevotionalMoment";
 import { isTerminalGameStatus, type GameDifficulty } from "@/lib/games";
 import { celebrateCompletion } from "@/lib/confetti";
 import {
@@ -43,6 +44,8 @@ export function UnscrambleGame({
   round,
   difficulty,
   scriptureReference,
+  devotional,
+  prayer,
   onContinue,
   onTryAnother,
 }: {
@@ -50,6 +53,10 @@ export function UnscrambleGame({
   difficulty: GameDifficulty;
   /** Where today's words come from — shown as calm context, when known. */
   scriptureReference?: string;
+  /** The day's journey devotional and prayer, when known — shown after the
+   * round in the fixed sequence: verse, explanation, prayer. */
+  devotional?: string;
+  prayer?: string;
   onContinue: () => void;
   onTryAnother: () => void;
 }) {
@@ -150,15 +157,11 @@ export function UnscrambleGame({
             >
               {round.word}
             </p>
-            {scriptureReference && (
-              <p
-                className="mt-2 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-widest"
-                style={{ color: "var(--walnut)" }}
-              >
-                <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-                {scriptureReference}
-              </p>
-            )}
+            <GameDevotionalMoment
+              reference={scriptureReference}
+              explanation={devotional}
+              prayer={prayer}
+            />
             <dl className="mt-5 grid grid-cols-3 gap-2 border-t border-border/60 pt-4 text-center">
               <div>
                 <dt className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">

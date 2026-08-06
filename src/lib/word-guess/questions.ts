@@ -14,6 +14,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Exodus 14:21–22",
     hint: "He was raised in Pharaoh's palace.",
     explanation: "Moses stretched out his hand, and the Lord divided the sea for Israel to cross.",
+    prayer:
+      "Lord who parts the seas, open a way for me where I see none. I will walk through on dry ground.",
     difficulty: "gentle",
     category: "people",
   },
@@ -26,6 +28,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "It rained for forty days and forty nights.",
     explanation:
       "Noah built the ark in obedience, and his household was kept safe through the flood.",
+    prayer:
+      "God of the ark, teach me to obey before I understand. Keep me building while the sky is still clear.",
     difficulty: "gentle",
     category: "people",
   },
@@ -37,6 +41,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Samuel 17:45–50",
     hint: "A shepherd boy with a sling and five smooth stones.",
     explanation: "David faced the giant in the name of the Lord and prevailed with a single stone.",
+    prayer:
+      "Shepherd of David, you are greater than every giant I face. I come in your name, not my own strength.",
     difficulty: "gentle",
     category: "people",
   },
@@ -49,6 +55,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "He ran from a call to Nineveh.",
     explanation:
       "Jonah spent three days and nights inside the fish before being given a second chance.",
+    prayer:
+      "God of second calls, when I run from you, run after me. Turn me back toward the place you sent me.",
     difficulty: "gentle",
     category: "people",
   },
@@ -60,6 +68,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Genesis 2:7",
     hint: "Formed from the dust of the ground.",
     explanation: "Adam was formed from dust and received the breath of life from God.",
+    prayer:
+      "Maker of my dust, you formed me and called it good. Walk with me again in the cool of the day.",
     difficulty: "gentle",
     category: "people",
   },
@@ -71,6 +81,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Genesis 3:20",
     hint: 'Her name means "living".',
     explanation: "Eve was called the mother of all living.",
+    prayer:
+      "God who clothes the ashamed, cover what I cannot mend. Let your promise outlast my failure.",
     difficulty: "gentle",
     category: "people",
   },
@@ -82,6 +94,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Genesis 41:25–36",
     hint: "His brothers sold him, but God meant it for good.",
     explanation: "Joseph read the dreams as seven years of plenty followed by seven of famine.",
+    prayer:
+      "God of Joseph, take what was meant for evil in my story and mean it for good. Keep my heart soft toward those who wronged me.",
     difficulty: "balanced",
     category: "people",
   },
@@ -93,6 +107,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Luke 22:47–48",
     hint: "He handed him over with a kiss.",
     explanation: "Judas Iscariot betrayed Jesus to the authorities for thirty pieces of silver.",
+    prayer:
+      "Search me, Lord, before I trade what is precious for what is passing. Keep me true when no one is watching.",
     difficulty: "balanced",
     category: "people",
   },
@@ -105,6 +121,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "The angel Gabriel brought her the news.",
     explanation:
       'Mary received the angel\'s word with faith: "let it be to me according to your word".',
+    prayer:
+      "Lord, let it be to me according to your word. I say yes before I can see the whole road.",
     difficulty: "balanced",
     category: "people",
   },
@@ -116,6 +134,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Matthew 3:13–17",
     hint: "A voice crying in the wilderness.",
     explanation: "John baptized Jesus in the Jordan, and the Spirit descended like a dove.",
+    prayer:
+      "Beloved Lord, let me rest close enough to hear your heart. Teach me to love the way you loved.",
     difficulty: "balanced",
     category: "people",
   },
@@ -128,6 +148,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "The rooster crowed, and he remembered.",
     explanation:
       "Peter denied his Lord three times, wept bitterly — and was later restored three times.",
+    prayer:
+      "Lord of the shore, you restore the ones who denied you. Ask me again if I love you — and send me to feed your sheep.",
     difficulty: "balanced",
     category: "people",
   },
@@ -139,6 +161,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Kings 3:9–12",
     hint: "He asked God for an understanding heart.",
     explanation: "Solomon asked for wisdom rather than riches, and God granted both.",
+    prayer:
+      "Giver of wisdom, I ask for an understanding heart before anything else. Let me want what you count precious.",
     difficulty: "challenging",
     category: "people",
   },
@@ -150,6 +174,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Daniel 6:16–23",
     hint: "He kept praying three times a day.",
     explanation: "Daniel was delivered unharmed, for he had trusted in his God.",
+    prayer:
+      "God who shuts the mouths of lions, keep me faithful with my window open. I will not hide whose I am.",
     difficulty: "challenging",
     category: "people",
   },
@@ -161,6 +187,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Joshua 1:1–9",
     hint: '"Be strong and courageous."',
     explanation: "Joshua succeeded Moses and led Israel across the Jordan into the land.",
+    prayer:
+      "Lord my God, you are with me wherever I go. Make me strong and courageous for the crossing ahead.",
     difficulty: "challenging",
     category: "people",
   },
@@ -172,6 +200,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Luke 19:1–10",
     hint: "A short tax collector in Jericho.",
     explanation: "Zacchaeus climbed a sycamore tree, and Jesus called him down by name.",
+    prayer:
+      "Lord who looks up into trees, call my name today. I will come down quickly and receive you with joy.",
     difficulty: "challenging",
     category: "people",
   },
@@ -184,6 +214,7 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "The promised Helper.",
     explanation:
       "At Pentecost the Holy Spirit filled the disciples, and they spoke in other tongues.",
+    prayer: "Breath of God, fill this house again. Comfort, teach and lead me into all truth.",
     difficulty: "expert",
     category: "events",
   },
@@ -196,6 +227,7 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "She mistook him for the gardener.",
     explanation:
       'Mary Magdalene met the risen Lord in the garden and announced: "I have seen the Lord".',
+    prayer: "Risen Lord, speak my name in the garden of my grief. Turn my weeping into witness.",
     difficulty: "expert",
     category: "people",
   },
@@ -207,6 +239,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Judges 16:17–19",
     hint: "His vow was in his hair.",
     explanation: "Samson's strength returned one last time, and God answered his final prayer.",
+    prayer:
+      "God of returning strength, hear me at my weakest hour. What I squandered, redeem in one last surrender.",
     difficulty: "balanced",
     category: "people",
   },
@@ -219,6 +253,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "He left home without knowing where he was going.",
     explanation:
       "Abraham trusted the God who provides, and on the mountain a ram was given instead.",
+    prayer:
+      "God who provides on the mountain, I will trust you with what I cannot keep. You are faithful beyond what I can see.",
     difficulty: "balanced",
     category: "people",
   },
@@ -231,6 +267,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Her son's name means laughter.",
     explanation:
       "Sarah laughed at the promise, and the son of that promise was named Isaac — laughter.",
+    prayer:
+      "Lord of impossible promises, turn my unbelieving laughter into joy. Nothing is too hard for you.",
     difficulty: "balanced",
     category: "people",
   },
@@ -242,6 +280,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Esther 4:14",
     hint: '"For such a time as this."',
     explanation: "Esther went before the king uninvited, and her people were spared.",
+    prayer:
+      "God of such a time as this, give me courage that begins on its knees. If I perish, I perish — but I will go.",
     difficulty: "balanced",
     category: "people",
   },
@@ -254,6 +294,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "A Moabite who gleaned in the fields of Boaz.",
     explanation:
       "Ruth chose Naomi's people and Naomi's God, and became great-grandmother of David.",
+    prayer:
+      "God of Ruth, where you go I will go. Make my small daily faithfulness part of your long story.",
     difficulty: "gentle",
     category: "people",
   },
@@ -265,6 +307,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "2 Kings 2:11",
     hint: "Ravens fed him by the brook.",
     explanation: "Elijah went up by a whirlwind into heaven, and Elisha received his mantle.",
+    prayer:
+      "God of the still small voice, feed me when I am spent. Speak after the wind, and I will listen.",
     difficulty: "challenging",
     category: "people",
   },
@@ -276,6 +320,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Samuel 17:4–11",
     hint: "He fell to a shepherd's sling.",
     explanation: "Goliath trusted armour and spear; David came in the name of the Lord of hosts.",
+    prayer:
+      "Lord of hosts, the battle is yours. I face what towers over me with five smooth stones and your name.",
     difficulty: "challenging",
     category: "people",
   },
@@ -287,6 +333,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Luke 2:4–7",
     hint: "The city of David, small among the towns of Judah.",
     explanation: "In Bethlehem — the house of bread — the Bread of Life was laid in a manger.",
+    prayer:
+      "Bread of Life, born in the house of bread, be born in my small place too. No town is too little for you.",
     difficulty: "challenging",
     category: "places",
   },
@@ -298,6 +346,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Joshua 6:20",
     hint: "They marched, and on the seventh day they shouted.",
     explanation: "The walls of Jericho fell flat, and Israel took the city as the Lord had said.",
+    prayer:
+      "God who levels walls, I will keep walking and keep silent until you say shout. Bring down what shuts me out.",
     difficulty: "challenging",
     category: "places",
   },
@@ -309,6 +359,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "John 11:43–44",
     hint: "Jesus wept before calling his name.",
     explanation: "Jesus called with a loud voice, and the man who had died came out.",
+    prayer:
+      "Lord who weeps and then calls, speak into my tomb. Unbind me, and let me walk out into the light.",
     difficulty: "challenging",
     category: "people",
   },
@@ -320,6 +372,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "John 20:27–28",
     hint: '"My Lord and my God!"',
     explanation: "Thomas doubted, then confessed more fully than any of them.",
+    prayer:
+      "My Lord and my God, meet my doubt with your scars. Blessed are those who believe without seeing — make me one of them.",
     difficulty: "expert",
     category: "people",
   },
@@ -331,6 +385,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Luke 1:26–31",
     hint: "He also visited Zechariah in the temple.",
     explanation: "Gabriel was sent from God to Nazareth, to a virgin named Mary.",
+    prayer:
+      "God who sends word, find me where I am with news of grace. Nothing you say will be impossible.",
     difficulty: "expert",
     category: "people",
   },
@@ -342,6 +398,8 @@ const EN_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Genesis 7:1",
     hint: "Built of gopher wood, sealed with pitch.",
     explanation: "The ark carried Noah's family and the animals safely through the waters.",
+    prayer:
+      "God of the covenant, shut the door behind me and keep me through the storm. Set your bow in my clouds.",
     difficulty: "expert",
     category: "places",
   },
@@ -356,6 +414,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Êxodo 14:21–22",
     hint: "Cresceu no palácio do faraó.",
     explanation: "Moisés estendeu a mão, e o Senhor dividiu o mar para Israel atravessar.",
+    prayer:
+      "Senhor que abre o mar, abre caminho para mim onde não vejo nenhum. Atravessarei em terra seca.",
     difficulty: "gentle",
     category: "people",
   },
@@ -367,6 +427,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Gênesis 6:13–22",
     hint: "Choveu quarenta dias e quarenta noites.",
     explanation: "Noé construiu a arca em obediência, e sua família foi guardada no dilúvio.",
+    prayer:
+      "Deus da arca, ensina-me a obedecer antes de entender. Que eu continue construindo enquanto o céu ainda está limpo.",
     difficulty: "gentle",
     category: "people",
   },
@@ -378,6 +440,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Samuel 17:45–50",
     hint: "Um pastorzinho com uma funda e cinco pedras lisas.",
     explanation: "Davi enfrentou o gigante em nome do Senhor e venceu com uma única pedra.",
+    prayer:
+      "Pastor de Davi, tu és maior que todo gigante que enfrento. Venho em teu nome, não na minha força.",
     difficulty: "gentle",
     category: "people",
   },
@@ -390,6 +454,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Fugiu de um chamado para Nínive.",
     explanation:
       "Jonas passou três dias e três noites no peixe antes de receber uma segunda chance.",
+    prayer:
+      "Deus da segunda chamada, quando eu fugir de ti, corre atrás de mim. Faze-me voltar ao lugar para onde me enviaste.",
     difficulty: "gentle",
     category: "people",
   },
@@ -401,6 +467,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Gênesis 2:7",
     hint: "Formado do pó da terra.",
     explanation: "Adão foi formado do pó e recebeu de Deus o fôlego da vida.",
+    prayer:
+      "Criador do meu pó, tu me formaste e chamaste isso de bom. Caminha comigo de novo na viração do dia.",
     difficulty: "gentle",
     category: "people",
   },
@@ -412,6 +480,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Gênesis 3:20",
     hint: 'Seu nome significa "vivente".',
     explanation: "Eva foi chamada mãe de todos os viventes.",
+    prayer:
+      "Deus que veste os envergonhados, cobre o que não consigo consertar. Que a tua promessa dure mais que a minha falha.",
     difficulty: "gentle",
     category: "people",
   },
@@ -423,6 +493,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Gênesis 41:25–36",
     hint: "Os irmãos o venderam, mas Deus usou para o bem.",
     explanation: "José leu nos sonhos sete anos de fartura seguidos por sete de fome.",
+    prayer:
+      "Deus de José, toma o que na minha história foi pensado para o mal e transforma em bem. Guarda meu coração brando com quem me feriu.",
     difficulty: "balanced",
     category: "people",
   },
@@ -434,6 +506,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 22:47–48",
     hint: "Entregou-o com um beijo.",
     explanation: "Judas Iscariotes traiu Jesus por trinta moedas de prata.",
+    prayer:
+      "Sonda-me, Senhor, antes que eu troque o precioso pelo passageiro. Guarda-me fiel quando ninguém está olhando.",
     difficulty: "balanced",
     category: "people",
   },
@@ -445,6 +519,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 1:30–31",
     hint: "O anjo Gabriel lhe trouxe a notícia.",
     explanation: 'Maria recebeu a palavra do anjo com fé: "faça-se em mim segundo a tua palavra".',
+    prayer:
+      "Senhor, faça-se em mim segundo a tua palavra. Digo sim antes de enxergar a estrada inteira.",
     difficulty: "balanced",
     category: "people",
   },
@@ -456,6 +532,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Mateus 3:13–17",
     hint: "Uma voz clamando no deserto.",
     explanation: "João batizou Jesus no Jordão, e o Espírito desceu como pomba.",
+    prayer:
+      "Senhor amado, deixa-me descansar perto o bastante para ouvir teu coração. Ensina-me a amar como tu amaste.",
     difficulty: "balanced",
     category: "people",
   },
@@ -468,6 +546,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "O galo cantou, e ele se lembrou.",
     explanation:
       "Pedro negou seu Senhor três vezes, chorou amargamente — e depois foi restaurado três vezes.",
+    prayer:
+      "Senhor da praia, tu restauras os que te negaram. Pergunta-me de novo se eu te amo — e envia-me a cuidar das tuas ovelhas.",
     difficulty: "balanced",
     category: "people",
   },
@@ -479,6 +559,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Reis 3:9–12",
     hint: "Pediu a Deus um coração que soubesse entender.",
     explanation: "Salomão pediu sabedoria em vez de riquezas, e Deus lhe deu as duas.",
+    prayer:
+      "Doador da sabedoria, peço um coração que saiba entender antes de qualquer outra coisa. Que eu queira o que tu chamas precioso.",
     difficulty: "challenging",
     category: "people",
   },
@@ -490,6 +572,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Daniel 6:16–23",
     hint: "Orava três vezes ao dia.",
     explanation: "Daniel saiu ileso, porque confiou no seu Deus.",
+    prayer:
+      "Deus que fecha a boca dos leões, guarda-me fiel com a janela aberta. Não vou esconder de quem eu sou.",
     difficulty: "challenging",
     category: "people",
   },
@@ -501,6 +585,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Josué 1:1–9",
     hint: '"Sê forte e corajoso."',
     explanation: "Josué sucedeu Moisés e levou Israel a atravessar o Jordão.",
+    prayer:
+      "Senhor meu Deus, tu estás comigo por onde eu andar. Faze-me forte e corajoso para a travessia que vem.",
     difficulty: "challenging",
     category: "people",
   },
@@ -512,6 +598,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 19:1–10",
     hint: "Um cobrador de impostos baixinho em Jericó.",
     explanation: "Zaqueu subiu num sicômoro, e Jesus o chamou pelo nome.",
+    prayer:
+      "Senhor que olha para cima nas árvores, chama meu nome hoje. Descerei depressa e te receberei com alegria.",
     difficulty: "challenging",
     category: "people",
   },
@@ -524,6 +612,7 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "O Consolador prometido.",
     explanation:
       "No Pentecostes o Espírito Santo encheu os discípulos, e eles falaram em outras línguas.",
+    prayer: "Sopro de Deus, enche esta casa de novo. Consola, ensina e guia-me em toda a verdade.",
     difficulty: "expert",
     category: "events",
   },
@@ -536,6 +625,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Ela o confundiu com o jardineiro.",
     explanation:
       'Maria Madalena encontrou o Senhor ressuscitado no jardim e anunciou: "Vi o Senhor".',
+    prayer:
+      "Senhor ressurreto, dize meu nome no jardim da minha dor. Transforma meu choro em testemunho.",
     difficulty: "expert",
     category: "people",
   },
@@ -547,6 +638,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Juízes 16:17–19",
     hint: "Seu voto estava nos cabelos.",
     explanation: "A força de Sansão voltou uma última vez, e Deus respondeu à sua oração final.",
+    prayer:
+      "Deus da força que volta, ouve-me na minha hora mais fraca. O que desperdicei, redime numa última entrega.",
     difficulty: "balanced",
     category: "people",
   },
@@ -559,6 +652,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Saiu de casa sem saber para onde ia.",
     explanation:
       "Abraão confiou no Deus que provê, e no monte um cordeiro foi dado em lugar do filho.",
+    prayer:
+      "Deus que provê no monte, confio a ti o que não posso reter. Tu és fiel além do que consigo ver.",
     difficulty: "balanced",
     category: "people",
   },
@@ -570,6 +665,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Gênesis 18:12–14",
     hint: "O nome do filho significa riso.",
     explanation: "Sara riu da promessa, e o filho dessa promessa recebeu o nome de Isaque — riso.",
+    prayer:
+      "Senhor das promessas impossíveis, transforma meu riso incrédulo em alegria. Nada é difícil demais para ti.",
     difficulty: "balanced",
     category: "people",
   },
@@ -581,6 +678,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Ester 4:14",
     hint: "Para um tempo como este.",
     explanation: "Ester foi diante do rei sem ser chamada, e seu povo foi poupado.",
+    prayer:
+      "Deus de um tempo como este, dá-me coragem que começa de joelhos. Se eu perecer, pereci — mas eu irei.",
     difficulty: "balanced",
     category: "people",
   },
@@ -592,6 +691,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Rute 1:16",
     hint: "Uma moabita que colhia nos campos de Boaz.",
     explanation: "Rute escolheu o povo e o Deus de Noemi, e tornou-se bisavó de Davi.",
+    prayer:
+      "Deus de Rute, aonde fores, irei. Faze da minha fidelidade pequena de cada dia parte da tua longa história.",
     difficulty: "gentle",
     category: "people",
   },
@@ -603,6 +704,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "2 Reis 2:11",
     hint: "Corvos o alimentavam junto ao ribeiro.",
     explanation: "Elias subiu ao céu num redemoinho, e Eliseu recebeu seu manto.",
+    prayer:
+      "Deus da voz mansa e delicada, alimenta-me quando eu estiver esgotado. Fala depois do vento, e eu ouvirei.",
     difficulty: "challenging",
     category: "people",
   },
@@ -615,6 +718,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Caiu diante da funda de um pastor.",
     explanation:
       "Golias confiou na armadura e na lança; Davi veio em nome do Senhor dos Exércitos.",
+    prayer:
+      "Senhor dos Exércitos, a batalha é tua. Enfrento o que se levanta sobre mim com cinco pedras lisas e o teu nome.",
     difficulty: "challenging",
     category: "people",
   },
@@ -626,6 +731,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 2:4–7",
     hint: "A cidade de Davi, pequena entre as de Judá.",
     explanation: "Em Belém — casa do pão — o Pão da Vida foi deitado numa manjedoura.",
+    prayer:
+      "Pão da Vida, nascido na casa do pão, nasce também no meu lugar pequeno. Nenhuma cidade é pequena demais para ti.",
     difficulty: "challenging",
     category: "places",
   },
@@ -637,6 +744,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Josué 6:20",
     hint: "Marcharam, e no sétimo dia gritaram.",
     explanation: "Os muros de Jericó caíram, e Israel tomou a cidade como o Senhor havia dito.",
+    prayer:
+      "Deus que derruba muralhas, continuarei andando e calado até dizeres: gritai. Derruba o que me mantém do lado de fora.",
     difficulty: "challenging",
     category: "places",
   },
@@ -648,6 +757,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "João 11:43–44",
     hint: "Jesus chorou antes de chamar seu nome.",
     explanation: "Jesus clamou em alta voz, e o que estava morto saiu.",
+    prayer:
+      "Senhor que chora e depois chama, fala dentro do meu túmulo. Desata-me, e que eu saia para a luz.",
     difficulty: "challenging",
     category: "people",
   },
@@ -659,6 +770,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "João 20:27–28",
     hint: "Senhor meu, e Deus meu!",
     explanation: "Tomé duvidou e depois confessou mais plenamente do que qualquer outro.",
+    prayer:
+      "Senhor meu e Deus meu, encontra minha dúvida com as tuas marcas. Bem-aventurados os que creem sem ver — faze-me um deles.",
     difficulty: "expert",
     category: "people",
   },
@@ -670,6 +783,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 1:26–31",
     hint: "Também visitou Zacarias no templo.",
     explanation: "Gabriel foi enviado por Deus a Nazaré, a uma virgem chamada Maria.",
+    prayer:
+      "Deus que envia palavra, encontra-me onde estou com notícias de graça. Nada do que dizes será impossível.",
     difficulty: "expert",
     category: "people",
   },
@@ -681,6 +796,8 @@ const PT_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Gênesis 7:1",
     hint: "Feita de madeira de gofer, vedada com betume.",
     explanation: "A arca levou em segurança a família de Noé e os animais pelas águas.",
+    prayer:
+      "Deus da aliança, fecha a porta atrás de mim e guarda-me na tempestade. Põe teu arco nas minhas nuvens.",
     difficulty: "expert",
     category: "places",
   },
@@ -695,6 +812,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Éxodo 14:21–22",
     hint: "Creció en el palacio del faraón.",
     explanation: "Moisés extendió su mano, y el Señor dividió el mar para que Israel cruzara.",
+    prayer:
+      "Señor que abres el mar, abre camino para mí donde no veo ninguno. Cruzaré en tierra seca.",
     difficulty: "gentle",
     category: "people",
   },
@@ -706,6 +825,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Génesis 6:13–22",
     hint: "Llovió cuarenta días y cuarenta noches.",
     explanation: "Noé construyó el arca en obediencia, y su familia fue guardada en el diluvio.",
+    prayer:
+      "Dios del arca, enséñame a obedecer antes de entender. Que siga construyendo mientras el cielo aún está despejado.",
     difficulty: "gentle",
     category: "people",
   },
@@ -717,6 +838,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Samuel 17:45–50",
     hint: "Un joven pastor con una honda y cinco piedras lisas.",
     explanation: "David enfrentó al gigante en el nombre del Señor y venció con una sola piedra.",
+    prayer:
+      "Pastor de David, eres más grande que todo gigante que enfrento. Vengo en tu nombre, no en mi fuerza.",
     difficulty: "gentle",
     category: "people",
   },
@@ -729,6 +852,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Huyó de un llamado a Nínive.",
     explanation:
       "Jonás pasó tres días y tres noches en el pez antes de recibir una segunda oportunidad.",
+    prayer:
+      "Dios de la segunda llamada, cuando huya de ti, corre tras de mí. Hazme volver al lugar adonde me enviaste.",
     difficulty: "gentle",
     category: "people",
   },
@@ -740,6 +865,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Génesis 2:7",
     hint: "Formado del polvo de la tierra.",
     explanation: "Adán fue formado del polvo y recibió de Dios el aliento de vida.",
+    prayer:
+      "Hacedor de mi polvo, me formaste y lo llamaste bueno. Camina conmigo otra vez al aire del día.",
     difficulty: "gentle",
     category: "people",
   },
@@ -751,6 +878,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Génesis 3:20",
     hint: 'Su nombre significa "viviente".',
     explanation: "Eva fue llamada madre de todos los vivientes.",
+    prayer:
+      "Dios que vistes al avergonzado, cubre lo que no puedo reparar. Que tu promesa dure más que mi caída.",
     difficulty: "gentle",
     category: "people",
   },
@@ -762,6 +891,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Génesis 41:25–36",
     hint: "Sus hermanos lo vendieron, pero Dios lo usó para bien.",
     explanation: "José leyó en los sueños siete años de abundancia seguidos de siete de hambre.",
+    prayer:
+      "Dios de José, toma lo que en mi historia se pensó para mal y conviértelo en bien. Guarda mi corazón blando con quien me hirió.",
     difficulty: "balanced",
     category: "people",
   },
@@ -773,6 +904,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 22:47–48",
     hint: "Lo entregó con un beso.",
     explanation: "Judas Iscariote traicionó a Jesús por treinta monedas de plata.",
+    prayer:
+      "Escudríñame, Señor, antes de que cambie lo precioso por lo pasajero. Guárdame fiel cuando nadie mira.",
     difficulty: "balanced",
     category: "people",
   },
@@ -785,6 +918,7 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "El ángel Gabriel le trajo la noticia.",
     explanation:
       'María recibió la palabra del ángel con fe: "hágase conmigo conforme a tu palabra".',
+    prayer: "Señor, hágase en mí conforme a tu palabra. Digo sí antes de ver todo el camino.",
     difficulty: "balanced",
     category: "people",
   },
@@ -796,6 +930,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Mateo 3:13–17",
     hint: "Una voz que clama en el desierto.",
     explanation: "Juan bautizó a Jesús en el Jordán, y el Espíritu descendió como paloma.",
+    prayer:
+      "Señor amado, déjame descansar lo bastante cerca para oír tu corazón. Enséñame a amar como tú amaste.",
     difficulty: "balanced",
     category: "people",
   },
@@ -808,6 +944,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "El gallo cantó, y él recordó.",
     explanation:
       "Pedro negó a su Señor tres veces, lloró amargamente — y luego fue restaurado tres veces.",
+    prayer:
+      "Señor de la orilla, tú restauras a los que te negaron. Pregúntame otra vez si te amo — y envíame a cuidar tus ovejas.",
     difficulty: "balanced",
     category: "people",
   },
@@ -819,6 +957,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "1 Reyes 3:9–12",
     hint: "Pidió a Dios un corazón entendido.",
     explanation: "Salomón pidió sabiduría en lugar de riquezas, y Dios le concedió ambas.",
+    prayer:
+      "Dador de sabiduría, pido un corazón entendido antes que cualquier otra cosa. Que quiera lo que tú llamas precioso.",
     difficulty: "challenging",
     category: "people",
   },
@@ -830,6 +970,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Daniel 6:16–23",
     hint: "Oraba tres veces al día.",
     explanation: "Daniel salió ileso, porque confió en su Dios.",
+    prayer:
+      "Dios que cierra la boca de los leones, guárdame fiel con la ventana abierta. No esconderé de quién soy.",
     difficulty: "challenging",
     category: "people",
   },
@@ -841,6 +983,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Josué 1:1–9",
     hint: '"Esfuérzate y sé valiente."',
     explanation: "Josué sucedió a Moisés y llevó a Israel a cruzar el Jordán.",
+    prayer:
+      "Señor mi Dios, tú estás conmigo dondequiera que vaya. Hazme fuerte y valiente para el cruce que viene.",
     difficulty: "challenging",
     category: "people",
   },
@@ -852,6 +996,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 19:1–10",
     hint: "Un cobrador de impuestos de baja estatura en Jericó.",
     explanation: "Zaqueo subió a un sicómoro, y Jesús lo llamó por su nombre.",
+    prayer:
+      "Señor que mira hacia arriba a los árboles, llama mi nombre hoy. Bajaré de prisa y te recibiré con gozo.",
     difficulty: "challenging",
     category: "people",
   },
@@ -864,6 +1010,7 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "El Consolador prometido.",
     explanation:
       "En Pentecostés el Espíritu Santo llenó a los discípulos, y hablaron en otras lenguas.",
+    prayer: "Aliento de Dios, llena esta casa otra vez. Consuela, enseña y guíame a toda verdad.",
     difficulty: "expert",
     category: "events",
   },
@@ -876,6 +1023,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Lo confundió con el jardinero.",
     explanation:
       'María Magdalena encontró al Señor resucitado en el huerto y anunció: "He visto al Señor".',
+    prayer:
+      "Señor resucitado, di mi nombre en el huerto de mi dolor. Convierte mi llanto en testimonio.",
     difficulty: "expert",
     category: "people",
   },
@@ -887,6 +1036,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Jueces 16:17–19",
     hint: "Su voto estaba en sus cabellos.",
     explanation: "La fuerza de Sansón volvió una última vez, y Dios respondió su oración final.",
+    prayer:
+      "Dios de la fuerza que vuelve, óyeme en mi hora más débil. Lo que malgasté, redímelo en una última entrega.",
     difficulty: "balanced",
     category: "people",
   },
@@ -899,6 +1050,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Salió de su casa sin saber a dónde iba.",
     explanation:
       "Abraham confió en el Dios que provee, y en el monte fue dado un carnero en lugar del hijo.",
+    prayer:
+      "Dios que provee en el monte, te confío lo que no puedo retener. Eres fiel más allá de lo que veo.",
     difficulty: "balanced",
     category: "people",
   },
@@ -910,6 +1063,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Génesis 18:12–14",
     hint: "El nombre del hijo significa risa.",
     explanation: "Sara se rió de la promesa, y el hijo de esa promesa se llamó Isaac — risa.",
+    prayer:
+      "Señor de las promesas imposibles, convierte mi risa incrédula en gozo. Nada es demasiado difícil para ti.",
     difficulty: "balanced",
     category: "people",
   },
@@ -921,6 +1076,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Ester 4:14",
     hint: "Para esta hora.",
     explanation: "Ester se presentó ante el rey sin ser llamada, y su pueblo fue librado.",
+    prayer:
+      "Dios de esta hora, dame valor que empiece de rodillas. Si perezco, que perezca — pero iré.",
     difficulty: "balanced",
     category: "people",
   },
@@ -932,6 +1089,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Rut 1:16",
     hint: "Una moabita que espigaba en los campos de Booz.",
     explanation: "Rut eligió al pueblo y al Dios de Noemí, y fue bisabuela de David.",
+    prayer:
+      "Dios de Rut, adonde vayas iré. Haz de mi pequeña fidelidad diaria parte de tu larga historia.",
     difficulty: "gentle",
     category: "people",
   },
@@ -943,6 +1102,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "2 Reyes 2:11",
     hint: "Los cuervos lo alimentaban junto al arroyo.",
     explanation: "Elías subió al cielo en un torbellino, y Eliseo recibió su manto.",
+    prayer:
+      "Dios del silbo apacible, aliméntame cuando esté agotado. Habla después del viento, y escucharé.",
     difficulty: "challenging",
     category: "people",
   },
@@ -955,6 +1116,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     hint: "Cayó ante la honda de un pastor.",
     explanation:
       "Goliat confió en la armadura y la lanza; David vino en el nombre del Señor de los ejércitos.",
+    prayer:
+      "Señor de los ejércitos, la batalla es tuya. Enfrento lo que se alza sobre mí con cinco piedras lisas y tu nombre.",
     difficulty: "challenging",
     category: "people",
   },
@@ -966,6 +1129,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 2:4–7",
     hint: "La ciudad de David, pequeña entre las de Judá.",
     explanation: "En Belén — casa de pan — el Pan de Vida fue acostado en un pesebre.",
+    prayer:
+      "Pan de Vida, nacido en la casa del pan, nace también en mi lugar pequeño. Ningún pueblo es demasiado pequeño para ti.",
     difficulty: "challenging",
     category: "places",
   },
@@ -977,6 +1142,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Josué 6:20",
     hint: "Marcharon, y al séptimo día gritaron.",
     explanation: "Los muros de Jericó cayeron, e Israel tomó la ciudad como el Señor había dicho.",
+    prayer:
+      "Dios que derriba murallas, seguiré marchando en silencio hasta que digas: gritad. Derriba lo que me deja fuera.",
     difficulty: "challenging",
     category: "places",
   },
@@ -988,6 +1155,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Juan 11:43–44",
     hint: "Jesús lloró antes de llamarlo por su nombre.",
     explanation: "Jesús clamó a gran voz, y el que había muerto salió.",
+    prayer:
+      "Señor que llora y luego llama, habla dentro de mi tumba. Desátame, y que salga a la luz.",
     difficulty: "challenging",
     category: "people",
   },
@@ -999,6 +1168,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Juan 20:27–28",
     hint: "¡Señor mío, y Dios mío!",
     explanation: "Tomás dudó y luego confesó más plenamente que ningún otro.",
+    prayer:
+      "Señor mío y Dios mío, responde a mi duda con tus marcas. Dichosos los que creen sin ver — hazme uno de ellos.",
     difficulty: "expert",
     category: "people",
   },
@@ -1010,6 +1181,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Lucas 1:26–31",
     hint: "También visitó a Zacarías en el templo.",
     explanation: "Gabriel fue enviado por Dios a Nazaret, a una virgen llamada María.",
+    prayer:
+      "Dios que envía palabra, encuéntrame donde estoy con noticias de gracia. Nada de lo que dices será imposible.",
     difficulty: "expert",
     category: "people",
   },
@@ -1021,6 +1194,8 @@ const ES_QUESTIONS: readonly WordGuessQuestion[] = [
     scriptureReference: "Génesis 7:1",
     hint: "Hecha de madera de gofer, sellada con brea.",
     explanation: "El arca llevó a salvo a la familia de Noé y a los animales por las aguas.",
+    prayer:
+      "Dios del pacto, cierra la puerta tras de mí y guárdame en la tormenta. Pon tu arco en mis nubes.",
     difficulty: "expert",
     category: "places",
   },

@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { GameDevotionalMoment } from "@/components/games/GameDevotionalMoment";
 import { isTerminalGameStatus, type GameDifficulty } from "@/lib/games";
 import { celebrateCompletion } from "@/lib/confetti";
 import {
@@ -187,13 +188,11 @@ export function FinishTheVerseGame({
         </p>
         <VerseReview round={round} attempt={attempt} />
 
-        <p
-          className="mt-3 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest"
-          style={{ color: "var(--walnut)" }}
-        >
-          <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-          {round.reference}
-        </p>
+        <GameDevotionalMoment
+          reference={round.reference}
+          explanation={round.explanation}
+          prayer={round.prayer}
+        />
         <dl className="mt-5 grid grid-cols-3 gap-2 border-t border-border/60 pt-4 text-center">
           <div>
             <dt className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">

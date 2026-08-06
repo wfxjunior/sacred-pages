@@ -12,6 +12,10 @@ export interface VersePassage {
   text: string;
   /** The journey this verse came from, when it is the day's passage. */
   journeyTitle?: string;
+  /** Devotional explanation shown after the round — what the verse means. */
+  explanation?: string;
+  /** Closing prayer — echoes the verse, ends the moment. */
+  prayer?: string;
 }
 
 /** One display token of the verse. Punctuation stays attached to its word
@@ -32,6 +36,9 @@ export interface VerseBankEntry {
 export interface FinishVerseRound {
   reference: string;
   journeyTitle?: string;
+  /** Passage devotional, shown after the round in the fixed sequence. */
+  explanation?: string;
+  prayer?: string;
   tokens: readonly VerseToken[];
   /** Token indexes hidden for this round, ascending. */
   hiddenSlots: readonly number[];

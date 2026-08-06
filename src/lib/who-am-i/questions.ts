@@ -20,6 +20,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Exodus 3:1–12",
     explanation:
       "Moses was drawn from the Nile, called at the burning bush, and led Israel out of Egypt.",
+    prayer:
+      "Lord who parts the seas, open a way for me where I see none. I will walk through on dry ground.",
     difficulty: "gentle",
     category: "people",
   },
@@ -36,6 +38,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ADAM", "ENOCH", "ABRAHAM", "LOT", "SETH"],
     scriptureReference: "Genesis 6–9",
     explanation: "Noah built the ark in faith and carried his family through the flood.",
+    prayer:
+      "God of the ark, teach me to obey before I understand. Keep me building while the sky is still clear.",
     difficulty: "gentle",
     category: "people",
   },
@@ -52,6 +56,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["SAUL", "SOLOMON", "JONATHAN", "SAMSON", "GIDEON"],
     scriptureReference: "1 Samuel 17",
     explanation: "David, the shepherd of Bethlehem, became Israel's psalmist king.",
+    prayer:
+      "Shepherd of David, you are greater than every giant I face. I come in your name, not my own strength.",
     difficulty: "gentle",
     category: "people",
   },
@@ -69,6 +75,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Luke 1:26–38",
     explanation:
       "Mary of Nazareth received the angel's word with faith and became the mother of Jesus.",
+    prayer:
+      "Lord, let it be to me according to your word. I say yes before I can see the whole road.",
     difficulty: "gentle",
     category: "people",
   },
@@ -87,6 +95,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "John 21:15–19",
     explanation:
       "Simon Peter, the fisherman, denied his Lord three times and was restored three times.",
+    prayer:
+      "Lord of the shore, you restore the ones who denied you. Ask me again if I love you — and send me to feed your sheep.",
     difficulty: "balanced",
     category: "people",
   },
@@ -104,6 +114,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Jonah 2",
     explanation:
       "Jonah ran from Nineveh, prayed from the fish's belly, and learned how wide God's compassion is.",
+    prayer:
+      "God of second calls, when I run from you, run after me. Turn me back toward the place you sent me.",
     difficulty: "balanced",
     category: "people",
   },
@@ -121,6 +133,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["RUTH", "DEBORAH", "ABIGAIL", "MIRIAM", "NAOMI"],
     scriptureReference: "Esther 4:14",
     explanation: "Esther risked her life before the king and her people were saved.",
+    prayer:
+      "God of such a time as this, give me courage that begins on its knees. If I perish, I perish — but I will go.",
     difficulty: "balanced",
     category: "people",
   },
@@ -139,6 +153,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Acts 9:1–19",
     explanation:
       "Saul of Tarsus met the risen Christ on the Damascus road and became Paul, apostle to the nations.",
+    prayer:
+      "Lord of the Damascus road, interrupt me if that is what it takes. Turn my zeal into love.",
     difficulty: "balanced",
     category: "people",
   },
@@ -155,6 +171,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ELISHA", "ISAIAH", "JEREMIAH", "SAMUEL", "NATHAN"],
     scriptureReference: "1 Kings 18:30–39",
     explanation: "Elijah stood alone on Carmel, and the fire of the Lord answered.",
+    prayer:
+      "God of the still small voice, feed me when I am spent. Speak after the wind, and I will listen.",
     difficulty: "challenging",
     category: "people",
   },
@@ -171,6 +189,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["NAOMI", "ORPAH", "ESTHER", "RACHEL", "TAMAR"],
     scriptureReference: "Ruth 1:16",
     explanation: "Ruth the Moabite chose Naomi's God and became great-grandmother of David.",
+    prayer:
+      "God of Ruth, where you go I will go. Make my small daily faithfulness part of your long story.",
     difficulty: "challenging",
     category: "people",
   },
@@ -187,6 +207,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["SHADRACH", "MESHACH", "ABEDNEGO", "EZEKIEL", "NEHEMIAH"],
     scriptureReference: "Daniel 6",
     explanation: "Daniel prayed as he always had, and God shut the lions' mouths.",
+    prayer:
+      "God who shuts the mouths of lions, keep me faithful with my window open. I will not hide whose I am.",
     difficulty: "challenging",
     category: "people",
   },
@@ -203,6 +225,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["JAEL", "MIRIAM", "HULDAH", "HANNAH", "ABIGAIL"],
     scriptureReference: "Judges 4–5",
     explanation: "Deborah judged Israel under her palm and led Barak to victory.",
+    prayer:
+      "God of Deborah, make me steady enough to be sought. Give me courage to say what you have already decided.",
     difficulty: "challenging",
     category: "people",
   },
@@ -220,6 +244,7 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ELIJAH", "PETER", "ANDREW", "JAMES"],
     scriptureReference: "Matthew 3:1–17",
     explanation: "John prepared the way in the wilderness and baptized Jesus in the Jordan.",
+    prayer: "Lord, you must increase and I must decrease. Make my one work to point at you.",
     difficulty: "expert",
     category: "people",
   },
@@ -236,6 +261,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["BENJAMIN", "JUDAH", "REUBEN", "SIMEON", "LEVI"],
     scriptureReference: "Genesis 50:20",
     explanation: "Joseph forgave his brothers and kept a nation alive through famine.",
+    prayer:
+      "God of Joseph, take what was meant for evil in my story and mean it for good. Keep my heart soft toward those who wronged me.",
     difficulty: "balanced",
     category: "people",
   },
@@ -252,6 +279,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["DAVID", "REHOBOAM", "HEZEKIAH", "JOSIAH", "SAUL"],
     scriptureReference: "1 Kings 3:16–28",
     explanation: "Solomon asked for an understanding heart, and God gave him wisdom and more.",
+    prayer:
+      "Giver of wisdom, I ask for an understanding heart before anything else. Let me want what you count precious.",
     difficulty: "challenging",
     category: "people",
   },
@@ -268,6 +297,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["GIDEON", "JEPHTHAH", "BARAK", "EHUD", "SAUL"],
     scriptureReference: "Judges 16:28–30",
     explanation: "Samson prayed one last time, and God answered.",
+    prayer:
+      "God of returning strength, hear me at my weakest hour. What I squandered, redeem in one last surrender.",
     difficulty: "challenging",
     category: "people",
   },
@@ -284,6 +315,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["PHILIP", "ANDREW", "MATTHEW", "JAMES", "NATHANAEL"],
     scriptureReference: "John 20:24–29",
     explanation: "Thomas doubted, then made the fullest confession of them all.",
+    prayer:
+      "My Lord and my God, meet my doubt with your scars. Blessed are those who believe without seeing — make me one of them.",
     difficulty: "expert",
     category: "people",
   },
@@ -300,6 +333,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["MARY", "JOANNA", "SALOME", "PRISCILLA", "TABITHA"],
     scriptureReference: "John 11:27",
     explanation: "Martha, so often remembered for her busyness, confessed the faith clearly.",
+    prayer:
+      "Lord of busy houses, quiet my serving long enough to sit at your feet. You are the better part.",
     difficulty: "expert",
     category: "people",
   },
@@ -316,6 +351,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["MATTHEW", "NICODEMUS", "SIMON", "JAIRUS", "BARTIMAEUS"],
     scriptureReference: "Luke 19:1–10",
     explanation: "Zacchaeus came down quickly, and gave half of what he owned to the poor.",
+    prayer:
+      "Lord who looks up into trees, call my name today. I will come down quickly and receive you with joy.",
     difficulty: "balanced",
     category: "people",
   },
@@ -332,6 +369,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["CALEB", "AARON", "GIDEON", "SAMUEL", "ELEAZAR"],
     scriptureReference: "Joshua 24:15",
     explanation: "Joshua led Israel into the land and asked them to choose whom they would serve.",
+    prayer:
+      "Lord my God, you are with me wherever I go. Make me strong and courageous for the crossing ahead.",
     difficulty: "challenging",
     category: "people",
   },
@@ -348,6 +387,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["HAGAR", "REBEKAH", "RACHEL", "LEAH", "MILCAH"],
     scriptureReference: "Genesis 21:1–7",
     explanation: "Sarah's laughter of disbelief became laughter of joy — Isaac.",
+    prayer:
+      "Lord of impossible promises, turn my unbelieving laughter into joy. Nothing is too hard for you.",
     difficulty: "gentle",
     category: "people",
   },
@@ -365,6 +406,8 @@ const EN_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ISAAC", "JACOB", "LOT", "NOAH"],
     scriptureReference: "Genesis 22:1–14",
     explanation: "Abraham trusted the God who provides, and on the mountain a ram was given.",
+    prayer:
+      "God who provides on the mountain, I will trust you with what I cannot keep. You are faithful beyond what I can see.",
     difficulty: "expert",
     category: "people",
   },
@@ -385,6 +428,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Êxodo 3:1–12",
     explanation:
       "Moisés foi tirado do Nilo, chamado na sarça ardente, e conduziu Israel para fora do Egito.",
+    prayer:
+      "Senhor que abre o mar, abre caminho para mim onde não vejo nenhum. Atravessarei em terra seca.",
     difficulty: "gentle",
     category: "people",
   },
@@ -401,6 +446,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ADÃO", "ENOQUE", "ABRAÃO", "LÓ", "SETE"],
     scriptureReference: "Gênesis 6–9",
     explanation: "Noé construiu a arca pela fé e levou sua família em segurança pelo dilúvio.",
+    prayer:
+      "Deus da arca, ensina-me a obedecer antes de entender. Que eu continue construindo enquanto o céu ainda está limpo.",
     difficulty: "gentle",
     category: "people",
   },
@@ -417,6 +464,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["SAUL", "SALOMÃO", "JÔNATAS", "SANSÃO", "GIDEÃO"],
     scriptureReference: "1 Samuel 17",
     explanation: "Davi, o pastor de Belém, tornou-se o rei salmista de Israel.",
+    prayer:
+      "Pastor de Davi, tu és maior que todo gigante que enfrento. Venho em teu nome, não na minha força.",
     difficulty: "gentle",
     category: "people",
   },
@@ -433,6 +482,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ISABEL", "MARTA", "RUTE", "ANA", "SARA"],
     scriptureReference: "Lucas 1:26–38",
     explanation: "Maria de Nazaré recebeu com fé a palavra do anjo e tornou-se a mãe de Jesus.",
+    prayer:
+      "Senhor, faça-se em mim segundo a tua palavra. Digo sim antes de enxergar a estrada inteira.",
     difficulty: "gentle",
     category: "people",
   },
@@ -451,6 +502,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "João 21:15–19",
     explanation:
       "Simão Pedro, o pescador, negou seu Senhor três vezes e foi restaurado três vezes.",
+    prayer:
+      "Senhor da praia, tu restauras os que te negaram. Pergunta-me de novo se eu te amo — e envia-me a cuidar das tuas ovelhas.",
     difficulty: "balanced",
     category: "people",
   },
@@ -468,6 +521,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Jonas 2",
     explanation:
       "Jonas fugiu de Nínive, orou do ventre do peixe e aprendeu como é vasta a compaixão de Deus.",
+    prayer:
+      "Deus da segunda chamada, quando eu fugir de ti, corre atrás de mim. Faze-me voltar ao lugar para onde me enviaste.",
     difficulty: "balanced",
     category: "people",
   },
@@ -485,6 +540,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["RUTE", "DÉBORA", "ABIGAIL", "MIRIÃ", "NOEMI"],
     scriptureReference: "Ester 4:14",
     explanation: "Ester arriscou a vida diante do rei e seu povo foi salvo.",
+    prayer:
+      "Deus de um tempo como este, dá-me coragem que começa de joelhos. Se eu perecer, pereci — mas eu irei.",
     difficulty: "balanced",
     category: "people",
   },
@@ -503,6 +560,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Atos 9:1–19",
     explanation:
       "Saulo de Tarso encontrou o Cristo ressuscitado no caminho de Damasco e tornou-se Paulo, apóstolo das nações.",
+    prayer:
+      "Senhor do caminho de Damasco, interrompe-me se for preciso. Transforma meu zelo em amor.",
     difficulty: "balanced",
     category: "people",
   },
@@ -519,6 +578,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ELISEU", "ISAÍAS", "JEREMIAS", "SAMUEL", "NATÃ"],
     scriptureReference: "1 Reis 18:30–39",
     explanation: "Elias ficou sozinho no Carmelo, e o fogo do Senhor respondeu.",
+    prayer:
+      "Deus da voz mansa e delicada, alimenta-me quando eu estiver esgotado. Fala depois do vento, e eu ouvirei.",
     difficulty: "challenging",
     category: "people",
   },
@@ -535,6 +596,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["NOEMI", "ORFA", "ESTER", "RAQUEL", "TAMAR"],
     scriptureReference: "Rute 1:16",
     explanation: "Rute, a moabita, escolheu o Deus de Noemi e tornou-se bisavó de Davi.",
+    prayer:
+      "Deus de Rute, aonde fores, irei. Faze da minha fidelidade pequena de cada dia parte da tua longa história.",
     difficulty: "challenging",
     category: "people",
   },
@@ -551,6 +614,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["SADRAQUE", "MESAQUE", "ABEDNEGO", "EZEQUIEL", "NEEMIAS"],
     scriptureReference: "Daniel 6",
     explanation: "Daniel orou como sempre orava, e Deus fechou a boca dos leões.",
+    prayer:
+      "Deus que fecha a boca dos leões, guarda-me fiel com a janela aberta. Não vou esconder de quem eu sou.",
     difficulty: "challenging",
     category: "people",
   },
@@ -567,6 +632,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["JAEL", "MIRIÃ", "HULDA", "ANA", "ABIGAIL"],
     scriptureReference: "Juízes 4–5",
     explanation: "Débora julgou Israel sob sua palmeira e levou Baraque à vitória.",
+    prayer:
+      "Deus de Débora, faze-me firme o bastante para ser procurado. Dá-me coragem para dizer o que já decidiste.",
     difficulty: "challenging",
     category: "people",
   },
@@ -584,6 +651,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ELIAS", "PEDRO", "ANDRÉ", "TIAGO"],
     scriptureReference: "Mateus 3:1–17",
     explanation: "João preparou o caminho no deserto e batizou Jesus no Jordão.",
+    prayer:
+      "Senhor, convém que tu cresças e que eu diminua. Que meu único trabalho seja apontar para ti.",
     difficulty: "expert",
     category: "people",
   },
@@ -600,6 +669,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["BENJAMIM", "JUDÁ", "RÚBEN", "SIMEÃO", "LEVI"],
     scriptureReference: "Gênesis 50:20",
     explanation: "José perdoou os irmãos e manteve uma nação viva durante a fome.",
+    prayer:
+      "Deus de José, toma o que na minha história foi pensado para o mal e transforma em bem. Guarda meu coração brando com quem me feriu.",
     difficulty: "balanced",
     category: "people",
   },
@@ -616,6 +687,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["DAVI", "ROBOÃO", "EZEQUIAS", "JOSIAS", "SAUL"],
     scriptureReference: "1 Reis 3:16–28",
     explanation: "Salomão pediu um coração que soubesse entender, e Deus lhe deu sabedoria e mais.",
+    prayer:
+      "Doador da sabedoria, peço um coração que saiba entender antes de qualquer outra coisa. Que eu queira o que tu chamas precioso.",
     difficulty: "challenging",
     category: "people",
   },
@@ -632,6 +705,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["GIDEÃO", "JEFTÉ", "BARAQUE", "EÚDE", "SAUL"],
     scriptureReference: "Juízes 16:28–30",
     explanation: "Sansão orou uma última vez, e Deus respondeu.",
+    prayer:
+      "Deus da força que volta, ouve-me na minha hora mais fraca. O que desperdicei, redime numa última entrega.",
     difficulty: "challenging",
     category: "people",
   },
@@ -648,6 +723,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["FILIPE", "ANDRÉ", "MATEUS", "TIAGO", "NATANAEL"],
     scriptureReference: "João 20:24–29",
     explanation: "Tomé duvidou e depois fez a confissão mais plena de todos.",
+    prayer:
+      "Senhor meu e Deus meu, encontra minha dúvida com as tuas marcas. Bem-aventurados os que creem sem ver — faze-me um deles.",
     difficulty: "expert",
     category: "people",
   },
@@ -664,6 +741,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["MARIA", "JOANA", "SALOMÉ", "PRISCILA", "TABITA"],
     scriptureReference: "João 11:27",
     explanation: "Marta, lembrada por sua correria, confessou a fé com clareza.",
+    prayer:
+      "Senhor das casas atarefadas, aquieta meu servir o bastante para eu sentar aos teus pés. Tu és a melhor parte.",
     difficulty: "expert",
     category: "people",
   },
@@ -680,6 +759,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["MATEUS", "NICODEMOS", "SIMÃO", "JAIRO", "BARTIMEU"],
     scriptureReference: "Lucas 19:1–10",
     explanation: "Zaqueu desceu depressa e deu metade do que tinha aos pobres.",
+    prayer:
+      "Senhor que olha para cima nas árvores, chama meu nome hoje. Descerei depressa e te receberei com alegria.",
     difficulty: "balanced",
     category: "people",
   },
@@ -696,6 +777,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["CALEBE", "ARÃO", "GIDEÃO", "SAMUEL", "ELEAZAR"],
     scriptureReference: "Josué 24:15",
     explanation: "Josué levou Israel à terra e pediu que escolhessem a quem serviriam.",
+    prayer:
+      "Senhor meu Deus, tu estás comigo por onde eu andar. Faze-me forte e corajoso para a travessia que vem.",
     difficulty: "challenging",
     category: "people",
   },
@@ -712,6 +795,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["AGAR", "REBECA", "RAQUEL", "LIA", "MILCA"],
     scriptureReference: "Gênesis 21:1–7",
     explanation: "O riso de incredulidade de Sara virou riso de alegria — Isaque.",
+    prayer:
+      "Senhor das promessas impossíveis, transforma meu riso incrédulo em alegria. Nada é difícil demais para ti.",
     difficulty: "gentle",
     category: "people",
   },
@@ -729,6 +814,8 @@ const PT_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ISAQUE", "JACÓ", "LÓ", "NOÉ"],
     scriptureReference: "Gênesis 22:1–14",
     explanation: "Abraão confiou no Deus que provê, e no monte um cordeiro foi dado.",
+    prayer:
+      "Deus que provê no monte, confio a ti o que não posso reter. Tu és fiel além do que consigo ver.",
     difficulty: "expert",
     category: "people",
   },
@@ -749,6 +836,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Éxodo 3:1–12",
     explanation:
       "Moisés fue sacado del Nilo, llamado en la zarza ardiente, y sacó a Israel de Egipto.",
+    prayer:
+      "Señor que abres el mar, abre camino para mí donde no veo ninguno. Cruzaré en tierra seca.",
     difficulty: "gentle",
     category: "people",
   },
@@ -765,6 +854,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ADÁN", "ENOC", "ABRAHAM", "LOT", "SET"],
     scriptureReference: "Génesis 6–9",
     explanation: "Noé construyó el arca por fe y llevó a su familia a salvo por el diluvio.",
+    prayer:
+      "Dios del arca, enséñame a obedecer antes de entender. Que siga construyendo mientras el cielo aún está despejado.",
     difficulty: "gentle",
     category: "people",
   },
@@ -781,6 +872,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["SAÚL", "SALOMÓN", "JONATÁN", "SANSÓN", "GEDEÓN"],
     scriptureReference: "1 Samuel 17",
     explanation: "David, el pastor de Belén, llegó a ser el rey salmista de Israel.",
+    prayer:
+      "Pastor de David, eres más grande que todo gigante que enfrento. Vengo en tu nombre, no en mi fuerza.",
     difficulty: "gentle",
     category: "people",
   },
@@ -797,6 +890,7 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ISABEL", "MARTA", "RUT", "ANA", "SARA"],
     scriptureReference: "Lucas 1:26–38",
     explanation: "María de Nazaret recibió con fe la palabra del ángel y fue la madre de Jesús.",
+    prayer: "Señor, hágase en mí conforme a tu palabra. Digo sí antes de ver todo el camino.",
     difficulty: "gentle",
     category: "people",
   },
@@ -815,6 +909,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Juan 21:15–19",
     explanation:
       "Simón Pedro, el pescador, negó a su Señor tres veces y fue restaurado tres veces.",
+    prayer:
+      "Señor de la orilla, tú restauras a los que te negaron. Pregúntame otra vez si te amo — y envíame a cuidar tus ovejas.",
     difficulty: "balanced",
     category: "people",
   },
@@ -832,6 +928,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Jonás 2",
     explanation:
       "Jonás huyó de Nínive, oró desde el vientre del pez y aprendió cuán ancha es la compasión de Dios.",
+    prayer:
+      "Dios de la segunda llamada, cuando huya de ti, corre tras de mí. Hazme volver al lugar adonde me enviaste.",
     difficulty: "balanced",
     category: "people",
   },
@@ -849,6 +947,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["RUT", "DÉBORA", "ABIGAIL", "MIRIAM", "NOEMÍ"],
     scriptureReference: "Ester 4:14",
     explanation: "Ester arriesgó su vida ante el rey y su pueblo fue salvado.",
+    prayer:
+      "Dios de esta hora, dame valor que empiece de rodillas. Si perezco, que perezca — pero iré.",
     difficulty: "balanced",
     category: "people",
   },
@@ -867,6 +967,7 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     scriptureReference: "Hechos 9:1–19",
     explanation:
       "Saulo de Tarso encontró al Cristo resucitado camino a Damasco y llegó a ser Pablo, apóstol de las naciones.",
+    prayer: "Señor del camino a Damasco, interrúmpeme si es necesario. Convierte mi celo en amor.",
     difficulty: "balanced",
     category: "people",
   },
@@ -883,6 +984,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ELISEO", "ISAÍAS", "JEREMÍAS", "SAMUEL", "NATÁN"],
     scriptureReference: "1 Reyes 18:30–39",
     explanation: "Elías estuvo solo en el Carmelo, y el fuego del Señor respondió.",
+    prayer:
+      "Dios del silbo apacible, aliméntame cuando esté agotado. Habla después del viento, y escucharé.",
     difficulty: "challenging",
     category: "people",
   },
@@ -899,6 +1002,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["NOEMÍ", "ORFA", "ESTER", "RAQUEL", "TAMAR"],
     scriptureReference: "Rut 1:16",
     explanation: "Rut la moabita eligió al Dios de Noemí y fue bisabuela de David.",
+    prayer:
+      "Dios de Rut, adonde vayas iré. Haz de mi pequeña fidelidad diaria parte de tu larga historia.",
     difficulty: "challenging",
     category: "people",
   },
@@ -915,6 +1020,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["SADRAC", "MESAC", "ABEDNEGO", "EZEQUIEL", "NEHEMÍAS"],
     scriptureReference: "Daniel 6",
     explanation: "Daniel oró como siempre, y Dios cerró la boca de los leones.",
+    prayer:
+      "Dios que cierra la boca de los leones, guárdame fiel con la ventana abierta. No esconderé de quién soy.",
     difficulty: "challenging",
     category: "people",
   },
@@ -931,6 +1038,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["JAEL", "MIRIAM", "HULDA", "ANA", "ABIGAIL"],
     scriptureReference: "Jueces 4–5",
     explanation: "Débora juzgó a Israel bajo su palmera y llevó a Barac a la victoria.",
+    prayer:
+      "Dios de Débora, hazme firme para ser buscado. Dame valor para decir lo que ya has decidido.",
     difficulty: "challenging",
     category: "people",
   },
@@ -948,6 +1057,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ELÍAS", "PEDRO", "ANDRÉS", "SANTIAGO"],
     scriptureReference: "Mateo 3:1–17",
     explanation: "Juan preparó el camino en el desierto y bautizó a Jesús en el Jordán.",
+    prayer:
+      "Señor, es necesario que tú crezcas y que yo mengüe. Que mi única obra sea señalarte a ti.",
     difficulty: "expert",
     category: "people",
   },
@@ -964,6 +1075,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["BENJAMÍN", "JUDÁ", "RUBÉN", "SIMEÓN", "LEVÍ"],
     scriptureReference: "Génesis 50:20",
     explanation: "José perdonó a sus hermanos y mantuvo viva a una nación durante el hambre.",
+    prayer:
+      "Dios de José, toma lo que en mi historia se pensó para mal y conviértelo en bien. Guarda mi corazón blando con quien me hirió.",
     difficulty: "balanced",
     category: "people",
   },
@@ -980,6 +1093,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["DAVID", "ROBOAM", "EZEQUÍAS", "JOSÍAS", "SAÚL"],
     scriptureReference: "1 Reyes 3:16–28",
     explanation: "Salomón pidió un corazón entendido, y Dios le dio sabiduría y más.",
+    prayer:
+      "Dador de sabiduría, pido un corazón entendido antes que cualquier otra cosa. Que quiera lo que tú llamas precioso.",
     difficulty: "challenging",
     category: "people",
   },
@@ -996,6 +1111,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["GEDEÓN", "JEFTÉ", "BARAC", "AOD", "SAÚL"],
     scriptureReference: "Jueces 16:28–30",
     explanation: "Sansón oró una última vez, y Dios respondió.",
+    prayer:
+      "Dios de la fuerza que vuelve, óyeme en mi hora más débil. Lo que malgasté, redímelo en una última entrega.",
     difficulty: "challenging",
     category: "people",
   },
@@ -1012,6 +1129,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["FELIPE", "ANDRÉS", "MATEO", "SANTIAGO", "NATANAEL"],
     scriptureReference: "Juan 20:24–29",
     explanation: "Tomás dudó y después hizo la confesión más plena de todas.",
+    prayer:
+      "Señor mío y Dios mío, responde a mi duda con tus marcas. Dichosos los que creen sin ver — hazme uno de ellos.",
     difficulty: "expert",
     category: "people",
   },
@@ -1028,6 +1147,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["MARÍA", "JUANA", "SALOMÉ", "PRISCILA", "TABITA"],
     scriptureReference: "Juan 11:27",
     explanation: "Marta, recordada por su afán, confesó la fe con claridad.",
+    prayer:
+      "Señor de las casas ocupadas, aquieta mi servir lo bastante para sentarme a tus pies. Tú eres la mejor parte.",
     difficulty: "expert",
     category: "people",
   },
@@ -1044,6 +1165,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["MATEO", "NICODEMO", "SIMÓN", "JAIRO", "BARTIMEO"],
     scriptureReference: "Lucas 19:1–10",
     explanation: "Zaqueo bajó de prisa y dio la mitad de lo que tenía a los pobres.",
+    prayer:
+      "Señor que mira hacia arriba a los árboles, llama mi nombre hoy. Bajaré de prisa y te recibiré con gozo.",
     difficulty: "balanced",
     category: "people",
   },
@@ -1060,6 +1183,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["CALEB", "AARÓN", "GEDEÓN", "SAMUEL", "ELEAZAR"],
     scriptureReference: "Josué 24:15",
     explanation: "Josué llevó a Israel a la tierra y les pidió elegir a quién servirían.",
+    prayer:
+      "Señor mi Dios, tú estás conmigo dondequiera que vaya. Hazme fuerte y valiente para el cruce que viene.",
     difficulty: "challenging",
     category: "people",
   },
@@ -1076,6 +1201,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["AGAR", "REBECA", "RAQUEL", "LEA", "MILCA"],
     scriptureReference: "Génesis 21:1–7",
     explanation: "La risa de incredulidad de Sara se volvió risa de alegría — Isaac.",
+    prayer:
+      "Señor de las promesas imposibles, convierte mi risa incrédula en gozo. Nada es demasiado difícil para ti.",
     difficulty: "gentle",
     category: "people",
   },
@@ -1093,6 +1220,8 @@ const ES_QUESTIONS: readonly WhoAmIQuestion[] = [
     distractors: ["ISAAC", "JACOB", "LOT", "NOÉ"],
     scriptureReference: "Génesis 22:1–14",
     explanation: "Abraham confió en el Dios que provee, y en el monte fue dado un cordero.",
+    prayer:
+      "Dios que provee en el monte, te confío lo que no puedo retener. Eres fiel más allá de lo que veo.",
     difficulty: "expert",
     category: "people",
   },

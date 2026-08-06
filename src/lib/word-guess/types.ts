@@ -25,6 +25,8 @@ export interface WordGuessQuestion {
   hint?: string;
   /** Shown on completion — one calm sentence of context, never during play. */
   explanation?: string;
+  /** Closing prayer for the completion moment — echoes the verse. */
+  prayer?: string;
   difficulty: WordGuessDifficulty;
   /** Overrides the difficulty preset's reveal mode when present. */
   revealMode?: WordGuessRevealMode;

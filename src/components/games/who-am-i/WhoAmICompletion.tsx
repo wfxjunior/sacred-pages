@@ -1,7 +1,8 @@
-import { BookOpen, CheckCircle2, Eye, RefreshCw } from "lucide-react";
+import { CheckCircle2, Eye, RefreshCw } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
+import { GameDevotionalMoment } from "@/components/games/GameDevotionalMoment";
 import type { GameSessionSummary } from "@/lib/games";
 import type { WhoAmIQuestion } from "@/lib/who-am-i/types";
 
@@ -60,20 +61,11 @@ export function WhoAmICompletion({
       <p className="mt-1 font-serif text-lg tracking-[0.08em]" style={{ color: "var(--walnut)" }}>
         {question.answer.toLocaleUpperCase()}
       </p>
-      {question.explanation && (
-        <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
-          {question.explanation}
-        </p>
-      )}
-      {question.scriptureReference && (
-        <p
-          className="mt-2 inline-flex items-center gap-1.5 text-[12px] uppercase tracking-widest"
-          style={{ color: "var(--walnut)" }}
-        >
-          <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
-          {question.scriptureReference}
-        </p>
-      )}
+      <GameDevotionalMoment
+        reference={question.scriptureReference}
+        explanation={question.explanation}
+        prayer={question.prayer}
+      />
 
       <dl className="mt-5 grid grid-cols-3 gap-2 border-t border-border/60 pt-4 text-center">
         <div>

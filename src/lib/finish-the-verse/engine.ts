@@ -122,6 +122,8 @@ export function buildFinishVerseRound(
   return {
     reference: passage.reference,
     journeyTitle: passage.journeyTitle,
+    explanation: passage.explanation,
+    prayer: passage.prayer,
     tokens,
     hiddenSlots,
     bank,

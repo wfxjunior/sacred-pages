@@ -21,6 +21,8 @@ export interface WhoAmIQuestion {
   scriptureReference?: string;
   /** Shown on completion — one calm sentence, never during play. */
   explanation?: string;
+  /** Closing prayer for the completion moment — echoes the verse. */
+  prayer?: string;
   difficulty: GameDifficulty;
   category?: string;
 }

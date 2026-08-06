@@ -102,6 +102,8 @@ function UnscramblePage() {
             round={round}
             difficulty={difficulty}
             scriptureReference={scriptureReference}
+            devotional={daily.data?.devotionalBody ?? undefined}
+            prayer={daily.data?.prayerBody ?? undefined}
             onContinue={() => setCursor((c) => c + 1)}
             onTryAnother={() => setCursor((c) => c + Math.max(1, Math.floor(rounds.length / 2)))}
           />
