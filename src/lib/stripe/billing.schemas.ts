@@ -15,6 +15,9 @@ export function safeReturnPath(path: string | undefined, fallback: string): stri
   if (!candidate.startsWith("/")) return fallback;
   if (candidate.startsWith("//")) return fallback;
   if (/[\\@]/.test(candidate)) return fallback;
+  // Control characters are exactly what this guard exists to reject, so the
+  // rule that forbids them in a pattern does not apply here.
+  // eslint-disable-next-line no-control-regex
   if (/[\u0000-\u001f\u007f]/.test(candidate)) return fallback;
   if (/^\/[a-z][a-z0-9+.-]*:/i.test(candidate)) return fallback;
   if (candidate.length > 512) return fallback;

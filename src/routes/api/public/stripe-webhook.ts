@@ -112,9 +112,15 @@ async function syncSubscription(
   const item = subscription.items.data[0] as unknown as
     | { current_period_start?: number; current_period_end?: number }
     | undefined;
-  const periodStart =
-    (subscription as any).current_period_start ?? item?.current_period_start ?? null;
-  const periodEnd = (subscription as any).current_period_end ?? item?.current_period_end ?? null;
+  // Stripe moved the period fields onto the subscription item; older payloads
+  // still carry them on the subscription itself. Read both through one narrow
+  // view rather than `any`.
+  const legacy = subscription as unknown as {
+    current_period_start?: number;
+    current_period_end?: number;
+  };
+  const periodStart = legacy.current_period_start ?? item?.current_period_start ?? null;
+  const periodEnd = legacy.current_period_end ?? item?.current_period_end ?? null;
   const upsert = {
     user_id: userId,
     stripe_subscription_id: subscription.id,

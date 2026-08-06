@@ -8,13 +8,17 @@ import { RecoveryEmail } from '@/lib/email-templates/recovery'
 import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
-const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
-  signup: SignupEmail,
-  invite: InviteEmail,
-  magiclink: MagicLinkEmail,
-  recovery: RecoveryEmail,
-  email_change: EmailChangeEmail,
-  reauthentication: ReauthenticationEmail,
+// Each template declares its own props; the preview renders whichever one the
+// caller names, so the map is deliberately loose about the prop shape.
+type PreviewTemplate = React.ComponentType<Record<string, unknown>>;
+
+const EMAIL_TEMPLATES: Record<string, PreviewTemplate> = {
+  signup: SignupEmail as unknown as PreviewTemplate,
+  invite: InviteEmail as unknown as PreviewTemplate,
+  magiclink: MagicLinkEmail as unknown as PreviewTemplate,
+  recovery: RecoveryEmail as unknown as PreviewTemplate,
+  email_change: EmailChangeEmail as unknown as PreviewTemplate,
+  reauthentication: ReauthenticationEmail as unknown as PreviewTemplate,
 }
 
 // Configuration
@@ -28,7 +32,7 @@ const ROOT_DOMAIN = "lumenadaily.com"
 // even if the project's domain has changed since the template was scaffolded.
 const SAMPLE_PROJECT_URL = "https://lumenadaily.lovable.app"
 const SAMPLE_EMAIL = "user@example.test"
-const SAMPLE_DATA: Record<string, object> = {
+const SAMPLE_DATA: Record<string, Record<string, unknown>> = {
   signup: {
     siteName: SITE_NAME,
     siteUrl: SAMPLE_PROJECT_URL,
