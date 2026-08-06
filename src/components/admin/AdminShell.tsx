@@ -10,6 +10,7 @@ import {
   Languages,
   ScrollText,
   Grid3x3,
+  Timer,
 } from "lucide-react";
 import { LumenaLogo } from "@/components/site/LumenaLogo";
 import { useAdminSession } from "@/lib/auth/useAdminSession";
@@ -29,6 +30,7 @@ type NavItem = {
     | "/admin/calendar"
     | "/admin/translations"
     | "/admin/media"
+    | "/admin/engagement"
     | "/admin/audit";
   label: string;
   icon: typeof LayoutDashboard;
@@ -44,6 +46,7 @@ const NAV: readonly NavItem[] = [
   { to: "/admin/calendar", label: "Daily Journey", icon: CalendarDays },
   { to: "/admin/translations", label: "Translations", icon: Languages },
   { to: "/admin/media", label: "Media", icon: Image },
+  { to: "/admin/engagement", label: "Engagement", icon: Timer },
   { to: "/admin/audit", label: "Audit log", icon: ScrollText },
 ];
 
