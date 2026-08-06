@@ -286,7 +286,7 @@ describe("keyboard and content", () => {
   it("curates at least 12 public-domain passages per locale with sound data", () => {
     for (const locale of ["en", "pt", "es"] as const) {
       const verses = finishVersePassagesForLocale(locale);
-      expect(verses.length).toBeGreaterThanOrEqual(12);
+      expect(verses.length).toBeGreaterThanOrEqual(20);
       expect(new Set(verses.map((v) => v.reference)).size).toBe(verses.length);
       for (const verse of verses) {
         expect(tokenizeVerse(verse.text).filter((t) => t.matchable).length).toBeGreaterThanOrEqual(

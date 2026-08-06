@@ -377,7 +377,7 @@ describe("settings resolution", () => {
 describe("demo content", () => {
   it("provides at least 15 English questions with unique ids and matchable answers", () => {
     const questions = wordGuessQuestionsForLocale("en");
-    expect(questions.length).toBeGreaterThanOrEqual(15);
+    expect(questions.length).toBeGreaterThanOrEqual(30);
     expect(new Set(questions.map((q) => q.id)).size).toBe(questions.length);
     for (const q of questions) {
       expect(normalizeWordGuessAnswer(q.answer).length).toBeGreaterThan(0);
@@ -388,7 +388,7 @@ describe("demo content", () => {
   it("ships translated sets for every locale, in that locale", () => {
     for (const locale of ["pt", "es"] as const) {
       const set = wordGuessQuestionsForLocale(locale);
-      expect(set.length).toBeGreaterThanOrEqual(15);
+      expect(set.length).toBeGreaterThanOrEqual(30);
       expect(new Set(set.map((q) => q.id)).size).toBe(set.length);
       for (const q of set) {
         expect(q.locale).toBe(locale);

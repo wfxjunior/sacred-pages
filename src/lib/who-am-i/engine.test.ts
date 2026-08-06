@@ -180,7 +180,7 @@ describe("session summary (shared platform contract)", () => {
 describe("demo content", () => {
   it("provides at least 12 questions with unique ids and sound data", () => {
     const questions = whoAmIQuestionsForLocale("en");
-    expect(questions.length).toBeGreaterThanOrEqual(12);
+    expect(questions.length).toBeGreaterThanOrEqual(22);
     expect(new Set(questions.map((q) => q.id)).size).toBe(questions.length);
     for (const q of questions) {
       expect(q.clues.length).toBeGreaterThanOrEqual(3);
@@ -196,7 +196,7 @@ describe("demo content", () => {
   it("ships translated sets for every locale, in that locale and structurally sound", () => {
     for (const locale of ["pt", "es"] as const) {
       const set = whoAmIQuestionsForLocale(locale);
-      expect(set.length).toBeGreaterThanOrEqual(12);
+      expect(set.length).toBeGreaterThanOrEqual(22);
       expect(new Set(set.map((q) => q.id)).size).toBe(set.length);
       for (const q of set) {
         expect(q.locale).toBe(locale);

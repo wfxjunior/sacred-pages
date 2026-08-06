@@ -53,6 +53,38 @@ const EN_VERSES: readonly VersePassage[] = [
     text: "Come to me, all you who labor and are heavily burdened, and I will give you rest.",
   },
   {
+    reference: "Psalm 27:1",
+    text: "Yahweh is my light and my salvation. Whom shall I fear? Yahweh is the strength of my life. Of whom shall I be afraid?",
+  },
+  {
+    reference: "Isaiah 41:10",
+    text: "Don't you be afraid, for I am with you. Don't be dismayed, for I am your God. I will strengthen you. Yes, I will help you.",
+  },
+  {
+    reference: "John 14:6",
+    text: "Jesus said to him, I am the way, the truth, and the life. No one comes to the Father, except through me.",
+  },
+  {
+    reference: "Romans 12:2",
+    text: "Don't be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what is the good, well-pleasing, and perfect will of God.",
+  },
+  {
+    reference: "2 Corinthians 5:17",
+    text: "Therefore if anyone is in Christ, he is a new creation. The old things have passed away. Behold, all things have become new.",
+  },
+  {
+    reference: "Ephesians 2:8",
+    text: "For by grace you have been saved through faith, and that not of yourselves; it is the gift of God.",
+  },
+  {
+    reference: "Hebrews 11:1",
+    text: "Now faith is assurance of things hoped for, proof of things not seen.",
+  },
+  {
+    reference: "Lamentations 3:22-23",
+    text: "It is because of Yahweh's loving kindnesses that we are not consumed, because his compassion doesn't fail. They are new every morning. Great is your faithfulness.",
+  },
+  {
     reference: "Psalm 118:24",
     text: "This is the day that Yahweh has made. We will rejoice and be glad in it!",
   },
@@ -94,6 +126,38 @@ const PT_VERSES: readonly VersePassage[] = [
   {
     reference: "Mateus 11:28",
     text: "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.",
+  },
+  {
+    reference: "Salmos 27:1",
+    text: "O Senhor é a minha luz e a minha salvação; a quem temerei? O Senhor é a força da minha vida; de quem me recearei?",
+  },
+  {
+    reference: "Isaías 41:10",
+    text: "Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.",
+  },
+  {
+    reference: "João 14:6",
+    text: "Disse-lhe Jesus: Eu sou o caminho, e a verdade, e a vida; ninguém vem ao Pai, senão por mim.",
+  },
+  {
+    reference: "Romanos 12:2",
+    text: "E não vos conformeis com este mundo, mas transformai-vos pela renovação da vossa mente, para que experimenteis qual seja a boa, agradável e perfeita vontade de Deus.",
+  },
+  {
+    reference: "2 Coríntios 5:17",
+    text: "Assim que, se alguém está em Cristo, nova criatura é; as coisas velhas já passaram; eis que tudo se fez novo.",
+  },
+  {
+    reference: "Efésios 2:8",
+    text: "Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus.",
+  },
+  {
+    reference: "Hebreus 11:1",
+    text: "Ora, a fé é o firme fundamento das coisas que se esperam, e a prova das coisas que se não veem.",
+  },
+  {
+    reference: "Lamentações 3:22-23",
+    text: "As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim; novas são cada manhã; grande é a tua fidelidade.",
   },
   {
     reference: "Salmos 118:24",
@@ -141,6 +205,38 @@ const ES_VERSES: readonly VersePassage[] = [
   {
     reference: "Salmos 118:24",
     text: "Este es el día que hizo Jehová; nos gozaremos y alegraremos en él.",
+  },
+  {
+    reference: "Salmos 27:1",
+    text: "Jehová es mi luz y mi salvación; ¿de quién temeré? Jehová es la fortaleza de mi vida; ¿de quién he de atemorizarme?",
+  },
+  {
+    reference: "Juan 14:6",
+    text: "Jesús le dice: Yo soy el camino, y la verdad, y la vida; nadie viene al Padre, sino por mí.",
+  },
+  {
+    reference: "Romanos 12:2",
+    text: "Y no os conforméis a este siglo; mas reformaos por la renovación de vuestro entendimiento, para que experimentéis cuál sea la buena voluntad de Dios, agradable y perfecta.",
+  },
+  {
+    reference: "2 Corintios 5:17",
+    text: "De modo que si alguno está en Cristo, nueva criatura es: las cosas viejas pasaron; he aquí todas son hechas nuevas.",
+  },
+  {
+    reference: "Efesios 2:8",
+    text: "Porque por gracia sois salvos por la fe; y esto no de vosotros, pues es don de Dios.",
+  },
+  {
+    reference: "Hebreos 11:1",
+    text: "Es pues la fe la sustancia de las cosas que se esperan, la demostración de las cosas que no se ven.",
+  },
+  {
+    reference: "Lamentaciones 3:22-23",
+    text: "Es por la misericordia de Jehová que no somos consumidos, porque nunca decayeron sus misericordias. Nuevas son cada mañana; grande es tu fidelidad.",
+  },
+  {
+    reference: "Isaías 41:10",
+    text: "No temas, que yo soy contigo; no desmayes, que yo soy tu Dios que te esfuerzo; siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia.",
   },
 ];
 
