@@ -2,6 +2,13 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useI18n } from "@/lib/i18n";
+import {
+  PLAN_FEATURE_GROUPS,
+  PLAN_GROUP_LABEL_KEYS,
+  featuresForGroup,
+  planHighlights,
+  type PlanAvailability,
+} from "@/lib/plans/features";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +21,6 @@ import { Check, Minus, Users, ArrowRight, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { createCheckoutSession } from "@/lib/stripe/checkout.functions";
 import { toast } from "sonner";
-
-
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
@@ -40,81 +45,6 @@ export const Route = createFileRoute("/pricing")({
 });
 
 type Cycle = "monthly" | "yearly";
-
-const FREE_FEATURES = [
-  "Daily Journey",
-  "Selected Collections",
-  "Basic Progress",
-  "Limited Personalization",
-  "Language Selection",
-  "Dark Mode",
-  "Basic Milestones",
-];
-
-const PREMIUM_FEATURES = [
-  "Everything in Free",
-  "Unlimited Collections",
-  "Journey Together",
-  "Future Family Features",
-  "Future Small Groups",
-  "Advanced Progress",
-  "Exclusive Journey Series",
-  "Priority Support",
-  "Unlimited Personalization",
-  "Early Access Features",
-  "Future AI Features",
-];
-
-type Cell = boolean | "soon";
-type Row = { label: string; free: Cell; premium: Cell };
-
-const COMPARISON: { section: string; rows: Row[] }[] = [
-  {
-    section: "Daily Experience",
-    rows: [
-      { label: "Daily Journey", free: true, premium: true },
-      { label: "Bible Word Search", free: true, premium: true },
-      { label: "Devotionals", free: true, premium: true },
-      { label: "Prayer", free: true, premium: true },
-      { label: "Reflection", free: true, premium: true },
-    ],
-  },
-  {
-    section: "Library",
-    rows: [
-      { label: "Collections", free: true, premium: true },
-      { label: "Unlimited Collections", free: false, premium: true },
-      { label: "Favorites", free: true, premium: true },
-      { label: "Milestones", free: true, premium: true },
-    ],
-  },
-  {
-    section: "Journey Together",
-    rows: [
-      { label: "Journey Together", free: false, premium: true },
-      { label: "Family Mode", free: false, premium: "soon" },
-      { label: "Group Mode", free: false, premium: "soon" },
-    ],
-  },
-  {
-    section: "Personalization",
-    rows: [
-      { label: "Personalization", free: true, premium: true },
-      { label: "Difficulty", free: true, premium: true },
-      { label: "Languages", free: true, premium: true },
-      { label: "Dark Mode", free: true, premium: true },
-    ],
-  },
-  {
-    section: "Coming Soon",
-    rows: [
-      { label: "Offline Mode", free: "soon", premium: "soon" },
-      { label: "Audio Bible", free: "soon", premium: "soon" },
-      { label: "AI Assistant", free: false, premium: "soon" },
-      { label: "Priority Support", free: false, premium: true },
-    ],
-  },
-];
 
 const FAQS = [
   {
@@ -178,9 +108,7 @@ function Pricing() {
   const premiumPrice = cycle === "monthly" ? `$${premiumMonthly}` : `$${premiumYearly}`;
   const premiumSuffix = cycle === "monthly" ? "/month" : "/year";
   const premiumHint =
-    cycle === "monthly"
-      ? "Billed monthly, cancel anytime."
-      : "That's $5/month — save 2 months.";
+    cycle === "monthly" ? "Billed monthly, cancel anytime." : "That's $5/month — save 2 months.";
 
   const handleStartPremium = async () => {
     // Signed-out readers get a door, not an Unauthorized error.
@@ -206,7 +134,6 @@ function Pricing() {
   };
 
   return (
-
     <SiteLayout>
       {/* Hero */}
       <section className="relative overflow-hidden">
@@ -223,19 +150,15 @@ function Pricing() {
             className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur"
             style={{ color: "var(--brand)" }}
           >
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--brand)" }}
-            />
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--brand)" }} />
             Membership
           </span>
           <h1 className="mt-6 font-serif text-[40px] leading-[1.05] tracking-tight sm:text-[52px] md:text-[64px]">
-            Choose the journey that fits your{" "}
-            season.
+            Choose the journey that fits your season.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground md:text-lg">
-            Start free and upgrade whenever you're ready for deeper study,
-            personalization and shared journeys.
+            Start free and upgrade whenever you're ready for deeper study, personalization and
+            shared journeys.
           </p>
 
           {/* Cycle toggle */}
@@ -247,9 +170,7 @@ function Pricing() {
                   key={c}
                   onClick={() => setCycle(c)}
                   className={`relative rounded-full px-4 py-2 text-[13px] font-medium transition ${
-                    active
-                      ? "text-white shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
+                    active ? "text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
                   }`}
                   style={active ? { background: "var(--brand)" } : undefined}
                 >
@@ -261,8 +182,7 @@ function Pricing() {
                         active
                           ? { background: "rgba(255,255,255,0.2)", color: "#fff" }
                           : {
-                              background:
-                                "color-mix(in oklab, var(--sage) 16%, transparent)",
+                              background: "color-mix(in oklab, var(--sage) 16%, transparent)",
                               color: "var(--sage)",
                             }
                       }
@@ -284,7 +204,10 @@ function Pricing() {
             {/* Free */}
             <div className="flex flex-col rounded-3xl border border-border/60 bg-card p-8 md:p-10">
               <div className="flex items-center gap-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--sage)" }}>
+                <p
+                  className="text-[11px] font-semibold uppercase tracking-[0.22em]"
+                  style={{ color: "var(--sage)" }}
+                >
                   Free
                 </p>
               </div>
@@ -296,17 +219,18 @@ function Pricing() {
               <p className="mt-3 text-[13px] text-muted-foreground">
                 Everything you need to start a daily habit.
               </p>
-              <Button asChild className="mt-8 h-11 w-full px-6 text-[15px]" variant="editorialOutline">
+              <Button
+                asChild
+                className="mt-8 h-11 w-full px-6 text-[15px]"
+                variant="editorialOutline"
+              >
                 <Link to="/signup">Start Free</Link>
               </Button>
               <ul className="mt-8 space-y-3 text-[14px]">
-                {FREE_FEATURES.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5">
-                    <Check
-                      className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: "var(--sage)" }}
-                    />
-                    {f}
+                {planHighlights("free").map((f) => (
+                  <li key={f.id} className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--sage)" }} />
+                    {t(f.labelKey)}
                   </li>
                 ))}
               </ul>
@@ -328,7 +252,10 @@ function Pricing() {
                 Recommended
               </span>
               <div className="flex items-center gap-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
+                <p
+                  className="text-[11px] font-semibold uppercase tracking-[0.22em]"
+                  style={{ color: "var(--brand)" }}
+                >
                   Premium
                 </p>
               </div>
@@ -340,13 +267,9 @@ function Pricing() {
                   </span>
                 )}
                 {premiumPrice}
-                <span className="ml-2 text-sm text-muted-foreground">
-                  {premiumSuffix}
-                </span>
+                <span className="ml-2 text-sm text-muted-foreground">{premiumSuffix}</span>
               </p>
-              <p className="mt-3 text-[13px] text-muted-foreground">
-                {premiumHint}
-              </p>
+              <p className="mt-3 text-[13px] text-muted-foreground">{premiumHint}</p>
               {cycle === "yearly" && (
                 <div
                   className="mt-4 flex items-center gap-3 rounded-2xl border px-4 py-3"
@@ -383,13 +306,17 @@ function Pricing() {
               </Button>
 
               <ul className="mt-8 space-y-3 text-[14px]">
-                {PREMIUM_FEATURES.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5">
-                    <Check
-                      className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: "var(--brand)" }}
-                    />
-                    {f}
+                {planHighlights("premium").map((f) => (
+                  <li key={f.id} className="flex items-start gap-2.5">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--brand)" }} />
+                    <span>
+                      {t(f.labelKey)}
+                      {f.premium === "soon" && (
+                        <span className="ml-1.5 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                          {t("nav.soon")}
+                        </span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -402,7 +329,10 @@ function Pricing() {
       <section className="border-t border-border/60 bg-[color:var(--surface-2)]">
         <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 md:py-28">
           <div className="mb-12 max-w-2xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
+            <p
+              className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
+              style={{ color: "var(--brand)" }}
+            >
               Compare plans
             </p>
             <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
@@ -413,23 +343,27 @@ function Pricing() {
           <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
             <div className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border/60 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8">
               <span>Feature</span>
-              <span className="text-center" style={{ color: "var(--sage)" }}>Free</span>
-              <span className="text-center" style={{ color: "var(--brand)" }}>Premium</span>
+              <span className="text-center" style={{ color: "var(--sage)" }}>
+                Free
+              </span>
+              <span className="text-center" style={{ color: "var(--brand)" }}>
+                Premium
+              </span>
             </div>
-            {COMPARISON.map((sec) => (
-              <div key={sec.section}>
+            {PLAN_FEATURE_GROUPS.map((group) => (
+              <div key={group}>
                 <div
                   className="border-b border-border/60 bg-[color:var(--surface-2)] px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] sm:px-8"
                   style={{ color: "var(--walnut)" }}
                 >
-                  {sec.section}
+                  {t(PLAN_GROUP_LABEL_KEYS[group])}
                 </div>
-                {sec.rows.map((r) => (
+                {featuresForGroup(group).map((r) => (
                   <div
-                    key={r.label}
+                    key={r.id}
                     className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border/50 px-5 py-3.5 text-[14px] last:border-b-0 sm:px-8"
                   >
-                    <span>{r.label}</span>
+                    <span>{t(r.labelKey)}</span>
                     <span className="flex justify-center">
                       <CellMark v={r.free} />
                     </span>
@@ -448,7 +382,10 @@ function Pricing() {
       <section className="border-t border-border/60">
         <div className="mx-auto max-w-4xl px-5 py-24 sm:px-6 md:py-32">
           <div className="max-w-2xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
+            <p
+              className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
+              style={{ color: "var(--brand)" }}
+            >
               Why Premium
             </p>
             <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
@@ -457,15 +394,14 @@ function Pricing() {
           </div>
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             <p className="text-[16px] leading-relaxed text-muted-foreground">
-              The Free plan is intentionally generous — every day, anyone can
-              read Scripture, discover words, reflect and pray without paying a
-              cent. That is a promise we take seriously.
+              The Free plan is intentionally generous — every day, anyone can read Scripture,
+              discover words, reflect and pray without paying a cent. That is a promise we take
+              seriously.
             </p>
             <p className="text-[16px] leading-relaxed text-muted-foreground">
-              Premium supports the small team building this platform and
-              unlocks deeper experiences: unlimited collections, personalization,
-              and shared journeys with the people you love. Your subscription
-              is what allows the Free plan to stay free.
+              Premium supports the small team building this platform and unlocks deeper experiences:
+              unlimited collections, personalization, and shared journeys with the people you love.
+              Your subscription is what allows the Free plan to stay free.
             </p>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -474,10 +410,7 @@ function Pricing() {
               { t: "Family-first", d: "Journey Together — designed for the people you love." },
               { t: "Always private", d: "No ads, no selling data. Ever." },
             ].map((x) => (
-              <div
-                key={x.t}
-                className="rounded-2xl border border-border/60 bg-card p-6"
-              >
+              <div key={x.t} className="rounded-2xl border border-border/60 bg-card p-6">
                 <p className="font-serif text-lg">{x.t}</p>
                 <p className="mt-2 text-[14px] text-muted-foreground">{x.d}</p>
               </div>
@@ -504,9 +437,8 @@ function Pricing() {
                 Some seasons ask to be walked with someone.
               </h2>
               <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-muted-foreground">
-                Premium members can invite a spouse, a friend, a family member,
-                a mentor or a small group to walk through the same journey —
-                together, at your own pace.
+                Premium members can invite a spouse, a friend, a family member, a mentor or a small
+                group to walk through the same journey — together, at your own pace.
               </p>
               <ul className="mt-8 grid gap-3 sm:grid-cols-2">
                 {[
@@ -522,10 +454,7 @@ function Pricing() {
                   "Leave private reflections",
                 ].map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-[14px] text-foreground/85">
-                    <Check
-                      className="mt-0.5 h-4 w-4 shrink-0"
-                      style={{ color: "var(--brand)" }}
-                    />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--brand)" }} />
                     {f}
                   </li>
                 ))}
@@ -535,8 +464,7 @@ function Pricing() {
             <div
               className="relative rounded-3xl border border-border/60 bg-card p-6 sm:p-8"
               style={{
-                boxShadow:
-                  "0 40px 100px -60px color-mix(in oklab, var(--ink) 25%, transparent)",
+                boxShadow: "0 40px 100px -60px color-mix(in oklab, var(--ink) 25%, transparent)",
               }}
             >
               <div className="flex items-center justify-between">
@@ -555,7 +483,12 @@ function Pricing() {
               </div>
               <div className="mt-6 space-y-4">
                 {[
-                  { n: "Ana (you)", pct: 100, c: "var(--brand)", note: "Completed today's journey" },
+                  {
+                    n: "Ana (you)",
+                    pct: 100,
+                    c: "var(--brand)",
+                    note: "Completed today's journey",
+                  },
                   { n: "Lucas", pct: 100, c: "var(--sage)", note: "Left a reflection" },
                   { n: "Sofia", pct: 60, c: "var(--dusty-blue)", note: "Reading now" },
                   { n: "Miguel", pct: 20, c: "var(--walnut)", note: "Starts later today" },
@@ -575,9 +508,7 @@ function Pricing() {
                         <span className="truncate">{m.n}</span>
                         <span className="tabular-nums text-muted-foreground">{m.pct}%</span>
                       </div>
-                      <p className="mt-0.5 text-[11px] text-muted-foreground">
-                        {m.note}
-                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">{m.note}</p>
                       <div className="mt-2 h-1 overflow-hidden rounded-full bg-[color:var(--surface-2)]">
                         <div
                           className="h-full rounded-full transition-all"
@@ -597,7 +528,10 @@ function Pricing() {
       <section className="border-t border-border/60">
         <div className="mx-auto max-w-3xl px-5 py-24 sm:px-6 md:py-28">
           <div className="mb-12 max-w-2xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--brand)" }}>
+            <p
+              className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
+              style={{ color: "var(--brand)" }}
+            >
               Frequently asked
             </p>
             <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
@@ -629,10 +563,20 @@ function Pricing() {
             Spend a few meaningful minutes each day growing in God's Word.
           </p>
           <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-center">
-            <Button asChild size="lg" variant="editorial" className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
+            <Button
+              asChild
+              size="lg"
+              variant="editorial"
+              className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]"
+            >
               <Link to="/signup">Start Free</Link>
             </Button>
-            <Button asChild size="lg" variant="editorialOutline" className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
+            <Button
+              asChild
+              size="lg"
+              variant="editorialOutline"
+              className="h-12 w-full px-6 text-[15px] sm:w-auto sm:min-w-[180px]"
+            >
               <Link to="/today">View Today's Journey</Link>
             </Button>
           </div>
@@ -642,8 +586,8 @@ function Pricing() {
   );
 }
 
-function CellMark({ v, highlight }: { v: Cell; highlight?: boolean }) {
-  if (v === true) {
+function CellMark({ v, highlight }: { v: PlanAvailability; highlight?: boolean }) {
+  if (v === "included") {
     return (
       <Check
         className="h-4.5 w-4.5"
