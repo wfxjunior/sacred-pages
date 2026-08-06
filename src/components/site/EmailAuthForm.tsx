@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { MailCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { authService } from "@/lib/auth/service";
@@ -14,6 +15,10 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // Signup with email confirmation returns no session; the reader must see a
+  // persistent "check your email" state, not a toast that slips by while the
+  // form silently stays put.
+  const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -42,11 +47,32 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
       return;
     }
     if (mode === "signup" && !result.session) {
-      toast.success(t("auth.checkEmail"));
       setErrorMsg(null);
+      setAwaitingConfirmation(true);
       return;
     }
     navigate({ to: "/my-journey" });
+  }
+
+  if (awaitingConfirmation) {
+    return (
+      <div className="rounded-2xl border border-border/60 bg-card p-6 text-center">
+        <span
+          className="mx-auto grid h-10 w-10 place-items-center rounded-full"
+          style={{ background: "color-mix(in oklab, var(--gold) 14%, transparent)" }}
+        >
+          <MailCheck className="h-5 w-5" style={{ color: "var(--gold)" }} aria-hidden="true" />
+        </span>
+        <p className="mt-3 font-serif text-xl">{t("auth.checkEmail")}</p>
+        <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
+          {t("auth.checkEmailBody")} <strong className="text-foreground">{email.trim()}</strong>
+        </p>
+        <p className="mt-2 text-[12px] text-muted-foreground">{t("auth.checkEmailAfter")}</p>
+        <Button asChild variant="outline" className="mt-5 rounded-full">
+          <Link to="/signin">{t("cta.signin")}</Link>
+        </Button>
+      </div>
+    );
   }
 
   return (
