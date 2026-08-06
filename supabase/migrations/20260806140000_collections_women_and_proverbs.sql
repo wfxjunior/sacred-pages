@@ -1,11 +1,22 @@
 -- Two curated seven-day collections: Women of Faith, and Proverbs for the
--- Everyday Man. Trilingual (en/pt/es), Scripture from the World English
--- Bible (public domain), published and ready for the Daily Journey calendar.
+-- Everyday Man. Trilingual (en/pt/es), Scripture from the World English Bible
+-- (public domain), published and ready for the Daily Journey calendar.
 --
--- Idempotent: every insert is ON CONFLICT DO NOTHING, so running it twice is
--- safe. Apply with the Supabase SQL editor or `supabase db execute`.
+-- Idempotent by construction: every statement is ON CONFLICT DO NOTHING, so
+-- re-running is a no-op. Content only — no schema changes, no policy changes.
 
 begin;
+
+-- The WEB source is seeded by the platform migration; this guards a database
+-- restored without it, so the scripture inserts below can never silently
+-- match zero rows and leave the journeys without their passage.
+insert into public.scripture_sources
+  (translation_code, translation_name, language_code, strategy, allows_text_storage, license_notes)
+values
+  ('WEB', 'World English Bible', 'en', 'public_domain', true,
+   'Public domain. No permission required for storage or redistribution.')
+on conflict (translation_code) do nothing;
+
 
 -- ===== Women of Faith =====
 insert into public.collections
