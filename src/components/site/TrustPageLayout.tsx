@@ -32,7 +32,7 @@ export function TrustPageLayout({
           {children}
         </div>
         <p className="mt-12 rounded-lg border bg-[color:var(--surface)] p-4 text-sm text-muted-foreground">
-          This page is maintained by the Lumen Verse team to answer common questions about our service.
+          This page is maintained by the Lumena team to answer common questions about our service.
           It describes the platform as it works today and may be updated as the service changes.
           For legal advice, please contact a qualified attorney.
         </p>

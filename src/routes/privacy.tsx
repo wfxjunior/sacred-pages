@@ -4,10 +4,10 @@ import { TrustH2, TrustList, TrustPageLayout } from "@/components/site/TrustPage
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Lumen Verse" },
-      { name: "description", content: "How Lumen Verse collects, uses, and protects your personal information." },
-      { property: "og:title", content: "Privacy Policy — Lumen Verse" },
-      { property: "og:description", content: "How Lumen Verse handles your personal data and privacy." },
+      { title: "Privacy Policy — Lumena" },
+      { name: "description", content: "How Lumena collects, uses, and protects your personal information." },
+      { property: "og:title", content: "Privacy Policy — Lumena" },
+      { property: "og:description", content: "How Lumena handles your personal data and privacy." },
     ],
   }),
   component: Privacy,
@@ -21,7 +21,7 @@ function Privacy() {
       lastUpdated="July 30, 2026"
     >
       <p>
-        This Privacy Policy explains how Lumen Verse collects, uses, stores, and protects your information when you use our website and app. Please read it carefully. If you do not agree with this policy, you should not use the service.
+        This Privacy Policy explains how Lumena collects, uses, stores, and protects your information when you use our website and app. Please read it carefully. If you do not agree with this policy, you should not use the service.
       </p>
 
       <TrustH2>1. Information we collect</TrustH2>
@@ -79,7 +79,7 @@ function Privacy() {
 
       <TrustH2>7. Children's privacy</TrustH2>
       <p>
-        Lumen Verse is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal data, please contact us so we can delete it.
+        Lumena is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal data, please contact us so we can delete it.
       </p>
 
       <TrustH2>8. International transfers</TrustH2>

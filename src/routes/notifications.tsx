@@ -14,9 +14,9 @@ const FILTER_KEYS = ["all", "unread", "daily", "companion", "milestone", "collec
 export const Route = createFileRoute("/notifications")({
   head: () => ({
     meta: [
-      { title: "Notifications — Jornadas da Palavra" },
+      { title: "Notifications — Lumena" },
       { name: "description", content: "A quiet place to catch up — daily journeys, companions, and milestones." },
-      { property: "og:title", content: "Notifications — Jornadas da Palavra" },
+      { property: "og:title", content: "Notifications — Lumena" },
       { property: "og:description", content: "A quiet notification center." },
     ],
   }),

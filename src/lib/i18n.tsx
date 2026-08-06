@@ -2632,9 +2632,9 @@ const PHASE2B_PT: Dict = {
   "onb.preview.today": "Hoje",
   "onb.preview.about": "cerca de",
 
-  "notifPrefs.metaTitle": "Preferências de notificação — Jornadas da Palavra",
+  "notifPrefs.metaTitle": "Preferências de notificação — Lumena",
   "notifPrefs.metaDesc": "Escolha exatamente quais avisos silenciosos chegam até você e em qual canal.",
-  "notifPrefs.ogTitle": "Preferências de notificação — Jornadas da Palavra",
+  "notifPrefs.ogTitle": "Preferências de notificação — Lumena",
   "notifPrefs.ogDesc": "Poucas e significativas — você decide.",
   "notifPrefs.backTo": "Central de notificações",
   "notifPrefs.eyebrow": "Preferências",
@@ -2750,9 +2750,9 @@ const PHASE2B_ES: Dict = {
   "onb.preview.today": "Hoy",
   "onb.preview.about": "unos",
 
-  "notifPrefs.metaTitle": "Preferencias de notificación — Jornadas da Palavra",
+  "notifPrefs.metaTitle": "Preferencias de notificación — Lumena",
   "notifPrefs.metaDesc": "Elige exactamente qué avisos tranquilos te llegan y por qué canal.",
-  "notifPrefs.ogTitle": "Preferencias de notificación — Jornadas da Palavra",
+  "notifPrefs.ogTitle": "Preferencias de notificación — Lumena",
   "notifPrefs.ogDesc": "Pocas y significativas — tú decides.",
   "notifPrefs.backTo": "Centro de notificaciones",
   "notifPrefs.eyebrow": "Preferencias",

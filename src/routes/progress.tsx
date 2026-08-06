@@ -7,9 +7,9 @@ import { useConsistency, useConsistencyWindow, useProgressStats } from "@/lib/jo
 export const Route = createFileRoute("/progress")({
   head: () => ({
     meta: [
-      { title: "My Progress — Lumen Verse" },
+      { title: "My Progress — Lumena" },
       { name: "description", content: "A calm view of your consistency in Scripture." },
-      { property: "og:title", content: "My Progress — Lumen Verse" },
+      { property: "og:title", content: "My Progress — Lumena" },
       { property: "og:description", content: "See your streak, journeys, and quiet milestones over time." },
     ],
   }),

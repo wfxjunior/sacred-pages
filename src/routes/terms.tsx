@@ -4,10 +4,10 @@ import { TrustH2, TrustList, TrustPageLayout } from "@/components/site/TrustPage
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms of Service — Lumen Verse" },
-      { name: "description", content: "The terms and conditions for using Lumen Verse." },
-      { property: "og:title", content: "Terms of Service — Lumen Verse" },
-      { property: "og:description", content: "Terms and conditions for using Lumen Verse." },
+      { title: "Terms of Service — Lumena" },
+      { name: "description", content: "The terms and conditions for using Lumena." },
+      { property: "og:title", content: "Terms of Service — Lumena" },
+      { property: "og:description", content: "Terms and conditions for using Lumena." },
     ],
   }),
   component: Terms,
@@ -21,7 +21,7 @@ function Terms() {
       lastUpdated="July 30, 2026"
     >
       <p>
-        These Terms of Service govern your access to and use of Lumen Verse. By creating an account or using the service, you agree to these terms. If you do not agree, please do not use the service.
+        These Terms of Service govern your access to and use of Lumena. By creating an account or using the service, you agree to these terms. If you do not agree, please do not use the service.
       </p>
 
       <TrustH2>1. Your account</TrustH2>
@@ -44,7 +44,7 @@ function Terms() {
 
       <TrustH2>3. Content and intellectual property</TrustH2>
       <p>
-        The Bible text, devotionals, artwork, puzzles, and other materials on Lumen Verse are licensed to you for personal, non-commercial use through the service. You may not reproduce, sell, or redistribute them outside the platform without permission.
+        The Bible text, devotionals, artwork, puzzles, and other materials on Lumena are licensed to you for personal, non-commercial use through the service. You may not reproduce, sell, or redistribute them outside the platform without permission.
       </p>
       <p>
         You retain ownership of any content you create, such as notes, reflections, or prayer requests. By posting or sharing content, you grant us a limited license to host and display it as needed to operate the service.
@@ -67,7 +67,7 @@ function Terms() {
 
       <TrustH2>7. Limitation of liability</TrustH2>
       <p>
-        To the extent permitted by law, Lumen Verse and its team will not be liable for indirect, incidental, special, or consequential damages arising from your use of the service. Our total liability will not exceed the amount you paid to us in the twelve months before the claim.
+        To the extent permitted by law, Lumena and its team will not be liable for indirect, incidental, special, or consequential damages arising from your use of the service. Our total liability will not exceed the amount you paid to us in the twelve months before the claim.
       </p>
 
       <TrustH2>8. Changes to these terms</TrustH2>
@@ -77,7 +77,7 @@ function Terms() {
 
       <TrustH2>9. Governing law</TrustH2>
       <p>
-        These terms are governed by the laws of the jurisdiction where Lumen Verse operates, without regard to conflict of law principles. Any dispute will be resolved in the courts of that jurisdiction.
+        These terms are governed by the laws of the jurisdiction where Lumena operates, without regard to conflict of law principles. Any dispute will be resolved in the courts of that jurisdiction.
       </p>
 
       <TrustH2>10. Contact us</TrustH2>

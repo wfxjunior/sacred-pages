@@ -9,9 +9,9 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/favorites")({
   head: () => ({
     meta: [
-      { title: "Favorites — Jornadas da Palavra" },
+      { title: "Favorites — Lumena" },
       { name: "description", content: "Journeys, verses, devotionals and reflections you've saved." },
-      { property: "og:title", content: "Favorites — Jornadas da Palavra" },
+      { property: "og:title", content: "Favorites — Lumena" },
       { property: "og:description", content: "Your saved Scripture moments." },
     ],
   }),

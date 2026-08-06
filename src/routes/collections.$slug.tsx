@@ -13,7 +13,7 @@ export const Route = createFileRoute("/collections/$slug")({
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
-    const title = `${readable} — Lumen Verse`;
+    const title = `${readable} — Lumena`;
     const description =
       "A guided Bible collection: Scripture, a word search, reflection and prayer, ten quiet minutes a day.";
     return {

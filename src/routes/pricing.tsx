@@ -20,13 +20,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
-      { title: "Pricing — Choose the journey that fits your season" },
+      { title: "Pricing — Lumena Daily Bible Practice" },
       {
         name: "description",
         content:
           "Start free and upgrade whenever you're ready for deeper study, personalization and shared journeys.",
       },
-      { property: "og:title", content: "Pricing — Jornadas da Palavra" },
+      { property: "og:title", content: "Pricing — Lumena" },
       {
         property: "og:description",
         content:

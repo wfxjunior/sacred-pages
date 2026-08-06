@@ -13,9 +13,9 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
-      { title: "Welcome — Jornadas da Palavra" },
+      { title: "Welcome — Lumena" },
       { name: "description", content: "A calm 2-minute setup for your Scripture journey." },
-      { property: "og:title", content: "Welcome — Jornadas da Palavra" },
+      { property: "og:title", content: "Welcome — Lumena" },
       { property: "og:description", content: "A calm 2-minute setup." },
     ],
   }),

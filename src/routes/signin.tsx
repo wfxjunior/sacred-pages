@@ -7,9 +7,9 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/signin")({
   head: () => ({
     meta: [
-      { title: "Sign in — Lumen Verse" },
+      { title: "Sign in — Lumena" },
       { name: "description", content: "Sign in to your daily Scripture journey." },
-      { property: "og:title", content: "Sign in — Lumen Verse" },
+      { property: "og:title", content: "Sign in — Lumena" },
       { property: "og:description", content: "Return to your daily Scripture journey." },
     ],
   }),

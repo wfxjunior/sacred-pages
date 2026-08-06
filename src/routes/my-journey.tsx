@@ -12,9 +12,9 @@ import { Puzzle } from "lucide-react";
 export const Route = createFileRoute("/my-journey")({
   head: () => ({
     meta: [
-      { title: "My Journey — Lumen Verse" },
+      { title: "My Journey — Lumena" },
       { name: "description", content: "Your personal home inside Scripture — today's journey, streak, and collections." },
-      { property: "og:title", content: "My Journey — Lumen Verse" },
+      { property: "og:title", content: "My Journey — Lumena" },
       { property: "og:description", content: "Your personal Scripture home." },
     ],
   }),

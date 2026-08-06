@@ -23,20 +23,20 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Jornadas — Your daily journey through God's Word" },
+      { title: "Lumena — Daily Bible Devotional & Word Search" },
       {
         name: "description",
         content:
-          "A premium daily Bible journey platform. Devotionals, interactive word searches, reflections and prayer, designed for a few meaningful minutes each day.",
+          "Lumena turns your daily Bible time into a calm ritual: a short devotional, an interactive Scripture word search, reflection and prayer — in about five minutes.",
       },
       {
         property: "og:title",
-        content: "Jornadas — Your daily journey through God's Word",
+        content: "Lumena — Daily Bible Devotional & Word Search",
       },
       {
         property: "og:description",
         content:
-          "Build a daily habit with God's Word — devotional, interactive word search, reflection and prayer, all in one calm space.",
+          "Five calm minutes with Scripture each day — devotional, interactive word search, reflection and prayer in one place.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://www.lumenadaily.com/og-image.png" },

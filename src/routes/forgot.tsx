@@ -10,10 +10,10 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/forgot")({
   head: () => ({
     meta: [
-      { title: "Reset password — Lumen Verse" },
-      { name: "description", content: "Reset your Lumen Verse password." },
-      { property: "og:title", content: "Reset password — Lumen Verse" },
-      { property: "og:description", content: "Reset your Lumen Verse password." },
+      { title: "Reset password — Lumena" },
+      { name: "description", content: "Reset your Lumena password." },
+      { property: "og:title", content: "Reset password — Lumena" },
+      { property: "og:description", content: "Reset your Lumena password." },
     ],
   }),
   component: Forgot,
