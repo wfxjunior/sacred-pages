@@ -43,6 +43,7 @@ describe("game registry integrity", () => {
       "word_search",
       "word_guess",
       "who_am_i",
+      "finish_the_verse",
       "unscramble",
       "daily_challenge",
     ]);
@@ -52,16 +53,23 @@ describe("game registry integrity", () => {
     expect(GAME_REGISTRY.word_search.route).toBe("/today");
     expect(GAME_REGISTRY.word_guess.route).toBe("/play/word-guess");
     expect(GAME_REGISTRY.who_am_i.route).toBe("/play/who-am-i");
+    expect(GAME_REGISTRY.finish_the_verse.route).toBe("/play/finish-the-verse");
     expect(GAME_REGISTRY.unscramble.route).toBe("/play/unscramble");
     expect(GAME_REGISTRY.daily_challenge.route).toBe("/play/daily");
   });
 
-  it("keeps unshipped modes without routes: a short coming_soon promise, the rest hidden", () => {
+  it("keeps unshipped modes hidden and routeless until work on them starts", () => {
     const comingSoon = listGames().filter((game) => game.availability === "coming_soon");
     const hidden = listGames().filter((game) => game.availability === "hidden");
-    expect(comingSoon.map((game) => game.id)).toEqual(["finish_the_verse"]);
-    expect(hidden).toHaveLength(GAME_MODES.length - 5 - comingSoon.length);
-    for (const game of [...comingSoon, ...hidden]) {
+    expect(comingSoon).toHaveLength(0);
+    expect(hidden.map((game) => game.id)).toEqual([
+      "bible_quiz",
+      "verse_builder",
+      "timeline",
+      "memory_match",
+    ]);
+    expect(hidden).toHaveLength(GAME_MODES.length - 6);
+    for (const game of hidden) {
       expect(game.route).toBeNull();
     }
   });
