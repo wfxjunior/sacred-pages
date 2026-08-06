@@ -39,9 +39,9 @@ export const Route = createFileRoute("/features")({
       {
         name: "description",
         content:
-          "Explore every feature of Jornadas da Palavra — daily Bible journeys, interactive word searches, devotionals, reflection, prayer, collections, progress and more.",
+          "Explore every feature of Lumena — daily Bible journeys, interactive word searches, devotionals, reflection, prayer, collections, progress and more.",
       },
-      { property: "og:title", content: "Features — Jornadas da Palavra" },
+      { property: "og:title", content: "Features — Lumena" },
       {
         property: "og:description",
         content:

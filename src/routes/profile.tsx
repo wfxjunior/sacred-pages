@@ -21,9 +21,9 @@ import { formatDuration, groupByJourney, useBestTimes } from "@/lib/puzzle/best-
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — Jornadas da Palavra" },
+      { title: "Profile — Lumena" },
       { name: "description", content: "Your journey, milestones and companions in one calm place." },
-      { property: "og:title", content: "Profile — Jornadas da Palavra" },
+      { property: "og:title", content: "Profile — Lumena" },
       { property: "og:description", content: "A quiet profile — your progress at a glance." },
     ],
   }),

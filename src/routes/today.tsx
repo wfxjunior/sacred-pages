@@ -36,9 +36,9 @@ export const Route = createFileRoute("/today")({
   validateSearch: (input: Record<string, unknown>) => todaySearchSchema.parse(input),
   head: () => ({
     meta: [
-      { title: "Today's Journey — Jornadas da Palavra" },
+      { title: "Today's Journey — Lumena" },
       { name: "description", content: "A quiet daily journey through Scripture with a devotional, word search, reflection and prayer." },
-      { property: "og:title", content: "Today's Journey — Jornadas da Palavra" },
+      { property: "og:title", content: "Today's Journey — Lumena" },
       { property: "og:description", content: "A daily Bible journey with devotional, word search, reflection and prayer." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

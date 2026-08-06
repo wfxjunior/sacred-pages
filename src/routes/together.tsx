@@ -23,9 +23,9 @@ import type { CompanionshipWithProfiles } from "@/lib/together/types";
 export const Route = createFileRoute("/together")({
   head: () => ({
     meta: [
-      { title: "Journey Together — Jornadas da Palavra" },
+      { title: "Journey Together — Lumena" },
       { name: "description", content: "Walk through the same Scripture with someone you trust — private by default." },
-      { property: "og:title", content: "Journey Together — Jornadas da Palavra" },
+      { property: "og:title", content: "Journey Together — Lumena" },
       { property: "og:description", content: "Shared journeys for spouses, friends, family and small groups." },
     ],
   }),

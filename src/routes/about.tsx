@@ -4,10 +4,10 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Lumen Verse" },
+      { title: "About — Lumena" },
       { name: "description", content: "The story behind a peaceful, premium daily Scripture experience." },
-      { property: "og:title", content: "About — Lumen Verse" },
-      { property: "og:description", content: "About Lumen Verse — a living Scripture library for your everyday life." },
+      { property: "og:title", content: "About — Lumena" },
+      { property: "og:description", content: "About Lumena — a living Scripture library for your everyday life." },
     ],
   }),
   component: About,
@@ -21,7 +21,7 @@ function About() {
         <h1 className="mt-3 font-serif text-4xl md:text-5xl">A quiet place for God's Word.</h1>
         <div className="mt-8 space-y-5 text-base leading-relaxed text-foreground/90">
           <p>
-            Lumen Verse is a living Scripture library. We build slow, thoughtful tools that make time in the Bible feel like a
+            Lumena is a living Scripture library. We build slow, thoughtful tools that make time in the Bible feel like a
             small ritual — not another task.
           </p>
           <p>

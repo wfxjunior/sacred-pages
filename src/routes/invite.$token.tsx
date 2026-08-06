@@ -10,7 +10,7 @@ import { getCompanionInvitationPreview, acceptCompanionInvitation } from "@/lib/
 export const Route = createFileRoute("/invite/$token")({
   head: () => ({
     meta: [
-      { title: "Invitation — Jornadas da Palavra" },
+      { title: "Invitation — Lumena" },
       { name: "description", content: "Accept a private invitation to journey together through Scripture." },
     ],
   }),

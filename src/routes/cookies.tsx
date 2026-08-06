@@ -4,10 +4,10 @@ import { TrustH2, TrustList, TrustPageLayout } from "@/components/site/TrustPage
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     meta: [
-      { title: "Cookie Policy — Lumen Verse" },
-      { name: "description", content: "How Lumen Verse uses cookies and similar technologies." },
-      { property: "og:title", content: "Cookie Policy — Lumen Verse" },
-      { property: "og:description", content: "Cookie and local storage usage on Lumen Verse." },
+      { title: "Cookie Policy — Lumena" },
+      { name: "description", content: "How Lumena uses cookies and similar technologies." },
+      { property: "og:title", content: "Cookie Policy — Lumena" },
+      { property: "og:description", content: "Cookie and local storage usage on Lumena." },
     ],
   }),
   component: Cookies,
@@ -21,7 +21,7 @@ function Cookies() {
       lastUpdated="July 30, 2026"
     >
       <p>
-        This Cookie Policy explains how Lumen Verse uses cookies and similar technologies to recognize you when you visit our website or use our app. It describes what these technologies are, why we use them, and your choices.
+        This Cookie Policy explains how Lumena uses cookies and similar technologies to recognize you when you visit our website or use our app. It describes what these technologies are, why we use them, and your choices.
       </p>
 
       <TrustH2>1. What are cookies?</TrustH2>

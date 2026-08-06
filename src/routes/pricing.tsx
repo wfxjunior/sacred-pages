@@ -26,7 +26,7 @@ export const Route = createFileRoute("/pricing")({
         content:
           "Start free and upgrade whenever you're ready for deeper study, personalization and shared journeys.",
       },
-      { property: "og:title", content: "Pricing — Jornadas da Palavra" },
+      { property: "og:title", content: "Pricing — Lumena" },
       {
         property: "og:description",
         content:

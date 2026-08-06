@@ -28,9 +28,9 @@ export const Route = createFileRoute("/collections/")({
     searchSchema.parse(input),
   head: () => ({
     meta: [
-      { title: "Collections — Lumen Verse" },
+      { title: "Collections — Lumena" },
       { name: "description", content: "A curated library of Bible journeys organized by people, books, and themes." },
-      { property: "og:title", content: "Collections — Lumen Verse" },
+      { property: "og:title", content: "Collections — Lumena" },
       { property: "og:description", content: "Curated Bible journeys organized by people, books, and themes." },
     ],
   }),
