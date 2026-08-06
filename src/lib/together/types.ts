@@ -25,7 +25,6 @@ export interface CompanionshipWithProfiles extends Companionship {
   invitee: CompanionshipProfile | null;
 }
 
-
 export interface CompanionshipPreview {
   relationship: string | null;
   personal_message: string | null;

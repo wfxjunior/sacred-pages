@@ -36,9 +36,7 @@ export async function listMyCompanions(
     .select(
       "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url, email), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url, email)",
     )
-    .or(
-      `inviter_id.eq.${userId},invitee_user_id.eq.${userId},invitee_email.eq.${email}`,
-    )
+    .or(`inviter_id.eq.${userId},invitee_user_id.eq.${userId},invitee_email.eq.${email}`)
     .order("created_at", { ascending: false });
 
   if (error) throw error;
@@ -83,4 +81,18 @@ export async function acceptInvitation(
   });
   if (error) throw error;
   return data ?? false;
+}
+
+/** Archives a pending invitation. RLS allows only the inviter to update it. */
+export async function cancelInvitation(
+  supabase: ReturnType<typeof createClient<Database>>,
+  token: string,
+): Promise<boolean> {
+  const { error } = await supabase
+    .from("companionships")
+    .update({ status: "archived" })
+    .eq("token", token)
+    .eq("status", "pending");
+  if (error) throw error;
+  return true;
 }

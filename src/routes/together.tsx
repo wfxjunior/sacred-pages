@@ -1,13 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/site/AppShell";
 import { CompanionCard } from "@/components/site/CompanionCard";
 import { InviteCompanionModal } from "@/components/site/InviteCompanionModal";
 import { SharedJourneyProgress } from "@/components/site/SharedJourneyProgress";
 import { SharedReflection } from "@/components/site/SharedReflection";
-import { GROUPS } from "@/lib/mock/groups";
 import { Button } from "@/components/ui/button";
-import { Heart, Lock, Mail, Sparkles, Users, MoreHorizontal, HandHeart, Archive, Loader2 } from "lucide-react";
+import {
+  Heart,
+  Lock,
+  Mail,
+  Sparkles,
+  Users,
+  MoreHorizontal,
+  HandHeart,
+  Archive,
+  Loader2,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,18 +25,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
-import { listMyCompanionships } from "@/lib/together/functions";
+import {
+  cancelCompanionInvitation,
+  listMyCompanionships,
+  resendCompanionInvitation,
+} from "@/lib/together/functions";
 import type { CompanionshipWithProfiles } from "@/lib/together/types";
 
 export const Route = createFileRoute("/together")({
   head: () => ({
     meta: [
       { title: "Journey Together — Lumena" },
-      { name: "description", content: "Walk through the same Scripture with someone you trust — private by default." },
+      {
+        name: "description",
+        content: "Walk through the same Scripture with someone you trust — private by default.",
+      },
       { property: "og:title", content: "Journey Together — Lumena" },
-      { property: "og:description", content: "Shared journeys for spouses, friends, family and small groups." },
+      {
+        property: "og:description",
+        content: "Shared journeys for spouses, friends, family and small groups.",
+      },
     ],
   }),
   component: TogetherPage,
@@ -52,7 +73,11 @@ function TogetherPage() {
           <SignInBanner />
         ) : (
           <>
-            <ActiveSection companions={active} loading={companions.isLoading && !!user.userId} error={companions.isError} />
+            <ActiveSection
+              companions={active}
+              loading={companions.isLoading && !!user.userId}
+              error={companions.isError}
+            />
             <SharedJourneyProgress companions={[]} />
             <EncourageAndPray />
             <SharedReflection companions={[]} />
@@ -83,7 +108,10 @@ function IntroBlock() {
   return (
     <section className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
       <div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>
+        <p
+          className="text-[11px] font-semibold uppercase tracking-[0.24em]"
+          style={{ color: "var(--walnut)" }}
+        >
           {t("together.eyebrow2")}
         </p>
         <h1 className="mt-3 font-serif text-4xl leading-[1.05] tracking-tight md:text-5xl">
@@ -100,17 +128,24 @@ function IntroBlock() {
               </Button>
             }
           />
-          <Button variant="outline" className="rounded-full px-5">
-            <Users className="mr-1.5 h-4 w-4" /> {t("together.startGroup")}
-          </Button>
+          {/* Group creation has no backend yet; the section below says so
+              instead of a button that would do nothing. */}
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5"><Lock className="h-3.5 w-3.5" style={{ color: "var(--sage)" }} /> {t("together.privateDefault")}</span>
-          <span className="inline-flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5" style={{ color: "var(--gold)" }} /> {t("together.premiumFeature")}</span>
+          <span className="inline-flex items-center gap-1.5">
+            <Lock className="h-3.5 w-3.5" style={{ color: "var(--sage)" }} />{" "}
+            {t("together.privateDefault")}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5" style={{ color: "var(--gold)" }} />{" "}
+            {t("together.premiumFeature")}
+          </span>
         </div>
       </div>
       <div className="rounded-2xl border border-border/60 bg-card p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("together.thisWeek2")}</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          {t("together.thisWeek2")}
+        </p>
         <p className="mt-2 font-serif text-3xl leading-none">3</p>
         <p className="text-[13px] text-muted-foreground">{t("together.activeCompanions")}</p>
         <div className="mt-5 h-px bg-border/60" />
@@ -133,7 +168,15 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ActiveSection({ companions, loading, error }: { companions: CompanionshipWithProfiles[]; loading: boolean; error: boolean }) {
+function ActiveSection({
+  companions,
+  loading,
+  error,
+}: {
+  companions: CompanionshipWithProfiles[];
+  loading: boolean;
+  error: boolean;
+}) {
   const { t } = useI18n();
   const user = useCurrentUser();
   return (
@@ -143,7 +186,11 @@ function ActiveSection({ companions, loading, error }: { companions: Companionsh
         title={t("together.activeTitle")}
         action={
           <InviteCompanionModal
-            trigger={<Button variant="outline" size="sm" className="rounded-full">{t("ui.invite")}</Button>}
+            trigger={
+              <Button variant="outline" size="sm" className="rounded-full">
+                {t("ui.invite")}
+              </Button>
+            }
           />
         }
       />
@@ -166,7 +213,10 @@ function ActiveSection({ companions, loading, error }: { companions: Companionsh
           const currentUserId = user.userId;
           const isInviter = currentUserId === c.inviter_id;
           const other = isInviter ? c.invitee : c.inviter;
-          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
+          const name =
+            other?.display_name ??
+            (isInviter ? c.invitee_email : other?.email) ??
+            t("together.activePlaceholder");
           const color = "var(--sage)";
           const companion = {
             id: c.id,
@@ -187,7 +237,10 @@ function ActiveSection({ companions, loading, error }: { companions: Companionsh
               <div className="absolute right-4 top-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="rounded-full p-1 text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label={t("together.menu.manageAria")}>
+                    <button
+                      className="rounded-full p-1 text-muted-foreground hover:bg-secondary hover:text-foreground"
+                      aria-label={t("together.menu.manageAria")}
+                    >
                       <MoreHorizontal className="h-4 w-4" />
                     </button>
                   </DropdownMenuTrigger>
@@ -195,7 +248,9 @@ function ActiveSection({ companions, loading, error }: { companions: Companionsh
                     <DropdownMenuItem>{t("together.menu.change")}</DropdownMenuItem>
                     <DropdownMenuItem>{t("together.menu.sharing")}</DropdownMenuItem>
                     <DropdownMenuItem>{t("together.menu.pause")}</DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive">{t("together.menu.archive")}</DropdownMenuItem>
+                    <DropdownMenuItem className="text-destructive">
+                      {t("together.menu.archive")}
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -215,7 +270,12 @@ function EncourageAndPray() {
   return (
     <section className="grid gap-4 md:grid-cols-2">
       <div className="rounded-2xl border border-border/60 bg-card p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("together.encourage")}</p>
+        <p
+          className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+          style={{ color: "var(--walnut)" }}
+        >
+          {t("together.encourage")}
+        </p>
         <h3 className="mt-2 font-serif text-2xl">{t("together.sendQuiet")}</h3>
         <p className="mt-1 text-[13px] text-muted-foreground">{t("together.encHint")}</p>
         <div className="mt-5 flex flex-wrap gap-2">
@@ -234,7 +294,12 @@ function EncourageAndPray() {
         </p>
       </div>
       <div className="rounded-2xl border border-border/60 bg-card p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{t("together.pray")}</p>
+        <p
+          className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+          style={{ color: "var(--walnut)" }}
+        >
+          {t("together.pray")}
+        </p>
         <h3 className="mt-2 font-serif text-2xl">{t("together.holdPrayer")}</h3>
         <p className="mt-1 text-[13px] text-muted-foreground">{t("together.holdHint")}</p>
         <div className="mt-5 flex items-center gap-3">
@@ -246,16 +311,54 @@ function EncourageAndPray() {
             <HandHeart className="mr-1.5 h-4 w-4" />
             {prayed ? t("together.prayedToday") : t("together.prayFor")}
           </Button>
-          {prayed && <span className="text-[12px]" style={{ color: "var(--sage)" }}>{t("together.prayedNote")}</span>}
+          {prayed && (
+            <span className="text-[12px]" style={{ color: "var(--sage)" }}>
+              {t("together.prayedNote")}
+            </span>
+          )}
         </div>
       </div>
     </section>
   );
 }
 
-function PendingSection({ pending, loading }: { pending: CompanionshipWithProfiles[]; loading: boolean }) {
+function PendingSection({
+  pending,
+  loading,
+}: {
+  pending: CompanionshipWithProfiles[];
+  loading: boolean;
+}) {
   const { t } = useI18n();
   const user = useCurrentUser();
+  const [busyToken, setBusyToken] = useState<string | null>(null);
+  const resend = useServerFn(resendCompanionInvitation);
+  const cancel = useServerFn(cancelCompanionInvitation);
+  const queryClient = useQueryClient();
+
+  const handleResend = async (token: string) => {
+    setBusyToken(token);
+    try {
+      await resend({ data: { token } });
+      toast.success(t("together.invite.success"));
+    } catch {
+      toast.error(t("together.invite.emailFailed"));
+    }
+    setBusyToken(null);
+  };
+
+  const handleCancel = async (token: string) => {
+    setBusyToken(token);
+    try {
+      await cancel({ data: { token } });
+      toast(t("together.invite.cancelled"));
+      await queryClient.invalidateQueries({ queryKey: ["companionships", "mine"] });
+    } catch {
+      toast.error(t("together.invite.cancelError"));
+    }
+    setBusyToken(null);
+  };
+
   return (
     <section>
       <SectionHeader eyebrow={t("together.pending")} title={t("together.pendingTitle")} />
@@ -269,19 +372,47 @@ function PendingSection({ pending, loading }: { pending: CompanionshipWithProfil
           const currentUserId = user.userId;
           const isInviter = currentUserId === c.inviter_id;
           const other = isInviter ? c.invitee : c.inviter;
-          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
+          const name =
+            other?.display_name ??
+            (isInviter ? c.invitee_email : other?.email) ??
+            t("together.activePlaceholder");
           return (
-            <div key={c.id} className="flex flex-wrap items-center gap-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: "var(--gold)" }}>
+            <div
+              key={c.id}
+              className="flex flex-wrap items-center gap-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4"
+            >
+              <span
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white"
+                style={{ background: "var(--gold)" }}
+              >
                 {name[0] ?? "?"}
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[14px] font-medium">{name}</p>
-                <p className="text-[12px] text-muted-foreground">{c.relationship} · {t("together.invitedOn")} {new Date(c.created_at).toLocaleDateString()}</p>
+                <p className="text-[12px] text-muted-foreground">
+                  {c.relationship} · {t("together.invitedOn")}{" "}
+                  {new Date(c.created_at).toLocaleDateString()}
+                </p>
               </div>
               <div className="flex items-center gap-2">
-                <Button size="sm" variant="ghost" className="rounded-full text-muted-foreground">{t("ui.resend")}</Button>
-                <Button size="sm" variant="ghost" className="rounded-full text-destructive">{t("ui.cancel")}</Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="rounded-full text-muted-foreground"
+                  disabled={busyToken === c.token}
+                  onClick={() => void handleResend(c.token)}
+                >
+                  {t("ui.resend")}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="rounded-full text-destructive"
+                  disabled={busyToken === c.token}
+                  onClick={() => void handleCancel(c.token)}
+                >
+                  {t("ui.cancel")}
+                </Button>
               </div>
             </div>
           );
@@ -293,31 +424,23 @@ function PendingSection({ pending, loading }: { pending: CompanionshipWithProfil
 
 function GroupsSection() {
   const { t } = useI18n();
+  // No group backend exists yet. Rather than list invented groups behind
+  // buttons that do nothing, the section says plainly what is coming — the
+  // same stance the Living Journal takes about its own "soon".
   return (
     <section>
-      <SectionHeader
-        eyebrow={t("together.groups")}
-        title={t("together.groupsTitle")}
-        action={<Button variant="outline" size="sm" className="rounded-full">{t("together.createGroup")}</Button>}
-      />
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        {GROUPS.map((g) => (
-          <div key={g.id} className="rounded-2xl border border-border/60 bg-card p-6">
-            <div className="flex items-center justify-between">
-              <p className="font-serif text-lg">{g.name}</p>
-              <span className="rounded-full border border-border/60 px-2 py-0.5 text-[10px] uppercase tracking-widest text-muted-foreground">{g.privacy}</span>
-            </div>
-            <p className="mt-1 text-[12px] text-muted-foreground">{t("together.ledBy")} {g.leader} · {g.members} {t("together.membersLabel")}</p>
-            <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("together.currentJourney")}</p>
-            <p className="mt-1 font-serif text-[15px]">{g.journey}</p>
-            <div className="mt-4 flex items-center gap-3">
-              <div className="h-1 flex-1 overflow-hidden rounded-full bg-[color:var(--surface-2)]">
-                <div className="h-full rounded-full" style={{ width: `${g.progress}%`, background: "var(--sage)" }} />
-              </div>
-              <span className="text-[11px] tabular-nums text-muted-foreground">{g.progress}%</span>
-            </div>
-          </div>
-        ))}
+      <SectionHeader eyebrow={t("together.groups")} title={t("together.groupsTitle")} />
+      <div className="mt-6 rounded-2xl border border-dashed border-border/70 bg-card/50 p-6 text-center">
+        <span
+          className="mx-auto grid h-10 w-10 place-items-center rounded-full"
+          style={{ background: "var(--surface-2)" }}
+        >
+          <Users className="h-5 w-5" style={{ color: "var(--walnut)" }} aria-hidden="true" />
+        </span>
+        <p className="mt-3 font-serif text-lg">{t("together.groupsSoonTitle")}</p>
+        <p className="mx-auto mt-1 max-w-sm text-[13px] text-muted-foreground">
+          {t("together.groupsSoonBody")}
+        </p>
       </div>
     </section>
   );
@@ -334,15 +457,28 @@ function ArchivedSection({ archived }: { archived: CompanionshipWithProfiles[] }
           const currentUserId = user.userId;
           const isInviter = currentUserId === c.inviter_id;
           const other = isInviter ? c.invitee : c.inviter;
-          const name = other?.display_name ?? (isInviter ? c.invitee_email : other?.email) ?? t("together.activePlaceholder");
+          const name =
+            other?.display_name ??
+            (isInviter ? c.invitee_email : other?.email) ??
+            t("together.activePlaceholder");
           return (
-            <div key={c.id} className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-4">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white" style={{ background: "var(--walnut)" }}>
+            <div
+              key={c.id}
+              className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-4"
+            >
+              <span
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-[13px] font-medium text-white"
+                style={{ background: "var(--walnut)" }}
+              >
                 {name[0] ?? "?"}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[14px] font-medium">{name} · {c.relationship}</p>
-                <p className="text-[12px] text-muted-foreground">{new Date(c.updated_at).toLocaleDateString()}</p>
+                <p className="truncate text-[14px] font-medium">
+                  {name} · {c.relationship}
+                </p>
+                <p className="text-[12px] text-muted-foreground">
+                  {new Date(c.updated_at).toLocaleDateString()}
+                </p>
               </div>
               <Archive className="h-4 w-4 text-muted-foreground" />
             </div>
@@ -353,11 +489,24 @@ function ArchivedSection({ archived }: { archived: CompanionshipWithProfiles[] }
   );
 }
 
-function SectionHeader({ eyebrow, title, action }: { eyebrow: string; title: string; action?: React.ReactNode }) {
+function SectionHeader({
+  eyebrow,
+  title,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  action?: React.ReactNode;
+}) {
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>{eyebrow}</p>
+        <p
+          className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+          style={{ color: "var(--walnut)" }}
+        >
+          {eyebrow}
+        </p>
         <h2 className="mt-1 font-serif text-2xl md:text-3xl">{title}</h2>
       </div>
       {action}

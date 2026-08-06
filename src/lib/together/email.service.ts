@@ -33,8 +33,7 @@ export async function sendCompanionInviteEmail(
     .maybeSingle();
 
   const inviterName =
-    (inviter?.display_name as string | undefined) ??
-    invitation.inviter_id.slice(0, 8);
+    (inviter?.display_name as string | undefined) ?? invitation.inviter_id.slice(0, 8);
 
   const inviteUrl = `${SITE_URL}/invite/${invitation.token}`;
 

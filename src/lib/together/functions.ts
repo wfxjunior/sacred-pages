@@ -4,6 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import {
+  cancelInvitation,
   createInvitation,
   listMyCompanions,
   getInvitationByToken,
@@ -83,4 +84,30 @@ export const acceptCompanionInvitation = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await acceptInvitation(context.supabase, data.token);
     return { success: true };
+  });
+
+export const cancelCompanionInvitation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((data: unknown) => tokenSchema.parse(data))
+  .handler(async ({ data, context }) => {
+    await cancelInvitation(context.supabase, data.token);
+    return { cancelled: true };
+  });
+
+/**
+ * Sends the invitation email again for an invitation the caller owns. The
+ * lookup runs on the caller's client, so RLS decides whether they may see it
+ * at all; a failed send is reported rather than swallowed.
+ */
+export const resendCompanionInvitation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((data: unknown) => tokenSchema.parse(data))
+  .handler(async ({ data, context }) => {
+    const invitation = await getInvitationByToken(context.supabase, data.token);
+    if (!invitation || invitation.inviter_id !== context.userId) {
+      throw new Error("Invitation not found");
+    }
+    const { sendCompanionInviteEmail } = await import("./email.service");
+    await sendCompanionInviteEmail(invitation, context.userId);
+    return { sent: true };
   });
