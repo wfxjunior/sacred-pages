@@ -28,12 +28,18 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
   const [message, setMessage] = useState("");
   const [link, setLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  // The invitation is created even when the email cannot go out; saying so is
+  // what makes the copyable link a real fallback instead of a silent one.
+  const [emailSent, setEmailSent] = useState(true);
   const user = useCurrentUser();
 
   const mutation = useMutation({
     mutationFn: createCompanionInvitation,
     onSuccess: (data) => {
-      setLink(`${typeof window !== "undefined" ? window.location.origin : ""}/invite/${data.token}`);
+      setLink(
+        `${typeof window !== "undefined" ? window.location.origin : ""}/invite/${data.token}`,
+      );
+      setEmailSent(data.emailSent);
     },
   });
 
@@ -47,7 +53,9 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    mutation.mutate({ data: { email: email.trim(), relationship: rel, message: message.trim() || undefined } });
+    mutation.mutate({
+      data: { email: email.trim(), relationship: rel, message: message.trim() || undefined },
+    });
   };
 
   const handleOpenChange = (next: boolean) => {
@@ -69,12 +77,17 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
           <div className="flex items-center gap-2">
             <span
               className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
-              style={{ background: "color-mix(in oklab, var(--gold) 14%, transparent)", color: "var(--gold)" }}
+              style={{
+                background: "color-mix(in oklab, var(--gold) 14%, transparent)",
+                color: "var(--gold)",
+              }}
             >
               <Sparkles className="h-3 w-3" /> Premium
             </span>
           </div>
-          <DialogTitle className="mt-2 font-serif text-2xl">{t("together.invite.title")}</DialogTitle>
+          <DialogTitle className="mt-2 font-serif text-2xl">
+            {t("together.invite.title")}
+          </DialogTitle>
           <DialogDescription>{t("together.invite.description")}</DialogDescription>
         </DialogHeader>
 
@@ -90,27 +103,51 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
             {link ? (
               <div className="space-y-4">
                 <div className="rounded-xl border border-[color:var(--gold)]/30 bg-[color:var(--gold)]/8 p-4">
-                  <p className="flex items-center gap-2 text-[13px] font-medium" style={{ color: "var(--gold)" }}>
+                  <p
+                    className="flex items-center gap-2 text-[13px] font-medium"
+                    style={{ color: "var(--gold)" }}
+                  >
                     <CheckCircle className="h-4 w-4" />
-                    {t("together.invite.success")}
+                    {emailSent ? t("together.invite.success") : t("together.invite.created")}
                   </p>
+                  {!emailSent && (
+                    <p className="mt-1.5 text-[12px] text-muted-foreground">
+                      {t("together.invite.emailFailed")}
+                    </p>
+                  )}
                 </div>
                 <div className="grid gap-2">
-                  <Label className="text-[12px] uppercase tracking-widest text-muted-foreground">{t("together.invite.linkReady")}</Label>
+                  <Label className="text-[12px] uppercase tracking-widest text-muted-foreground">
+                    {t("together.invite.linkReady")}
+                  </Label>
                   <div className="flex items-center gap-2">
-                    <Input readOnly value={link} className="bg-[color:var(--surface-2)] text-[13px]" />
-                    <Button type="button" variant="outline" onClick={handleCopy} className="shrink-0 rounded-full">
+                    <Input
+                      readOnly
+                      value={link}
+                      className="bg-[color:var(--surface-2)] text-[13px]"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleCopy}
+                      className="shrink-0 rounded-full"
+                    >
                       <Copy className="mr-1.5 h-4 w-4" />
                       {copied ? t("together.invite.linkCopied") : t("together.invite.copyLink")}
                     </Button>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">{t("together.invite.expiresIn")}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {t("together.invite.expiresIn")}
+                  </p>
                 </div>
               </div>
             ) : (
               <>
                 <div className="grid gap-2">
-                  <Label htmlFor="companion-email" className="text-[12px] uppercase tracking-widest text-muted-foreground">
+                  <Label
+                    htmlFor="companion-email"
+                    className="text-[12px] uppercase tracking-widest text-muted-foreground"
+                  >
                     {t("together.invite.emailLabel")}
                   </Label>
                   <Input
@@ -123,7 +160,9 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label className="text-[12px] uppercase tracking-widest text-muted-foreground">{t("together.invite.relationshipLabel")}</Label>
+                  <Label className="text-[12px] uppercase tracking-widest text-muted-foreground">
+                    {t("together.invite.relationshipLabel")}
+                  </Label>
                   <div className="flex flex-wrap gap-2">
                     {RELATIONSHIPS.map((r) => {
                       const active = rel === r;
@@ -133,7 +172,9 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                           type="button"
                           onClick={() => setRel(r)}
                           className={`rounded-full border px-3 py-1.5 text-[13px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                            active ? "border-primary bg-primary/10 text-foreground" : "border-border/60 text-muted-foreground hover:text-foreground"
+                            active
+                              ? "border-primary bg-primary/10 text-foreground"
+                              : "border-border/60 text-muted-foreground hover:text-foreground"
                           }`}
                         >
                           {r}
@@ -143,7 +184,10 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="companion-message" className="text-[12px] uppercase tracking-widest text-muted-foreground">
+                  <Label
+                    htmlFor="companion-message"
+                    className="text-[12px] uppercase tracking-widest text-muted-foreground"
+                  >
                     {t("together.invite.messageLabel")}
                   </Label>
                   <Textarea
@@ -156,7 +200,10 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                 </div>
                 <div className="rounded-xl border border-border/60 bg-[color:var(--surface-2)] p-4">
                   <div className="flex items-start gap-2 text-[12px] text-muted-foreground">
-                    <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color: "var(--sage)" }} />
+                    <Lock
+                      className="mt-0.5 h-3.5 w-3.5 shrink-0"
+                      style={{ color: "var(--sage)" }}
+                    />
                     <span>{t("together.invite.privacyNote")}</span>
                   </div>
                 </div>
@@ -169,12 +216,23 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
 
             <DialogFooter className="mt-2 flex-col gap-2 sm:flex-row">
               {!link ? (
-                <Button type="submit" disabled={mutation.isPending || !email.trim()} className="rounded-full">
+                <Button
+                  type="submit"
+                  disabled={mutation.isPending || !email.trim()}
+                  className="rounded-full"
+                >
                   {mutation.isPending ? <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> : null}
-                  {mutation.isPending ? t("together.invite.sending") : t("together.invite.sendInvitation")}
+                  {mutation.isPending
+                    ? t("together.invite.sending")
+                    : t("together.invite.sendInvitation")}
                 </Button>
               ) : (
-                <Button type="button" variant="outline" onClick={handleCopy} className="rounded-full">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleCopy}
+                  className="rounded-full"
+                >
                   <Copy className="mr-1.5 h-4 w-4" />
                   {copied ? t("together.invite.linkCopied") : t("together.invite.copyLink")}
                 </Button>
