@@ -37,6 +37,7 @@ export function Header() {
     { href: "/", label: t("nav.home"), type: "route" },
     { href: "/features", label: t("nav.features"), type: "route" },
     { href: "/collections", label: t("nav.collections"), type: "route" },
+    { href: "/play", label: t("games.hub.title"), type: "route" },
     // Scrolls to the landing-page section. Absolute so it also works from
     // another route, where a bare "#living-journal" would go nowhere.
     { href: "/#living-journal", label: t("nav.livingJournal"), type: "hash" },

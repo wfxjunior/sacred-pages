@@ -59,8 +59,10 @@ export function AppShell({
     { to: "/profile", label: t("nav.profile"), icon: User },
   ];
   // The bottom bar carries the five destinations a reader actually needs on a
-  // phone; Together and Favorites stay in the sidebar and the profile page.
-  const mobileOrder = ["/my-journey", "/today", "/collections", "/progress", "/profile"];
+  // phone. Play earns its slot as the daily-habit driver; Progress lives one
+  // tap away inside My Journey (which already shows the streak), and Together
+  // and Favorites stay in the sidebar and the profile page.
+  const mobileOrder = ["/my-journey", "/today", "/play", "/collections", "/profile"];
   const mobileItems = mobileOrder
     .map((to) => items.find((i) => i.to === to))
     .filter((i): i is (typeof items)[number] => Boolean(i));
@@ -140,7 +142,9 @@ export function AppShell({
               <NotificationsMenu />
             </div>
           </header>
-          <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>{children}</main>
+          <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>
+            {children}
+          </main>
           <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">
             {mobileItems.map((i) => {
               const active = pathname === i.to || pathname.startsWith(`${i.to}/`);
