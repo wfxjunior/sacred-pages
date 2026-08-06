@@ -15,7 +15,7 @@ export function ThemeSelector() {
     <div
       role="radiogroup"
       aria-label={t("theme.aria")}
-      className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-card p-1"
+      className="inline-flex w-full items-center gap-1 rounded-full border border-border/60 bg-card p-1 sm:w-auto"
     >
       {OPTIONS.map((o) => {
         const active = mode === o.key;
@@ -26,7 +26,7 @@ export function ThemeSelector() {
             role="radio"
             aria-checked={active}
             onClick={() => setMode(o.key)}
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+            className={`inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-full px-3 text-[13px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:h-8 sm:flex-none ${
               active ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
             style={active ? { background: "var(--gold)" } : undefined}

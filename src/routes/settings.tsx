@@ -28,14 +28,28 @@ import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { getSubscriptionStatus, createBillingPortalSession } from "@/lib/stripe/billing.functions";
 import { deleteMyAccount } from "@/lib/account/account.functions";
 import {
-  User, Palette, BookOpen, Bell, Lock, CreditCard, Accessibility, Download, LogOut, Trash2, Sparkles, Loader2,
+  User,
+  Palette,
+  BookOpen,
+  Bell,
+  Lock,
+  CreditCard,
+  Accessibility,
+  Download,
+  LogOut,
+  Trash2,
+  Sparkles,
+  Loader2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
       { title: "Settings — Lumena" },
-      { name: "description", content: "Account, appearance, journey preferences, privacy and more." },
+      {
+        name: "description",
+        content: "Account, appearance, journey preferences, privacy and more.",
+      },
       { property: "og:title", content: "Settings — Lumena" },
       { property: "og:description", content: "Personalize your experience with calm defaults." },
     ],
@@ -202,9 +216,43 @@ function SettingsPage() {
     <AppShell>
       <div className="mx-auto max-w-5xl">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--walnut)" }}>{t("settings.title")}</p>
-          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">{t("settings.subtitle")}</h1>
+          <p
+            className="text-[11px] font-semibold uppercase tracking-[0.24em]"
+            style={{ color: "var(--walnut)" }}
+          >
+            {t("settings.title")}
+          </p>
+          <h1 className="mt-2 font-serif text-4xl leading-tight md:text-5xl">
+            {t("settings.subtitle")}
+          </h1>
         </div>
+
+        {/* Below lg the sidebar is gone, so the sections were unreachable
+            without scrolling blind: this rail carries them, and the cobalt is
+            the platform's own accent rather than the journey gold. */}
+        <nav
+          aria-label={t("settings.title")}
+          className="-mx-6 mt-6 flex gap-2 overflow-x-auto px-6 pb-1 lg:hidden"
+        >
+          {SECTIONS.map((s) => {
+            const Icon = s.icon;
+            return (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-[12px] font-medium transition"
+                style={{
+                  borderColor: "color-mix(in oklab, var(--dusty-blue) 40%, transparent)",
+                  background: "color-mix(in oklab, var(--dusty-blue) 10%, transparent)",
+                  color: "var(--ink)",
+                }}
+              >
+                <Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={1.6} aria-hidden />
+                {t(s.labelKey)}
+              </a>
+            );
+          })}
+        </nav>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
           <aside className="hidden lg:block">
@@ -226,19 +274,36 @@ function SettingsPage() {
           </aside>
 
           <div className="space-y-10">
-            <Section id="account" title={t("settings.account.title")} description={t("settings.account.desc")}>
+            <Section
+              id="account"
+              title={t("settings.account.title")}
+              description={t("settings.account.desc")}
+            >
               {signedIn ? (
                 <>
                   <div className="grid gap-4 md:grid-cols-2">
                     <Field label={t("settings.account.name")} value={name} onChange={setName} />
-                    <Field label={t("settings.account.email")} type="email" value={email} onChange={setEmail} />
+                    <Field
+                      label={t("settings.account.email")}
+                      type="email"
+                      value={email}
+                      onChange={setEmail}
+                    />
                   </div>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    <Button className="h-12 w-full rounded-full sm:h-10 sm:w-auto" onClick={() => void saveAccount()} disabled={savingAccount}>
+                  <div className="mt-5 grid gap-2 sm:flex sm:flex-wrap">
+                    <Button
+                      className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                      onClick={() => void saveAccount()}
+                      disabled={savingAccount}
+                    >
                       {savingAccount && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
                       {t("settings.account.save")}
                     </Button>
-                    <Button variant="ghost" className="h-12 w-full rounded-full sm:h-10 sm:w-auto" onClick={() => void changePassword()}>
+                    <Button
+                      variant="ghost"
+                      className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                      onClick={() => void changePassword()}
+                    >
                       {t("settings.account.changePw")}
                     </Button>
                   </div>
@@ -248,17 +313,26 @@ function SettingsPage() {
               )}
             </Section>
 
-            <Section id="appearance" title={t("settings.appearance.title")} description={t("settings.appearance.desc")}>
-              <Row label={t("settings.appearance.themeLabel")}><ThemeSelector /></Row>
+            <Section
+              id="appearance"
+              title={t("settings.appearance.title")}
+              description={t("settings.appearance.desc")}
+            >
+              <Row label={t("settings.appearance.themeLabel")}>
+                <ThemeSelector />
+              </Row>
               <Row label={t("settings.color")}>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
                   {SELECTION_COLORS.map((c) => (
                     <button
                       key={c.key}
                       onClick={() => setPref("selectionColor", c.key)}
                       aria-pressed={prefs.selectionColor === c.key}
-                      className="flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px]"
-                      style={{ borderColor: prefs.selectionColor === c.key ? "var(--foreground)" : "var(--border)" }}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full border px-3 text-[12px] sm:h-9"
+                      style={{
+                        borderColor:
+                          prefs.selectionColor === c.key ? "var(--foreground)" : "var(--border)",
+                      }}
                     >
                       <span className="h-3.5 w-3.5 rounded-full" style={{ background: c.value }} />
                       {c.label}
@@ -270,20 +344,30 @@ function SettingsPage() {
                 <Chips
                   value={prefs.fontSize}
                   onChange={(v) => setPref("fontSize", v as FontSize)}
-                  options={[["small", t("settings.small")], ["medium", t("settings.medium")], ["large", t("settings.large")]]}
+                  options={[
+                    ["small", t("settings.small")],
+                    ["medium", t("settings.medium")],
+                    ["large", t("settings.large")],
+                  ]}
                 />
               </Row>
             </Section>
 
-            <Section id="journey" title={t("settings.journey.title")} description={t("settings.journey.desc")}>
+            <Section
+              id="journey"
+              title={t("settings.journey.title")}
+              description={t("settings.journey.desc")}
+            >
               <Row label={t("settings.journey.language")}>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
                   {LOCALES.map((l) => (
                     <button
                       key={l.code}
                       onClick={() => setLocale(l.code as Locale)}
-                      className={`rounded-full border px-3 py-1.5 text-[12px] transition ${
-                        locale === l.code ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground"
+                      className={`inline-flex h-11 items-center justify-center rounded-full border px-3 text-[12px] transition sm:h-9 ${
+                        locale === l.code
+                          ? "border-[color:var(--dusty-blue)] bg-[color:color-mix(in_oklab,var(--dusty-blue)_12%,transparent)] text-foreground"
+                          : "border-border text-muted-foreground"
                       }`}
                     >
                       {l.label}
@@ -295,14 +379,23 @@ function SettingsPage() {
                 <Chips
                   value={prefs.difficulty}
                   onChange={(v) => setPref("difficulty", v as Difficulty)}
-                  options={[["gentle", t("settings.gentle")], ["balanced", t("settings.balanced")], ["challenging", t("settings.challenging")], ["expert", t("settings.expert")]]}
+                  options={[
+                    ["gentle", t("settings.gentle")],
+                    ["balanced", t("settings.balanced")],
+                    ["challenging", t("settings.challenging")],
+                    ["expert", t("settings.expert")],
+                  ]}
                 />
               </Row>
               <Row label={t("settings.journey.rhythm")}>
                 <Chips
                   value={String(prefs.rhythmMinutes)}
                   onChange={(v) => setPref("rhythmMinutes", Number(v) as 5 | 10 | 20)}
-                  options={[["5", t("settings.min5")], ["10", t("settings.min10")], ["20", t("settings.min20")]]}
+                  options={[
+                    ["5", t("settings.min5")],
+                    ["10", t("settings.min10")],
+                    ["20", t("settings.min20")],
+                  ]}
                 />
               </Row>
               <ToggleRow
@@ -319,7 +412,11 @@ function SettingsPage() {
               />
             </Section>
 
-            <Section id="notifications" title={t("settings.notif.title")} description={t("settings.notif.desc")}>
+            <Section
+              id="notifications"
+              title={t("settings.notif.title")}
+              description={t("settings.notif.desc")}
+            >
               <ToggleRow
                 label={t("settings.notif.daily")}
                 hint={t("settings.notif.dailyHint")}
@@ -351,13 +448,21 @@ function SettingsPage() {
                 onChange={(v) => setCategory("premium", { enabled: v })}
               />
               <div className="pt-1">
-                <Button asChild variant="ghost" className="rounded-full">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                >
                   <Link to="/notifications/preferences">{t("settings.notif.advanced")}</Link>
                 </Button>
               </div>
             </Section>
 
-            <Section id="privacy" title={t("settings.privacy.title")} description={t("settings.privacy.desc")}>
+            <Section
+              id="privacy"
+              title={t("settings.privacy.title")}
+              description={t("settings.privacy.desc")}
+            >
               <ToggleRow
                 label={t("settings.privacy.reflections")}
                 hint={t("settings.privacy.reflectionsHint")}
@@ -376,22 +481,41 @@ function SettingsPage() {
                 checked={prefs.analytics}
                 onChange={(v) => setPref("analytics", v)}
               />
-              <div className="mt-2 flex flex-wrap gap-2">
-                <Button asChild variant="ghost" className="rounded-full">
+              <div className="mt-2 grid gap-2 sm:flex sm:flex-wrap">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                >
                   <Link to="/together">{t("settings.privacy.devices")}</Link>
                 </Button>
-                <Button asChild variant="ghost" className="rounded-full">
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                >
                   <Link to="/privacy">{t("settings.privacy.policy")}</Link>
                 </Button>
               </div>
             </Section>
 
-            <Section id="membership" title={t("settings.membership.title")} description={t("settings.membership.desc")}>
+            <Section
+              id="membership"
+              title={t("settings.membership.title")}
+              description={t("settings.membership.desc")}
+            >
               <div className="rounded-2xl border border-border/60 bg-[color:var(--surface-2)] p-5">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4" style={{ color: "var(--gold)" }} />
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--gold)" }}>
-                    {premium === null ? t("ui.loading") : premium ? "Premium" : t("settings.membership.free")}
+                  <p
+                    className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+                    style={{ color: "var(--gold)" }}
+                  >
+                    {premium === null
+                      ? t("ui.loading")
+                      : premium
+                        ? "Premium"
+                        : t("settings.membership.free")}
                   </p>
                 </div>
                 <p className="mt-2 font-serif text-xl">
@@ -400,17 +524,32 @@ function SettingsPage() {
                 <p className="text-[12px] text-muted-foreground">
                   {premium ? t("settings.membership.blurb") : t("settings.membership.freeBlurb")}
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
                   {premium ? (
                     <>
-                      <Button variant="outline" className="rounded-full" onClick={() => void goToPortal()} disabled={portalBusy}>
+                      <Button
+                        variant="outline"
+                        className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                        onClick={() => void goToPortal()}
+                        disabled={portalBusy}
+                      >
                         {portalBusy && <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />}
                         {t("settings.membership.manage")}
                       </Button>
-                      <Button variant="ghost" className="rounded-full" onClick={() => void goToPortal()} disabled={portalBusy}>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                        onClick={() => void goToPortal()}
+                        disabled={portalBusy}
+                      >
                         {t("settings.membership.billing")}
                       </Button>
-                      <Button variant="ghost" className="rounded-full text-destructive" onClick={() => void goToPortal()} disabled={portalBusy}>
+                      <Button
+                        variant="ghost"
+                        className="h-12 w-full rounded-full text-destructive sm:h-10 sm:w-auto"
+                        onClick={() => void goToPortal()}
+                        disabled={portalBusy}
+                      >
                         {t("settings.membership.cancel")}
                       </Button>
                     </>
@@ -423,7 +562,11 @@ function SettingsPage() {
               </div>
             </Section>
 
-            <Section id="accessibility" title={t("settings.accessibility.title")} description={t("settings.accessibility.desc")}>
+            <Section
+              id="accessibility"
+              title={t("settings.accessibility.title")}
+              description={t("settings.accessibility.desc")}
+            >
               <ToggleRow
                 label={t("settings.a11y.motion")}
                 hint={t("settings.a11y.motionHint")}
@@ -450,29 +593,50 @@ function SettingsPage() {
               />
             </Section>
 
-            <Section id="data" title={t("settings.data.title")} description={t("settings.data.desc")}>
-              <div className="flex flex-wrap gap-2">
-                <Button variant="outline" className="h-12 w-full rounded-full sm:h-10 sm:w-auto" onClick={() => void exportData()}>
+            <Section
+              id="data"
+              title={t("settings.data.title")}
+              description={t("settings.data.desc")}
+            >
+              <div className="grid gap-2 sm:flex sm:flex-wrap">
+                <Button
+                  variant="outline"
+                  className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                  onClick={() => void exportData()}
+                >
                   <Download className="mr-1.5 h-4 w-4" /> {t("settings.data.export")}
                 </Button>
                 {signedIn && (
                   <>
-                    <Button variant="ghost" className="h-12 w-full rounded-full sm:h-10 sm:w-auto" onClick={() => void signOut()}>
+                    <Button
+                      variant="ghost"
+                      className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+                      onClick={() => void signOut()}
+                    >
                       <LogOut className="mr-1.5 h-4 w-4" /> {t("settings.data.signout")}
                     </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button variant="ghost" className="h-12 w-full rounded-full text-destructive sm:h-10 sm:w-auto">
+                        <Button
+                          variant="ghost"
+                          className="h-12 w-full rounded-full text-destructive sm:h-10 sm:w-auto"
+                        >
                           <Trash2 className="mr-1.5 h-4 w-4" /> {t("settings.data.delete")}
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle className="font-serif text-2xl">{t("settings.delete.title")}</AlertDialogTitle>
-                          <AlertDialogDescription>{t("settings.delete.desc")}</AlertDialogDescription>
+                          <AlertDialogTitle className="font-serif text-2xl">
+                            {t("settings.delete.title")}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {t("settings.delete.desc")}
+                          </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel className="rounded-full">{t("settings.delete.cancel")}</AlertDialogCancel>
+                          <AlertDialogCancel className="rounded-full">
+                            {t("settings.delete.cancel")}
+                          </AlertDialogCancel>
                           <AlertDialogAction
                             className="rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             onClick={(e) => {
@@ -510,12 +674,37 @@ function SignedOutNotice() {
   );
 }
 
-function Section({ id, title, description, children }: { id: string; title: string; description?: string; children: React.ReactNode }) {
+function Section({
+  id,
+  title,
+  description,
+  children,
+}: {
+  id: string;
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  const Icon = SECTIONS.find((section) => section.id === id)?.icon;
   return (
-    <section id={id} className="scroll-mt-20 rounded-2xl border border-border/60 bg-card p-6 md:p-8">
-      <div>
-        <h2 className="font-serif text-2xl">{title}</h2>
-        {description && <p className="mt-1 text-[13px] text-muted-foreground">{description}</p>}
+    <section
+      id={id}
+      className="scroll-mt-24 rounded-2xl border border-border/60 bg-card p-6 md:p-8"
+    >
+      <div className="flex items-start gap-3">
+        {Icon && (
+          <span
+            aria-hidden
+            className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full"
+            style={{ background: "color-mix(in oklab, var(--dusty-blue) 14%, transparent)" }}
+          >
+            <Icon className="h-4 w-4" style={{ color: "var(--dusty-blue)" }} strokeWidth={1.7} />
+          </span>
+        )}
+        <div className="min-w-0">
+          <h2 className="font-serif text-2xl">{title}</h2>
+          {description && <p className="mt-1 text-[13px] text-muted-foreground">{description}</p>}
+        </div>
       </div>
       <div className="mt-6 space-y-5">{children}</div>
     </section>
@@ -526,7 +715,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <span className="text-[13px] font-medium">{label}</span>
-      <div>{children}</div>
+      <div className="w-full sm:w-auto">{children}</div>
     </div>
   );
 }
@@ -572,9 +761,19 @@ function Field({
   );
 }
 
-function Chips({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: [string, string][] }) {
+function Chips({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: [string, string][];
+}) {
   return (
-    <div className="flex flex-wrap gap-2">
+    // Even columns on phones (a wrapped row left ragged gaps) and a
+    // comfortable 44px touch target; the platform cobalt marks the choice.
+    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
       {options.map(([k, label]) => {
         const active = value === k;
         return (
@@ -582,9 +781,16 @@ function Chips({ value, onChange, options }: { value: string; onChange: (v: stri
             key={k}
             onClick={() => onChange(k)}
             aria-pressed={active}
-            className={`rounded-full border px-3 py-1.5 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-              active ? "border-primary bg-primary/10" : "border-border text-muted-foreground"
-            }`}
+            className="inline-flex h-11 items-center justify-center rounded-full border px-3 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:h-9"
+            style={{
+              borderColor: active
+                ? "color-mix(in oklab, var(--dusty-blue) 60%, transparent)"
+                : "var(--border)",
+              background: active
+                ? "color-mix(in oklab, var(--dusty-blue) 12%, transparent)"
+                : undefined,
+              color: active ? "var(--ink)" : "var(--ink-2)",
+            }}
           >
             {label}
           </button>

@@ -13,9 +13,10 @@ import { AvatarUploader } from "@/components/site/AvatarUploader";
 import { AccessCircle } from "@/components/site/AccessCircle";
 import { MILESTONE_LIST } from "@/lib/mock/milestones";
 import { COMPANIONS } from "@/lib/mock/companions";
-import { Sparkles, Share2, Settings as SettingsIcon, Flame } from "lucide-react";
+import { Sparkles, Share2, Settings as SettingsIcon, Flame, LogOut } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { authService } from "@/lib/auth/service";
 import { formatDuration, groupByJourney, useBestTimes } from "@/lib/puzzle/best-times";
 import { useConsistency, useProgressStats } from "@/lib/journey/hooks";
 
@@ -53,6 +54,11 @@ function ProfilePage() {
     queryFn: () => fetchSubscription({}),
   });
   const isPremium = subscription.data?.isPremium ?? false;
+
+  const handleSignOut = async () => {
+    await authService.signOut();
+    window.location.assign("/");
+  };
 
   const handleBilling = async () => {
     if (!user.userId) return;
@@ -121,6 +127,17 @@ function ProfilePage() {
                 <SettingsIcon className="mr-1.5 h-4 w-4" /> {t("nav.settings")}
               </Link>
             </Button>
+            {user.userId && (
+              <Button
+                variant="ghost"
+                className="rounded-full text-muted-foreground hover:text-foreground"
+                onClick={() => void handleSignOut()}
+                title={t("auth.signOut")}
+              >
+                <LogOut className="mr-1.5 h-4 w-4" aria-hidden="true" />
+                {t("auth.signOut")}
+              </Button>
+            )}
           </div>
         </header>
 
