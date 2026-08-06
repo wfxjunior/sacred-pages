@@ -1,4 +1,4 @@
-import colJesus from "@/assets/col-jesus.jpg";
+import colJesus from "@/assets/col-jesus-walking.svg";
 import colPsalms from "@/assets/col-psalms.jpg";
 import colFamily from "@/assets/col-family.jpg";
 import colProverbs from "@/assets/col-proverbs.jpg";
