@@ -296,13 +296,13 @@ export const publicContent = {
     if (wordMetaError) throw fromPostgrestError(wordMetaError);
 
     const meta = new Map(
-      ((wordMetaRows ?? []) as { id: string; position: number; min_difficulty: DifficultyLevel }[])
-        .map((m) => [m.id, m]),
+      (
+        (wordMetaRows ?? []) as { id: string; position: number; min_difficulty: DifficultyLevel }[]
+      ).map((m) => [m.id, m]),
     );
 
     // Only the active template is a valid recipe for a public puzzle.
-    const puzzleTemplate =
-      (row.puzzle_templates ?? []).find((t) => t.status === "active") ?? null;
+    const puzzleTemplate = (row.puzzle_templates ?? []).find((t) => t.status === "active") ?? null;
 
     return {
       ...mapped,
@@ -351,20 +351,52 @@ export const publicContent = {
     if (error) throw fromPostgrestError(error);
 
     const rows = (data ?? []) as DailyJourneyRow[];
-    // Only the most recent assigned date competes; within it the reader's
-    // locale wins. An "en" assignment still renders translated, because the
-    // journey's own translations are resolved against the locale below.
-    const latestDate = rows[0]?.journey_date;
-    const dayRows = rows.filter((r) => r.journey_date === latestDate);
+    // A curated assignment for the exact date always wins; within it the
+    // reader's locale wins. An "en" assignment still renders translated,
+    // because the journey's own translations are resolved against the locale
+    // below.
+    const dayRows = rows.filter((r) => r.journey_date === isoDate);
     const assignment =
       dayRows.find((r) => r.language_code === locale) ??
       dayRows.find((r) => r.language_code === "en");
-    if (!assignment) return null;
+
+    let journeyId = assignment?.journey_id ?? null;
+
+    if (!journeyId) {
+      // The calendar left this date unassigned. Rotate instead of repeating
+      // yesterday's puzzle: pick deterministically by date from the eligible
+      // pool, avoiding what was served recently.
+      const [poolResult, historyResult] = await Promise.all([
+        publishedJourneys("id, slug").eq("daily_eligible", true).limit(200),
+        client
+          .from("daily_journeys")
+          .select("journey_date, journey_id")
+          .eq("language_code", "en")
+          .lte("journey_date", isoDate)
+          .order("journey_date", { ascending: false })
+          .limit(30),
+      ]);
+      if (poolResult.error) throw fromPostgrestError(poolResult.error);
+
+      const pool = ((poolResult.data ?? []) as unknown as { id: string; slug: string }[]).map(
+        (row) => ({
+          id: row.id,
+          slug: row.slug,
+        }),
+      );
+      const history = ((historyResult.data ?? []) as DailyJourneyRow[]).map((row) => ({
+        journeyId: row.journey_id,
+        date: row.journey_date,
+      }));
+      const { chooseRotationJourney } = await import("./daily-rotation");
+      journeyId = chooseRotationJourney(isoDate, pool, history)?.id ?? rows[0]?.journey_id ?? null;
+    }
+    if (!journeyId) return null;
 
     const { data: journeyRow, error: journeyError } = await publishedJourneys(
       `${PUBLIC_JOURNEY_COLUMNS}, journey_translations(*)`,
     )
-      .eq("id", assignment.journey_id)
+      .eq("id", journeyId)
       .maybeSingle();
 
     if (journeyError) throw fromPostgrestError(journeyError);
