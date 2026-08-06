@@ -1444,6 +1444,30 @@ export type Database = {
           },
         ]
       }
+      premium_grants: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string | null
+          note: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at?: string | null
+          note?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string | null
+          note?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       prices: {
         Row: {
           active: boolean
