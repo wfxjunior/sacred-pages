@@ -271,7 +271,7 @@ export function FinishTheVerseGame({
         }`}
         style={{ boxShadow: "0 1px 2px rgba(43,41,38,0.04)" }}
       >
-        <p className="font-serif text-lg leading-[2.1] sm:text-xl sm:leading-[2.2]">
+        <p className="font-serif text-lg leading-[2.8] sm:text-xl sm:leading-[2.6]">
           {round.tokens.map((token, tokenIndex) => {
             const slotIndex = slotOfToken.get(tokenIndex);
             if (slotIndex === undefined) {
@@ -301,7 +301,7 @@ export function FinishTheVerseGame({
                         }`
                       : t("verse.a11y.blank")
                   }
-                  className="mx-0.5 inline-flex min-w-14 items-center justify-center rounded-lg border px-2 py-0.5 align-baseline font-serif uppercase tracking-[0.04em] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                  className="mx-0.5 inline-flex min-h-10 min-w-16 items-center justify-center rounded-lg border px-2 py-1 align-middle font-serif uppercase tracking-[0.04em] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] sm:min-h-9"
                   style={{
                     borderColor: isConfirmed
                       ? "color-mix(in oklab, var(--sage) 55%, transparent)"

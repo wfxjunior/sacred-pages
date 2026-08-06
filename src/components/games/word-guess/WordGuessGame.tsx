@@ -104,7 +104,7 @@ export function WordGuessGame({
       tabIndex={0}
       onKeyDown={handleKeyDown}
       aria-label={t("wordguess.title")}
-      className="mx-auto flex w-full max-w-2xl flex-col gap-5 rounded-2xl border border-border/60 bg-card/60 p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] sm:gap-6 sm:p-6"
+      className="mx-auto flex w-full max-w-2xl flex-col gap-5 rounded-2xl border border-border/60 bg-card/60 p-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] sm:gap-6 sm:p-6"
     >
       <span className="sr-only" aria-live="polite" aria-atomic="true">
         {announcement}

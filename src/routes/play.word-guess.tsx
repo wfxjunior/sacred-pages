@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { WordGuessGame } from "@/components/games/word-guess/WordGuessGame";
 import { useI18n } from "@/lib/i18n";
+import { GameDifficultyPicker } from "@/components/games/GameDifficultyPicker";
 import { useGamePosition } from "@/lib/games/useGamePosition";
 import { wordGuessQuestionsForLocale } from "@/lib/word-guess/questions";
 import type { WordGuessDifficulty } from "@/lib/word-guess/types";
@@ -55,34 +56,11 @@ function WordGuessPage() {
             {t("wordguess.subtitle")}
           </p>
 
-          <div
-            className="mx-auto mt-5 inline-flex flex-wrap items-center justify-center gap-1 rounded-full border border-border bg-card p-1"
-            role="radiogroup"
-            aria-label={t("wordguess.difficultyLabel")}
-          >
-            {DIFFICULTIES.map((level) => {
-              const active = level === difficulty;
-              return (
-                <button
-                  key={level}
-                  type="button"
-                  role="radio"
-                  aria-checked={active}
-                  onClick={() => chooseDifficulty(level)}
-                  className={`rounded-full px-3 py-1.5 text-[12px] font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] ${
-                    active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                  style={{
-                    background: active
-                      ? "color-mix(in oklab, var(--gold) 14%, transparent)"
-                      : undefined,
-                  }}
-                >
-                  {t(`diff.${level}`)}
-                </button>
-              );
-            })}
-          </div>
+          <GameDifficultyPicker
+            value={difficulty}
+            options={DIFFICULTIES}
+            onChange={chooseDifficulty}
+          />
 
           <p className="mt-3 text-[12px] tabular-nums text-muted-foreground">
             {(cursor % pool.length) + 1} {t("ui.of")} {pool.length}

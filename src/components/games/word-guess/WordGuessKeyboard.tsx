@@ -28,7 +28,7 @@ export function WordGuessKeyboard({
   const { t } = useI18n();
 
   const keyClass =
-    "inline-flex h-11 min-w-0 flex-1 items-center justify-center rounded-lg border text-sm font-medium uppercase transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:opacity-40 sm:h-12";
+    "inline-flex h-11 min-w-0 flex-1 items-center justify-center rounded-lg border text-[13px] font-medium uppercase transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:opacity-40 sm:h-12 sm:text-sm";
 
   const renderLetter = (letter: string) => {
     const mark = feedback[letter];
@@ -64,14 +64,14 @@ export function WordGuessKeyboard({
     <div
       role="group"
       aria-label={t("wordguess.keyboardLabel")}
-      className="mx-auto flex w-full max-w-xl flex-col gap-1.5"
+      className="-mx-1.5 flex w-auto flex-col gap-1 sm:mx-auto sm:w-full sm:max-w-xl sm:gap-1.5"
     >
-      <div className="flex gap-1.5">{Array.from(ROWS[0]).map(renderLetter)}</div>
-      <div className="flex gap-1.5 px-[4%]">
+      <div className="flex gap-[3px] sm:gap-1.5">{Array.from(ROWS[0]).map(renderLetter)}</div>
+      <div className="flex gap-[3px] px-[3%] sm:gap-1.5 sm:px-[4%]">
         {Array.from(ROWS[1]).map(renderLetter)}
         {includeEnye && renderLetter("Ñ")}
       </div>
-      <div className="flex gap-1.5">
+      <div className="flex gap-[3px] sm:gap-1.5">
         <button
           type="button"
           disabled={disabled}
