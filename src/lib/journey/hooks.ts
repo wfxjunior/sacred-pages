@@ -87,6 +87,28 @@ export function useProgressStats(): {
   };
 }
 
+/** Per-collection completion (0..1) keyed by collection id — what lights up
+ * the progress bar on collection cards. Empty when signed out. */
+export function useCollectionProgressMap(): Map<string, number> {
+  const user = useCurrentUser();
+  const enabled = Boolean(user.userId) && isSupabaseConfigured();
+  const query = useQuery({
+    queryKey: journeyQueryKeys.collectionProgress(user.userId ?? "anonymous"),
+    enabled,
+    staleTime: 60_000,
+    queryFn: () => journeyApi.collectionProgress(user.userId!),
+  });
+  return useMemo(() => {
+    const map = new Map<string, number>();
+    for (const row of query.data ?? []) {
+      if (row.journeys_available > 0) {
+        map.set(row.collection_id, Math.min(1, row.journeys_completed / row.journeys_available));
+      }
+    }
+    return map;
+  }, [query.data]);
+}
+
 /**
  * Records a finished Today journey as a real session so the completion
  * trigger can write the active day, durable progress and milestones.

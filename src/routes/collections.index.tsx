@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { CollectionCard } from "@/components/site/CollectionCard";
 import { useCatalogCollections } from "@/lib/content/catalog";
+import { useCollectionProgressMap } from "@/lib/journey/hooks";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X, SlidersHorizontal, BookOpen } from "lucide-react";
@@ -24,14 +25,19 @@ const searchSchema = z.object({
 type CollectionsSearch = z.infer<typeof searchSchema>;
 
 export const Route = createFileRoute("/collections/")({
-  validateSearch: (input: Record<string, unknown>): CollectionsSearch =>
-    searchSchema.parse(input),
+  validateSearch: (input: Record<string, unknown>): CollectionsSearch => searchSchema.parse(input),
   head: () => ({
     meta: [
       { title: "Collections — Lumena" },
-      { name: "description", content: "A curated library of Bible journeys organized by people, books, and themes." },
+      {
+        name: "description",
+        content: "A curated library of Bible journeys organized by people, books, and themes.",
+      },
       { property: "og:title", content: "Collections — Lumena" },
-      { property: "og:description", content: "Curated Bible journeys organized by people, books, and themes." },
+      {
+        property: "og:description",
+        content: "Curated Bible journeys organized by people, books, and themes.",
+      },
     ],
   }),
   component: CollectionsPage,
@@ -58,6 +64,8 @@ function CollectionsPage() {
   const language = search.language ?? "Any";
 
   const { data: collections, isLoading, isError } = useCatalogCollections();
+  // Signed-in readers see their real completion on each card.
+  const progressMap = useCollectionProgressMap();
   const loading = isLoading;
   // Local text state for a snappy input; debounced into the URL.
   const [qInput, setQInput] = useState(q);
@@ -89,13 +97,12 @@ function CollectionsPage() {
   // Keep local input in sync when URL changes externally (back/forward, shared link).
   useEffect(() => {
     setQInput(q);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
   const filtered = useMemo(() => {
     const query = q.trim().toLowerCase();
     return (collections ?? []).filter((c) => {
-      if (query && !(`${c.title} ${c.description}`.toLowerCase().includes(query))) return false;
+      if (query && !`${c.title} ${c.description}`.toLowerCase().includes(query)) return false;
       if (category && c.slug !== category) return false;
       if (difficulty !== "Any" && c.difficulty !== difficulty) return false;
       if (access !== "Any" && c.access !== access) return false;
@@ -127,13 +134,14 @@ function CollectionsPage() {
   return (
     <SiteLayout>
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+        <p
+          className="text-xs font-medium uppercase tracking-[0.2em]"
+          style={{ color: "var(--walnut)" }}
+        >
           {t("coll.library")}
         </p>
         <h1 className="mt-3 font-serif text-4xl md:text-5xl">{t("collections.title")}</h1>
-        <p className="mt-4 max-w-2xl text-base text-muted-foreground">
-          {t("collections.sub")}
-        </p>
+        <p className="mt-4 max-w-2xl text-base text-muted-foreground">{t("collections.sub")}</p>
 
         <div className="mt-10 flex flex-col gap-4">
           <div className="relative max-w-md">
@@ -180,9 +188,27 @@ function CollectionsPage() {
             })}
           </div>
           <div className="grid grid-cols-1 gap-3 text-xs text-muted-foreground sm:flex sm:flex-wrap sm:gap-4">
-            <FilterGroup label={t("coll.filter.difficulty")} value={difficulty} options={DIFFS} labelFor={optionLabel} onChange={(v) => updateSearch({ difficulty: v as (typeof DIFFS)[number] })} />
-            <FilterGroup label={t("coll.filter.access")} value={access} options={ACCESS} labelFor={optionLabel} onChange={(v) => updateSearch({ access: v as (typeof ACCESS)[number] })} />
-            <FilterGroup label={t("coll.filter.language")} value={language} options={LANGUAGES} labelFor={optionLabel} onChange={(v) => updateSearch({ language: v as (typeof LANGUAGES)[number] })} />
+            <FilterGroup
+              label={t("coll.filter.difficulty")}
+              value={difficulty}
+              options={DIFFS}
+              labelFor={optionLabel}
+              onChange={(v) => updateSearch({ difficulty: v as (typeof DIFFS)[number] })}
+            />
+            <FilterGroup
+              label={t("coll.filter.access")}
+              value={access}
+              options={ACCESS}
+              labelFor={optionLabel}
+              onChange={(v) => updateSearch({ access: v as (typeof ACCESS)[number] })}
+            />
+            <FilterGroup
+              label={t("coll.filter.language")}
+              value={language}
+              options={LANGUAGES}
+              labelFor={optionLabel}
+              onChange={(v) => updateSearch({ language: v as (typeof LANGUAGES)[number] })}
+            />
           </div>
         </div>
 
@@ -196,7 +222,11 @@ function CollectionsPage() {
                 {filtered.length === 1 ? t("coll.results.one") : t("coll.results.many")}
                 {(q || activeFilterCount > 0) && (
                   <>
-                    {" "}· <span className="uppercase tracking-[0.16em] text-[color:var(--walnut)]">{t("coll.filtered")}</span>
+                    {" "}
+                    ·{" "}
+                    <span className="uppercase tracking-[0.16em] text-[color:var(--walnut)]">
+                      {t("coll.filtered")}
+                    </span>
                   </>
                 )}
               </>
@@ -215,7 +245,11 @@ function CollectionsPage() {
         </div>
 
         {loading ? (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-live="polite">
+          <div
+            className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            aria-busy="true"
+            aria-live="polite"
+          >
             {Array.from({ length: 6 }).map((_, i) => (
               <CardSkeleton key={i} />
             ))}
@@ -225,7 +259,10 @@ function CollectionsPage() {
         ) : (
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((c) => (
-              <CollectionCard key={c.slug} c={c} />
+              <CollectionCard
+                key={c.slug}
+                c={{ ...c, progress: progressMap.get(c.id) ?? c.progress }}
+              />
             ))}
           </div>
         )}
