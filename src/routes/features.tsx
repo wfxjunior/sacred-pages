@@ -35,7 +35,7 @@ import type { LucideIcon } from "lucide-react";
 export const Route = createFileRoute("/features")({
   head: () => ({
     meta: [
-      { title: "Features — A calm, complete way to walk with Scripture" },
+      { title: "Features — Lumena Bible Devotional & Word Search" },
       {
         name: "description",
         content:
