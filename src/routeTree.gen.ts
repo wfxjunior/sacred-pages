@@ -9,149 +9,59 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as FavoritesRouteImport } from './routes/favorites'
-import { Route as FeaturesRouteImport } from './routes/features'
-import { Route as ForgotRouteImport } from './routes/forgot'
-import { Route as MyJourneyRouteImport } from './routes/my-journey'
-import { Route as NotificationsRouteImport } from './routes/notifications'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as ProgressRouteImport } from './routes/progress'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as SigninRouteImport } from './routes/signin'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as TodayRouteImport } from './routes/today'
 import { Route as TogetherRouteImport } from './routes/together'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminAuditRouteImport } from './routes/admin.audit'
-import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
-import { Route as AdminMediaRouteImport } from './routes/admin.media'
-import { Route as AdminReviewRouteImport } from './routes/admin.review'
-import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
-import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
-import { Route as CheckoutCancelRouteImport } from './routes/checkout/cancel'
-import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
-import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
-import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
-import { Route as InviteTokenRouteImport } from './routes/invite.$token'
-import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as TodayRouteImport } from './routes/today'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SigninRouteImport } from './routes/signin'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as MyJourneyRouteImport } from './routes/my-journey'
+import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayIndexRouteImport } from './routes/play.index'
-import { Route as PlayDailyRouteImport } from './routes/play.daily'
-import { Route as PlayFinishTheVerseRouteImport } from './routes/play.finish-the-verse'
-import { Route as PlayUnscrambleRouteImport } from './routes/play.unscramble'
-import { Route as PlayWhoAmIRouteImport } from './routes/play.who-am-i'
+import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as PlayWordGuessRouteImport } from './routes/play.word-guess'
-import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
-import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin.collections.$collectionId'
-import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collections.new'
+import { Route as PlayWhoAmIRouteImport } from './routes/play.who-am-i'
+import { Route as PlayUnscrambleRouteImport } from './routes/play.unscramble'
+import { Route as PlayFinishTheVerseRouteImport } from './routes/play.finish-the-verse'
+import { Route as PlayDailyRouteImport } from './routes/play.daily'
+import { Route as NotificationsPreferencesRouteImport } from './routes/notifications.preferences'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
+import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
+import { Route as CheckoutCancelRouteImport } from './routes/checkout/cancel'
+import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
+import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
+import { Route as AdminReviewRouteImport } from './routes/admin.review'
+import { Route as AdminMediaRouteImport } from './routes/admin.media'
+import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminJourneysIndexRouteImport } from './routes/admin.journeys.index'
-import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
-import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.new'
+import { Route as AdminCollectionsIndexRouteImport } from './routes/admin.collections.index'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
-import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.new'
+import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
+import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collections.new'
+import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin.collections.$collectionId'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CookiesRoute = CookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FeaturesRoute = FeaturesRouteImport.update({
-  id: '/features',
-  path: '/features',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForgotRoute = ForgotRouteImport.update({
-  id: '/forgot',
-  path: '/forgot',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MyJourneyRoute = MyJourneyRouteImport.update({
-  id: '/my-journey',
-  path: '/my-journey',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NotificationsRoute = NotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProgressRoute = ProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SigninRoute = SigninRouteImport.update({
-  id: '/signin',
-  path: '/signin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
+const TogetherRoute = TogetherRouteImport.update({
+  id: '/together',
+  path: '/together',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TodayRoute = TodayRouteImport.update({
@@ -159,54 +69,104 @@ const TodayRoute = TodayRouteImport.update({
   path: '/today',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TogetherRoute = TogetherRouteImport.update({
-  id: '/together',
-  path: '/together',
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminAuditRoute = AdminAuditRouteImport.update({
-  id: '/admin/audit',
-  path: '/admin/audit',
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCalendarRoute = AdminCalendarRouteImport.update({
-  id: '/admin/calendar',
-  path: '/admin/calendar',
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminMediaRoute = AdminMediaRouteImport.update({
-  id: '/admin/media',
-  path: '/admin/media',
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminReviewRoute = AdminReviewRouteImport.update({
-  id: '/admin/review',
-  path: '/admin/review',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminTemplatesRoute = AdminTemplatesRouteImport.update({
-  id: '/admin/templates',
-  path: '/admin/templates',
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
-  id: '/admin/translations',
-  path: '/admin/translations',
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
-  id: '/checkout/cancel',
-  path: '/checkout/cancel',
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
-  id: '/checkout/success',
-  path: '/checkout/success',
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyJourneyRoute = MyJourneyRouteImport.update({
+  id: '/my-journey',
+  path: '/my-journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotRoute = ForgotRouteImport.update({
+  id: '/forgot',
+  path: '/forgot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayIndexRoute = PlayIndexRouteImport.update({
+  id: '/play/',
+  path: '/play/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
@@ -214,14 +174,34 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   path: '/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
-  id: '/collections/$slug',
-  path: '/collections/$slug',
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const InviteTokenRoute = InviteTokenRouteImport.update({
-  id: '/invite/$token',
-  path: '/invite/$token',
+const PlayWordGuessRoute = PlayWordGuessRouteImport.update({
+  id: '/play/word-guess',
+  path: '/play/word-guess',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayWhoAmIRoute = PlayWhoAmIRouteImport.update({
+  id: '/play/who-am-i',
+  path: '/play/who-am-i',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayUnscrambleRoute = PlayUnscrambleRouteImport.update({
+  id: '/play/unscramble',
+  path: '/play/unscramble',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayFinishTheVerseRoute = PlayFinishTheVerseRouteImport.update({
+  id: '/play/finish-the-verse',
+  path: '/play/finish-the-verse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayDailyRoute = PlayDailyRouteImport.update({
+  id: '/play/daily',
+  path: '/play/daily',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsPreferencesRoute =
@@ -230,39 +210,84 @@ const NotificationsPreferencesRoute =
     path: '/preferences',
     getParentRoute: () => NotificationsRoute,
   } as any)
-const PlayIndexRoute = PlayIndexRouteImport.update({
-  id: '/play/',
-  path: '/play/',
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlayDailyRoute = PlayDailyRouteImport.update({
-  id: '/play/daily',
-  path: '/play/daily',
+const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
+  id: '/collections/$slug',
+  path: '/collections/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlayFinishTheVerseRoute = PlayFinishTheVerseRouteImport.update({
-  id: '/play/finish-the-verse',
-  path: '/play/finish-the-verse',
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlayUnscrambleRoute = PlayUnscrambleRouteImport.update({
-  id: '/play/unscramble',
-  path: '/play/unscramble',
+const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
+  id: '/checkout/cancel',
+  path: '/checkout/cancel',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlayWhoAmIRoute = PlayWhoAmIRouteImport.update({
-  id: '/play/who-am-i',
-  path: '/play/who-am-i',
+const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
+  id: '/admin/translations',
+  path: '/admin/translations',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlayWordGuessRoute = PlayWordGuessRouteImport.update({
-  id: '/play/word-guess',
-  path: '/play/word-guess',
+const AdminTemplatesRoute = AdminTemplatesRouteImport.update({
+  id: '/admin/templates',
+  path: '/admin/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminReviewRoute = AdminReviewRouteImport.update({
+  id: '/admin/review',
+  path: '/admin/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMediaRoute = AdminMediaRouteImport.update({
+  id: '/admin/media',
+  path: '/admin/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/admin/calendar',
+  path: '/admin/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJourneysIndexRoute = AdminJourneysIndexRouteImport.update({
+  id: '/admin/journeys/',
+  path: '/admin/journeys/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
   id: '/admin/collections/',
   path: '/admin/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
+  id: '/api/public/stripe-webhook',
+  path: '/api/public/stripe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJourneysNewRoute = AdminJourneysNewRouteImport.update({
+  id: '/admin/journeys/new',
+  path: '/admin/journeys/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJourneysJourneyIdRoute = AdminJourneysJourneyIdRouteImport.update({
+  id: '/admin/journeys/$journeyId',
+  path: '/admin/journeys/$journeyId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCollectionsNewRoute = AdminCollectionsNewRouteImport.update({
+  id: '/admin/collections/new',
+  path: '/admin/collections/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCollectionsCollectionIdRoute =
@@ -271,39 +296,14 @@ const AdminCollectionsCollectionIdRoute =
     path: '/admin/collections/$collectionId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminCollectionsNewRoute = AdminCollectionsNewRouteImport.update({
-  id: '/admin/collections/new',
-  path: '/admin/collections/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminJourneysIndexRoute = AdminJourneysIndexRouteImport.update({
-  id: '/admin/journeys/',
-  path: '/admin/journeys/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminJourneysJourneyIdRoute = AdminJourneysJourneyIdRouteImport.update({
-  id: '/admin/journeys/$journeyId',
-  path: '/admin/journeys/$journeyId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminJourneysNewRoute = AdminJourneysNewRouteImport.update({
-  id: '/admin/journeys/new',
-  path: '/admin/journeys/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
-  id: '/api/public/stripe-webhook',
-  path: '/api/public/stripe-webhook',
+const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
+  id: '/lovable/email/auth/webhook',
+  path: '/lovable/email/auth/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
-  id: '/lovable/email/auth/webhook',
-  path: '/lovable/email/auth/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -670,137 +670,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cookies': {
-      id: '/cookies'
-      path: '/cookies'
-      fullPath: '/cookies'
-      preLoaderRoute: typeof CookiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/features': {
-      id: '/features'
-      path: '/features'
-      fullPath: '/features'
-      preLoaderRoute: typeof FeaturesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forgot': {
-      id: '/forgot'
-      path: '/forgot'
-      fullPath: '/forgot'
-      preLoaderRoute: typeof ForgotRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/my-journey': {
-      id: '/my-journey'
-      path: '/my-journey'
-      fullPath: '/my-journey'
-      preLoaderRoute: typeof MyJourneyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/notifications': {
-      id: '/notifications'
-      path: '/notifications'
-      fullPath: '/notifications'
-      preLoaderRoute: typeof NotificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/progress': {
-      id: '/progress'
-      path: '/progress'
-      fullPath: '/progress'
-      preLoaderRoute: typeof ProgressRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signin': {
-      id: '/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof SigninRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
+    '/together': {
+      id: '/together'
+      path: '/together'
+      fullPath: '/together'
+      preLoaderRoute: typeof TogetherRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/today': {
@@ -810,74 +684,144 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodayRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/together': {
-      id: '/together'
-      path: '/together'
-      fullPath: '/together'
-      preLoaderRoute: typeof TogetherRouteImport
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/': {
-      id: '/admin/'
-      path: '/admin'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/audit': {
-      id: '/admin/audit'
-      path: '/admin/audit'
-      fullPath: '/admin/audit'
-      preLoaderRoute: typeof AdminAuditRouteImport
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/calendar': {
-      id: '/admin/calendar'
-      path: '/admin/calendar'
-      fullPath: '/admin/calendar'
-      preLoaderRoute: typeof AdminCalendarRouteImport
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/media': {
-      id: '/admin/media'
-      path: '/admin/media'
-      fullPath: '/admin/media'
-      preLoaderRoute: typeof AdminMediaRouteImport
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/review': {
-      id: '/admin/review'
-      path: '/admin/review'
-      fullPath: '/admin/review'
-      preLoaderRoute: typeof AdminReviewRouteImport
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/templates': {
-      id: '/admin/templates'
-      path: '/admin/templates'
-      fullPath: '/admin/templates'
-      preLoaderRoute: typeof AdminTemplatesRouteImport
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/translations': {
-      id: '/admin/translations'
-      path: '/admin/translations'
-      fullPath: '/admin/translations'
-      preLoaderRoute: typeof AdminTranslationsRouteImport
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/checkout/cancel': {
-      id: '/checkout/cancel'
-      path: '/checkout/cancel'
-      fullPath: '/checkout/cancel'
-      preLoaderRoute: typeof CheckoutCancelRouteImport
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/checkout/success': {
-      id: '/checkout/success'
-      path: '/checkout/success'
-      fullPath: '/checkout/success'
-      preLoaderRoute: typeof CheckoutSuccessRouteImport
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-journey': {
+      id: '/my-journey'
+      path: '/my-journey'
+      fullPath: '/my-journey'
+      preLoaderRoute: typeof MyJourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot': {
+      id: '/forgot'
+      path: '/forgot'
+      fullPath: '/forgot'
+      preLoaderRoute: typeof ForgotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/': {
+      id: '/play/'
+      path: '/play'
+      fullPath: '/play/'
+      preLoaderRoute: typeof PlayIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collections/': {
@@ -887,60 +831,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/collections/$slug': {
-      id: '/collections/$slug'
-      path: '/collections/$slug'
-      fullPath: '/collections/$slug'
-      preLoaderRoute: typeof CollectionsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/invite/$token': {
-      id: '/invite/$token'
-      path: '/invite/$token'
-      fullPath: '/invite/$token'
-      preLoaderRoute: typeof InviteTokenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/notifications/preferences': {
-      id: '/notifications/preferences'
-      path: '/preferences'
-      fullPath: '/notifications/preferences'
-      preLoaderRoute: typeof NotificationsPreferencesRouteImport
-      parentRoute: typeof NotificationsRoute
-    }
-    '/play/': {
-      id: '/play/'
-      path: '/play'
-      fullPath: '/play/'
-      preLoaderRoute: typeof PlayIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/play/daily': {
-      id: '/play/daily'
-      path: '/play/daily'
-      fullPath: '/play/daily'
-      preLoaderRoute: typeof PlayDailyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/play/finish-the-verse': {
-      id: '/play/finish-the-verse'
-      path: '/play/finish-the-verse'
-      fullPath: '/play/finish-the-verse'
-      preLoaderRoute: typeof PlayFinishTheVerseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/play/unscramble': {
-      id: '/play/unscramble'
-      path: '/play/unscramble'
-      fullPath: '/play/unscramble'
-      preLoaderRoute: typeof PlayUnscrambleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/play/who-am-i': {
-      id: '/play/who-am-i'
-      path: '/play/who-am-i'
-      fullPath: '/play/who-am-i'
-      preLoaderRoute: typeof PlayWhoAmIRouteImport
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/play/word-guess': {
@@ -950,25 +845,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayWordGuessRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/collections/': {
-      id: '/admin/collections/'
-      path: '/admin/collections'
-      fullPath: '/admin/collections/'
-      preLoaderRoute: typeof AdminCollectionsIndexRouteImport
+    '/play/who-am-i': {
+      id: '/play/who-am-i'
+      path: '/play/who-am-i'
+      fullPath: '/play/who-am-i'
+      preLoaderRoute: typeof PlayWhoAmIRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/collections/$collectionId': {
-      id: '/admin/collections/$collectionId'
-      path: '/admin/collections/$collectionId'
-      fullPath: '/admin/collections/$collectionId'
-      preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
+    '/play/unscramble': {
+      id: '/play/unscramble'
+      path: '/play/unscramble'
+      fullPath: '/play/unscramble'
+      preLoaderRoute: typeof PlayUnscrambleRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/collections/new': {
-      id: '/admin/collections/new'
-      path: '/admin/collections/new'
-      fullPath: '/admin/collections/new'
-      preLoaderRoute: typeof AdminCollectionsNewRouteImport
+    '/play/finish-the-verse': {
+      id: '/play/finish-the-verse'
+      path: '/play/finish-the-verse'
+      fullPath: '/play/finish-the-verse'
+      preLoaderRoute: typeof PlayFinishTheVerseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/daily': {
+      id: '/play/daily'
+      path: '/play/daily'
+      fullPath: '/play/daily'
+      preLoaderRoute: typeof PlayDailyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications/preferences': {
+      id: '/notifications/preferences'
+      path: '/preferences'
+      fullPath: '/notifications/preferences'
+      preLoaderRoute: typeof NotificationsPreferencesRouteImport
+      parentRoute: typeof NotificationsRoute
+    }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collections/$slug': {
+      id: '/collections/$slug'
+      path: '/collections/$slug'
+      fullPath: '/collections/$slug'
+      preLoaderRoute: typeof CollectionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout/cancel': {
+      id: '/checkout/cancel'
+      path: '/checkout/cancel'
+      fullPath: '/checkout/cancel'
+      preLoaderRoute: typeof CheckoutCancelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/translations': {
+      id: '/admin/translations'
+      path: '/admin/translations'
+      fullPath: '/admin/translations'
+      preLoaderRoute: typeof AdminTranslationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/templates': {
+      id: '/admin/templates'
+      path: '/admin/templates'
+      fullPath: '/admin/templates'
+      preLoaderRoute: typeof AdminTemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/review': {
+      id: '/admin/review'
+      path: '/admin/review'
+      fullPath: '/admin/review'
+      preLoaderRoute: typeof AdminReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/media': {
+      id: '/admin/media'
+      path: '/admin/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/admin/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/journeys/': {
@@ -978,18 +957,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminJourneysIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/journeys/$journeyId': {
-      id: '/admin/journeys/$journeyId'
-      path: '/admin/journeys/$journeyId'
-      fullPath: '/admin/journeys/$journeyId'
-      preLoaderRoute: typeof AdminJourneysJourneyIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/journeys/new': {
-      id: '/admin/journeys/new'
-      path: '/admin/journeys/new'
-      fullPath: '/admin/journeys/new'
-      preLoaderRoute: typeof AdminJourneysNewRouteImport
+    '/admin/collections/': {
+      id: '/admin/collections/'
+      path: '/admin/collections'
+      fullPath: '/admin/collections/'
+      preLoaderRoute: typeof AdminCollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/stripe-webhook': {
@@ -999,11 +971,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lovable/email/auth/preview': {
-      id: '/lovable/email/auth/preview'
-      path: '/lovable/email/auth/preview'
-      fullPath: '/lovable/email/auth/preview'
-      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
+    '/admin/journeys/new': {
+      id: '/admin/journeys/new'
+      path: '/admin/journeys/new'
+      fullPath: '/admin/journeys/new'
+      preLoaderRoute: typeof AdminJourneysNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/journeys/$journeyId': {
+      id: '/admin/journeys/$journeyId'
+      path: '/admin/journeys/$journeyId'
+      fullPath: '/admin/journeys/$journeyId'
+      preLoaderRoute: typeof AdminJourneysJourneyIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/collections/new': {
+      id: '/admin/collections/new'
+      path: '/admin/collections/new'
+      fullPath: '/admin/collections/new'
+      preLoaderRoute: typeof AdminCollectionsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/collections/$collectionId': {
+      id: '/admin/collections/$collectionId'
+      path: '/admin/collections/$collectionId'
+      fullPath: '/admin/collections/$collectionId'
+      preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lovable/email/auth/webhook': {
@@ -1011,6 +1004,13 @@ declare module '@tanstack/react-router' {
       path: '/lovable/email/auth/webhook'
       fullPath: '/lovable/email/auth/webhook'
       preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/preview': {
+      id: '/lovable/email/auth/preview'
+      path: '/lovable/email/auth/preview'
+      fullPath: '/lovable/email/auth/preview'
+      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
