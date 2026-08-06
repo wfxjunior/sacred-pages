@@ -385,8 +385,15 @@ describe("demo content", () => {
     }
   });
 
-  it("falls back to English for locales without content yet", () => {
-    expect(wordGuessQuestionsForLocale("pt")).toEqual(wordGuessQuestionsForLocale("en"));
-    expect(wordGuessQuestionsForLocale("es")).toEqual(wordGuessQuestionsForLocale("en"));
+  it("ships translated sets for every locale, in that locale", () => {
+    for (const locale of ["pt", "es"] as const) {
+      const set = wordGuessQuestionsForLocale(locale);
+      expect(set.length).toBeGreaterThanOrEqual(15);
+      expect(new Set(set.map((q) => q.id)).size).toBe(set.length);
+      for (const q of set) {
+        expect(q.locale).toBe(locale);
+        expect(normalizeWordGuessAnswer(q.answer).length).toBeGreaterThan(0);
+      }
+    }
   });
 });

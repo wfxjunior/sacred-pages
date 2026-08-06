@@ -193,8 +193,20 @@ describe("demo content", () => {
     }
   });
 
-  it("falls back to English for locales without content yet", () => {
-    expect(whoAmIQuestionsForLocale("pt")).toEqual(whoAmIQuestionsForLocale("en"));
-    expect(whoAmIQuestionsForLocale("es")).toEqual(whoAmIQuestionsForLocale("en"));
+  it("ships translated sets for every locale, in that locale and structurally sound", () => {
+    for (const locale of ["pt", "es"] as const) {
+      const set = whoAmIQuestionsForLocale(locale);
+      expect(set.length).toBeGreaterThanOrEqual(12);
+      expect(new Set(set.map((q) => q.id)).size).toBe(set.length);
+      for (const q of set) {
+        expect(q.locale).toBe(locale);
+        expect(q.clues.length).toBeGreaterThanOrEqual(3);
+        const settings = resolveWhoAmISettings(q);
+        if (settings.inputMode === "options") {
+          expect(q.distractors.length).toBeGreaterThanOrEqual(settings.optionCount - 1);
+        }
+        expect(q.distractors.map(normalizeWord)).not.toContain(normalizeWord(q.answer));
+      }
+    }
   });
 });

@@ -231,13 +231,16 @@ describe("keyboard and content", () => {
     expect(mapFinishVerseKey("Tab")).toBeNull();
   });
 
-  it("curates at least 12 public-domain passages with sound data", () => {
-    const verses = finishVersePassagesForLocale("en");
-    expect(verses.length).toBeGreaterThanOrEqual(12);
-    expect(new Set(verses.map((v) => v.reference)).size).toBe(verses.length);
-    for (const verse of verses) {
-      expect(tokenizeVerse(verse.text).filter((t) => t.matchable).length).toBeGreaterThanOrEqual(5);
+  it("curates at least 12 public-domain passages per locale with sound data", () => {
+    for (const locale of ["en", "pt", "es"] as const) {
+      const verses = finishVersePassagesForLocale(locale);
+      expect(verses.length).toBeGreaterThanOrEqual(12);
+      expect(new Set(verses.map((v) => v.reference)).size).toBe(verses.length);
+      for (const verse of verses) {
+        expect(tokenizeVerse(verse.text).filter((t) => t.matchable).length).toBeGreaterThanOrEqual(
+          5,
+        );
+      }
     }
-    expect(finishVersePassagesForLocale("pt")).toEqual(verses);
   });
 });
