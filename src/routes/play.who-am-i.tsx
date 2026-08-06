@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { WhoAmIGame } from "@/components/games/who-am-i/WhoAmIGame";
 import { useI18n } from "@/lib/i18n";
+import { useGamePosition } from "@/lib/games/useGamePosition";
 import { GAME_REGISTRY, type GameDifficulty } from "@/lib/games";
 import { whoAmIQuestionsForLocale } from "@/lib/who-am-i/questions";
 
@@ -27,8 +28,9 @@ export const Route = createFileRoute("/play/who-am-i")({
 
 function WhoAmIPage() {
   const { t, locale } = useI18n();
-  const [difficulty, setDifficulty] = useState<GameDifficulty>("gentle");
-  const [cursor, setCursor] = useState(0);
+  // Difficulty and place in the pool persist per device, so returning to
+  // the journey and coming back resumes exactly where the reader stood.
+  const { difficulty, chooseDifficulty, cursor, setCursor } = useGamePosition("who_am_i");
 
   const pool = useMemo(() => {
     const all = whoAmIQuestionsForLocale(locale);
@@ -37,11 +39,6 @@ function WhoAmIPage() {
   }, [locale, difficulty]);
 
   const question = pool[cursor % pool.length]!;
-
-  const chooseDifficulty = (next: GameDifficulty) => {
-    setDifficulty(next);
-    setCursor(0);
-  };
 
   return (
     <AppShell>

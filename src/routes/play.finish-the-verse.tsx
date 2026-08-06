@@ -13,6 +13,7 @@ import type { VersePassage } from "@/lib/finish-the-verse/types";
 import { finishVersePassagesForLocale } from "@/lib/finish-the-verse/verses";
 import { GAME_REGISTRY, type GameDifficulty } from "@/lib/games";
 import { useI18n } from "@/lib/i18n";
+import { useGamePosition } from "@/lib/games/useGamePosition";
 
 // Finish the Verse: progressive Scripture memorization. The day's real
 // journey verse leads the pool when one is available; a curated public-domain
@@ -36,8 +37,9 @@ export const Route = createFileRoute("/play/finish-the-verse")({
 
 function FinishTheVersePage() {
   const { t, locale } = useI18n();
-  const [difficulty, setDifficulty] = useState<GameDifficulty>("gentle");
-  const [cursor, setCursor] = useState(0);
+  // Difficulty and place in the pool persist per device, so returning to
+  // the journey and coming back resumes exactly where the reader stood.
+  const { difficulty, chooseDifficulty, cursor, setCursor } = useGamePosition("finish_the_verse");
   // Date resolves after hydration so SSR and client never disagree at midnight.
   const [seed, setSeed] = useState(() => dateKey());
   useEffect(() => setSeed(dateKey()), []);
@@ -74,11 +76,6 @@ function FinishTheVersePage() {
       `${seed}:${locale}`,
     );
   }, [passage, passages, difficulty, seed, locale]);
-
-  const chooseDifficulty = (next: GameDifficulty) => {
-    setDifficulty(next);
-    setCursor(0);
-  };
 
   return (
     <AppShell>

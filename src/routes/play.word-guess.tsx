@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
 import { WordGuessGame } from "@/components/games/word-guess/WordGuessGame";
 import { useI18n } from "@/lib/i18n";
+import { useGamePosition } from "@/lib/games/useGamePosition";
 import { wordGuessQuestionsForLocale } from "@/lib/word-guess/questions";
 import type { WordGuessDifficulty } from "@/lib/word-guess/types";
 
@@ -28,8 +29,9 @@ const DIFFICULTIES: WordGuessDifficulty[] = ["gentle", "balanced", "challenging"
 
 function WordGuessPage() {
   const { t, locale } = useI18n();
-  const [difficulty, setDifficulty] = useState<WordGuessDifficulty>("gentle");
-  const [cursor, setCursor] = useState(0);
+  // Difficulty and place in the pool persist per device, so returning to
+  // the journey and coming back resumes exactly where the reader stood.
+  const { difficulty, chooseDifficulty, cursor, setCursor } = useGamePosition("word_guess");
 
   const pool = useMemo(() => {
     const all = wordGuessQuestionsForLocale(locale);
@@ -38,11 +40,6 @@ function WordGuessPage() {
   }, [locale, difficulty]);
 
   const question = pool[cursor % pool.length]!;
-
-  const chooseDifficulty = (next: WordGuessDifficulty) => {
-    setDifficulty(next);
-    setCursor(0);
-  };
 
   return (
     <AppShell>

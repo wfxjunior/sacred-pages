@@ -515,7 +515,28 @@
   --brand-soft: #1E2A44;
 }
 
+/* Dark mode inside the journey. This block must re-assert the dark surfaces:
+   .journey-warm above forces light backgrounds at a NEARER scope than .dark on
+   <html>, so without these lines a dark-mode phone got ivory backgrounds with
+   the dark theme's near-white foreground — unreadable washed-out text. */
 .dark .journey-warm {
+  --background: #171817;
+  --card: #272927;
+  --secondary: #1F211F;
+  --muted: #1F211F;
+  --muted-foreground: #BDB8AE;
+  --accent: #30332F;
+  --accent-foreground: #F5F2EB;
+  --border: #3B3E39;
+  --input: #3B3E39;
+  --sidebar: #1F211F;
+  --sidebar-accent: #30332F;
+  --sidebar-border: #3B3E39;
+  --parchment: #1F211F;
+  --ivory: #1F211F;
+  --surface-2: #1F211F;
+  --ink: #F5F2EB;
+  --ink-2: #BDB8AE;
   --primary: #D4B26A;
   --primary-foreground: #171817;
   --ring: #D4B26A;
