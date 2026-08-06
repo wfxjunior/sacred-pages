@@ -822,6 +822,10 @@ export class HistoryService {
   async collectionProgress(userId: string): Promise<UserCollectionProgressRow[]> {
     return this.repo.listCollectionProgress(userId);
   }
+
+  async totalTimeMs(userId: string): Promise<number> {
+    return this.repo.totalTimeMs(userId);
+  }
 }
 
 // ---------------------------------------------------------------------------

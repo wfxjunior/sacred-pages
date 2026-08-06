@@ -183,6 +183,9 @@ function fakeRepo() {
       return state.difficulties;
     },
 
+    async totalTimeMs() {
+      return 0;
+    },
     async listCollectionProgress(userId) {
       return state.collectionProgress.filter((row) => row.user_id === userId);
     },

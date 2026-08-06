@@ -4,7 +4,9 @@ import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import type { DifficultyLevel } from "@/lib/content/types";
 import type { GameLocale } from "@/lib/games";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { useI18n } from "@/lib/i18n";
 import { journeyApi, journeyQueryKeys } from "./api";
+import type { LocalizedMilestone } from "./services";
 import type { ConsistencySummary } from "./consistency";
 
 // React bindings for the progress domain — the bridge the dashboards were
@@ -83,6 +85,41 @@ export function useProgressStats(): {
   return {
     journeysCompleted: rows.reduce((sum, row) => sum + row.journeys_completed, 0),
     collectionsStarted: rows.filter((row) => row.journeys_completed > 0).length,
+    loading: user.loading || (enabled && query.isLoading),
+  };
+}
+
+/** The reader's real milestones, localized — achieved ones carry earnedAt.
+ * Empty when signed out. */
+export function useMilestones(): { milestones: LocalizedMilestone[]; loading: boolean } {
+  const user = useCurrentUser();
+  const { locale } = useI18n();
+  const enabled = Boolean(user.userId) && isSupabaseConfigured();
+  const query = useQuery({
+    queryKey: journeyQueryKeys.milestones(user.userId ?? "anonymous", locale),
+    enabled,
+    staleTime: 60_000,
+    queryFn: () => journeyApi.milestones(user.userId!, locale),
+  });
+  return {
+    milestones: query.data ?? [],
+    loading: user.loading || (enabled && query.isLoading),
+  };
+}
+
+/** Total time the reader has spent in journeys, in milliseconds. Zero when
+ * signed out — never a sample number. */
+export function useTotalTime(): { totalMs: number; loading: boolean } {
+  const user = useCurrentUser();
+  const enabled = Boolean(user.userId) && isSupabaseConfigured();
+  const query = useQuery({
+    queryKey: journeyQueryKeys.totalTime(user.userId ?? "anonymous"),
+    enabled,
+    staleTime: 60_000,
+    queryFn: () => journeyApi.totalTimeMs(user.userId!),
+  });
+  return {
+    totalMs: query.data ?? 0,
     loading: user.loading || (enabled && query.isLoading),
   };
 }

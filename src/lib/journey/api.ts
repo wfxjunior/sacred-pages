@@ -53,6 +53,7 @@ export const journeyQueryKeys = {
   history: (userId: string, query: Partial<HistoryQuery>) =>
     ["journey", userId, "history", query] as const,
   collectionProgress: (userId: string) => ["journey", userId, "collections"] as const,
+  totalTime: (userId: string) => ["journey", userId, "total-time"] as const,
 } as const;
 
 export const journeyApi = {
@@ -211,6 +212,10 @@ export const journeyApi = {
 
   async collectionProgress(userId: string): Promise<UserCollectionProgressRow[]> {
     return historyService.collectionProgress(userId);
+  },
+
+  async totalTimeMs(userId: string): Promise<number> {
+    return historyService.totalTimeMs(userId);
   },
 
   // -------------------------------------------------------------------------

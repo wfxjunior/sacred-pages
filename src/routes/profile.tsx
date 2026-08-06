@@ -11,14 +11,27 @@ import { CompanionCard } from "@/components/site/CompanionCard";
 import { ShareModal } from "@/components/site/ShareModal";
 import { AvatarUploader } from "@/components/site/AvatarUploader";
 import { AccessCircle } from "@/components/site/AccessCircle";
-import { MILESTONE_LIST } from "@/lib/mock/milestones";
-import { COMPANIONS } from "@/lib/mock/companions";
-import { Sparkles, Share2, Settings as SettingsIcon, Flame, LogOut } from "lucide-react";
+import type { Milestone } from "@/lib/mock/milestones";
+import type { LocalizedMilestone } from "@/lib/journey/services";
+import {
+  Award,
+  BookOpenCheck,
+  Clock,
+  Flame,
+  HeartHandshake,
+  LogOut,
+  Settings as SettingsIcon,
+  Share2,
+  Sparkles,
+  Sprout,
+  type LucideIcon,
+} from "lucide-react";
+import { listMyCompanionships } from "@/lib/together/functions";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { authService } from "@/lib/auth/service";
 import { formatDuration, groupByJourney, useBestTimes } from "@/lib/puzzle/best-times";
-import { useConsistency, useProgressStats } from "@/lib/journey/hooks";
+import { useConsistency, useProgressStats, useMilestones, useTotalTime } from "@/lib/journey/hooks";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -36,12 +49,13 @@ export const Route = createFileRoute("/profile")({
 });
 
 function ProfilePage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const user = useCurrentUser();
   // Real rhythm and completion counts — the 7/21/42 placeholders told every
   // reader the same story.
   const { summary, signedIn } = useConsistency();
   const progressStats = useProgressStats();
+  const totalTime = useTotalTime();
   // Real membership state — the fake "Premium — annual" card told every free
   // reader they were paying customers.
   const fetchSubscription = useServerFn(getSubscriptionStatus);
@@ -75,13 +89,20 @@ function ProfilePage() {
     }
     setPortalLoading(false);
   };
-  const achieved = MILESTONE_LIST.filter((m) => m.achieved);
-  const upcoming = MILESTONE_LIST.filter((m) => !m.achieved).slice(0, 3);
+  const { milestones } = useMilestones();
+  const cards = milestones.map((m) => toMilestoneCard(m, locale));
+  const achieved = signedIn ? cards.filter((m) => m.achieved) : [];
+  const upcoming = signedIn ? cards.filter((m) => !m.achieved).slice(0, 3) : [];
   const { entries: bestTimes } = useBestTimes();
   const fastest = bestTimes[0] ?? null;
   const puzzlesTimed = bestTimes.reduce((sum, entry) => sum + entry.completions, 0);
   const perJourney = groupByJourney(bestTimes, t("profile.times.unnamed"));
-  const active = COMPANIONS.filter((c) => c.status === "active").slice(0, 2);
+  const companionships = useQuery({
+    queryKey: ["companionships", "mine"],
+    queryFn: () => listMyCompanionships(),
+    enabled: !!user.userId,
+  });
+  const active = (companionships.data ?? []).filter((c) => c.status === "active").slice(0, 2);
 
   return (
     <AppShell>
@@ -110,10 +131,10 @@ function ProfilePage() {
               <p className="mt-1 text-[13px] text-muted-foreground">{t("profile.since")}</p>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:shrink-0 sm:items-center">
             <ShareModal
               trigger={
-                <Button variant="outline" className="rounded-full">
+                <Button variant="outline" className="h-11 w-full rounded-full sm:h-10 sm:w-auto">
                   <Share2 className="mr-1.5 h-4 w-4" /> {t("profile.shareJourney")}
                 </Button>
               }
@@ -122,7 +143,7 @@ function ProfilePage() {
               reference={t("profile.share.ref")}
               excerpt={t("profile.share.excerpt")}
             />
-            <Button asChild variant="ghost" className="rounded-full">
+            <Button asChild variant="ghost" className="h-11 w-full rounded-full sm:h-10 sm:w-auto">
               <Link to="/settings">
                 <SettingsIcon className="mr-1.5 h-4 w-4" /> {t("nav.settings")}
               </Link>
@@ -130,7 +151,7 @@ function ProfilePage() {
             {user.userId && (
               <Button
                 variant="ghost"
-                className="rounded-full text-muted-foreground hover:text-foreground"
+                className="h-11 w-full rounded-full text-muted-foreground hover:text-foreground sm:h-10 sm:w-auto"
                 onClick={() => void handleSignOut()}
                 title={t("auth.signOut")}
               >
@@ -158,6 +179,12 @@ function ProfilePage() {
             value={signedIn ? `${progressStats.journeysCompleted}` : "—"}
           />
           <Stat
+            label={t("profile.stat.timeInJourneys")}
+            value={signedIn && totalTime.totalMs > 0 ? formatTotalTime(totalTime.totalMs) : "—"}
+            hint={t("profile.stat.allSessions")}
+            icon={<Clock className="h-4 w-4" style={{ color: "var(--dusty-blue)" }} />}
+          />
+          <Stat
             label={t("profile.stat.bestTime")}
             value={fastest ? formatDuration(fastest.bestTimeMs) : "—"}
             hint={
@@ -168,8 +195,8 @@ function ProfilePage() {
           />
           <Stat
             label={t("profile.stat.milestonesReached")}
-            value={`${achieved.length}`}
-            hint={`${t("ui.of")} ${MILESTONE_LIST.length}`}
+            value={signedIn ? `${achieved.length}` : "—"}
+            hint={cards.length > 0 ? `${t("ui.of")} ${cards.length}` : undefined}
           />
         </section>
 
@@ -251,9 +278,38 @@ function ProfilePage() {
             </Button>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {active.map((c) => (
-              <CompanionCard key={c.id} c={c} />
-            ))}
+            {active.length === 0 ? (
+              <div className="col-span-full rounded-xl border border-dashed border-border/60 bg-card/60 p-6 text-center">
+                <p className="text-[14px] font-medium">{t("together.empty")}</p>
+                <p className="mt-1 text-[13px] text-muted-foreground">{t("together.emptyHint")}</p>
+              </div>
+            ) : (
+              active.map((c) => {
+                const isInviter = user.userId === c.inviter_id;
+                const other = isInviter ? c.invitee : c.inviter;
+                return (
+                  <CompanionCard
+                    key={c.id}
+                    c={{
+                      id: c.id,
+                      name:
+                        other?.display_name ??
+                        (isInviter ? c.invitee_email : other?.email) ??
+                        t("together.activePlaceholder"),
+                      color: "var(--sage)",
+                      relationship: c.relationship ?? t("together.invite.relationshipLabel"),
+                      journey: "",
+                      reference: "",
+                      yourProgress: 0,
+                      theirProgress: 0,
+                      lastActivity: new Date(c.updated_at).toLocaleDateString(),
+                      status: c.status,
+                      invitedOn: "",
+                    }}
+                  />
+                );
+              })
+            )}
           </div>
         </section>
 
@@ -292,6 +348,66 @@ function ProfilePage() {
       </div>
     </AppShell>
   );
+}
+
+const MILESTONE_ICONS: Record<string, LucideIcon> = {
+  journey: BookOpenCheck,
+  puzzle: Award,
+  consistency: Flame,
+  collection: BookOpenCheck,
+  reflection: Sprout,
+  prayer: HeartHandshake,
+  discovery: Sprout,
+};
+
+const MILESTONE_ACCENTS: Record<string, string> = {
+  journey: "#5E7FA3",
+  puzzle: "#B88A3B",
+  consistency: "#B88A3B",
+  collection: "#5E7FA3",
+  reflection: "#6F8F6A",
+  prayer: "#8A6FA8",
+  discovery: "#6F8F6A",
+};
+
+const MILESTONE_CATEGORY_LABEL: Record<string, Milestone["category"]> = {
+  consistency: "Consistency",
+  journey: "Journey Progress",
+  puzzle: "Journey Progress",
+  collection: "Journey Progress",
+  prayer: "Shared Journey",
+  reflection: "Personal Growth",
+  discovery: "Personal Growth",
+};
+
+/** The real, database-evaluated milestone in the shape the card renders. */
+function toMilestoneCard(m: LocalizedMilestone, locale: string): Milestone {
+  const category = m.definition.category;
+  return {
+    id: m.definition.id,
+    title: m.title,
+    description: m.description,
+    category: MILESTONE_CATEGORY_LABEL[category] ?? "Personal Growth",
+    icon: MILESTONE_ICONS[category] ?? Award,
+    accent: MILESTONE_ACCENTS[category] ?? "var(--gold)",
+    achieved: m.earned,
+    date: m.earnedAt
+      ? new Date(m.earnedAt).toLocaleDateString(locale, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
+      : undefined,
+  };
+}
+
+/** 95 minutes reads as "1h 35m"; under an hour, "42m"; under a minute, "<1m". */
+function formatTotalTime(ms: number): string {
+  const minutes = Math.floor(ms / 60_000);
+  if (minutes < 1) return "<1m";
+  const hours = Math.floor(minutes / 60);
+  if (hours < 1) return `${minutes}m`;
+  return `${hours}h ${minutes % 60}m`;
 }
 
 function Stat({

@@ -221,6 +221,18 @@ export const journeyRepository = {
     return [...new Set(rows.map((row) => row.difficulty))];
   },
 
+  /** Total milliseconds the reader has spent in journeys, all sessions. */
+  async totalTimeMs(userId: string): Promise<number> {
+    const { data, error } = await db()
+      .from("journey_sessions")
+      .select("elapsed_ms")
+      .eq("user_id", userId);
+
+    if (error) throw fromPostgrestError(error);
+    const rows = (data ?? []) as { elapsed_ms: number | null }[];
+    return rows.reduce((sum, row) => sum + (row.elapsed_ms ?? 0), 0);
+  },
+
   async listCollectionProgress(userId: string): Promise<UserCollectionProgressRow[]> {
     const { data, error } = await db()
       .from("user_collection_progress")
