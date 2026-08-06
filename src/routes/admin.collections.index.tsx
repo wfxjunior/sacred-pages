@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { StatusBadge, TranslationStatusBadge } from "@/components/admin/StatusBadge";
@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { adminCollections } from "@/lib/content/admin-repository";
+import { installContentPacks } from "@/lib/content-packs/install.functions";
+import { CONTENT_PACKS } from "@/lib/content-packs/data";
 import { useAdminSession } from "@/lib/auth/useAdminSession";
 import { LOCALES } from "@/lib/i18n";
 import type { TranslationStatus } from "@/lib/content/types";
@@ -24,12 +26,26 @@ export const Route = createFileRoute("/admin/collections/")({
 function AdminCollectionsList() {
   const session = useAdminSession();
   const [search, setSearch] = useState("");
+  const queryClient = useQueryClient();
 
   const collections = useQuery({
     queryKey: ["admin", "collections", { search }],
     queryFn: () => adminCollections.list({ search: search || undefined }),
     enabled: session.status === "ready",
   });
+
+  const install = useMutation({
+    mutationFn: () => installContentPacks(),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "collections"] }),
+  });
+
+  // Offer the authored packs only while any of them is missing from the list.
+  const listedNames = new Set(
+    (collections.data && "items" in collections.data ? collections.data.items : []).map(
+      (c) => c.internal_name,
+    ),
+  );
+  const missingPacks = CONTENT_PACKS.filter((pack) => !listedNames.has(pack.internalName));
 
   return (
     <AdminShell
@@ -42,6 +58,33 @@ function AdminCollectionsList() {
       }
     >
       <div className="space-y-6">
+        {collections.isSuccess && missingPacks.length > 0 && (
+          <div className="rounded-xl border border-dashed border-border/70 bg-card/60 p-5">
+            <p className="text-sm font-medium">Authored content packs ready to install</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              {missingPacks.map((pack) => pack.internalName).join(" · ")} — seven-day trilingual
+              plans with devotionals, Scripture and word-search words. Installing is idempotent.
+            </p>
+            <Button
+              size="sm"
+              className="mt-3"
+              disabled={install.isPending}
+              onClick={() => install.mutate()}
+            >
+              {install.isPending ? "Installing…" : "Install packs"}
+            </Button>
+            {install.isSuccess && (
+              <p className="mt-2 text-[13px]" style={{ color: "var(--sage)" }}>
+                Installed: {install.data.installed.join(", ") || "none"}
+                {install.data.alreadyPresent.length > 0 &&
+                  ` · already present: ${install.data.alreadyPresent.join(", ")}`}
+              </p>
+            )}
+            {install.isError && (
+              <p className="mt-2 text-[13px] text-destructive">{String(install.error)}</p>
+            )}
+          </div>
+        )}
         <div className="max-w-sm">
           <label htmlFor="collection-search" className="sr-only">
             Search collections

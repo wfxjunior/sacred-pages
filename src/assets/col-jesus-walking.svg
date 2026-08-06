@@ -1,95 +1,112 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Silhouette of Jesus walking away toward the dawn">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Silhouette of Jesus walking away down a road toward the dawn">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#EFE6D3"/>
-      <stop offset="0.45" stop-color="#E8D8B8"/>
-      <stop offset="0.72" stop-color="#DCBE8C"/>
-      <stop offset="1" stop-color="#D2AE74"/>
+      <stop offset="0" stop-color="#F2EADA"/>
+      <stop offset="0.4" stop-color="#EDDFC0"/>
+      <stop offset="0.68" stop-color="#E3C892"/>
+      <stop offset="1" stop-color="#D6B074"/>
     </linearGradient>
     <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#F6E9C8" stop-opacity="0.95"/>
-      <stop offset="0.55" stop-color="#EBD4A0" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#EBD4A0" stop-opacity="0"/>
+      <stop offset="0" stop-color="#FBF3DA" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#F3E1B4" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#F3E1B4" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#C9A76B"/>
-      <stop offset="1" stop-color="#A97F49"/>
+      <stop offset="0" stop-color="#C7A268"/>
+      <stop offset="1" stop-color="#A17742"/>
     </linearGradient>
-    <linearGradient id="path" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#E3C695"/>
-      <stop offset="1" stop-color="#CBA265"/>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E9CFA0"/>
+      <stop offset="1" stop-color="#C69C5E"/>
     </linearGradient>
   </defs>
 
   <!-- Dawn sky -->
   <rect width="800" height="1000" fill="url(#sky)"/>
 
-  <!-- Light the figure walks toward -->
-  <circle cx="400" cy="705" r="330" fill="url(#glow)"/>
-  <circle cx="400" cy="712" r="58" fill="#F8EED2" opacity="0.9"/>
+  <!-- Streak clouds -->
+  <ellipse cx="240" cy="330" rx="190" ry="16" fill="#F7EFDC" opacity="0.4"/>
+  <ellipse cx="590" cy="256" rx="150" ry="12" fill="#F7EFDC" opacity="0.32"/>
+  <ellipse cx="430" cy="410" rx="230" ry="14" fill="#F7EFDC" opacity="0.28"/>
 
-  <!-- Distant hills -->
-  <path d="M0 726 Q 150 700 320 718 Q 420 727 520 714 Q 660 698 800 722 L 800 760 L 0 760 Z"
-        fill="#BC9256" opacity="0.55"/>
+  <!-- The light the figure walks toward -->
+  <circle cx="400" cy="688" r="340" fill="url(#glow)"/>
+  <circle cx="400" cy="688" r="52" fill="#FCF5DF"/>
+  <circle cx="400" cy="688" r="78" fill="#FAEFCB" opacity="0.5"/>
+
+  <!-- Far hills -->
+  <path d="M0 700 Q 120 676 260 692 Q 330 700 400 694 L 400 730 L 0 730 Z" fill="#B98F52" opacity="0.5"/>
+  <path d="M400 694 Q 470 688 560 678 Q 690 664 800 690 L 800 730 L 400 730 Z" fill="#B98F52" opacity="0.42"/>
 
   <!-- Ground -->
-  <path d="M0 752 Q 200 738 400 742 Q 600 746 800 750 L 800 1000 L 0 1000 Z" fill="url(#ground)"/>
+  <path d="M0 716 Q 200 704 400 708 Q 600 712 800 714 L 800 1000 L 0 1000 Z" fill="url(#ground)"/>
 
-  <!-- The road, narrowing toward the light -->
-  <path d="M292 1000 C 330 900, 372 800, 396 748 L 412 748 C 448 806, 500 902, 548 1000 Z"
-        fill="url(#path)" opacity="0.85"/>
-
-  <!-- Soft mist across the horizon -->
-  <rect x="0" y="732" width="800" height="26" fill="#F2E6C9" opacity="0.35"/>
-  <rect x="0" y="756" width="800" height="14" fill="#F2E6C9" opacity="0.2"/>
-
-  <!-- Distant birds -->
-  <path d="M226 300 q 10 -9 20 0 M246 300 q 10 -9 20 0" stroke="#6E5847" stroke-width="3.4"
-        fill="none" stroke-linecap="round" opacity="0.5"/>
-  <path d="M580 254 q 8 -7 16 0 M596 254 q 8 -7 16 0" stroke="#6E5847" stroke-width="3"
-        fill="none" stroke-linecap="round" opacity="0.42"/>
-
-  <!-- The figure, seen from behind, mid-stride toward the light -->
-  <g fill="#3A2C1F">
-    <!-- Head and shoulder-length hair -->
-    <path d="M400 396
-             c -20 0 -32 14 -33 33
-             c -0.6 12 2.4 22 8 29
-             c -7 4 -12 10 -15 17
-             l 80 0
-             c -3 -7 -8 -13 -15 -17
-             c 5.6 -7 8.6 -17 8 -29
-             c -1 -19 -13 -33 -33 -33 z"/>
-    <!-- Robe: shoulders to hem, gentle flare, sleeve folds -->
-    <path d="M357 470
-             c -10 6 -17 17 -20 30
-             c -6 26 -10 60 -13 96
-             c -3 40 -5 82 -5 118
-             c 0 14 3 22 8 24
-             l 146 0
-             c 5 -2 8 -10 8 -24
-             c 0 -36 -2 -78 -5 -118
-             c -3 -36 -7 -70 -13 -96
-             c -3 -13 -10 -24 -20 -30
-             c -13 -6 -28 -9 -43 -9
-             c -15 0 -30 3 -43 9 z"/>
-    <!-- Mid-stride: the hem sways and one heel lifts behind -->
-    <path d="M362 730
-             c -2 16 -2 32 2 46
-             c 0.8 3 3.4 5 6.6 5 l 24 0
-             c 3 0 5 -2.4 4.6 -5.4
-             c -1.6 -13 -2.2 -29 -1.2 -45.6 z"/>
-    <path d="M404 730
-             c -1 15 -0.4 30 1.8 43
-             c 0.5 3 3 5 6 5 l 22 0
-             c 3.2 0 5.6 -2.6 5 -5.8
-             c -2.4 -13 -3.6 -27.6 -3.8 -42.2 z"/>
-    <path d="M434 772 c 8 1.6 14.6 4.6 18.6 8.6 c 2 2 0.8 5.4 -2 5.4 l -18 0
-             c -2.2 0 -4 -1.8 -4 -4 l 0 -7 c 0 -2 2.6 -3.4 5.4 -3 z"/>
+  <!-- Olive trees, small at the roadside -->
+  <g fill="#7C6238" opacity="0.75">
+    <path d="M156 676 c -3 -16 6 -28 18 -31 c -3 -8 4 -16 12 -15 c 2 -8 13 -10 18 -4 c 9 -5 19 1 18 11 c 8 3 9 14 3 19 c 3 10 -5 19 -14 18 l -14 0 c 2 10 3 20 3 30 l -8 0 c 0 -10 -1 -20 -3 -30 l -14 0 c -8 1 -17 -8 -19 2 z"/>
+    <path d="M652 662 c -2 -12 5 -21 14 -23 c -2 -6 3 -12 9 -11 c 2 -6 10 -8 14 -3 c 7 -4 14 1 13 8 c 6 2 7 10 2 14 c 2 8 -4 14 -10 13 l -10 0 c 1 8 2 16 2 24 l -7 0 c 0 -8 0 -16 -2 -24 l -10 0 c -6 1 -13 -6 -15 2 z"/>
   </g>
 
-  <!-- The figure's long shadow, cast toward the viewer -->
-  <path d="M368 792 C 380 830 356 900 322 986 C 318 994 326 1000 338 1000 L 448 1000
-           C 462 1000 468 992 462 984 C 440 912 428 838 434 792 Z"
-        fill="#6E5847" opacity="0.22"/>
+  <!-- The road, narrowing toward the light -->
+  <path d="M266 1000 C 318 890 366 780 392 712 L 410 712 C 442 782 496 894 560 1000 Z" fill="url(#road)" opacity="0.9"/>
+  <path d="M392 712 L 410 712 C 409 760 407 830 404 900 L 386 900 C 388 830 390 760 392 712 Z" fill="#B98F52" opacity="0.22"/>
+
+  <!-- Mist at the horizon -->
+  <rect x="0" y="700" width="800" height="20" fill="#F6ECD2" opacity="0.4"/>
+  <rect x="0" y="718" width="800" height="12" fill="#F6ECD2" opacity="0.22"/>
+
+  <!-- Distant birds -->
+  <path d="M212 288 q 9 -8 18 0 M230 288 q 9 -8 18 0" stroke="#6E5847" stroke-width="3.2" fill="none" stroke-linecap="round" opacity="0.45"/>
+  <path d="M594 236 q 7 -6 14 0 M608 236 q 7 -6 14 0" stroke="#6E5847" stroke-width="2.8" fill="none" stroke-linecap="round" opacity="0.38"/>
+
+  <!-- ======================= The figure ======================= -->
+  <!-- Rear view, walking toward the light: head and shoulder-length hair,
+       sloped shoulders, a robe that narrows at the waist and flares to the
+       hem, a sash, soft folds, and one heel lifting behind. Backlit, so a
+       thin dawn rim traces the edges. -->
+  <g>
+    <!-- Long shadow cast back toward the viewer -->
+    <path d="M374 760 C 384 812 366 890 336 978 C 332 990 340 1000 354 1000 L 450 1000
+             C 464 1000 470 990 464 978 C 438 896 424 812 428 760 Z" fill="#5C4832" opacity="0.2"/>
+
+    <g fill="#38291B">
+      <!-- Head -->
+      <circle cx="400" cy="402" r="27"/>
+      <!-- Hair, falling to the shoulders -->
+      <path d="M369 402 C 366 436 370 466 361 496 L 439 496 C 430 466 434 436 431 402 Z"/>
+      <ellipse cx="400" cy="416" rx="31" ry="30"/>
+      <!-- Robe -->
+      <path d="M362 490
+               C 356 534 364 570 372 602
+               C 364 656 352 704 347 746
+               C 346 752 349 756 354 756
+               L 446 756
+               C 451 756 454 752 453 746
+               C 448 704 436 656 428 602
+               C 436 570 444 534 438 490
+               C 428 472 372 472 362 490 Z"/>
+      <!-- Sleeved arms resting at the sides -->
+      <path d="M362 500 C 350 534 344 574 346 610 C 347 620 354 624 359 618 C 366 594 369 562 370 532 Z"/>
+      <path d="M438 500 C 450 534 456 574 454 610 C 453 620 446 624 441 618 C 434 594 431 562 430 532 Z"/>
+      <!-- Rear heel lifting behind the hem -->
+      <path d="M420 754 C 428 754 436 757 441 762 C 444 766 442 770 438 770 L 421 770 C 418 770 416 768 416 765 L 416 758 C 416 756 418 754 420 754 Z"/>
+      <!-- Planted foot under the hem -->
+      <path d="M368 756 C 366 762 366 768 368 772 C 369 774 371 776 374 776 L 390 776 C 393 776 395 773 394 770 C 393 765 392 760 391 756 Z"/>
+    </g>
+
+    <!-- Dawn rim light hugging the backlit edges -->
+    <g stroke="#E7C689" fill="none" stroke-linecap="round">
+      <path d="M377 380 C 386 372 414 372 423 380" stroke-width="3" opacity="0.5"/>
+      <path d="M364 494 C 358 536 366 570 374 600 C 366 654 355 702 350 744" stroke-width="3.4" opacity="0.6"/>
+      <path d="M436 494 C 442 536 434 570 426 600 C 434 654 445 702 450 744" stroke-width="3.4" opacity="0.6"/>
+    </g>
+
+    <!-- Sash and soft folds, one tone lighter than the silhouette -->
+    <path d="M372 556 Q 400 566 428 556" stroke="#4C3A26" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <g stroke="#4C3A26" stroke-width="3.6" fill="none" stroke-linecap="round" opacity="0.9">
+      <path d="M385 580 C 382 636 379 692 378 742"/>
+      <path d="M415 580 C 418 636 421 692 422 742"/>
+      <path d="M400 584 C 400 636 400 690 400 744"/>
+    </g>
+  </g>
 </svg>
