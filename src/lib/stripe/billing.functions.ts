@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { getStripe, resolveReturnOrigin } from "./server";
-import { portalInput } from "./billing.schemas";
+import { portalInput, safeReturnPath } from "./billing.schemas";
 
 export const getSubscriptionStatus = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -46,7 +46,7 @@ export const createBillingPortalSession = createServerFn({ method: "POST" })
     const origin = resolveReturnOrigin(getRequest());
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.stripe_customer_id,
-      return_url: `${origin}${data.returnPath ?? "/settings"}`,
+      return_url: `${origin}${safeReturnPath(data.returnPath, "/settings")}`,
     });
 
     return { url: session.url, reason: null };

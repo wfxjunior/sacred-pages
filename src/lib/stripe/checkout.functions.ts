@@ -5,6 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { getStripe, resolveReturnOrigin } from "./server";
+import { safeReturnPath } from "./billing.schemas";
 
 
 const checkoutInput = z.object({
@@ -113,7 +114,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
 
     const origin = resolveReturnOrigin(getRequest());
     const successUrl = `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${origin}${data.returnPath ?? "/pricing"}`;
+    const cancelUrl = `${origin}${safeReturnPath(data.returnPath, "/pricing")}`;
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
