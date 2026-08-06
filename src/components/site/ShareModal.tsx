@@ -1,7 +1,5 @@
-// TODO: Implement real link generation, image export and native sharing.
-// Design prototype only — visual previews for shareable cards.
-
 import { useMemo, useState, type ReactNode } from "react";
+import { renderShareCard, type ShareCardFormat } from "@/lib/share/cardImage";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +10,17 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Copy, Download, Share2, Lock, MessageSquare, Mail, Square, Smartphone, Check } from "lucide-react";
+import {
+  Copy,
+  Download,
+  Share2,
+  Lock,
+  MessageSquare,
+  Mail,
+  Square,
+  Smartphone,
+  Check,
+} from "lucide-react";
 
 type Format = "square" | "story" | "message" | "email";
 type Theme = "ivory" | "ink";
@@ -30,12 +38,15 @@ export function ShareModal({
   reference = "Philippians 4:6–7",
   excerpt = "Do not be anxious about anything, but in every situation, by prayer and petition, present your requests to God.",
   kind = "Journey",
+  url,
 }: {
   trigger: ReactNode;
   title?: string;
   reference?: string;
   excerpt?: string;
   kind?: string;
+  /** Link carried on the card and in the share; defaults to the current page. */
+  url?: string;
 }) {
   const [format, setFormat] = useState<Format>("square");
   const [theme, setTheme] = useState<Theme>("ivory");
@@ -52,8 +63,77 @@ export function ShareModal({
         includeDayNumber && "Day 12 of 30",
         includeStreak && "12-day streak",
       ].filter(Boolean) as string[],
-    [includeCollection, includeDayNumber, includeStreak, kind]
+    [includeCollection, includeDayNumber, includeStreak, kind],
   );
+
+  const [copied, setCopied] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const shareUrl =
+    url ?? (typeof window !== "undefined" ? window.location.href : "https://lumena.app");
+
+  // Message/email formats share text; the two card formats share the image.
+  const imageFormat: ShareCardFormat = format === "story" ? "story" : "square";
+
+  const buildImage = () =>
+    renderShareCard({
+      format: imageFormat,
+      theme,
+      kind,
+      title,
+      reference,
+      excerpt,
+      details,
+      url: shareUrl,
+    });
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard denied — the URL stays visible in the browser bar.
+    }
+  };
+
+  const saveImage = async () => {
+    setBusy(true);
+    try {
+      const blob = await buildImage();
+      const href = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = href;
+      anchor.download = "lumena-share.png";
+      anchor.click();
+      URL.revokeObjectURL(href);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const shareNow = async () => {
+    setBusy(true);
+    try {
+      const text = `${title} — ${reference}`;
+      if (typeof navigator.share === "function") {
+        try {
+          const blob = await buildImage();
+          const file = new File([blob], "lumena-share.png", { type: "image/png" });
+          if (navigator.canShare?.({ files: [file] })) {
+            await navigator.share({ files: [file], text, url: shareUrl });
+            return;
+          }
+          await navigator.share({ text, url: shareUrl });
+          return;
+        } catch (error) {
+          if ((error as DOMException)?.name === "AbortError") return;
+        }
+      }
+      await copyLink();
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <Dialog>
@@ -62,7 +142,8 @@ export function ShareModal({
         <DialogHeader>
           <DialogTitle className="font-serif text-2xl">Share this moment</DialogTitle>
           <DialogDescription>
-            Choose a format and decide exactly what to include. Private reflections and prayers are never shared.
+            Choose a format and decide exactly what to include. Private reflections and prayers are
+            never shared.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_280px]">
@@ -78,7 +159,9 @@ export function ShareModal({
                     key={tt}
                     onClick={() => setTheme(tt)}
                     className={`rounded-full px-2.5 py-0.5 transition ${
-                      theme === tt ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                      theme === tt
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
                     }`}
                     aria-pressed={theme === tt}
                   >
@@ -111,7 +194,9 @@ export function ShareModal({
           {/* Controls */}
           <div className="space-y-5">
             <div>
-              <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Format</p>
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Format
+              </p>
               <div className="grid grid-cols-2 gap-2">
                 {FORMATS.map((f) => {
                   const Icon = f.icon;
@@ -122,7 +207,9 @@ export function ShareModal({
                       onClick={() => setFormat(f.key)}
                       aria-pressed={active}
                       className={`rounded-lg border p-2.5 text-left transition ${
-                        active ? "border-primary bg-primary/5" : "border-border/60 hover:border-border"
+                        active
+                          ? "border-primary bg-primary/5"
+                          : "border-border/60 hover:border-border"
                       }`}
                     >
                       <div className="flex items-center gap-1.5">
@@ -144,9 +231,21 @@ export function ShareModal({
                 <span className="text-[10px] text-muted-foreground">Off by default</span>
               </div>
               <div className="space-y-1.5">
-                <ToggleRow label="Collection name" checked={includeCollection} onChange={setIncludeCollection} />
-                <ToggleRow label="Day number (e.g. Day 12 of 30)" checked={includeDayNumber} onChange={setIncludeDayNumber} />
-                <ToggleRow label="Current streak" checked={includeStreak} onChange={setIncludeStreak} />
+                <ToggleRow
+                  label="Collection name"
+                  checked={includeCollection}
+                  onChange={setIncludeCollection}
+                />
+                <ToggleRow
+                  label="Day number (e.g. Day 12 of 30)"
+                  checked={includeDayNumber}
+                  onChange={setIncludeDayNumber}
+                />
+                <ToggleRow
+                  label="Current streak"
+                  checked={includeStreak}
+                  onChange={setIncludeStreak}
+                />
               </div>
             </div>
 
@@ -161,21 +260,34 @@ export function ShareModal({
                 <Lock className="h-3 w-3" /> Always private
               </p>
               <p className="mt-1 text-muted-foreground">
-                Your reflections and prayers are never shared. Progress details are only shared when you toggle them on above.
+                Your reflections and prayers are never shared. Progress details are only shared when
+                you toggle them on above.
               </p>
             </div>
           </div>
         </div>
         <DialogFooter className="flex-col gap-2 sm:flex-row">
-          <Button variant="outline" className="rounded-full">
-            <Copy className="mr-1.5 h-4 w-4" /> Copy link
+          <Button
+            variant="outline"
+            className="h-11 rounded-full sm:h-10"
+            onClick={() => void copyLink()}
+          >
+            {copied ? <Check className="mr-1.5 h-4 w-4" /> : <Copy className="mr-1.5 h-4 w-4" />}
+            {copied ? "Copied" : "Copy link"}
           </Button>
-          {(format === "square" || format === "story") && (
-            <Button variant="outline" className="rounded-full">
-              <Download className="mr-1.5 h-4 w-4" /> Save image
-            </Button>
-          )}
-          <Button className="rounded-full">
+          <Button
+            variant="outline"
+            className="h-11 rounded-full sm:h-10"
+            disabled={busy}
+            onClick={() => void saveImage()}
+          >
+            <Download className="mr-1.5 h-4 w-4" /> Save image
+          </Button>
+          <Button
+            className="h-11 rounded-full sm:h-10"
+            disabled={busy}
+            onClick={() => void shareNow()}
+          >
             <Share2 className="mr-1.5 h-4 w-4" /> Share
           </Button>
         </DialogFooter>
@@ -246,9 +358,15 @@ function SharePreview({
     const dimCls = format === "square" ? "aspect-square" : "aspect-[9/16]";
     const short = excerpt.length > 120 ? excerpt.slice(0, 120) + "…" : excerpt;
     return (
-      <div className={`${wrap} ${dimCls}`} style={{ background: bg, color: fg, borderColor: border }}>
+      <div
+        className={`${wrap} ${dimCls}`}
+        style={{ background: bg, color: fg, borderColor: border }}
+      >
         <div className="flex h-full flex-col justify-between p-4">
-          <div className="flex items-center justify-between text-[8.5px] font-semibold uppercase tracking-[0.22em]" style={{ color: muted }}>
+          <div
+            className="flex items-center justify-between text-[8.5px] font-semibold uppercase tracking-[0.22em]"
+            style={{ color: muted }}
+          >
             <span>Scripture</span>
             <span>Jornadas</span>
           </div>
@@ -264,7 +382,10 @@ function SharePreview({
             )}
           </div>
           <div className="flex items-center gap-1.5 text-[9px]" style={{ color: muted }}>
-            <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: "#B88A3B" }} />
+            <span
+              className="inline-block h-1.5 w-1.5 rounded-full"
+              style={{ background: "#B88A3B" }}
+            />
             jornadas.app
           </div>
         </div>
@@ -288,11 +409,17 @@ function SharePreview({
             style={{ background: surface, color: fg, borderColor: border, borderWidth: 1 }}
           >
             <p className="font-serif text-[12px] leading-snug">"{short}"</p>
-            <p className="mt-1 text-[9px]" style={{ color: muted }}>{reference}</p>
+            <p className="mt-1 text-[9px]" style={{ color: muted }}>
+              {reference}
+            </p>
             {details.length > 0 && (
-              <p className="mt-1 text-[9px]" style={{ color: muted }}>{details.join(" · ")}</p>
+              <p className="mt-1 text-[9px]" style={{ color: muted }}>
+                {details.join(" · ")}
+              </p>
             )}
-            <p className="mt-1.5 text-[9px] underline" style={{ color: muted }}>jornadas.app/j/•••</p>
+            <p className="mt-1.5 text-[9px] underline" style={{ color: muted }}>
+              jornadas.app/j/•••
+            </p>
           </div>
         </div>
       </div>
@@ -302,11 +429,21 @@ function SharePreview({
   // email
   const short = excerpt.length > 140 ? excerpt.slice(0, 140) + "…" : excerpt;
   return (
-    <div className={`${wrap} aspect-square`} style={{ background: bg, color: fg, borderColor: border }}>
+    <div
+      className={`${wrap} aspect-square`}
+      style={{ background: bg, color: fg, borderColor: border }}
+    >
       <div className="flex h-full flex-col p-3.5">
-        <div className="mb-2 space-y-1 border-b pb-2 text-[9.5px]" style={{ borderColor: border, color: muted }}>
-          <p><span className="font-semibold">Subject:</span> A passage worth sharing</p>
-          <p><span className="font-semibold">From:</span> you@jornadas.app</p>
+        <div
+          className="mb-2 space-y-1 border-b pb-2 text-[9.5px]"
+          style={{ borderColor: border, color: muted }}
+        >
+          <p>
+            <span className="font-semibold">Subject:</span> A passage worth sharing
+          </p>
+          <p>
+            <span className="font-semibold">From:</span> you@jornadas.app
+          </p>
         </div>
         <p className="text-[10.5px]">Hi —</p>
         <p className="mt-1.5 text-[10.5px]">This passage stayed with me today:</p>
@@ -315,10 +452,14 @@ function SharePreview({
           style={{ borderLeft: "2px solid #B88A3B", background: surface }}
         >
           <p className="font-serif text-[11px] leading-snug">"{short}"</p>
-          <p className="mt-1 text-[9px]" style={{ color: muted }}>— {reference}</p>
+          <p className="mt-1 text-[9px]" style={{ color: muted }}>
+            — {reference}
+          </p>
         </div>
         {details.length > 0 && (
-          <p className="mt-2 text-[9.5px]" style={{ color: muted }}>{details.join(" · ")}</p>
+          <p className="mt-2 text-[9.5px]" style={{ color: muted }}>
+            {details.join(" · ")}
+          </p>
         )}
         <p className="mt-auto text-[9.5px]" style={{ color: muted }}>
           Read on Jornadas ↗

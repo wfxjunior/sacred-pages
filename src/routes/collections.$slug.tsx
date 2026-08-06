@@ -4,6 +4,7 @@ import { AppShell } from "@/components/site/AppShell";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useCatalogCollection, type CatalogCollection } from "@/lib/content/catalog";
 import { Button } from "@/components/ui/button";
+import { ShareModal } from "@/components/site/ShareModal";
 import { ArrowRight, BookOpen, Clock, Heart, Share2, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
@@ -66,13 +67,14 @@ function CollectionNotFound() {
   return (
     <CollectionShell>
       <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-        <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+        <p
+          className="text-xs font-medium uppercase tracking-[0.2em]"
+          style={{ color: "var(--walnut)" }}
+        >
           {t("coll.library")}
         </p>
         <h1 className="mt-3 font-serif text-4xl">{t("cd.notFoundTitle")}</h1>
-        <p className="mt-4 text-muted-foreground">
-          {t("cd.notFoundBody")}
-        </p>
+        <p className="mt-4 text-muted-foreground">{t("cd.notFoundBody")}</p>
         <div className="mt-8">
           <Button asChild variant="editorial" className="h-11 px-6 text-[15px]">
             <Link to="/collections">{t("cd.backTo")}</Link>
@@ -124,7 +126,9 @@ function CollectionDetail() {
           <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1.05fr_0.95fr] md:py-24">
             <div className="flex flex-col justify-center">
               <nav className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                <Link to="/collections" className="hover:text-foreground">{t("coll.library")}</Link>
+                <Link to="/collections" className="hover:text-foreground">
+                  {t("coll.library")}
+                </Link>
                 <span aria-hidden>/</span>
                 <span style={{ color: "var(--walnut)" }}>{collection.title}</span>
               </nav>
@@ -136,9 +140,21 @@ function CollectionDetail() {
               </p>
 
               <dl className="mt-8 flex flex-wrap gap-x-8 gap-y-4 text-sm">
-                <Stat icon={<BookOpen className="h-4 w-4" />} label={t("cd.sessions")} value={String(collection.count)} />
-                <Stat icon={<Clock className="h-4 w-4" />} label={t("cd.totalTime")} value={`${totalMinutes} min`} />
-                <Stat icon={<Sparkles className="h-4 w-4" />} label={t("cd.rhythm")} value={t("cd.rhythmValue")} />
+                <Stat
+                  icon={<BookOpen className="h-4 w-4" />}
+                  label={t("cd.sessions")}
+                  value={String(collection.count)}
+                />
+                <Stat
+                  icon={<Clock className="h-4 w-4" />}
+                  label={t("cd.totalTime")}
+                  value={`${totalMinutes} min`}
+                />
+                <Stat
+                  icon={<Sparkles className="h-4 w-4" />}
+                  label={t("cd.rhythm")}
+                  value={t("cd.rhythmValue")}
+                />
               </dl>
 
               {collection.progress != null && (
@@ -163,25 +179,44 @@ function CollectionDetail() {
               )}
 
               <div className="mt-10 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center">
-                <Button asChild size="lg" variant="editorial" className="h-12 w-full gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="editorial"
+                  className="h-12 w-full gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]"
+                >
                   <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                     {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" variant="editorialOutline" className="h-12 w-full gap-2 px-5 text-[15px] sm:w-auto sm:min-w-[160px]">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="editorialOutline"
+                  className="h-12 w-full gap-2 px-5 text-[15px] sm:w-auto sm:min-w-[160px]"
+                >
                   <Link to="/favorites">
                     <Heart className="h-4 w-4" />
                     {t("cd.save")}
                   </Link>
                 </Button>
-                <button
-                  type="button"
-                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md px-4 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 sm:w-auto sm:justify-start"
-                >
-                  <Share2 className="h-4 w-4" />
-                  {t("cd.share")}
-                </button>
+                <ShareModal
+                  trigger={
+                    <button
+                      type="button"
+                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md px-4 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 sm:w-auto sm:justify-start"
+                    >
+                      <Share2 className="h-4 w-4" />
+                      {t("cd.share")}
+                    </button>
+                  }
+                  kind={t("cd.share.kind")}
+                  title={collection.title}
+                  reference={`${collection.count} ${t("cd.journeys")}`}
+                  excerpt={collection.description ?? ""}
+                  url={typeof window !== "undefined" ? window.location.href : undefined}
+                />
               </div>
             </div>
 
@@ -214,7 +249,9 @@ function CollectionDetail() {
                 />
                 <div className="absolute inset-x-6 bottom-6 flex items-center justify-between text-xs uppercase tracking-[0.2em] text-white/85">
                   <span>{t("cd.collection")}</span>
-                  <span className="text-[color:var(--gold)]">{collection.count} {t("cd.sessions")}</span>
+                  <span className="text-[color:var(--gold)]">
+                    {collection.count} {t("cd.sessions")}
+                  </span>
                 </div>
               </div>
             </div>
@@ -224,7 +261,10 @@ function CollectionDetail() {
         {/* Theme + What to expect */}
         <section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:py-20">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+            <p
+              className="text-xs font-medium uppercase tracking-[0.2em]"
+              style={{ color: "var(--walnut)" }}
+            >
               {t("cd.theme")}
             </p>
             <h2 className="mt-3 font-serif text-3xl leading-tight md:text-4xl">
@@ -236,10 +276,7 @@ function CollectionDetail() {
           </div>
           <ul className="grid gap-4 sm:grid-cols-2">
             {expectations.map((item) => (
-              <li
-                key={item.title}
-                className="rounded-xl border border-border bg-card p-5"
-              >
+              <li key={item.title} className="rounded-xl border border-border bg-card p-5">
                 <p className="font-serif text-lg">{item.title}</p>
                 <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
               </li>
@@ -251,7 +288,10 @@ function CollectionDetail() {
         <section className="mx-auto max-w-7xl px-6 pb-8">
           <div className="flex items-end justify-between gap-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+              <p
+                className="text-xs font-medium uppercase tracking-[0.2em]"
+                style={{ color: "var(--walnut)" }}
+              >
                 {t("cd.sessions")}
               </p>
               <h2 className="mt-3 font-serif text-3xl md:text-4xl">{t("cd.walkThrough")}</h2>
@@ -271,34 +311,37 @@ function CollectionDetail() {
                     search={{ journey: s.slug }}
                     className="group flex w-full items-center gap-5 px-5 py-4 text-left transition-colors hover:bg-[color:color-mix(in_oklab,var(--parchment)_35%,var(--card))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
                   >
-                  <span
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-serif text-sm"
-                    style={{
-                      background: isDone
-                        ? "color-mix(in oklab, var(--gold) 22%, var(--card))"
-                        : "color-mix(in oklab, var(--parchment) 60%, var(--card))",
-                      color: isDone ? "var(--gold)" : "var(--walnut)",
-                    }}
-                    aria-hidden
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-serif text-base md:text-lg">{s.title}</p>
-                    <p className="mt-0.5 truncate text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                      {s.reference}
-                    </p>
-                  </div>
-                  <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
-                    {s.minutes} min
-                  </span>
-                  <span
-                    className="text-[10px] uppercase tracking-[0.2em]"
-                    style={{ color: isDone ? "var(--gold)" : "var(--muted-foreground)" }}
-                  >
-                    {isDone ? t("cd.done") : t("cd.open")}
-                  </span>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
+                    <span
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-serif text-sm"
+                      style={{
+                        background: isDone
+                          ? "color-mix(in oklab, var(--gold) 22%, var(--card))"
+                          : "color-mix(in oklab, var(--parchment) 60%, var(--card))",
+                        color: isDone ? "var(--gold)" : "var(--walnut)",
+                      }}
+                      aria-hidden
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-serif text-base md:text-lg">{s.title}</p>
+                      <p className="mt-0.5 truncate text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                        {s.reference}
+                      </p>
+                    </div>
+                    <span className="hidden shrink-0 text-xs text-muted-foreground sm:inline">
+                      {s.minutes} min
+                    </span>
+                    <span
+                      className="text-[10px] uppercase tracking-[0.2em]"
+                      style={{ color: isDone ? "var(--gold)" : "var(--muted-foreground)" }}
+                    >
+                      {isDone ? t("cd.done") : t("cd.open")}
+                    </span>
+                    <ArrowRight
+                      className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+                      aria-hidden
+                    />
                   </Link>
                 </li>
               );
@@ -315,7 +358,10 @@ function CollectionDetail() {
                 "linear-gradient(160deg, color-mix(in oklab, var(--parchment) 55%, var(--card)) 0%, var(--card) 100%)",
             }}
           >
-            <p className="text-xs font-medium uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
+            <p
+              className="text-xs font-medium uppercase tracking-[0.2em]"
+              style={{ color: "var(--walnut)" }}
+            >
               {t("cd.ctaEyebrow")}
             </p>
             <h2 className="mx-auto mt-4 max-w-2xl font-serif text-3xl leading-tight md:text-5xl">
@@ -325,13 +371,23 @@ function CollectionDetail() {
               {t("cd.ctaBody")}
             </p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:justify-center">
-              <Button asChild size="lg" variant="editorial" className="h-12 w-full gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]">
+              <Button
+                asChild
+                size="lg"
+                variant="editorial"
+                className="h-12 w-full gap-2 px-6 text-[15px] sm:w-auto sm:min-w-[180px]"
+              >
                 <Link to="/today" search={firstSlug ? { journey: firstSlug } : {}}>
                   {collection.progress ? t("cd.continueJourney") : t("cd.beginJourney")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="editorialOutline" className="h-12 w-full px-5 text-[15px] sm:w-auto sm:min-w-[160px]">
+              <Button
+                asChild
+                size="lg"
+                variant="editorialOutline"
+                className="h-12 w-full px-5 text-[15px] sm:w-auto sm:min-w-[160px]"
+              >
                 <Link to="/collections">{t("cd.browseOther")}</Link>
               </Button>
             </div>
@@ -383,8 +439,7 @@ function themeParagraph(c: CatalogCollection) {
       "Trust doesn't arrive fully formed. It grows through small yeses. These journeys sit with the people who learned to believe when it was hard.",
     women:
       "Hagar, Ruth, Deborah, Mary. Their stories are not decoration — they are the story. Walk with them and hear what they still say.",
-    men:
-      "Abraham, David, Peter, Paul. Ordinary men with ordinary flaws, shaped by an extraordinary God. Their lives become mirrors.",
+    men: "Abraham, David, Peter, Paul. Ordinary men with ordinary flaws, shaped by an extraordinary God. Their lives become mirrors.",
     prayer:
       "Prayer is not a performance. It is presence. This collection gently teaches the shapes of prayer Scripture has always known.",
     purpose:
@@ -392,4 +447,3 @@ function themeParagraph(c: CatalogCollection) {
   };
   return map[c.slug] ?? "A gentle, guided walk through Scripture — one small step at a time.";
 }
-
