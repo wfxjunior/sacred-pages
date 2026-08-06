@@ -14,17 +14,27 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, CheckCircle, Sparkles, Lock, Loader2 } from "lucide-react";
-import { RELATIONSHIPS } from "@/lib/mock/companions";
 import { useI18n } from "@/lib/i18n";
 import { createCompanionInvitation } from "@/lib/together/functions";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { Link } from "@tanstack/react-router";
 
+const RELATIONSHIP_KEYS: readonly [string, string][] = [
+  ["Spouse", "rel.spouse"],
+  ["Friend", "rel.friend"],
+  ["Family Member", "rel.family"],
+  ["Parent", "rel.parent"],
+  ["Child", "rel.child"],
+  ["Mentor", "rel.mentor"],
+  ["Small Group", "rel.smallGroup"],
+  ["Other", "rel.other"],
+];
+
 export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [rel, setRel] = useState<string>(RELATIONSHIPS[0] ?? "Spouse");
+  const [rel, setRel] = useState<string>("Spouse");
   const [message, setMessage] = useState("");
   const [link, setLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -120,7 +130,7 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                   <Label className="text-[12px] uppercase tracking-widest text-muted-foreground">
                     {t("together.invite.linkReady")}
                   </Label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <Input
                       readOnly
                       value={link}
@@ -130,7 +140,7 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                       type="button"
                       variant="outline"
                       onClick={handleCopy}
-                      className="shrink-0 rounded-full"
+                      className="h-11 shrink-0 rounded-full sm:h-10"
                     >
                       <Copy className="mr-1.5 h-4 w-4" />
                       {copied ? t("together.invite.linkCopied") : t("together.invite.copyLink")}
@@ -163,21 +173,22 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                   <Label className="text-[12px] uppercase tracking-widest text-muted-foreground">
                     {t("together.invite.relationshipLabel")}
                   </Label>
-                  <div className="flex flex-wrap gap-2">
-                    {RELATIONSHIPS.map((r) => {
-                      const active = rel === r;
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+                    {RELATIONSHIP_KEYS.map(([value, key]) => {
+                      const active = rel === value;
                       return (
                         <button
-                          key={r}
+                          key={value}
                           type="button"
-                          onClick={() => setRel(r)}
-                          className={`rounded-full border px-3 py-1.5 text-[13px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                          onClick={() => setRel(value)}
+                          aria-pressed={active}
+                          className={`inline-flex h-11 items-center justify-center rounded-full border px-3 text-[13px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:h-9 ${
                             active
                               ? "border-primary bg-primary/10 text-foreground"
                               : "border-border/60 text-muted-foreground hover:text-foreground"
                           }`}
                         >
-                          {r}
+                          {t(key)}
                         </button>
                       );
                     })}
@@ -219,7 +230,7 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                 <Button
                   type="submit"
                   disabled={mutation.isPending || !email.trim()}
-                  className="rounded-full"
+                  className="h-11 w-full rounded-full sm:h-10 sm:w-auto"
                 >
                   {mutation.isPending ? <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> : null}
                   {mutation.isPending
@@ -231,7 +242,7 @@ export function InviteCompanionModal({ trigger }: { trigger: ReactNode }) {
                   type="button"
                   variant="outline"
                   onClick={handleCopy}
-                  className="rounded-full"
+                  className="h-11 w-full rounded-full sm:h-10 sm:w-auto"
                 >
                   <Copy className="mr-1.5 h-4 w-4" />
                   {copied ? t("together.invite.linkCopied") : t("together.invite.copyLink")}
