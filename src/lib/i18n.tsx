@@ -407,6 +407,7 @@ const en: Dict = {
   "verse.review.emptyCount": "{n} left empty",
   "games.hub.title": "Games",
   "games.hub.sub": "Quiet ways to spend a few more minutes in the Word — one puzzle at a time.",
+  "games.hub.play": "Start Playing",
   "games.attemptsRemaining": "Attempts remaining",
   "games.attemptsUnlimited": "Unlimited attempts",
   "games.attemptsUsed": "Attempts",
@@ -904,6 +905,7 @@ Object.assign(pt, {
   "games.hub.title": "Jogos",
   "games.hub.sub":
     "Jeitos serenos de passar mais alguns minutos na Palavra — um desafio de cada vez.",
+  "games.hub.play": "Começar a jogar",
   "games.attemptsRemaining": "Tentativas restantes",
   "games.attemptsUnlimited": "Tentativas ilimitadas",
   "games.attemptsUsed": "Tentativas",
@@ -1462,6 +1464,7 @@ const es: Dict = {
   "verse.review.emptyCount": "{n} en blanco",
   "games.hub.title": "Juegos",
   "games.hub.sub": "Formas serenas de pasar unos minutos más en la Palabra — un desafío a la vez.",
+  "games.hub.play": "Comenzar a jugar",
   "games.attemptsRemaining": "Intentos restantes",
   "games.attemptsUnlimited": "Intentos ilimitados",
   "games.attemptsUsed": "Intentos",
