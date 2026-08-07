@@ -13,18 +13,20 @@ import colWomen from "@/assets/col-women.jpg";
 import colMen from "@/assets/col-men.jpg";
 import colPrayer from "@/assets/col-prayer.jpg";
 import colPurpose from "@/assets/col-purpose.jpg";
+import colEverydayMan from "@/assets/col-everyday-man.jpg";
 
 // Presentation adapter: turns published database content into the exact shape
 // the existing cards and pages already render, so real data arrives without
 // touching the visual identity.
 
 const IMAGE_RULES: [RegExp, string][] = [
+  [/proverbs-everyday-man|everyday-man/, colEverydayMan],
+  [/women/, colWomen],
   [/jesus|christ|gospel/, colJesus],
   [/psalm/, colPsalms],
   [/proverb|wisdom/, colProverbs],
   [/family|home|marriage|parent/, colFamily],
   [/faith|trust|courage/, colFaith],
-  [/women|woman/, colWomen],
   [/men|man/, colMen],
   [/pray/, colPrayer],
   [/purpose|calling/, colPurpose],
