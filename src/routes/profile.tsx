@@ -131,11 +131,24 @@ function ProfilePage() {
               <p className="mt-1 text-[13px] text-muted-foreground">{t("profile.since")}</p>
             </div>
           </div>
-          <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:shrink-0 sm:items-center">
+          {/* One primary action (Share, in the journey gold) full-width on a
+              phone, with Settings and Sign out grouped as a secondary pair
+              beneath it — a deliberate hierarchy instead of three identical
+              stacked pills. Icons carry each section's established accent:
+              gold for sharing, dusty-blue for settings. */}
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:shrink-0 sm:flex-row sm:items-center">
             <ShareModal
               trigger={
-                <Button variant="outline" className="h-11 w-full rounded-full sm:h-10 sm:w-auto">
-                  <Share2 className="mr-1.5 h-4 w-4" /> {t("profile.shareJourney")}
+                <Button
+                  variant="outline"
+                  className="h-11 w-full rounded-full border-[color:color-mix(in_oklab,var(--gold)_45%,var(--border))] sm:h-10 sm:w-auto"
+                >
+                  <Share2
+                    className="mr-1.5 h-4 w-4"
+                    style={{ color: "var(--gold)" }}
+                    aria-hidden="true"
+                  />
+                  {t("profile.shareJourney")}
                 </Button>
               }
               kind={t("profile.share.kind")}
@@ -143,22 +156,35 @@ function ProfilePage() {
               reference={t("profile.share.ref")}
               excerpt={t("profile.share.excerpt")}
             />
-            <Button asChild variant="ghost" className="h-11 w-full rounded-full sm:h-10 sm:w-auto">
-              <Link to="/settings">
-                <SettingsIcon className="mr-1.5 h-4 w-4" /> {t("nav.settings")}
-              </Link>
-            </Button>
-            {user.userId && (
+            <div
+              className={`grid gap-2 sm:flex sm:gap-1.5 ${user.userId ? "grid-cols-2" : "grid-cols-1"}`}
+            >
               <Button
+                asChild
                 variant="ghost"
-                className="h-11 w-full rounded-full text-muted-foreground hover:text-foreground sm:h-10 sm:w-auto"
-                onClick={() => void handleSignOut()}
-                title={t("auth.signOut")}
+                className="h-11 rounded-full border border-transparent sm:h-10 sm:w-auto sm:border-border/60"
               >
-                <LogOut className="mr-1.5 h-4 w-4" aria-hidden="true" />
-                {t("auth.signOut")}
+                <Link to="/settings">
+                  <SettingsIcon
+                    className="mr-1.5 h-4 w-4"
+                    style={{ color: "var(--dusty-blue)" }}
+                    aria-hidden="true"
+                  />
+                  {t("nav.settings")}
+                </Link>
               </Button>
-            )}
+              {user.userId && (
+                <Button
+                  variant="ghost"
+                  className="h-11 rounded-full border border-transparent text-muted-foreground hover:text-foreground sm:h-10 sm:w-auto sm:border-border/60"
+                  onClick={() => void handleSignOut()}
+                  title={t("auth.signOut")}
+                >
+                  <LogOut className="mr-1.5 h-4 w-4" aria-hidden="true" />
+                  {t("auth.signOut")}
+                </Button>
+              )}
+            </div>
           </div>
         </header>
 
