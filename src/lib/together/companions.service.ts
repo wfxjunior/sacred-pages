@@ -3,6 +3,7 @@ import type { Database } from "@/integrations/supabase/types";
 import type {
   Companionship,
   CompanionshipPreview,
+  CompanionshipProfile,
   CompanionshipWithProfiles,
   CreateInvitationInput,
 } from "./types";
