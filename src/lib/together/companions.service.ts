@@ -26,6 +26,35 @@ export async function createInvitation(
   return data as Companionship;
 }
 
+/**
+ * `companionships` has no foreign key to `profiles` (its keys point at
+ * auth.users), so PostgREST cannot embed them. Profiles are fetched in a
+ * second query and stitched in by user id.
+ */
+async function attachProfiles(
+  supabase: ReturnType<typeof createClient<Database>>,
+  rows: Companionship[],
+): Promise<CompanionshipWithProfiles[]> {
+  const ids = Array.from(
+    new Set(rows.flatMap((r) => [r.inviter_id, r.invitee_user_id].filter(Boolean) as string[])),
+  );
+  const byId = new Map<string, CompanionshipProfile>();
+  if (ids.length > 0) {
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, display_name, avatar_url")
+      .in("id", ids);
+    for (const p of data ?? []) {
+      byId.set(p.id, { display_name: p.display_name, avatar_url: p.avatar_url, email: null });
+    }
+  }
+  return rows.map((row) => ({
+    ...row,
+    inviter: byId.get(row.inviter_id) ?? null,
+    invitee: row.invitee_user_id ? (byId.get(row.invitee_user_id) ?? null) : null,
+  }));
+}
+
 export async function listMyCompanions(
   supabase: ReturnType<typeof createClient<Database>>,
   userId: string,
@@ -33,14 +62,12 @@ export async function listMyCompanions(
 ): Promise<CompanionshipWithProfiles[]> {
   const { data, error } = await supabase
     .from("companionships")
-    .select(
-      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url, email), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url, email)",
-    )
+    .select("*")
     .or(`inviter_id.eq.${userId},invitee_user_id.eq.${userId},invitee_email.eq.${email}`)
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return (data ?? []) as unknown as CompanionshipWithProfiles[];
+  return attachProfiles(supabase, (data ?? []) as unknown as Companionship[]);
 }
 
 export async function getInvitationByToken(
@@ -49,14 +76,13 @@ export async function getInvitationByToken(
 ): Promise<CompanionshipWithProfiles | null> {
   const { data, error } = await supabase
     .from("companionships")
-    .select(
-      "*, inviter:profiles!companionships_inviter_id_fkey(display_name, avatar_url, email), invitee:profiles!companionships_invitee_user_id_fkey(display_name, avatar_url, email)",
-    )
+    .select("*")
     .eq("token", token)
-    .single();
+    .maybeSingle();
 
-  if (error) return null;
-  return data as unknown as CompanionshipWithProfiles;
+  if (error || !data) return null;
+  const [row] = await attachProfiles(supabase, [data as unknown as Companionship]);
+  return row ?? null;
 }
 
 export async function getInvitationPreview(
