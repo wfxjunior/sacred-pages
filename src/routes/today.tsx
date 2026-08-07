@@ -23,7 +23,18 @@ import { encouragementKey } from "@/lib/journey/consistency";
 import { useConsistency, useJourneyCompletionRecorder } from "@/lib/journey/hooks";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { toast } from "sonner";
-import { CheckCircle2, HelpCircle, X, Lightbulb, Compass, Type, Eye, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
+import {
+  CheckCircle2,
+  HelpCircle,
+  X,
+  Lightbulb,
+  Compass,
+  Type,
+  Eye,
+  ChevronRight,
+  Maximize2,
+  Minimize2,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Library, RefreshCw } from "lucide-react";
@@ -37,9 +48,16 @@ export const Route = createFileRoute("/today")({
   head: () => ({
     meta: [
       { title: "Today's Journey — Lumena" },
-      { name: "description", content: "A quiet daily journey through Scripture with a devotional, word search, reflection and prayer." },
+      {
+        name: "description",
+        content:
+          "A quiet daily journey through Scripture with a devotional, word search, reflection and prayer.",
+      },
       { property: "og:title", content: "Today's Journey — Lumena" },
-      { property: "og:description", content: "A daily Bible journey with devotional, word search, reflection and prayer." },
+      {
+        property: "og:description",
+        content: "A daily Bible journey with devotional, word search, reflection and prayer.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -131,10 +149,15 @@ function Today() {
         {/* Header — title, reference, difficulty and reading time only (max 96px) */}
         <header className="flex flex-none flex-wrap items-center justify-between gap-x-6 gap-y-3 py-1">
           <div className="min-w-0 flex-1 basis-[220px]">
-            <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
+            <p
+              className="text-[11px] uppercase tracking-[0.22em]"
+              style={{ color: "var(--walnut)" }}
+            >
               {TODAY.reference}
             </p>
-            <h1 className="mt-0.5 truncate font-serif text-lg leading-snug lg:text-xl">{TODAY.title}</h1>
+            <h1 className="mt-0.5 truncate font-serif text-lg leading-snug lg:text-xl">
+              {TODAY.title}
+            </h1>
             <p className="mt-0.5 truncate text-xs text-muted-foreground">
               {t("today.duration")} · {t(`diff.${difficulty}`)} · {TODAY.words.length}{" "}
               {t(TODAY.words.length === 1 ? "today.word" : "today.words")}
@@ -144,7 +167,13 @@ function Today() {
             <DifficultyPicker value={difficulty} onChange={chooseDifficulty} variant="segmented" />
             <span className="mx-0.5 hidden h-5 w-px bg-border sm:block" aria-hidden />
             <HelpMenu />
-            <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full" title={t("nav.collections")}>
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="h-11 w-11 rounded-full sm:h-8 sm:w-8"
+              title={t("nav.collections")}
+            >
               <Link to="/collections" aria-label={t("nav.collections")}>
                 <Library className="h-4 w-4" />
               </Link>
@@ -153,7 +182,7 @@ function Today() {
               onClick={finishToday}
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-full"
+              className="h-11 w-11 rounded-full sm:h-8 sm:w-8"
               title={t("complete.markDone")}
               aria-label={t("complete.markDone")}
             >
@@ -163,7 +192,7 @@ function Today() {
               onClick={regenerate}
               variant="ghost"
               size="icon"
-              className="h-8 w-8 rounded-full"
+              className="h-11 w-11 rounded-full sm:h-8 sm:w-8"
               title={t("wordsearch.regenerate")}
               aria-label={t("wordsearch.regenerate")}
             >
@@ -189,7 +218,9 @@ function Today() {
             />
           </div>
 
-          <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col"><DevotionalPanel /></div>
+          <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col">
+            <DevotionalPanel />
+          </div>
         </div>
 
         <div className="flex-none xl:hidden">
@@ -207,7 +238,7 @@ function Today() {
 
         <div className="flex flex-none flex-col gap-2 px-4 py-2">
           <DifficultyPicker value={difficulty} onChange={chooseDifficulty} compact />
-          <Button onClick={regenerate} variant="outline" size="sm" className="w-full">
+          <Button onClick={regenerate} variant="outline" size="sm" className="h-11 w-full sm:h-9">
             <RefreshCw className="mr-1.5 h-4 w-4" /> {t("wordsearch.regenerate")}
           </Button>
         </div>
@@ -256,7 +287,12 @@ function MobileHeader({
       <div className="flex shrink-0 items-center gap-1.5">
         <JourneyThemePicker compact />
         <HelpMenu />
-        <Button onClick={onComplete} variant="outline" size="icon" className="h-9 w-9">
+        <Button
+          onClick={onComplete}
+          variant="outline"
+          size="icon"
+          className="h-11 w-11 sm:h-9 sm:w-9"
+        >
           <CheckCircle2 className="h-4 w-4" />
         </Button>
       </div>
@@ -357,7 +393,10 @@ function MobileContentSheet() {
             <div className="max-h-[90vh] overflow-y-auto px-6 pb-8 pt-2">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "var(--gold)" }}>
+                  <p
+                    className="text-[10px] uppercase tracking-[0.2em]"
+                    style={{ color: "var(--gold)" }}
+                  >
                     {TODAY.reference}
                   </p>
                   <h2 id="today-sheet-title" className="mt-1 font-serif text-2xl leading-tight">
@@ -580,11 +619,16 @@ function JourneyTabsContent() {
         ))}
       </TabsList>
       <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-6">
-        <TabsContent value="devotional" className="mt-0 text-sm leading-relaxed text-foreground/90 md:text-base">
+        <TabsContent
+          value="devotional"
+          className="mt-0 text-sm leading-relaxed text-foreground/90 md:text-base"
+        >
           {TODAY.devotional}
         </TabsContent>
         <TabsContent value="reflection" className="mt-0 flex h-full flex-col gap-4">
-          <p className="text-sm leading-relaxed text-foreground/90 md:text-base">{TODAY.reflection}</p>
+          <p className="text-sm leading-relaxed text-foreground/90 md:text-base">
+            {TODAY.reflection}
+          </p>
           <textarea
             placeholder="Write your reflection…"
             className="min-h-32 w-full flex-1 rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
@@ -644,8 +688,10 @@ function DifficultyPicker({
               key={o}
               onClick={() => onChange(o)}
               aria-pressed={active}
-              className={`flex min-h-8 w-full min-w-0 items-center justify-center rounded-full px-1 text-center text-[10px] font-semibold uppercase leading-none tracking-[0.06em] transition ${
-                active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"
+              className={`flex min-h-11 w-full min-w-0 items-center justify-center rounded-full px-1 text-center text-[10px] font-semibold uppercase leading-none tracking-[0.06em] transition sm:min-h-8 ${
+                active
+                  ? "bg-secondary text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <span className="truncate">{t(`diff.${o}`)}</span>
@@ -664,7 +710,9 @@ function DifficultyPicker({
             key={o}
             onClick={() => onChange(o)}
             className={`flex h-full min-w-0 flex-col rounded-lg border px-4 py-3 text-left transition ${
-              active ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/40"
+              active
+                ? "border-primary bg-primary/5"
+                : "border-border bg-card hover:border-primary/40"
             }`}
           >
             <p className="truncate text-sm font-medium">{t(`diff.${o}`)}</p>
@@ -685,7 +733,7 @@ function HelpMenu() {
   ];
   return (
     <AlertDialog>
-      <Button variant="ghost" size="sm" asChild className="h-9 px-2">
+      <Button variant="ghost" size="sm" asChild className="h-11 px-2 sm:h-9">
         <AlertDialogTrigger>
           <HelpCircle className="mr-1.5 h-4 w-4" />
           <span className="hidden sm:inline">{t("journey.help")}</span>
@@ -699,7 +747,9 @@ function HelpMenu() {
           >
             <Lightbulb className="h-5 w-5" style={{ color: "var(--gold)" }} />
           </div>
-          <AlertDialogTitle className="text-xl leading-tight">{t("help.confirmTitle")}</AlertDialogTitle>
+          <AlertDialogTitle className="text-xl leading-tight">
+            {t("help.confirmTitle")}
+          </AlertDialogTitle>
           <AlertDialogDescription className="text-sm leading-relaxed text-muted-foreground">
             {t("help.confirmBody")}
           </AlertDialogDescription>
@@ -720,7 +770,9 @@ function HelpMenu() {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-medium leading-tight">{label}</span>
-                  <span className="mt-0.5 line-clamp-2 block text-xs leading-snug text-muted-foreground">{desc}</span>
+                  <span className="mt-0.5 line-clamp-2 block text-xs leading-snug text-muted-foreground">
+                    {desc}
+                  </span>
                 </span>
                 <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition group-hover:translate-x-0.5 group-hover:text-muted-foreground" />
               </button>
@@ -765,8 +817,15 @@ function CompletionSeal() {
             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)",
           }}
         />
-        <svg viewBox="0 0 24 24" className="relative h-8 w-8" fill="none" strokeWidth={1.6}
-          strokeLinecap="round" strokeLinejoin="round" stroke="var(--walnut)">
+        <svg
+          viewBox="0 0 24 24"
+          className="relative h-8 w-8"
+          fill="none"
+          strokeWidth={1.6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          stroke="var(--walnut)"
+        >
           <path d="M20 6 9 17l-5-5" />
         </svg>
       </div>
@@ -851,9 +910,15 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
           </p>
         )}
 
-        <blockquote className="mt-10 border-l-2 pl-6 text-left font-serif text-lg italic leading-relaxed" style={{ borderColor: "var(--gold)" }}>
+        <blockquote
+          className="mt-10 border-l-2 pl-6 text-left font-serif text-lg italic leading-relaxed"
+          style={{ borderColor: "var(--gold)" }}
+        >
           "{TODAY.scripture}"
-          <footer className="mt-2 text-xs not-italic uppercase tracking-widest" style={{ color: "var(--walnut)" }}>
+          <footer
+            className="mt-2 text-xs not-italic uppercase tracking-widest"
+            style={{ color: "var(--walnut)" }}
+          >
             {TODAY.reference}
           </footer>
         </blockquote>
@@ -867,7 +932,9 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
           <Button variant="outline" onClick={share}>
             {t("complete.share")}
           </Button>
-          <Button asChild variant="outline"><Link to="/collections">{t("complete.another")}</Link></Button>
+          <Button asChild variant="outline">
+            <Link to="/collections">{t("complete.another")}</Link>
+          </Button>
           <Button variant="ghost" onClick={onReset}>
             {t("ui.back")}
           </Button>

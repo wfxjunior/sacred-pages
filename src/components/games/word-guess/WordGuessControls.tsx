@@ -1,4 +1,5 @@
 import { Eraser, Eye, Lightbulb, Sparkles } from "lucide-react";
+import { gamePillClass } from "@/components/games/controlStyles";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +18,7 @@ import type { WordGuessSettings, WordGuessState } from "@/lib/word-guess/types";
 // buttons that never compete with the answer board. Revealing the full answer
 // is the only destructive act here, so it is the only one behind a confirm.
 
-const pillClass =
-  "inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:pointer-events-none disabled:opacity-40";
+const pillClass = gamePillClass;
 
 export function WordGuessControls({
   state,

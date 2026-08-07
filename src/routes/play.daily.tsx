@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { gamePrimaryClass, gameSecondaryClass } from "@/components/games/controlStyles";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, CheckCircle2, ChevronRight, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/site/AppShell";
@@ -84,12 +85,12 @@ function DailyChallengePage() {
               {t("daily.wordSearchBody")}
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              <Button asChild className="rounded-full">
+              <Button asChild className={gamePrimaryClass}>
                 <Link to="/today">
                   {t("nav.today")} <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="ghost" className="rounded-full" onClick={finish}>
+              <Button variant="ghost" className={gameSecondaryClass} onClick={finish}>
                 {t("daily.markDone")}
               </Button>
             </div>
@@ -133,7 +134,7 @@ function DailyChallengeDone() {
         </p>
       )}
       <div className="mt-6 flex flex-wrap justify-center gap-2">
-        <Button asChild variant="outline" className="rounded-full">
+        <Button asChild variant="outline" className={gameSecondaryClass}>
           <Link to="/play">{t("games.hub.title")}</Link>
         </Button>
         <Button asChild className="rounded-full">

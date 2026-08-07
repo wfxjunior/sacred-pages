@@ -37,7 +37,7 @@ export function JourneyThemePicker({ compact = false }: { compact?: boolean }) {
         <Button
           variant="outline"
           size={compact ? "icon" : "sm"}
-          className={compact ? "h-9 w-9" : "max-w-[15rem]"}
+          className={compact ? "h-11 w-11 sm:h-9 sm:w-9" : "h-11 max-w-[15rem] sm:h-9"}
           aria-label={t("today.changeTheme")}
           title={t("today.changeTheme")}
         >
@@ -59,11 +59,7 @@ export function JourneyThemePicker({ compact = false }: { compact?: boolean }) {
         </DropdownMenuItem>
         {journeys.length > 0 && <DropdownMenuSeparator />}
         {journeys.map((journey) => (
-          <DropdownMenuItem
-            key={journey.id}
-            onSelect={() => pick(journey.slug)}
-            className="gap-2"
-          >
+          <DropdownMenuItem key={journey.id} onSelect={() => pick(journey.slug)} className="gap-2">
             <span className="flex-1 truncate">{journey.title}</span>
             {search?.journey === journey.slug && <Check className="h-4 w-4 shrink-0" />}
           </DropdownMenuItem>

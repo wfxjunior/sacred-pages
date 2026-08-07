@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { gamePillClass } from "@/components/games/controlStyles";
 import { Eye } from "lucide-react";
 import {
   AlertDialog,
@@ -141,10 +142,7 @@ export function WhoAmIGame({
           <div className="flex justify-center">
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <button
-                  type="button"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
-                >
+                <button type="button" className={gamePillClass}>
                   <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                   {t("games.revealAnswer")}
                 </button>

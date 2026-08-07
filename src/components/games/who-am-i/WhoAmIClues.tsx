@@ -40,7 +40,7 @@ export function WhoAmIClues({
         <button
           type="button"
           onClick={onRevealNext}
-          className="mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full border border-dashed border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          className="mt-3 inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full border border-dashed border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] sm:h-9"
         >
           <Plus className="h-3.5 w-3.5" aria-hidden="true" />
           {t("whoami.revealClue")}

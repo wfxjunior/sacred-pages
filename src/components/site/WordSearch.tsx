@@ -113,8 +113,8 @@ export function WordSearch({
   // picker are two views of one value rather than two independent states.
   const { prefs, setPref } = usePreferences();
   const colorKey = prefs.selectionColor;
-  const selectionColor =
-    (SELECTION_COLORS.find((c) => c.key === colorKey) ?? SELECTION_COLORS[0]!).value;
+  const selectionColor = (SELECTION_COLORS.find((c) => c.key === colorKey) ?? SELECTION_COLORS[0]!)
+    .value;
   const setColorKey = (key: string) => setPref("selectionColor", key);
 
   const [start, setStart] = useState<Cell | null>(null);
@@ -186,9 +186,7 @@ export function WordSearch({
     prevFoundRef.current = savedFound;
     // Falls back to the session seed, never 0: a fresh session must lay the
     // words out differently, and 0 would replay the default layout.
-    setShuffleNonce(
-      typeof saved?.nonce === "number" ? saved!.nonce! : seedFromSession(sessionKey),
-    );
+    setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : seedFromSession(sessionKey));
     setFound(savedFound);
     setRevealed(saved?.revealed === true);
     setElapsedMs(typeof saved?.elapsedMs === "number" ? saved.elapsedMs : 0);
@@ -234,7 +232,9 @@ export function WordSearch({
       const lap = Math.floor(i / WORD_COLORS.length);
       map.set(
         word.normalized,
-        lap === 0 ? base : base.replace(/([\d.]+)\)$/, (_m, h) => `${(Number(h) + lap * 17) % 360})`),
+        lap === 0
+          ? base
+          : base.replace(/([\d.]+)\)$/, (_m, h) => `${(Number(h) + lap * 17) % 360})`),
       );
     });
     return map;
@@ -258,7 +258,9 @@ export function WordSearch({
             const total = elapsedMs + (Date.now() - begin);
             setElapsedMs(total);
             // Saved quietly to the reader's profile: their own record only.
-            void recordCompletion(storageKey, total, journeyLabel).then((best) => setBestTimeMs(best));
+            void recordCompletion(storageKey, total, journeyLabel).then((best) =>
+              setBestTimeMs(best),
+            );
           }
           return null;
         });
@@ -322,7 +324,7 @@ export function WordSearch({
       <button
         type="button"
         onClick={shuffleGrid}
-        className="mt-3 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-full px-4 text-[11px] font-semibold uppercase tracking-[0.14em] transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+        className="mt-3 inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full px-4 sm:h-9 text-[11px] font-semibold uppercase tracking-[0.14em] transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
         style={{ background: "var(--ink)", color: "var(--ivory)" }}
       >
         <RefreshCw className="h-3.5 w-3.5 shrink-0" />
@@ -484,7 +486,7 @@ export function WordSearch({
   const compact = fullBleed && !expanded;
 
   const expandButtonClass =
-    "inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+    "inline-flex h-11 items-center gap-1.5 rounded-full border border-border px-3 sm:h-8 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
 
   // Borderless, letters-only grid: the page itself is the frame, as in a
   // printed devotional notebook. Spacing (not rules) separates the cells.
@@ -499,12 +501,9 @@ export function WordSearch({
 
   // Compact toolbar icon buttons: keep a comfortable 32px touch target on mobile.
   const compactIconButtonClass =
-    "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border/60 bg-card text-muted-foreground transition active:scale-95 hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
+    "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/60 bg-card sm:h-8 sm:w-8 text-muted-foreground transition active:scale-95 hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]";
 
-  const renderGrid = (
-    ref: React.RefObject<HTMLDivElement | null>,
-    mode: "normal" | "expanded",
-  ) => {
+  const renderGrid = (ref: React.RefObject<HTMLDivElement | null>, mode: "normal" | "expanded") => {
     const isCompact = mode === "normal" && compact;
     const isExpanded = mode === "expanded";
     return (
@@ -516,9 +515,7 @@ export function WordSearch({
         aria-rowcount={size}
         aria-colcount={size}
         onKeyDown={handleKeyDown}
-        className={`${gridBaseClass} ${
-          isCompact ? "w-full flex-none content-start p-2" : "p-3"
-        } ${
+        className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-2" : "p-3"} ${
           isExpanded
             ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-center lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
             : ""
@@ -638,7 +635,11 @@ export function WordSearch({
       {toast && (
         <div
           className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium shadow-sm"
-          style={{ background: "var(--ink)", color: "var(--ivory)", animation: "toast-in 0.25s ease-out" }}
+          style={{
+            background: "var(--ink)",
+            color: "var(--ivory)",
+            animation: "toast-in 0.25s ease-out",
+          }}
           role="status"
           aria-live="polite"
         >
@@ -706,7 +707,7 @@ export function WordSearch({
         type="button"
         onClick={() => setRevealed((v) => !v)}
         aria-pressed={revealed}
-        className="mt-1 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-border px-3 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+        className="mt-1 inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-lg border border-border px-3 sm:h-9 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
       >
         {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
         {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
@@ -755,7 +756,9 @@ export function WordSearch({
                 <Timer className="h-3.5 w-3.5" />
                 {completedTime}
                 {bestLabel && bestLabel !== completedTime && (
-                  <span className="text-muted-foreground/70">· {t("wordsearch.bestTime")} {bestLabel}</span>
+                  <span className="text-muted-foreground/70">
+                    · {t("wordsearch.bestTime")} {bestLabel}
+                  </span>
                 )}
               </span>
             )}
@@ -763,7 +766,7 @@ export function WordSearch({
               type="button"
               onClick={shuffleGrid}
               title={t("wordsearch.shuffleConfirm")}
-              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+              className="inline-flex h-11 items-center gap-1.5 rounded-full border border-border px-3 sm:h-8 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
             >
               <Shuffle className="h-3.5 w-3.5" />
               {t("wordsearch.shuffle")}
@@ -775,7 +778,11 @@ export function WordSearch({
               title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
               className={expandButtonClass}
             >
-              {expanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+              {expanded ? (
+                <Minimize2 className="h-3.5 w-3.5" />
+              ) : (
+                <Maximize2 className="h-3.5 w-3.5" />
+              )}
               <span className="hidden sm:inline">
                 {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
               </span>
@@ -784,7 +791,7 @@ export function WordSearch({
               type="button"
               onClick={() => setRevealed((v) => !v)}
               aria-pressed={revealed}
-              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+              className="inline-flex h-11 items-center gap-1.5 rounded-full border border-border px-3 sm:h-8 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
             >
               {revealed ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
               {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
@@ -903,7 +910,9 @@ export function WordSearch({
                 <Timer className="h-3.5 w-3.5" />
                 {completedTime}
                 {bestLabel && bestLabel !== completedTime && (
-                  <span className="text-muted-foreground/70">· {t("wordsearch.bestTime")} {bestLabel}</span>
+                  <span className="text-muted-foreground/70">
+                    · {t("wordsearch.bestTime")} {bestLabel}
+                  </span>
                 )}
               </span>
             )}
@@ -957,7 +966,7 @@ export function WordSearch({
             onClick={shuffleGrid}
             title={t("wordsearch.shuffleConfirm")}
             aria-label={t("wordsearch.shuffle")}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            className="inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border px-2 sm:h-9 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
             <Shuffle className="h-3.5 w-3.5 shrink-0" />
             <span className="hidden truncate xl:inline">{t("wordsearch.shuffle")}</span>
@@ -967,10 +976,16 @@ export function WordSearch({
             onClick={() => setExpanded((v) => !v)}
             aria-pressed={expanded}
             title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            className="inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border px-2 sm:h-9 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
-            {expanded ? <Minimize2 className="h-3.5 w-3.5 shrink-0" /> : <Maximize2 className="h-3.5 w-3.5 shrink-0" />}
-            <span className="hidden truncate xl:inline">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
+            {expanded ? (
+              <Minimize2 className="h-3.5 w-3.5 shrink-0" />
+            ) : (
+              <Maximize2 className="h-3.5 w-3.5 shrink-0" />
+            )}
+            <span className="hidden truncate xl:inline">
+              {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+            </span>
           </button>
           <button
             type="button"
@@ -978,10 +993,16 @@ export function WordSearch({
             aria-pressed={revealed}
             title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
             aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-            className="col-span-2 inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+            className="col-span-2 inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border px-2 sm:h-9 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
           >
-            {revealed ? <EyeOff className="h-3.5 w-3.5 shrink-0" /> : <Eye className="h-3.5 w-3.5 shrink-0" />}
-            <span className="truncate">{revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}</span>
+            {revealed ? (
+              <EyeOff className="h-3.5 w-3.5 shrink-0" />
+            ) : (
+              <Eye className="h-3.5 w-3.5 shrink-0" />
+            )}
+            <span className="truncate">
+              {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+            </span>
           </button>
         </div>
 
@@ -989,7 +1010,11 @@ export function WordSearch({
           <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
             {t("journey.selectionColor")}
           </span>
-          <div className="mt-2 flex items-center gap-2" role="radiogroup" aria-label={t("journey.selectionColor")}>
+          <div
+            className="mt-2 flex items-center gap-2"
+            role="radiogroup"
+            aria-label={t("journey.selectionColor")}
+          >
             {SELECTION_COLORS.map((c) => (
               <button
                 key={c.key}
@@ -1010,7 +1035,6 @@ export function WordSearch({
       </div>
     </div>
   );
-
 
   /** Reading layout: the grid is the hero, the words sit in a calm rail beside it. */
   const stackedLayout = (
@@ -1080,12 +1104,18 @@ export function WordSearch({
                     } ${done && !reducedMotion ? "animate-[chip-bounce_0.45s_ease-out]" : ""}`}
                     style={{
                       color: done ? "var(--ink)" : undefined,
-                      background: done ? `color-mix(in oklab, ${color} 16%, transparent)` : undefined,
+                      background: done
+                        ? `color-mix(in oklab, ${color} 16%, transparent)`
+                        : undefined,
                       textDecorationColor: done ? color : undefined,
                     }}
                   >
                     {done ? (
-                      <Check className="h-3.5 w-3.5 shrink-0" style={{ color }} aria-hidden="true" />
+                      <Check
+                        className="h-3.5 w-3.5 shrink-0"
+                        style={{ color }}
+                        aria-hidden="true"
+                      />
                     ) : (
                       <span
                         aria-hidden
@@ -1105,7 +1135,7 @@ export function WordSearch({
                 onClick={shuffleGrid}
                 title={t("wordsearch.shuffleConfirm")}
                 aria-label={t("wordsearch.shuffle")}
-                className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                className="inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border px-2 sm:h-9 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
                 <Shuffle className="h-3.5 w-3.5 shrink-0" />
                 <span className="hidden truncate xl:inline">{t("wordsearch.shuffle")}</span>
@@ -1116,10 +1146,16 @@ export function WordSearch({
                 aria-pressed={expanded}
                 title={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
                 aria-label={expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
-                className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                className="inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border px-2 sm:h-9 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
-                {expanded ? <Minimize2 className="h-3.5 w-3.5 shrink-0" /> : <Maximize2 className="h-3.5 w-3.5 shrink-0" />}
-                <span className="hidden truncate xl:inline">{expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}</span>
+                {expanded ? (
+                  <Minimize2 className="h-3.5 w-3.5 shrink-0" />
+                ) : (
+                  <Maximize2 className="h-3.5 w-3.5 shrink-0" />
+                )}
+                <span className="hidden truncate xl:inline">
+                  {expanded ? t("wordsearch.collapse") : t("wordsearch.expand")}
+                </span>
               </button>
               <button
                 type="button"
@@ -1127,10 +1163,16 @@ export function WordSearch({
                 aria-pressed={revealed}
                 title={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
                 aria-label={revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
-                className="col-span-2 inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border px-2 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+                className="col-span-2 inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border border-border px-2 sm:h-9 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
               >
-                {revealed ? <EyeOff className="h-3.5 w-3.5 shrink-0" /> : <Eye className="h-3.5 w-3.5 shrink-0" />}
-                <span className="truncate">{revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}</span>
+                {revealed ? (
+                  <EyeOff className="h-3.5 w-3.5 shrink-0" />
+                ) : (
+                  <Eye className="h-3.5 w-3.5 shrink-0" />
+                )}
+                <span className="truncate">
+                  {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+                </span>
               </button>
             </div>
 
@@ -1138,7 +1180,11 @@ export function WordSearch({
               <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 {t("journey.selectionColor")}
               </span>
-              <div className="mt-2 flex items-center gap-2" role="radiogroup" aria-label={t("journey.selectionColor")}>
+              <div
+                className="mt-2 flex items-center gap-2"
+                role="radiogroup"
+                aria-label={t("journey.selectionColor")}
+              >
                 {SELECTION_COLORS.map((c) => (
                   <button
                     key={c.key}
@@ -1193,8 +1239,8 @@ export function WordSearch({
             >
               {toast.all ? <Trophy className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
               {toast.all
-            ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
-            : `${toast.word} — ${t("wordsearch.found")}`}
+                ? `${t("wordsearch.foundAll")} · ${t("wordsearch.completedIn")} ${completedTime}`
+                : `${toast.word} — ${t("wordsearch.found")}`}
             </div>
           )}
         </div>
@@ -1215,11 +1261,7 @@ export function WordSearch({
           {desktopWordsPanel(true)}
         </div>
       )}
-      {!compact && !useStacked && (
-        <div className="lg:hidden">
-          {wordsPanel(true)}
-        </div>
-      )}
+      {!compact && !useStacked && <div className="lg:hidden">{wordsPanel(true)}</div>}
 
       {compact && (
         <div className="flex w-full min-w-0 flex-none flex-col gap-2 overflow-visible pb-2">
@@ -1283,7 +1325,7 @@ export function WordSearch({
                 <li
                   key={w}
                   aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                  className={`flex min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1.5 text-[10px] font-medium uppercase tracking-wider transition ${
+                  className={`flex min-h-11 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1.5 text-[10px] sm:min-h-0 font-medium uppercase tracking-wider transition ${
                     done
                       ? "border-transparent line-through"
                       : "border-border/60 bg-background/70 text-muted-foreground"
@@ -1321,7 +1363,7 @@ export function WordSearch({
           type="button"
           onClick={() => setExpanded(false)}
           aria-label={t("wordsearch.collapse")}
-          className="fixed right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-card text-muted-foreground shadow-sm transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          className="fixed right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full sm:h-8 sm:w-8 border border-border/70 bg-card text-muted-foreground shadow-sm transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
         >
           <X className="h-4 w-4" />
         </button>

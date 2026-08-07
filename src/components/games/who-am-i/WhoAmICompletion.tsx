@@ -1,4 +1,5 @@
 import { CheckCircle2, Eye, RefreshCw } from "lucide-react";
+import { gamePrimaryClass, gameSecondaryClass } from "@/components/games/controlStyles";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
@@ -33,11 +34,11 @@ export function WhoAmICompletion({
         <p className="font-serif text-xl">{t("games.failedTitle")}</p>
         <p className="mt-2 text-[13px] text-muted-foreground">{t("games.failedBody")}</p>
         <div className="mt-5 flex flex-wrap justify-center gap-2">
-          <Button onClick={onTryAgain} variant="outline" className="rounded-full">
+          <Button onClick={onTryAgain} variant="outline" className={gameSecondaryClass}>
             <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
             {t("games.tryAgain")}
           </Button>
-          <Button onClick={onRevealAnswer} variant="outline" className="rounded-full">
+          <Button onClick={onRevealAnswer} variant="outline" className={gameSecondaryClass}>
             <Eye className="mr-1.5 h-4 w-4" aria-hidden="true" />
             {t("games.revealAnswer")}
           </Button>
@@ -89,13 +90,13 @@ export function WhoAmICompletion({
       </dl>
 
       <div className="mt-6 flex flex-wrap justify-center gap-2">
-        <Button onClick={onContinue} className="rounded-full">
+        <Button onClick={onContinue} className={gamePrimaryClass}>
           {t("ui.continue")}
         </Button>
-        <Button onClick={onTryAnother} variant="outline" className="rounded-full">
+        <Button onClick={onTryAnother} variant="outline" className={gameSecondaryClass}>
           {t("games.tryAnother")}
         </Button>
-        <Button asChild variant="ghost" className="rounded-full">
+        <Button asChild variant="ghost" className={gameSecondaryClass}>
           <Link to="/today">{t("games.backToJourney")}</Link>
         </Button>
       </div>

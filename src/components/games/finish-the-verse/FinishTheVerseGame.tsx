@@ -1,4 +1,9 @@
 import { useMemo, useState } from "react";
+import {
+  gamePillClass,
+  gamePrimaryClass,
+  gameSecondaryClass,
+} from "@/components/games/controlStyles";
 import { Link } from "@tanstack/react-router";
 import {
   BookOpen,
@@ -50,8 +55,7 @@ import type { FinishVerseRound } from "@/lib/finish-the-verse/types";
 // Rules live in lib/finish-the-verse; this component renders and narrates.
 // Mount with a changing key so a new round starts clean.
 
-const pillClass =
-  "inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:pointer-events-none disabled:opacity-40";
+const pillClass = gamePillClass;
 
 export function FinishTheVerseGame({
   round,
@@ -167,7 +171,7 @@ export function FinishTheVerseGame({
               <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
               {t("games.tryAgain")}
             </Button>
-            <Button onClick={reveal} variant="outline" className="rounded-full">
+            <Button onClick={reveal} variant="outline" className={gameSecondaryClass}>
               <Eye className="mr-1.5 h-4 w-4" aria-hidden="true" />
               {t("games.revealAnswer")}
             </Button>
@@ -216,13 +220,13 @@ export function FinishTheVerseGame({
           </div>
         </dl>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <Button onClick={onContinue} className="rounded-full">
+          <Button onClick={onContinue} className={gamePrimaryClass}>
             {t("ui.continue")}
           </Button>
-          <Button onClick={onTryAnother} variant="outline" className="rounded-full">
+          <Button onClick={onTryAnother} variant="outline" className={gameSecondaryClass}>
             {t("games.tryAnother")}
           </Button>
-          <Button asChild variant="ghost" className="rounded-full">
+          <Button asChild variant="ghost" className={gameSecondaryClass}>
             <Link to="/today">{t("games.backToJourney")}</Link>
           </Button>
         </div>
@@ -365,7 +369,7 @@ export function FinishTheVerseGame({
       )}
 
       <div className="flex flex-wrap items-center justify-center gap-2">
-        <Button onClick={submit} className="rounded-full">
+        <Button onClick={submit} className={gamePrimaryClass}>
           <Check className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t("verse.submit")}
         </Button>
