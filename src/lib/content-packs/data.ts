@@ -2327,4 +2327,1167 @@ export const CONTENT_PACKS: readonly ContentPack[] = [
       },
     ],
   },
+  {
+    id: "33e5125e-4f6a-51d8-ab33-0d6069e23568",
+    internalName: "Parables of Jesus",
+    slug: "parables-of-jesus",
+    topic: "Teachings",
+    audience: "Everyone",
+    displayOrder: 5,
+    translations: {
+      en: {
+        title: "Parables of Jesus",
+        short: "Seven days inside the stories Jesus told, and what they still ask of us.",
+        full: "A seven-day plan through seven parables — the sower, the lost sheep, the mustard seed, the good Samaritan, the prodigal son, the talents, and the wise and foolish builders — one story, one question a day.",
+      },
+      pt: {
+        title: "Parábolas de Jesus",
+        short:
+          "Sete dias dentro das histórias que Jesus contou, e o que elas ainda perguntam a nós.",
+        full: "Um plano de sete dias por sete parábolas — o semeador, a ovelha perdida, o grão de mostarda, o bom samaritano, o filho pródigo, os talentos e os dois alicerces — uma história, uma pergunta por dia.",
+      },
+      es: {
+        title: "Parábolas de Jesús",
+        short:
+          "Siete días dentro de las historias que Jesús contó, y lo que todavía nos preguntan.",
+        full: "Un plan de siete días por siete parábolas — el sembrador, la oveja perdida, el grano de mostaza, el buen samaritano, el hijo pródigo, los talentos y los dos constructores — una historia, una pregunta al día.",
+      },
+    },
+    journeys: [
+      {
+        id: "595137c6-24cf-5d94-970e-29478ac86b3d",
+        slug: "sower-good-soil",
+        position: 0,
+        difficulty: "gentle",
+        theme: "Receptivity",
+        internalTitle: "Good Soil",
+        scripture: {
+          bookCode: "MAT",
+          chapter: 13,
+          verseStart: 3,
+          verseEnd: 3,
+          displayReference: "Matthew 13:3",
+          storedText: "Behold, a farmer went out to sow.",
+        },
+        translations: {
+          en: {
+            title: "Good Soil",
+            devotional:
+              "The same seed yields different results depending only on the soil it lands in. This parable does not blame the sower — it asks about the ground.",
+            reflection: "What condition is the soil of your heart in today?",
+            prayer:
+              "Sower of the Word, make my heart good soil. Let what you plant take root and bear fruit.",
+            completion: "Day one of Parables of Jesus.",
+          },
+          pt: {
+            title: "Terra Boa",
+            devotional:
+              "A mesma semente rende resultados diferentes dependendo apenas da terra em que cai. A parábola não culpa o semeador — ela pergunta sobre o solo.",
+            reflection: "Em que condição está a terra do seu coração hoje?",
+            prayer:
+              "Semeador da Palavra, faze do meu coração boa terra. Que o que plantas crie raiz e dê fruto.",
+            completion: "Dia um de Parábolas de Jesus.",
+          },
+          es: {
+            title: "Tierra Buena",
+            devotional:
+              "La misma semilla rinde resultados distintos según la tierra donde cae. La parábola no culpa al sembrador — pregunta por el suelo.",
+            reflection: "¿En qué condición está la tierra de tu corazón hoy?",
+            prayer:
+              "Sembrador de la Palabra, haz de mi corazón buena tierra. Que lo que siembras eche raíz y dé fruto.",
+            completion: "Día uno de Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "edb77dd5-176b-5655-9e1d-5ae496476fc3",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SOWER",
+                normalized: "SOWER",
+              },
+              pt: {
+                display: "SEMEADOR",
+                normalized: "SEMEADOR",
+              },
+              es: {
+                display: "SEMBRADOR",
+                normalized: "SEMBRADOR",
+              },
+            },
+          },
+          {
+            id: "2629807e-6927-56ee-bf65-13a968912166",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SEED",
+                normalized: "SEED",
+              },
+              pt: {
+                display: "SEMENTE",
+                normalized: "SEMENTE",
+              },
+              es: {
+                display: "SEMILLA",
+                normalized: "SEMILLA",
+              },
+            },
+          },
+          {
+            id: "0523208c-d67b-54ac-8d77-2b39889d0882",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SOIL",
+                normalized: "SOIL",
+              },
+              pt: {
+                display: "TERRA",
+                normalized: "TERRA",
+              },
+              es: {
+                display: "TIERRA",
+                normalized: "TIERRA",
+              },
+            },
+          },
+          {
+            id: "5b8a80d7-8d9c-5207-a6e5-1d3f9a0e54f6",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "FRUIT",
+                normalized: "FRUIT",
+              },
+              pt: {
+                display: "FRUTO",
+                normalized: "FRUTO",
+              },
+              es: {
+                display: "FRUTO",
+                normalized: "FRUTO",
+              },
+            },
+          },
+          {
+            id: "e071b39d-3889-5710-bfd9-0c06c9da51e0",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "GROUND",
+                normalized: "GROUND",
+              },
+              pt: {
+                display: "SOLO",
+                normalized: "SOLO",
+              },
+              es: {
+                display: "SUELO",
+                normalized: "SUELO",
+              },
+            },
+          },
+          {
+            id: "58cec989-36ee-551e-8973-cb43b8a64494",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "HARVEST",
+                normalized: "HARVEST",
+              },
+              pt: {
+                display: "COLHEITA",
+                normalized: "COLHEITA",
+              },
+              es: {
+                display: "COSECHA",
+                normalized: "COSECHA",
+              },
+            },
+          },
+        ],
+      },
+      {
+        id: "46cc9ba4-9a26-51cf-a7b8-cdbd7ff47484",
+        slug: "the-one-lost-sheep",
+        position: 1,
+        difficulty: "gentle",
+        theme: "Being Sought",
+        internalTitle: "The One",
+        scripture: {
+          bookCode: "LUK",
+          chapter: 15,
+          verseStart: 4,
+          verseEnd: 4,
+          displayReference: "Luke 15:4",
+          storedText:
+            "What man of you, having one hundred sheep, if he loses one of them, doesn't leave the ninety-nine in the wilderness, and go after the one that is lost, until he finds it?",
+        },
+        translations: {
+          en: {
+            title: "The One",
+            devotional:
+              "Value here is not majority math. The shepherd leaves ninety-nine safe sheep for one — because being found is not about the count, it is about being wanted.",
+            reflection: "Where do you need to know you are worth seeking?",
+            prayer:
+              "Shepherd who leaves the ninety-nine, come and find me. Carry me home on your shoulders.",
+            completion: "Day two of Parables of Jesus.",
+          },
+          pt: {
+            title: "A Única",
+            devotional:
+              "Valor aqui não é matemática de maioria. O pastor deixa noventa e nove ovelhas seguras por uma só — porque ser buscado não é sobre número, é sobre ser querido.",
+            reflection: "Onde você precisa saber que vale a pena ser buscado?",
+            prayer:
+              "Pastor que deixa as noventa e nove, vem me buscar. Carrega-me nos ombros de volta para casa.",
+            completion: "Dia dois de Parábolas de Jesus.",
+          },
+          es: {
+            title: "La Única",
+            devotional:
+              "El valor aquí no es matemática de mayoría. El pastor deja noventa y nueve ovejas seguras por una sola — porque ser hallado no depende del número, sino de ser querido.",
+            reflection: "¿Dónde necesitas saber que vale la pena buscarte?",
+            prayer:
+              "Pastor que deja las noventa y nueve, ven a buscarme. Llévame a casa sobre tus hombros.",
+            completion: "Día dos de Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "748053ff-579c-5009-8ccc-335b06947bdd",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SHEPHERD",
+                normalized: "SHEPHERD",
+              },
+              pt: {
+                display: "PASTOR",
+                normalized: "PASTOR",
+              },
+              es: {
+                display: "PASTOR",
+                normalized: "PASTOR",
+              },
+            },
+          },
+          {
+            id: "f8d5b2bf-6cb2-536b-a339-8c543fa2321e",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "LOST",
+                normalized: "LOST",
+              },
+              pt: {
+                display: "PERDIDA",
+                normalized: "PERDIDA",
+              },
+              es: {
+                display: "PERDIDA",
+                normalized: "PERDIDA",
+              },
+            },
+          },
+          {
+            id: "eb9ed0d9-64ba-531f-9c15-77baf5405fd5",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "FOUND",
+                normalized: "FOUND",
+              },
+              pt: {
+                display: "ACHADA",
+                normalized: "ACHADA",
+              },
+              es: {
+                display: "HALLADA",
+                normalized: "HALLADA",
+              },
+            },
+          },
+          {
+            id: "b681f689-d3ea-50ae-97d4-6f5052a34082",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SHEEP",
+                normalized: "SHEEP",
+              },
+              pt: {
+                display: "OVELHA",
+                normalized: "OVELHA",
+              },
+              es: {
+                display: "OVEJA",
+                normalized: "OVEJA",
+              },
+            },
+          },
+          {
+            id: "cb52792b-ee41-5a0f-a59b-7240cf15a480",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "CARRY",
+                normalized: "CARRY",
+              },
+              pt: {
+                display: "CARREGAR",
+                normalized: "CARREGAR",
+              },
+              es: {
+                display: "LLEVAR",
+                normalized: "LLEVAR",
+              },
+            },
+          },
+          {
+            id: "1dc8f78d-00ac-5f2d-bb7f-686f8dacaf2a",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "REJOICE",
+                normalized: "REJOICE",
+              },
+              pt: {
+                display: "ALEGRIA",
+                normalized: "ALEGRIA",
+              },
+              es: {
+                display: "ALEGRÍA",
+                normalized: "ALEGRIA",
+              },
+            },
+          },
+        ],
+      },
+      {
+        id: "10ae068e-9e21-53cd-9cc5-75ddc2213ea9",
+        slug: "mustard-seed-kingdom",
+        position: 2,
+        difficulty: "gentle",
+        theme: "Small Beginnings",
+        internalTitle: "The Smallest Seed",
+        scripture: {
+          bookCode: "MAT",
+          chapter: 13,
+          verseStart: 31,
+          verseEnd: 31,
+          displayReference: "Matthew 13:31",
+          storedText:
+            "The Kingdom of Heaven is like a grain of mustard seed, which a man took, and sowed in his field.",
+        },
+        translations: {
+          en: {
+            title: "The Smallest Seed",
+            devotional:
+              "The kingdom starts small and nearly invisible, then grows past every expectation. This is encouragement for the faithful act too small for anyone else to notice.",
+            reflection: "What small seed have you been tempted to dismiss?",
+            prayer:
+              "God of small beginnings, grow what I planted in weakness. Make the smallest seed enough.",
+            completion: "Day three of Parables of Jesus.",
+          },
+          pt: {
+            title: "A Menor das Sementes",
+            devotional:
+              "O reino começa pequeno, quase invisível, e cresce além de toda expectativa. É um encorajamento para o ato fiel pequeno demais para qualquer outro notar.",
+            reflection: "Que semente pequena você tem sentido tentação de descartar?",
+            prayer:
+              "Deus dos pequenos começos, faze crescer o que plantei em fraqueza. Torna a menor semente suficiente.",
+            completion: "Dia três de Parábolas de Jesus.",
+          },
+          es: {
+            title: "La Semilla Más Pequeña",
+            devotional:
+              "El reino comienza pequeño, casi invisible, y crece más allá de toda expectativa. Es aliento para el acto fiel demasiado pequeño para que alguien más lo note.",
+            reflection: "¿Qué semilla pequeña has sentido la tentación de descartar?",
+            prayer:
+              "Dios de los comienzos pequeños, haz crecer lo que sembré en debilidad. Haz que la semilla más pequeña baste.",
+            completion: "Día tres de Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "236bcc02-d13b-5ed1-8d18-5ebaae7da0e7",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "MUSTARD",
+                normalized: "MUSTARD",
+              },
+              pt: {
+                display: "MOSTARDA",
+                normalized: "MOSTARDA",
+              },
+              es: {
+                display: "MOSTAZA",
+                normalized: "MOSTAZA",
+              },
+            },
+          },
+          {
+            id: "2075bc32-3605-5102-a0f1-6d6fd273bbab",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SEED",
+                normalized: "SEED",
+              },
+              pt: {
+                display: "SEMENTE",
+                normalized: "SEMENTE",
+              },
+              es: {
+                display: "SEMILLA",
+                normalized: "SEMILLA",
+              },
+            },
+          },
+          {
+            id: "b993d1fa-0a32-5bef-9933-63797ceb5288",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "GROWTH",
+                normalized: "GROWTH",
+              },
+              pt: {
+                display: "CRESCIMENTO",
+                normalized: "CRESCIMENTO",
+              },
+              es: {
+                display: "CRECIMIENTO",
+                normalized: "CRECIMIENTO",
+              },
+            },
+          },
+          {
+            id: "04b92b89-d1f9-5dec-b2e5-324d779f819d",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "BRANCH",
+                normalized: "BRANCH",
+              },
+              pt: {
+                display: "RAMO",
+                normalized: "RAMO",
+              },
+              es: {
+                display: "RAMA",
+                normalized: "RAMA",
+              },
+            },
+          },
+          {
+            id: "ca43eaab-7047-55be-8a63-afc8335d871c",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "SMALLEST",
+                normalized: "SMALLEST",
+              },
+              pt: {
+                display: "MENOR",
+                normalized: "MENOR",
+              },
+              es: {
+                display: "MENOR",
+                normalized: "MENOR",
+              },
+            },
+          },
+          {
+            id: "65ba4d10-79a5-5eeb-a1aa-3e6a8e0b9ba2",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "KINGDOM",
+                normalized: "KINGDOM",
+              },
+              pt: {
+                display: "REINO",
+                normalized: "REINO",
+              },
+              es: {
+                display: "REINO",
+                normalized: "REINO",
+              },
+            },
+          },
+        ],
+      },
+      {
+        id: "f4763c41-5a18-566e-a943-ac687aba9114",
+        slug: "good-samaritan-mercy",
+        position: 3,
+        difficulty: "balanced",
+        theme: "Mercy",
+        internalTitle: "Moved with Compassion",
+        scripture: {
+          bookCode: "LUK",
+          chapter: 10,
+          verseStart: 33,
+          verseEnd: 33,
+          displayReference: "Luke 10:33",
+          storedText:
+            "But a certain Samaritan, as he traveled, came where he was. When he saw him, he was moved with compassion,",
+        },
+        translations: {
+          en: {
+            title: "Moved with Compassion",
+            devotional:
+              "The people expected to stop passed by. The outsider stopped instead. Mercy in this story crosses the road, and crosses every category that was supposed to excuse someone from crossing it.",
+            reflection: "Who have you crossed to the other side of the road to avoid?",
+            prayer:
+              "Compassionate God, make me the one who stops. Teach me to be a neighbor, not just to have one.",
+            completion: "Day four of Parables of Jesus.",
+          },
+          pt: {
+            title: "Compadecido",
+            devotional:
+              "Quem deveria parar passou longe. Foi o estrangeiro que parou. A misericórdia nesta história atravessa a estrada, e atravessa toda categoria que deveria justificar não atravessá-la.",
+            reflection: "De quem você tem atravessado a estrada para evitar?",
+            prayer:
+              "Deus compassivo, faze de mim aquele que para. Ensina-me a ser próximo, não apenas a ter um.",
+            completion: "Dia quatro de Parábolas de Jesus.",
+          },
+          es: {
+            title: "Movido a Compasión",
+            devotional:
+              "Quienes debían detenerse pasaron de largo. Fue el forastero quien se detuvo. La misericordia en esta historia cruza el camino, y cruza toda categoría que debía justificar no cruzarlo.",
+            reflection: "¿De quién has cruzado el camino para evitarlo?",
+            prayer:
+              "Dios compasivo, hazme el que se detiene. Enséñame a ser prójimo, no solo a tener uno.",
+            completion: "Día cuatro de Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "6fd1db57-537a-5c3d-8a5f-85ae6f057204",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "SAMARITAN",
+                normalized: "SAMARITAN",
+              },
+              pt: {
+                display: "SAMARITANO",
+                normalized: "SAMARITANO",
+              },
+              es: {
+                display: "SAMARITANO",
+                normalized: "SAMARITANO",
+              },
+            },
+          },
+          {
+            id: "f54577cf-4aa5-5fea-9c28-1fc352b135c6",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "COMPASSION",
+                normalized: "COMPASSION",
+              },
+              pt: {
+                display: "COMPAIXÃO",
+                normalized: "COMPAIXAO",
+              },
+              es: {
+                display: "COMPASIÓN",
+                normalized: "COMPASION",
+              },
+            },
+          },
+          {
+            id: "010578f2-c93e-5f19-bd9c-1183f0450c90",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "NEIGHBOR",
+                normalized: "NEIGHBOR",
+              },
+              pt: {
+                display: "PRÓXIMO",
+                normalized: "PROXIMO",
+              },
+              es: {
+                display: "PRÓJIMO",
+                normalized: "PROJIMO",
+              },
+            },
+          },
+          {
+            id: "709e28b8-9ebe-52ca-a2cd-b867fbfd952d",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "WOUNDED",
+                normalized: "WOUNDED",
+              },
+              pt: {
+                display: "FERIDO",
+                normalized: "FERIDO",
+              },
+              es: {
+                display: "HERIDO",
+                normalized: "HERIDO",
+              },
+            },
+          },
+          {
+            id: "9fc9fba6-415a-5199-b5d7-be6881fb4a1a",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "MERCY",
+                normalized: "MERCY",
+              },
+              pt: {
+                display: "MISERICÓRDIA",
+                normalized: "MISERICORDIA",
+              },
+              es: {
+                display: "MISERICORDIA",
+                normalized: "MISERICORDIA",
+              },
+            },
+          },
+          {
+            id: "8acb23a8-7529-5674-b768-02e5fee712b5",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "ROAD",
+                normalized: "ROAD",
+              },
+              pt: {
+                display: "ESTRADA",
+                normalized: "ESTRADA",
+              },
+              es: {
+                display: "CAMINO",
+                normalized: "CAMINO",
+              },
+            },
+          },
+        ],
+      },
+      {
+        id: "67e21f2b-546f-52a9-9025-f31a9bf07a37",
+        slug: "prodigal-son-still-far-off",
+        position: 4,
+        difficulty: "balanced",
+        theme: "Grace",
+        internalTitle: "While He Was Yet Far Off",
+        scripture: {
+          bookCode: "LUK",
+          chapter: 15,
+          verseStart: 20,
+          verseEnd: 20,
+          displayReference: "Luke 15:20",
+          storedText:
+            "He arose, and came to his father. But while he was yet far off, his father saw him, and was moved with compassion, and ran, and fell on his neck, and kissed him.",
+        },
+        translations: {
+          en: {
+            title: "While He Was Yet Far Off",
+            devotional:
+              "The father runs before the apology is finished. Grace in this story does not wait to hear the explanation — it moves while the son is still too far away to have said anything at all.",
+            reflection: "What would it feel like to be run to, before you finished explaining?",
+            prayer:
+              "Father who runs, meet me while I am still far off. Let grace reach me before my excuses do.",
+            completion: "Day five of Parables of Jesus.",
+          },
+          pt: {
+            title: "Ainda Longe",
+            devotional:
+              "O pai corre antes que o pedido de desculpas termine. A graça nesta história não espera ouvir a explicação — ela se move enquanto o filho ainda está longe demais para ter dito qualquer coisa.",
+            reflection: "Como seria ser recebido correndo, antes de terminar de se explicar?",
+            prayer:
+              "Pai que corre, vem ao meu encontro enquanto ainda estou longe. Que a graça me alcance antes das minhas desculpas.",
+            completion: "Dia cinco de Parábolas de Jesus.",
+          },
+          es: {
+            title: "Aún Lejos",
+            devotional:
+              "El padre corre antes de que termine la disculpa. La gracia en esta historia no espera oír la explicación — se mueve mientras el hijo aún está demasiado lejos para haber dicho nada.",
+            reflection:
+              "¿Cómo sería que corrieran a recibirte antes de que terminaras de explicarte?",
+            prayer:
+              "Padre que corre, sal a mi encuentro mientras aún estoy lejos. Que la gracia me alcance antes que mis excusas.",
+            completion: "Día cinco de Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "e3b3a982-9a2e-554c-8f74-b2802b0dc3a1",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "FATHER",
+                normalized: "FATHER",
+              },
+              pt: {
+                display: "PAI",
+                normalized: "PAI",
+              },
+              es: {
+                display: "PADRE",
+                normalized: "PADRE",
+              },
+            },
+          },
+          {
+            id: "7dd1e5b1-c0fb-5834-8262-ff65ac544014",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "DISTANT",
+                normalized: "DISTANT",
+              },
+              pt: {
+                display: "DISTANTE",
+                normalized: "DISTANTE",
+              },
+              es: {
+                display: "DISTANTE",
+                normalized: "DISTANTE",
+              },
+            },
+          },
+          {
+            id: "e4f27404-4a9d-512b-94bf-1334d2d68b49",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "COMPASSION",
+                normalized: "COMPASSION",
+              },
+              pt: {
+                display: "COMPAIXÃO",
+                normalized: "COMPAIXAO",
+              },
+              es: {
+                display: "COMPASIÓN",
+                normalized: "COMPASION",
+              },
+            },
+          },
+          {
+            id: "74ea109d-f85a-558d-a337-cbee342b5ab5",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "EMBRACE",
+                normalized: "EMBRACE",
+              },
+              pt: {
+                display: "ABRAÇO",
+                normalized: "ABRACO",
+              },
+              es: {
+                display: "ABRAZO",
+                normalized: "ABRAZO",
+              },
+            },
+          },
+          {
+            id: "aa83e9f9-8ae6-51a7-9521-5c4cefda641e",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "RETURN",
+                normalized: "RETURN",
+              },
+              pt: {
+                display: "VOLTA",
+                normalized: "VOLTA",
+              },
+              es: {
+                display: "REGRESO",
+                normalized: "REGRESO",
+              },
+            },
+          },
+          {
+            id: "8e0b93f2-fc78-56e4-aad7-b1e7a7ef4fa3",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "WELCOME",
+                normalized: "WELCOME",
+              },
+              pt: {
+                display: "ACOLHIDA",
+                normalized: "ACOLHIDA",
+              },
+              es: {
+                display: "BIENVENIDA",
+                normalized: "BIENVENIDA",
+              },
+            },
+          },
+        ],
+      },
+      {
+        id: "2a60d533-2f00-5526-bd6d-964d9182b9c9",
+        slug: "talents-well-done",
+        position: 5,
+        difficulty: "challenging",
+        theme: "Stewardship",
+        internalTitle: "Well Done",
+        scripture: {
+          bookCode: "MAT",
+          chapter: 25,
+          verseStart: 21,
+          verseEnd: 21,
+          displayReference: "Matthew 25:21",
+          storedText:
+            "His lord said to him, 'Well done, good and faithful servant. You have been faithful over a few things, I will set you over many things. Enter into the joy of your lord.'",
+        },
+        translations: {
+          en: {
+            title: "Well Done",
+            devotional:
+              'The servants were entrusted with different amounts, and faithfulness was measured by use, not size. "Well done" was never said to whoever had the most — it was said to whoever was faithful with what they had.',
+            reflection: "What has been entrusted to you that you have buried instead of used?",
+            prayer:
+              "Master who entrusts, make me faithful with what you gave me, however small it looks beside what you gave another.",
+            completion: "Day six of Parables of Jesus.",
+          },
+          pt: {
+            title: "Bem Feito",
+            devotional:
+              'Os servos foram confiados com quantias diferentes, e a fidelidade foi medida pelo uso, não pelo tamanho. "Bem feito" nunca foi dito a quem tinha mais — foi dito a quem foi fiel com o que tinha.',
+            reflection: "O que foi confiado a você que ficou enterrado em vez de usado?",
+            prayer:
+              "Senhor que confia, faze-me fiel com o que me deste, por menor que pareça perto do que deste a outro.",
+            completion: "Dia seis de Parábolas de Jesus.",
+          },
+          es: {
+            title: "Bien Hecho",
+            devotional:
+              'Los siervos fueron confiados con cantidades distintas, y la fidelidad se midió por el uso, no por el tamaño. "Bien hecho" nunca se dijo a quien tenía más — se dijo a quien fue fiel con lo que tenía.',
+            reflection: "¿Qué se te ha confiado que enterraste en vez de usar?",
+            prayer:
+              "Señor que confía, hazme fiel con lo que me diste, por pequeño que parezca junto a lo que diste a otro.",
+            completion: "Día seis de Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "160bb3e3-32a9-5e9c-b507-cf82c12b030c",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "TALENTS",
+                normalized: "TALENTS",
+              },
+              pt: {
+                display: "TALENTOS",
+                normalized: "TALENTOS",
+              },
+              es: {
+                display: "TALENTOS",
+                normalized: "TALENTOS",
+              },
+            },
+          },
+          {
+            id: "3476e66f-19f4-557f-9dc1-0583d124c647",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "ENTRUSTED",
+                normalized: "ENTRUSTED",
+              },
+              pt: {
+                display: "CONFIADO",
+                normalized: "CONFIADO",
+              },
+              es: {
+                display: "CONFIADO",
+                normalized: "CONFIADO",
+              },
+            },
+          },
+          {
+            id: "de8ea664-ea7c-586e-8c50-9d97934f67be",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "FAITHFUL",
+                normalized: "FAITHFUL",
+              },
+              pt: {
+                display: "FIEL",
+                normalized: "FIEL",
+              },
+              es: {
+                display: "FIEL",
+                normalized: "FIEL",
+              },
+            },
+          },
+          {
+            id: "85b16f0c-1e80-5f45-87a9-8ef2665549d2",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "BURIED",
+                normalized: "BURIED",
+              },
+              pt: {
+                display: "ENTERRADO",
+                normalized: "ENTERRADO",
+              },
+              es: {
+                display: "ENTERRADO",
+                normalized: "ENTERRADO",
+              },
+            },
+          },
+          {
+            id: "c54ee19f-ded8-5a36-8e38-6b815d56a536",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "INVESTED",
+                normalized: "INVESTED",
+              },
+              pt: {
+                display: "INVESTIDO",
+                normalized: "INVESTIDO",
+              },
+              es: {
+                display: "INVERTIDO",
+                normalized: "INVERTIDO",
+              },
+            },
+          },
+          {
+            id: "52747787-b6b6-594c-9bc6-cbacb37e836a",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "MASTER",
+                normalized: "MASTER",
+              },
+              pt: {
+                display: "SENHOR",
+                normalized: "SENHOR",
+              },
+              es: {
+                display: "SEÑOR",
+                normalized: "SEÑOR",
+              },
+            },
+          },
+        ],
+      },
+      {
+        id: "c667c66a-c6bf-5468-8282-ce5faf4a44f2",
+        slug: "wise-foolish-builders",
+        position: 6,
+        difficulty: "challenging",
+        theme: "Foundation",
+        internalTitle: "Built on the Rock",
+        scripture: {
+          bookCode: "MAT",
+          chapter: 7,
+          verseStart: 24,
+          verseEnd: 24,
+          displayReference: "Matthew 7:24",
+          storedText:
+            "Everyone therefore who hears these words of mine, and does them, I will liken him to a wise man, who built his house on a rock.",
+        },
+        translations: {
+          en: {
+            title: "Built on the Rock",
+            devotional:
+              "Both builders hear the same words. Both face the same storm. The only difference between them is what they did with what they heard before the rain came.",
+            reflection: "What are you building that has never been tested by a storm?",
+            prayer:
+              "Rock of my foundation, let me not only hear your words but build my life on them.",
+            completion: "You finished Parables of Jesus.",
+          },
+          pt: {
+            title: "Edificado sobre a Rocha",
+            devotional:
+              "Os dois construtores ouvem as mesmas palavras. Os dois enfrentam a mesma tempestade. A única diferença entre eles é o que fizeram com o que ouviram antes da chuva chegar.",
+            reflection: "O que você está construindo que nunca foi testado por uma tempestade?",
+            prayer:
+              "Rocha do meu fundamento, que eu não apenas ouça tuas palavras, mas construa minha vida sobre elas.",
+            completion: "Você concluiu Parábolas de Jesus.",
+          },
+          es: {
+            title: "Edificado sobre la Roca",
+            devotional:
+              "Ambos constructores oyen las mismas palabras. Ambos enfrentan la misma tormenta. La única diferencia entre ellos es lo que hicieron con lo que oyeron antes de que llegara la lluvia.",
+            reflection: "¿Qué estás construyendo que nunca ha sido probado por una tormenta?",
+            prayer:
+              "Roca de mi cimiento, que no solo oiga tus palabras, sino que construya mi vida sobre ellas.",
+            completion: "Terminaste Parábolas de Jesús.",
+          },
+        },
+        words: [
+          {
+            id: "be669d30-6a00-5072-ab10-355a8781d9cf",
+            position: 0,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "FOUNDATION",
+                normalized: "FOUNDATION",
+              },
+              pt: {
+                display: "FUNDAÇÃO",
+                normalized: "FUNDACAO",
+              },
+              es: {
+                display: "FUNDAMENTO",
+                normalized: "FUNDAMENTO",
+              },
+            },
+          },
+          {
+            id: "bba108a9-ed4c-5149-a689-41eb72e6fed3",
+            position: 1,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "ROCK",
+                normalized: "ROCK",
+              },
+              pt: {
+                display: "ROCHA",
+                normalized: "ROCHA",
+              },
+              es: {
+                display: "ROCA",
+                normalized: "ROCA",
+              },
+            },
+          },
+          {
+            id: "2fbb9c69-6235-579e-9cbb-8970fd01cc00",
+            position: 2,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "STORM",
+                normalized: "STORM",
+              },
+              pt: {
+                display: "TEMPESTADE",
+                normalized: "TEMPESTADE",
+              },
+              es: {
+                display: "TORMENTA",
+                normalized: "TORMENTA",
+              },
+            },
+          },
+          {
+            id: "1d0a9ea0-9caa-5919-b01c-40a0d38d0c2f",
+            position: 3,
+            minDifficulty: "gentle",
+            translations: {
+              en: {
+                display: "BUILDER",
+                normalized: "BUILDER",
+              },
+              pt: {
+                display: "CONSTRUTOR",
+                normalized: "CONSTRUTOR",
+              },
+              es: {
+                display: "CONSTRUCTOR",
+                normalized: "CONSTRUCTOR",
+              },
+            },
+          },
+          {
+            id: "755bd583-3c5a-540f-b630-7d9cff7d36e6",
+            position: 4,
+            minDifficulty: "balanced",
+            translations: {
+              en: {
+                display: "OBEY",
+                normalized: "OBEY",
+              },
+              pt: {
+                display: "OBEDECER",
+                normalized: "OBEDECER",
+              },
+              es: {
+                display: "OBEDECER",
+                normalized: "OBEDECER",
+              },
+            },
+          },
+          {
+            id: "c5dd46eb-aa43-5e56-a62f-ccd1e05361b2",
+            position: 5,
+            minDifficulty: "challenging",
+            translations: {
+              en: {
+                display: "STAND",
+                normalized: "STAND",
+              },
+              pt: {
+                display: "FIRME",
+                normalized: "FIRME",
+              },
+              es: {
+                display: "FIRME",
+                normalized: "FIRME",
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];

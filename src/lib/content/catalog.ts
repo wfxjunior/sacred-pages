@@ -136,7 +136,7 @@ async function fetchCatalogExtras(): Promise<{
 // live list lacks any of them, one background call installs and the list
 // refetches — so a publish is enough for the packs to appear, no studio
 // visit required. Module-level flag: one attempt per page load.
-const PACK_SLUGS = ["women-of-faith", "proverbs-everyday-man"];
+const PACK_SLUGS = ["women-of-faith", "proverbs-everyday-man", "parables-of-jesus"];
 let packHealAttempted = false;
 
 async function healMissingPacks(): Promise<boolean> {
