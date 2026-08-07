@@ -9,7 +9,7 @@ import colPsalms from "@/assets/col-psalms.jpg";
 import colFamily from "@/assets/col-family.jpg";
 import colProverbs from "@/assets/col-proverbs.jpg";
 import colFaith from "@/assets/col-faith.jpg";
-import colWomen from "@/assets/col-women-dawn.svg";
+import colWomen from "@/assets/col-women.jpg";
 import colMen from "@/assets/col-men-dawn.svg";
 import colPrayer from "@/assets/col-prayer.jpg";
 import colPurpose from "@/assets/col-purpose.jpg";
