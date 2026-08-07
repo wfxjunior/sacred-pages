@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Silhouette of a man walking with a staff up a road toward the dawn">
+  <defs>
+    <linearGradient id="msky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F0E9DA"/>
+      <stop offset="0.42" stop-color="#EADBBE"/>
+      <stop offset="0.7" stop-color="#DFC391"/>
+      <stop offset="1" stop-color="#CEA76C"/>
+    </linearGradient>
+    <radialGradient id="mglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FAF1D6" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#F1DFAE" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#F1DFAE" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C29D62"/>
+      <stop offset="1" stop-color="#997140"/>
+    </linearGradient>
+    <linearGradient id="mroad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E5CB9B"/>
+      <stop offset="1" stop-color="#C1975A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#msky)"/>
+
+  <ellipse cx="230" cy="300" rx="185" ry="15" fill="#F5EDD9" opacity="0.4"/>
+  <ellipse cx="585" cy="240" rx="145" ry="12" fill="#F5EDD9" opacity="0.3"/>
+  <ellipse cx="430" cy="392" rx="225" ry="13" fill="#F5EDD9" opacity="0.25"/>
+
+  <circle cx="400" cy="686" r="335" fill="url(#mglow)"/>
+  <circle cx="400" cy="686" r="50" fill="#FBF4DB"/>
+  <circle cx="400" cy="686" r="76" fill="#F8EDC6" opacity="0.5"/>
+
+  <path d="M0 698 Q 120 672 260 690 Q 335 698 400 692 L 400 728 L 0 728 Z" fill="#B58A4E" opacity="0.5"/>
+  <path d="M400 692 Q 475 686 565 676 Q 695 662 800 688 L 800 728 L 400 728 Z" fill="#B58A4E" opacity="0.42"/>
+
+  <path d="M0 714 Q 200 702 400 706 Q 600 710 800 712 L 800 1000 L 0 1000 Z" fill="url(#mground)"/>
+
+  <!-- Wheat at the roadside — the everyday man's field -->
+  <g stroke="#7C6238" stroke-width="3" stroke-linecap="round" opacity="0.7" fill="none">
+    <path d="M162 700 q -2 -20 3 -34"/>
+    <path d="M165 666 q -6 -2 -9 -8 M165 666 q 6 -2 8 -8 M166 676 q -6 -2 -9 -8 M166 676 q 6 -2 8 -8"/>
+    <path d="M648 690 q 2 -18 -2 -30"/>
+    <path d="M646 660 q -5 -2 -8 -7 M646 660 q 5 -2 7 -7 M647 669 q -5 -2 -8 -7 M647 669 q 5 -2 7 -7"/>
+  </g>
+
+  <path d="M262 1000 C 314 890 364 782 391 710 L 409 710 C 442 780 498 892 560 1000 Z" fill="url(#mroad)" opacity="0.9"/>
+
+  <rect x="0" y="698" width="800" height="20" fill="#F4E9CC" opacity="0.4"/>
+  <rect x="0" y="716" width="800" height="12" fill="#F4E9CC" opacity="0.22"/>
+
+  <path d="M210 274 q 9 -8 18 0 M228 274 q 9 -8 18 0" stroke="#6E5847" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.42"/>
+  <path d="M592 232 q 7 -6 14 0 M606 232 q 7 -6 14 0" stroke="#6E5847" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.36"/>
+
+  <!-- ============ The figure: a man with a staff, longer stride ============ -->
+  <g>
+    <path d="M370 758 C 380 806 362 886 334 974 C 330 988 338 1000 352 1000 L 452 1000
+             C 466 1000 472 990 466 978 C 440 896 428 812 432 758 Z" fill="#5C4832" opacity="0.2"/>
+
+    <g fill="#38291B">
+      <!-- Staff, planted ahead on the right -->
+      <path d="M462 470 L 474 468 L 486 762 L 476 764 Z"/>
+      <!-- Head, short hair -->
+      <circle cx="398" cy="398" r="26"/>
+      <path d="M372 396 C 371 412 374 424 378 432 L 418 432 C 422 424 425 412 424 396
+               C 420 380 376 380 372 396 z"/>
+      <!-- Tunic: broad shoulders, knee-length, belted -->
+      <path d="M360 460
+               C 352 470 346 484 344 500
+               C 340 530 340 562 344 592
+               C 346 606 350 616 356 620
+               L 356 700
+               C 356 706 359 710 364 710
+               L 386 710
+               C 390 710 393 706 393 702
+               L 394 640
+               L 406 640
+               L 407 702
+               C 407 706 410 710 414 710
+               L 436 710
+               C 441 710 444 706 444 700
+               L 444 620
+               C 450 616 454 606 456 592
+               C 460 562 460 530 456 500
+               C 454 484 448 470 440 460
+               C 428 448 372 448 360 460 Z"/>
+      <!-- Near arm reaching forward to the staff -->
+      <path d="M440 470 C 452 478 462 490 468 504 C 471 512 466 518 459 514 C 448 505 440 494 434 482 Z"/>
+      <!-- Far arm swinging back -->
+      <path d="M360 472 C 348 496 342 526 342 554 C 342 564 350 567 355 559 C 362 542 366 516 368 492 Z"/>
+      <!-- Legs in stride: front planted, rear heel lifted -->
+      <path d="M360 708 C 358 724 356 740 356 754 C 356 760 359 764 364 764 L 384 764 C 388 764 391 760 390 756 C 389 740 390 724 391 708 Z"/>
+      <path d="M409 708 C 412 722 418 736 428 748 C 434 754 444 758 452 758 C 457 758 459 752 455 748 C 444 738 436 724 432 708 Z"/>
+      <!-- Sandals -->
+      <path d="M356 762 C 354 768 355 774 358 776 L 386 776 C 390 776 392 772 390 768 L 388 762 Z"/>
+      <path d="M448 754 C 456 756 462 760 466 766 C 468 770 466 774 462 774 L 448 774 C 445 774 443 771 443 768 L 443 758 C 443 755 445 753 448 754 Z"/>
+    </g>
+
+    <!-- Dawn rim light -->
+    <g stroke="#E7C689" fill="none" stroke-linecap="round">
+      <path d="M376 380 C 384 372 412 372 420 380" stroke-width="3" opacity="0.5"/>
+      <path d="M362 466 C 352 478 347 492 345 506 C 341 534 341 562 345 590" stroke-width="3.2" opacity="0.6"/>
+      <path d="M472 480 L 482 740" stroke-width="2.6" opacity="0.5"/>
+    </g>
+
+    <!-- Belt and tunic folds -->
+    <path d="M354 538 Q 400 550 446 538" stroke="#4C3A26" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <g stroke="#4C3A26" stroke-width="3.2" fill="none" stroke-linecap="round" opacity="0.9">
+      <path d="M382 560 C 380 590 379 616 379 636"/>
+      <path d="M418 560 C 420 590 421 616 421 636"/>
+    </g>
+  </g>
+</svg>

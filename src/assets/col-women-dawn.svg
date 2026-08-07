@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Silhouette of a woman carrying a water jar toward the dawn">
+  <defs>
+    <linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F3ECDE"/>
+      <stop offset="0.42" stop-color="#EFE0C6"/>
+      <stop offset="0.7" stop-color="#E7CB9C"/>
+      <stop offset="1" stop-color="#D9B47E"/>
+    </linearGradient>
+    <radialGradient id="wglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FBF3DC" stop-opacity="1"/>
+      <stop offset="0.5" stop-color="#F4E3B8" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#F4E3B8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CBA76D"/>
+      <stop offset="1" stop-color="#A57C46"/>
+    </linearGradient>
+    <linearGradient id="wroad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EBD2A4"/>
+      <stop offset="1" stop-color="#C99F60"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#wsky)"/>
+
+  <ellipse cx="250" cy="316" rx="180" ry="15" fill="#F8F0DE" opacity="0.4"/>
+  <ellipse cx="570" cy="248" rx="150" ry="12" fill="#F8F0DE" opacity="0.3"/>
+  <ellipse cx="420" cy="398" rx="220" ry="13" fill="#F8F0DE" opacity="0.26"/>
+
+  <circle cx="400" cy="690" r="335" fill="url(#wglow)"/>
+  <circle cx="400" cy="690" r="50" fill="#FCF6E1"/>
+  <circle cx="400" cy="690" r="76" fill="#FAF0CE" opacity="0.5"/>
+
+  <path d="M0 702 Q 130 678 270 694 Q 340 702 400 696 L 400 732 L 0 732 Z" fill="#BC9256" opacity="0.5"/>
+  <path d="M400 696 Q 480 690 570 680 Q 700 666 800 692 L 800 732 L 400 732 Z" fill="#BC9256" opacity="0.42"/>
+
+  <path d="M0 718 Q 200 706 400 710 Q 600 714 800 716 L 800 1000 L 0 1000 Z" fill="url(#wground)"/>
+
+  <!-- Wildflowers at the roadside -->
+  <g stroke="#7C6238" stroke-width="3" stroke-linecap="round" opacity="0.7">
+    <path d="M170 700 q -2 -18 4 -30 M174 670 q -8 2 -12 8 M174 670 q 8 2 11 9"/>
+    <path d="M640 688 q 2 -16 -3 -26 M637 662 q -7 1 -10 7 M637 662 q 7 1 10 7"/>
+  </g>
+  <g fill="#8A6FA8" opacity="0.55">
+    <circle cx="174" cy="666" r="5"/>
+    <circle cx="637" cy="658" r="4"/>
+  </g>
+
+  <path d="M270 1000 C 320 892 368 784 393 714 L 411 714 C 444 784 498 896 556 1000 Z" fill="url(#wroad)" opacity="0.9"/>
+
+  <rect x="0" y="702" width="800" height="20" fill="#F7EDD4" opacity="0.4"/>
+  <rect x="0" y="720" width="800" height="12" fill="#F7EDD4" opacity="0.22"/>
+
+  <path d="M224 280 q 9 -8 18 0 M242 280 q 9 -8 18 0" stroke="#6E5847" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.42"/>
+
+  <!-- ============ The figure: a woman, jar at her hip, mid-stride ============ -->
+  <g>
+    <path d="M376 764 C 386 810 368 888 340 976 C 336 990 344 1000 358 1000 L 448 1000
+             C 462 1000 468 990 462 978 C 436 898 424 816 428 764 Z" fill="#5C4832" opacity="0.2"/>
+
+    <g fill="#38291B">
+      <!-- Head -->
+      <circle cx="400" cy="398" r="25"/>
+      <!-- Head covering, falling past the shoulders -->
+      <path d="M372 392 C 366 430 368 466 358 498 L 442 498 C 434 466 436 430 430 392
+               C 424 376 376 376 372 392 Z"/>
+      <!-- Dress: high waist, gentle flare, hem swaying with the step -->
+      <path d="M364 492
+               C 358 534 366 566 373 596
+               C 364 652 353 704 348 748
+               C 347 754 350 758 355 758
+               L 445 758
+               C 450 758 453 754 452 748
+               C 447 704 436 652 427 596
+               C 434 566 442 534 436 492
+               C 426 478 374 478 364 492 Z"/>
+      <!-- Near arm bent up to steady the jar at her left hip-shoulder -->
+      <path d="M436 500 C 448 516 456 536 458 556 C 459 566 452 570 446 564 C 438 550 432 532 430 516 Z"/>
+      <!-- Water jar resting at the shoulder -->
+      <path d="M452 470 C 466 470 476 480 476 494 C 476 512 466 524 452 524 C 438 524 428 512 428 494 C 428 480 438 470 452 470 Z"/>
+      <path d="M444 462 L 460 462 L 458 472 L 446 472 Z"/>
+      <!-- Far arm at her side -->
+      <path d="M364 502 C 352 534 346 572 348 606 C 349 616 356 620 361 614 C 368 592 371 560 372 530 Z"/>
+      <!-- Rear heel lifting -->
+      <path d="M418 756 C 426 756 434 759 439 764 C 442 768 440 772 436 772 L 419 772 C 416 772 414 770 414 767 L 414 760 C 414 758 416 756 418 756 Z"/>
+      <!-- Planted foot -->
+      <path d="M366 758 C 364 764 364 770 366 774 C 367 776 369 778 372 778 L 388 778 C 391 778 393 775 392 772 C 391 767 390 762 389 758 Z"/>
+    </g>
+
+    <!-- Dawn rim light on the backlit edges -->
+    <g stroke="#E7C689" fill="none" stroke-linecap="round">
+      <path d="M378 378 C 386 370 414 370 422 378" stroke-width="3" opacity="0.5"/>
+      <path d="M366 496 C 360 536 368 566 375 594 C 366 650 356 702 351 746" stroke-width="3.2" opacity="0.6"/>
+      <path d="M452 472 C 464 473 473 482 474 494" stroke-width="3" opacity="0.55"/>
+    </g>
+
+    <!-- Sash and dress folds -->
+    <path d="M374 552 Q 400 562 426 552" stroke="#4C3A26" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <g stroke="#4C3A26" stroke-width="3.4" fill="none" stroke-linecap="round" opacity="0.9">
+      <path d="M386 576 C 383 634 380 692 379 744"/>
+      <path d="M414 576 C 417 634 420 692 421 744"/>
+      <path d="M400 580 C 400 634 400 690 400 746"/>
+    </g>
+  </g>
+</svg>

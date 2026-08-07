@@ -215,6 +215,9 @@ function Today() {
               onShuffleWords={regenerate}
               onComplete={finishToday}
               sessionKey={puzzleSession}
+              reference={TODAY.reference}
+              devotional={TODAY.devotional}
+              prayer={TODAY.prayer}
             />
           </div>
 
@@ -253,6 +256,9 @@ function Today() {
             onShuffleWords={regenerate}
             onComplete={finishToday}
             sessionKey={puzzleSession}
+            reference={TODAY.reference}
+            devotional={TODAY.devotional}
+            prayer={TODAY.prayer}
           />
         </div>
 

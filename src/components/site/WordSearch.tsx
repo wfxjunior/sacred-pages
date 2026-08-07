@@ -4,6 +4,7 @@ import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS, WORD_COLORS } from "@/lib/mock-data";
 import { usePreferences } from "@/lib/preferences";
 import { useI18n } from "@/lib/i18n";
+import { GameDevotionalMoment } from "@/components/games/GameDevotionalMoment";
 import { celebrateCompletion } from "@/lib/confetti";
 import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
 import {
@@ -60,6 +61,9 @@ export function WordSearch({
   onShuffleWords,
   onComplete,
   sessionKey,
+  reference,
+  devotional,
+  prayer,
 }: {
   words: string[];
   size?: number;
@@ -74,6 +78,11 @@ export function WordSearch({
   onComplete?: () => void;
   /** Changing this starts a clean session: saved progress is not reused. */
   sessionKey?: string;
+  /** The day's passage reference, devotional and prayer — the quiet page the
+   * completion banner ends with, same sequence as every other game. */
+  reference?: string;
+  devotional?: string;
+  prayer?: string;
 }) {
   const { t } = useI18n();
   // Deterministic: the same word list and size always yield the same grid, on
@@ -321,6 +330,7 @@ export function WordSearch({
         {t("wordsearch.completedIn")} {completedTime}
         {bestLabel && bestLabel !== completedTime && ` · ${t("wordsearch.bestTime")} ${bestLabel}`}
       </p>
+      <GameDevotionalMoment reference={reference} explanation={devotional} prayer={prayer} />
       <button
         type="button"
         onClick={shuffleGrid}
