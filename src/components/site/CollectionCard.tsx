@@ -114,10 +114,15 @@ export function CollectionCard({ c }: { c: Collection }) {
             </div>
           )}
 
-          {/* Journey count badge */}
+          {/* Journey count — a labelled archival stamp, not a bare number */}
           <div className="absolute right-4 top-4 z-20">
-            <span className="inline-flex items-center rounded-sm border border-black/5 bg-white/90 px-2.5 py-1 font-serif text-lg leading-none text-foreground shadow-sm backdrop-blur-sm">
-              {c.count}
+            <span className="inline-flex min-w-[46px] flex-col items-center rounded-sm border border-black/5 bg-card/95 px-2.5 py-1.5 shadow-sm backdrop-blur-sm">
+              <span className="font-serif text-base font-bold leading-none text-[color:var(--gold)]">
+                {c.count}
+              </span>
+              <span className="mt-0.5 text-[7px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+                {t("collection.countLabel")}
+              </span>
             </span>
           </div>
         </div>
@@ -138,14 +143,13 @@ export function CollectionCard({ c }: { c: Collection }) {
             <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
           </div>
 
-          {/* Progress section */}
-          {c.progress != null && (
-            <div className="mt-auto pt-6 border-t border-dashed border-[#E5DFCE] dark:border-[#3B3E39]">
+          {/* Progress footer — always present so every volume shares one rhythm */}
+          <div className="mt-auto pt-6 border-t border-dashed border-[#E5DFCE] dark:border-[#3B3E39]">
               <div className="flex items-baseline justify-between mb-2">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                   {t("collection.progressLabel")}
                 </span>
-                <span className="text-xs font-medium text-foreground">
+                <span className="text-[11px] font-bold text-[color:var(--gold)]">
                   {progressPct}%
                 </span>
               </div>
@@ -155,8 +159,7 @@ export function CollectionCard({ c }: { c: Collection }) {
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
 
