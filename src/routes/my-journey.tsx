@@ -7,6 +7,7 @@ import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { useI18n } from "@/lib/i18n";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useConsistency, useConsistencyWindow } from "@/lib/journey/hooks";
+import { useDayPart } from "@/lib/time/useDayPart";
 import { Puzzle } from "lucide-react";
 
 export const Route = createFileRoute("/my-journey")({
@@ -24,6 +25,8 @@ export const Route = createFileRoute("/my-journey")({
 function MyJourney() {
   const { t } = useI18n();
   const user = useCurrentUser();
+  const dayPart = useDayPart();
+  const firstName = user.displayName?.trim().split(" ")[0] ?? "";
   // Real rhythm data — zeros when signed out, never sample numbers.
   const { summary, signedIn } = useConsistency();
   const week = useConsistencyWindow(7);
@@ -32,10 +35,12 @@ function MyJourney() {
       <div className="space-y-12">
         <header>
           <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
-            {t("app.greeting.morning")}
+            {t(`app.greeting.${dayPart}`)}
           </p>
           <h1 className="mt-2 font-serif text-4xl md:text-5xl">
-            {t("app.greeting.user").replace("{name}", user.displayName?.split(" ")[0] ?? "")}
+            {firstName
+              ? t(`app.greeting.user.${dayPart}`).replace("{name}", firstName)
+              : t("app.greeting.user.anon")}
           </h1>
           <p className="mt-3 text-muted-foreground">{t("app.greeting.sub")}</p>
         </header>

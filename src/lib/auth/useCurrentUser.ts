@@ -102,6 +102,11 @@ export function useCurrentUser(): CurrentUser {
             .eq("id", authUser.id);
         }
       }
+
+      // Keep the stored time zone in step with the device. Every "today" and
+      // consistency-day calculation reads this, so a traveller (or a reader in
+      // Florida whose row still said UTC) sees their own calendar day.
+      await syncTimeZone(authUser.id);
     }
 
     void resolve();
@@ -113,4 +118,31 @@ export function useCurrentUser(): CurrentUser {
   }, [nonce]);
 
   return user;
+}
+
+function currentDeviceTimeZone(): string | null {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || null;
+  } catch {
+    return null;
+  }
+}
+
+async function syncTimeZone(userId: string): Promise<void> {
+  const tz = currentDeviceTimeZone();
+  if (!tz) return;
+  try {
+    const client = getSupabaseClient();
+    const { data } = await client
+      .from("user_preferences")
+      .select("timezone")
+      .eq("user_id", userId)
+      .maybeSingle();
+    if ((data as { timezone: string | null } | null)?.timezone === tz) return;
+    await client
+      .from("user_preferences")
+      .upsert({ user_id: userId, timezone: tz }, { onConflict: "user_id" });
+  } catch {
+    // A failed sync must never block sign-in; the fallback is the device zone.
+  }
 }

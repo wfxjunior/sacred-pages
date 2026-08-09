@@ -225,6 +225,8 @@ const en: Dict = {
   "auth.haveAccount": "Already have an account?",
   "auth.forgotLink": "Forgot password?",
   "app.greeting.morning": "Good morning",
+  "app.greeting.afternoon": "Good afternoon",
+  "app.greeting.evening": "Good evening",
   "app.greeting.sub": "Take a few quiet minutes for today's journey.",
   "app.streak": "Current streak",
   "app.days": "days",
@@ -719,6 +721,8 @@ Object.assign(pt, {
   "auth.haveAccount": "Já tem uma conta?",
   "auth.forgotLink": "Esqueceu a senha?",
   "app.greeting.morning": "Bom dia",
+  "app.greeting.afternoon": "Boa tarde",
+  "app.greeting.evening": "Boa noite",
   "app.greeting.sub": "Reserve alguns minutos tranquilos para a jornada de hoje.",
   "app.streak": "Sequência atual",
   "app.days": "dias",
@@ -1280,6 +1284,8 @@ const es: Dict = {
   "auth.haveAccount": "¿Ya tienes una cuenta?",
   "auth.forgotLink": "¿Olvidaste la contraseña?",
   "app.greeting.morning": "Buenos días",
+  "app.greeting.afternoon": "Buenas tardes",
+  "app.greeting.evening": "Buenas noches",
   "app.greeting.sub": "Reserva unos minutos tranquilos para la jornada de hoy.",
   "app.streak": "Racha actual",
   "app.days": "días",
@@ -1705,6 +1711,10 @@ Object.assign(es, {
 
 const APP_EN: Dict = {
   "app.greeting.user": "Good morning, {name}.",
+  "app.greeting.user.morning": "Good morning, {name}.",
+  "app.greeting.user.afternoon": "Good afternoon, {name}.",
+  "app.greeting.user.evening": "Good evening, {name}.",
+  "app.greeting.user.anon": "Welcome back.",
   "ui.search": "Search",
   "ui.markAllRead": "Mark all read",
   "ui.preferences": "Preferences",
@@ -2086,6 +2096,10 @@ const APP_EN: Dict = {
 
 const APP_PT: Dict = {
   "app.greeting.user": "Bom dia, {name}.",
+  "app.greeting.user.morning": "Bom dia, {name}.",
+  "app.greeting.user.afternoon": "Boa tarde, {name}.",
+  "app.greeting.user.evening": "Boa noite, {name}.",
+  "app.greeting.user.anon": "Que bom ver você de novo.",
   "ui.search": "Buscar",
   "ui.markAllRead": "Marcar tudo como lido",
   "ui.preferences": "Preferências",
@@ -2470,6 +2484,10 @@ const APP_PT: Dict = {
 
 const APP_ES: Dict = {
   "app.greeting.user": "Buenos días, {name}.",
+  "app.greeting.user.morning": "Buenos días, {name}.",
+  "app.greeting.user.afternoon": "Buenas tardes, {name}.",
+  "app.greeting.user.evening": "Buenas noches, {name}.",
+  "app.greeting.user.anon": "Qué bueno verte de nuevo.",
   "ui.search": "Buscar",
   "ui.markAllRead": "Marcar todo como leído",
   "ui.preferences": "Preferencias",

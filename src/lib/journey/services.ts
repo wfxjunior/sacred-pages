@@ -3,6 +3,7 @@ import type { DifficultyLevel } from "@/lib/content/types";
 import {
   activityWindow,
   DEFAULT_TIME_ZONE,
+  deviceTimeZone,
   isValidTimeZone,
   localDateFor,
   summarizeConsistency,
@@ -594,7 +595,9 @@ export class ConsistencyService {
   /** The reader's stored time zone, falling back to UTC if unset or invalid. */
   async timeZoneFor(userId: string): Promise<string> {
     const stored = await this.repo.getTimeZone(userId);
-    return stored && isValidTimeZone(stored) ? stored : DEFAULT_TIME_ZONE;
+    if (stored && isValidTimeZone(stored)) return stored;
+    const device = deviceTimeZone();
+    return isValidTimeZone(device) ? device : DEFAULT_TIME_ZONE;
   }
 
   async setTimeZone(userId: string, timeZone: string): Promise<void> {
