@@ -14,6 +14,18 @@
 export const DEFAULT_TIME_ZONE = "UTC";
 
 /**
+ * The device's own IANA time zone. Used whenever a reader has no stored
+ * preference, so "today" always matches the phone's calendar rather than UTC.
+ */
+export function deviceTimeZone(): string {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || DEFAULT_TIME_ZONE;
+  } catch {
+    return DEFAULT_TIME_ZONE;
+  }
+}
+
+/**
  * The reader's local calendar date for an instant.
  *
  * Uses Intl rather than date arithmetic because only the ICU database knows
