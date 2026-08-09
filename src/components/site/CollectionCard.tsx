@@ -33,7 +33,7 @@ export function CollectionCard({ c }: { c: Collection }) {
     <Link
       to="/collections/$slug"
       params={{ slug: c.slug }}
-      className="group relative flex overflow-hidden rounded-sm border border-black/[0.03] bg-card shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-12px_rgba(0,0,0,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+      className="group relative flex h-full overflow-hidden rounded-sm border border-black/[0.03] bg-card shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-12px_rgba(0,0,0,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
     >
       {/* Archival linen spine — the volume marker that makes it feel like a real book */}
       <div
