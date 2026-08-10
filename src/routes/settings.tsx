@@ -665,11 +665,35 @@ function SettingsPage() {
 function SignedOutNotice() {
   const { t } = useI18n();
   return (
-    <div className="rounded-2xl border border-dashed border-border/70 p-6 text-center">
-      <p className="text-[13px] text-muted-foreground">{t("settings.account.signedOut")}</p>
-      <Button asChild className="mt-4 h-12 w-full rounded-full sm:h-10 sm:w-auto">
-        <Link to="/signin">{t("cta.signin")}</Link>
-      </Button>
+    // Text and actions share one row from sm up, so the button no longer floats
+    // alone under a centred paragraph. On a phone everything stacks full width.
+    <div className="rounded-2xl border border-dashed border-border/70 p-5 sm:p-6">
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-6">
+        <div className="flex min-w-0 items-start gap-3">
+          <span
+            aria-hidden
+            className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full"
+            style={{ background: "color-mix(in oklab, var(--dusty-blue) 14%, transparent)" }}
+          >
+            <User className="h-4 w-4" style={{ color: "var(--dusty-blue)" }} strokeWidth={1.7} />
+          </span>
+          <p className="min-w-0 text-[13px] leading-relaxed text-muted-foreground">
+            {t("settings.account.signedOut")}
+          </p>
+        </div>
+        <div className="grid gap-2 sm:flex sm:shrink-0 sm:items-center">
+          <Button asChild className="h-12 w-full rounded-full sm:h-10 sm:w-auto">
+            <Link to="/signin">{t("cta.signin")}</Link>
+          </Button>
+          <Button
+            asChild
+            variant="ghost"
+            className="h-12 w-full rounded-full sm:h-10 sm:w-auto"
+          >
+            <Link to="/signup">{t("cta.startFree")}</Link>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
