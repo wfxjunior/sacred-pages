@@ -16,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "../lib/i18n";
 import { ThemeProvider } from "../lib/theme";
 import { NotifPrefsProvider } from "../lib/notification-preferences";
+import { OAuthSessionBridge } from "../lib/auth/OAuthSessionBridge";
 
 function NotFoundComponent() {
   return (
@@ -143,6 +144,7 @@ function RootComponent() {
         <ThemeProvider>
           <NotifPrefsProvider>
             <PreferencesProvider>
+              <OAuthSessionBridge />
               <Outlet />
               <Toaster />
             </PreferencesProvider>
