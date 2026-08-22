@@ -248,36 +248,38 @@ export function Header() {
         <div className="border-t border-border/50 bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-5 sm:px-6">
             {signedIn && (
-              <div className="mb-3 rounded-2xl border border-border/60 bg-secondary/30 p-4">
-                <div className="flex items-center gap-3">
-                  <span
-                    className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full text-[15px] font-semibold text-white"
-                    style={{ background: "var(--walnut)" }}
-                  >
-                    {user.avatarUrl ? (
-                      <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
-                    ) : (
-                      user.initial
-                    )}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-base font-semibold text-foreground">
-                      {user.displayName ?? t("nav.profile")}
-                    </p>
-                    <p className="truncate text-sm text-muted-foreground">{user.email}</p>
+              <>
+                <div className="mb-3 rounded-2xl border border-border/60 bg-secondary/30 p-4">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full text-[15px] font-semibold text-white"
+                      style={{ background: "var(--walnut)" }}
+                    >
+                      {user.avatarUrl ? (
+                        <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        user.initial
+                      )}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-base font-semibold text-foreground">
+                        {user.displayName ?? t("nav.profile")}
+                      </p>
+                      <p className="truncate text-sm text-muted-foreground">{user.email}</p>
+                    </div>
                   </div>
+                  <Button
+                    asChild
+                    size="default"
+                    className="mt-4 w-full rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
+                  >
+                    <Link to="/today" onClick={() => setOpen(false)}>
+                      {t("nav.today")}
+                    </Link>
+                  </Button>
                 </div>
-                <Button
-                  asChild
-                  size="default"
-                  className="mt-4 w-full rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
-                >
-                  <Link to="/today" onClick={() => setOpen(false)}>
-                    {t("nav.today")}
-                  </Link>
-                </Button>
-              </div>
-              <div className="-mx-5 mb-3 h-px bg-border/30 sm:-mx-6" />
+                <div className="-mx-5 mb-3 h-px bg-border/30 sm:-mx-6" />
+              </>
             )}
 
             {nav.map((n) => {
