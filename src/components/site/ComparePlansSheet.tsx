@@ -48,12 +48,12 @@ function CompareValue({ value, t }: { value: boolean | string; t: (key: string) 
   return <span className="text-xs font-medium">{t(value)}</span>;
 }
 
-function CellMark({ v, highlight }: { v: PlanAvailability; highlight?: boolean }) {
+function CellMark({ v, highlight, t }: { v: PlanAvailability; highlight?: boolean; t: (key: string) => string }) {
   if (v === "included") {
     return <Check className="h-4 w-4" style={{ color: highlight ? "var(--brand)" : "var(--sage)" }} strokeWidth={2.5} />;
   }
   if (v === "soon") {
-    return <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Soon</span>;
+    return <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{t("compare.val.comingSoon")}</span>;
   }
   return <Minus className="h-4 w-4 text-muted-foreground/40" strokeWidth={2} />;
 }
