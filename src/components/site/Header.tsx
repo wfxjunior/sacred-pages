@@ -7,7 +7,6 @@ import { LumenaLogo } from "./LumenaLogo";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { authService } from "@/lib/auth/service";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 type NavItem = {
   href: string;
