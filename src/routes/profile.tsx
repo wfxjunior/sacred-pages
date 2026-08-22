@@ -32,6 +32,7 @@ import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { authService } from "@/lib/auth/service";
 import { formatDuration, groupByJourney, useBestTimes } from "@/lib/puzzle/best-times";
 import { useConsistency, useProgressStats, useMilestones, useTotalTime } from "@/lib/journey/hooks";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -43,9 +44,14 @@ export const Route = createFileRoute("/profile")({
       },
       { property: "og:title", content: "Profile — Lumena" },
       { property: "og:description", content: "A quiet profile — your progress at a glance." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: ProfilePage,
+  component: () => (
+    <RequireAuth>
+      <ProfilePage />
+    </RequireAuth>
+  ),
 });
 
 function ProfilePage() {

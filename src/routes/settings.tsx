@@ -41,6 +41,7 @@ import {
   Sparkles,
   Loader2,
 } from "lucide-react";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
@@ -52,9 +53,14 @@ export const Route = createFileRoute("/settings")({
       },
       { property: "og:title", content: "Settings — Lumena" },
       { property: "og:description", content: "Personalize your experience with calm defaults." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: SettingsPage,
+  component: () => (
+    <RequireAuth>
+      <SettingsPage />
+    </RequireAuth>
+  ),
 });
 
 const SECTIONS = [

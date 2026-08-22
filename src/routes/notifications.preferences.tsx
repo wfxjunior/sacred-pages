@@ -23,6 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/notifications/preferences")({
   head: () => ({
@@ -31,9 +32,14 @@ export const Route = createFileRoute("/notifications/preferences")({
       { name: "description", content: "Choose exactly which quiet nudges reach you, on which channel." },
       { property: "og:title", content: "Notification preferences — Word Journeys" },
       { property: "og:description", content: "Few and meaningful — you decide." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: PrefsPage,
+  component: () => (
+    <RequireAuth>
+      <PrefsPage />
+    </RequireAuth>
+  ),
 });
 
 const CHANNELS: { key: Channel; icon: typeof Bell }[] = [

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { authService } from "@/lib/auth/service";
 import { useI18n } from "@/lib/i18n";
+import { takeIntendedPath } from "@/lib/auth/redirect";
 
 export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
   const { t } = useI18n();
@@ -51,7 +52,7 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
       setAwaitingConfirmation(true);
       return;
     }
-    navigate({ to: "/my-journey" });
+    navigate({ to: takeIntendedPath() });
   }
 
   if (awaitingConfirmation) {
