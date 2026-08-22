@@ -318,7 +318,7 @@ export function UnscrambleGame({
       )}
 
       <div className="flex flex-wrap items-center justify-center gap-2">
-        <Button onClick={submit} className={gameActionPrimaryClass}>
+        <Button onClick={submit} className={gamePrimaryClass}>
           <Check className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t("unscr.submit")}
         </Button>
