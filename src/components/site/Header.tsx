@@ -32,7 +32,6 @@ export function Header() {
       await queryClient.cancelQueries();
       queryClient.clear();
       await authService.signOut();
-      toast.success(t("auth.signOut"));
     } catch {
       // Ignore: the session is cleared locally even if the network call fails.
     } finally {
