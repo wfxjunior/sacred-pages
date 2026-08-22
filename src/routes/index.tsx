@@ -161,7 +161,7 @@ function Landing() {
 
         <a
           href="#features"
-          className="absolute bottom-1.5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-0.5 text-[10px] tracking-widest text-[#6B665C]/60 transition hover:text-[#6B665C] sm:bottom-2 sm:flex sm:text-[11px]"
+          className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-0.5 text-[10px] uppercase tracking-[0.22em] text-[#6B665C]/85 transition hover:text-[#2B2B2B] sm:bottom-5 sm:flex sm:text-[10.5px]"
           aria-label={t("hero.scrollAria")}
         >
           {t("hero.scrollHint")}
