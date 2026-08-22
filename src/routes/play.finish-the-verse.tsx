@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
+import { GameStage } from "@/components/games/GameStage";
 import { FinishTheVerseGame } from "@/components/games/finish-the-verse/FinishTheVerseGame";
 import { useDailyJourney } from "@/lib/content/catalog";
 import { dateKey } from "@/lib/content/word-history";
@@ -80,7 +81,7 @@ function FinishTheVersePage() {
 
   return (
     <AppShell>
-      <div className="mx-auto w-full max-w-3xl px-1 py-6 sm:py-10">
+      <GameStage>
         <header className="mb-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
             {t("games.eyebrow")}
@@ -109,7 +110,7 @@ function FinishTheVersePage() {
           onContinue={() => setCursor((c) => c + 1)}
           onTryAnother={() => setCursor((c) => c + Math.max(1, Math.floor(passages.length / 2)))}
         />
-      </div>
+      </GameStage>
     </AppShell>
   );
 }

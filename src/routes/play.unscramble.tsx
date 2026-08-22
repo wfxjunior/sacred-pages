@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
+import { GameStage } from "@/components/games/GameStage";
 import { Button } from "@/components/ui/button";
 import { UnscrambleGame } from "@/components/games/unscramble/UnscrambleGame";
 import { dateKey } from "@/lib/content/word-history";
@@ -73,7 +74,7 @@ function UnscramblePage() {
 
   return (
     <AppShell>
-      <div className="mx-auto w-full max-w-3xl px-1 py-6 sm:py-10">
+      <GameStage>
         <header className="mb-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
             {t("games.eyebrow")}
@@ -115,7 +116,7 @@ function UnscramblePage() {
             </Button>
           </div>
         )}
-      </div>
+      </GameStage>
     </AppShell>
   );
 }

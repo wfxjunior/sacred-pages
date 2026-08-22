@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import {
   gamePillClass,
+  gameActionsClass,
+  gameActionPrimaryClass,
+  gameActionSecondaryClass,
   gamePrimaryClass,
-  gameSecondaryClass,
 } from "@/components/games/controlStyles";
 import { Link } from "@tanstack/react-router";
 import {
@@ -158,7 +160,7 @@ export function FinishTheVerseGame({
         <div className="mx-auto max-w-md rounded-2xl border border-border/60 bg-card p-6 text-center">
           <p className="font-serif text-xl">{t("games.failedTitle")}</p>
           <p className="mt-2 text-[13px] text-muted-foreground">{t("games.failedBody")}</p>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
+          <div className={`mt-5 ${gameActionsClass}`}>
             <Button
               onClick={() => {
                 setNotice(null);
@@ -171,7 +173,7 @@ export function FinishTheVerseGame({
               <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
               {t("games.tryAgain")}
             </Button>
-            <Button onClick={reveal} variant="outline" className={gameSecondaryClass}>
+            <Button onClick={reveal} variant="outline" className={gameActionSecondaryClass}>
               <Eye className="mr-1.5 h-4 w-4" aria-hidden="true" />
               {t("games.revealAnswer")}
             </Button>
@@ -219,14 +221,14 @@ export function FinishTheVerseGame({
             <dd className="mt-1 text-sm font-medium">{t(`diff.${difficulty}`)}</dd>
           </div>
         </dl>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <Button onClick={onContinue} className={gamePrimaryClass}>
+        <div className={`mt-6 ${gameActionsClass}`}>
+          <Button onClick={onContinue} className={gameActionPrimaryClass}>
             {t("ui.continue")}
           </Button>
-          <Button onClick={onTryAnother} variant="outline" className={gameSecondaryClass}>
+          <Button onClick={onTryAnother} variant="outline" className={gameActionSecondaryClass}>
             {t("games.tryAnother")}
           </Button>
-          <Button asChild variant="ghost" className={gameSecondaryClass}>
+          <Button asChild variant="ghost" className={gameActionSecondaryClass}>
             <Link to="/today">{t("games.backToJourney")}</Link>
           </Button>
         </div>
