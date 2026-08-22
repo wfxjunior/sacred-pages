@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
 import { NotificationsMenu } from "./NotificationsMenu";
+import { InstallPrompt } from "./InstallPrompt";
 import { haptics } from "@/lib/mobile/haptics";
 import { useHideOnScroll } from "@/lib/mobile/useHideOnScroll";
 
@@ -183,6 +184,7 @@ export function AppShell({
               );
             })}
           </nav>
+          <InstallPrompt />
         </div>
       </div>
     </div>
