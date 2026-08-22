@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame, X, ArrowRight } from "lucide-react";
+import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useI18n } from "@/lib/i18n";
+import { ComparePlansSheet } from "@/components/site/ComparePlansSheet";
 
 /* ---------- Section shell ---------- */
 
