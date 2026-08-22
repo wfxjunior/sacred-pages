@@ -1361,32 +1361,58 @@ export function WordSearch({
       )}
 
       {/* Focus mode overlay — rendered in the DOM at all times so it can enter
-          and leave with a smooth fade/scale transition instead of snapping. */}
+          and leave with a smooth fade/scale transition instead of snapping.
+          On mobile it behaves like a native full-screen sheet: fixed top bar,
+          grid sized to the free height, word list scrolling underneath. */}
       <div
-        className={`fixed inset-0 z-[80] flex flex-col gap-3 overflow-y-auto bg-[var(--ivory)] p-3 pt-12 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-5 sm:pt-14 lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:overflow-hidden lg:p-6 lg:pt-14 ${
+        className={`fixed inset-0 z-[100] flex flex-col bg-[var(--ivory)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           expanded
             ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
             : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
         }`}
+        style={{
+          paddingTop: "env(safe-area-inset-top)",
+          paddingBottom: "env(safe-area-inset-bottom)",
+        }}
         role="dialog"
         aria-modal="true"
         aria-hidden={!expanded}
       >
-        <button
-          type="button"
-          onClick={() => setExpanded(false)}
-          aria-label={t("wordsearch.collapse")}
-          className="fixed right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full sm:h-8 sm:w-8 border border-border/70 bg-card text-muted-foreground shadow-sm transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
-        >
-          <X className="h-4 w-4" />
-        </button>
+        {/* Top bar: identity, progress and exit — always reachable. */}
+        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border/50 px-3 sm:px-5">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
+            <span className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              {journeyLabel ?? t("wordsearch.wordsToFind")}
+            </span>
+            <span className="hidden h-1 min-w-10 flex-1 overflow-hidden rounded-full bg-secondary sm:block">
+              <span
+                className="block h-full rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+              />
+            </span>
+          </div>
+          <span className="shrink-0 text-xs font-medium tabular-nums text-muted-foreground">
+            {found.length}/{playableWords.length}
+          </span>
+          <button
+            type="button"
+            onClick={() => setExpanded(false)}
+            aria-label={t("wordsearch.collapse")}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-card text-muted-foreground shadow-sm transition active:scale-95 hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </header>
 
-        {renderGrid(expandedGridRef, "expanded")}
+        <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
+          {renderGrid(expandedGridRef, "expanded")}
 
-        <div className="w-full lg:w-[240px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:self-center lg:overflow-y-auto">
-          {focusPanel()}
+          <div className="w-full shrink-0 pb-4 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
+            {focusPanel()}
+          </div>
         </div>
       </div>
+
     </div>
   );
 }
