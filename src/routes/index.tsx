@@ -110,18 +110,17 @@ function Landing() {
                 >
                   <Link to="/today">{t("hero.ctaStart")}</Link>
                 </Button>
-                {/*
-                  Demoted to a quiet link on purpose: two equally heavy buttons
-                  split the click, and the primary action is the one that starts
-                  the journey.
-                */}
-                <a
-                  href="#features"
-                  className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-[#2B2B2B]/20 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F] hover:bg-[#C89F4F]/[0.07]"
+                <Button
+                  asChild
+                  size="lg"
+                  variant="editorialOutline"
+                  className="h-13 w-full justify-center px-9 py-4 text-[15px] sm:w-auto sm:min-w-[210px]"
                 >
-                  {t("hero.ctaExplore")}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
+                  <a href="#features" className="group">
+                    {t("hero.ctaExplore")}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
+                </Button>
               </div>
 
               <div className="mt-7 flex flex-col gap-2">
