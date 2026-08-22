@@ -38,6 +38,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Library, RefreshCw } from "lucide-react";
+import { useDragDismiss } from "@/lib/mobile/useDragDismiss";
 
 const todaySearchSchema = z.object({
   journey: z.string().optional().catch(undefined),
@@ -510,6 +511,7 @@ function DevotionalDock() {
   const { t } = useI18n();
   const TODAY = useTodayContent();
   const [expanded, setExpanded] = useState(false);
+  const sheet = useDragDismiss(() => setExpanded(false));
 
   useEffect(() => {
     if (!expanded || typeof document === "undefined") return;
@@ -558,8 +560,21 @@ function DevotionalDock() {
           className="fixed inset-0 z-50 flex flex-col bg-[var(--ivory)] animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
+          style={{
+            transform: sheet.offset ? `translateY(${sheet.offset}px)` : undefined,
+            transition: sheet.dragging ? "none" : "transform 220ms cubic-bezier(0.22,0.61,0.36,1)",
+          }}
         >
-          <div className="flex flex-none items-center justify-end border-b border-border/60 px-6 py-3">
+          {/* Grab area: on a phone the panel behaves like a native sheet —
+              pull it down and it closes. */}
+          <div
+            className="flex flex-none items-center justify-between border-b border-border/60 px-6 py-3"
+            {...sheet.handlers}
+          >
+            <span
+              aria-hidden
+              className="h-1 w-10 rounded-full bg-border md:invisible"
+            />
             <button type="button" onClick={() => setExpanded(false)} className={toggleClass}>
               <Minimize2 className="h-3.5 w-3.5" />
               {t("wordsearch.collapse")}
@@ -572,6 +587,7 @@ function DevotionalDock() {
           </div>
         </div>
       )}
+
     </>
   );
 }
