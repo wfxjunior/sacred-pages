@@ -370,11 +370,12 @@ export function FinishTheVerseGame({
         </p>
       )}
 
-      <div className="flex flex-wrap items-center justify-center gap-2">
+      <div className={gameToolbarClass}>
         <Button onClick={submit} className={gamePrimaryClass}>
           <Check className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t("verse.submit")}
         </Button>
+        <div className={gamePillGridClass}>
         <button
           type="button"
           onClick={() => setState((s) => removeLastPlacement(s))}
@@ -390,6 +391,7 @@ export function FinishTheVerseGame({
         >
           {t("ui.clear")}
         </button>
+
         {settings.hintAvailable && (
           <button
             type="button"
