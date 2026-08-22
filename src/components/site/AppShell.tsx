@@ -162,7 +162,7 @@ export function AppShell({
             </div>
           </header>
           <main
-            className={`app-page-transition min-w-0 flex-1 px-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-6 md:px-10 md:py-12 md:pb-12 ${mainClassName ?? ""}`}
+            className={`app-page-transition min-w-0 flex-1 px-6 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 md:px-10 md:py-12 md:pb-12 ${mainClassName ?? ""}`}
             key={pathname}
           >
             {children}
@@ -177,16 +177,16 @@ export function AppShell({
                   to={i.to}
                   onClick={() => haptics.tap()}
                   aria-current={active ? "page" : undefined}
-                  className={`tap-scale relative flex min-h-[52px] flex-col items-center justify-center gap-1 text-[10px] transition-colors ${
+                  className={`tap-scale relative flex min-h-[60px] flex-col items-center justify-center gap-1.5 text-[11px] transition-colors ${
                     active ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
                   <span
-                    className={`grid h-7 w-12 place-items-center rounded-full transition-all duration-200 ${
+                    className={`grid h-8 w-14 place-items-center rounded-full transition-all duration-200 ${
                       active ? "scale-100 bg-primary/12" : "scale-90 bg-transparent"
                     }`}
                   >
-                    <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2 : 1.5} />
+                    <Icon className="h-5 w-5" strokeWidth={active ? 2 : 1.5} />
                   </span>
                   <span className="truncate leading-none">{i.label}</span>
                 </Link>

@@ -217,24 +217,24 @@ export function Header() {
             </Link>
           )}
           <button
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur transition hover:bg-secondary"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur transition hover:bg-secondary"
             onClick={() => setOpen((v) => !v)}
             aria-label={t("header.menu")}
             aria-expanded={open}
           >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
       {open && (
         <div className="border-t border-border/50 bg-background lg:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4 sm:px-6">
+          <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-5 sm:px-6">
             {nav.map((n) => {
               const active = n.type === "route" && pathname === n.href;
               return renderLink(
                 n,
-                `rounded-lg px-3 py-2.5 text-sm transition ${
+                `rounded-lg px-4 py-3.5 text-base transition ${
                   active
                     ? "bg-secondary/60 font-medium text-foreground"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -242,18 +242,18 @@ export function Header() {
                 () => setOpen(false),
               );
             })}
-            <div className="mt-3 flex items-center gap-2 border-t border-border/50 pt-3">
+            <div className="mt-4 flex items-center gap-3 border-t border-border/50 pt-4">
               {signedIn ? (
                 <>
-                  <Button asChild variant="ghost" size="sm" className="flex-1">
+                  <Button asChild variant="ghost" size="default" className="flex-1 text-base">
                     <Link to="/profile" onClick={() => setOpen(false)}>
                       {user.displayName ?? t("nav.profile")}
                     </Link>
                   </Button>
                   <Button
                     asChild
-                    size="sm"
-                    className="flex-1 rounded-full bg-[#2B2B2B] text-white hover:bg-[#2B2B2B]/90"
+                    size="default"
+                    className="flex-1 rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
                   >
                     <Link to="/today" onClick={() => setOpen(false)}>
                       {t("nav.today")}
@@ -262,13 +262,13 @@ export function Header() {
                 </>
               ) : (
                 <>
-                  <Button asChild variant="ghost" size="sm" className="flex-1">
+                  <Button asChild variant="ghost" size="default" className="flex-1 text-base">
                     <Link to="/signin">{t("cta.signin")}</Link>
                   </Button>
                   <Button
                     asChild
-                    size="sm"
-                    className="flex-1 rounded-full bg-[#2B2B2B] text-white hover:bg-[#2B2B2B]/90"
+                    size="default"
+                    className="flex-1 rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
                   >
                     <Link to="/signup">{t("cta.startFree")}</Link>
                   </Button>
