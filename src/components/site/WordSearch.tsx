@@ -268,7 +268,6 @@ export function WordSearch({
       if (document.visibilityState !== "hidden") return;
       flush();
       // Keep UI and storage in step: the clock restarts on the next find.
-      setElapsedMs((ms) => (latestRef.current.startedAt != null ? ms : ms));
       const s = latestRef.current;
       if (s.startedAt != null) {
         setElapsedMs(s.elapsedMs + (Date.now() - s.startedAt));
