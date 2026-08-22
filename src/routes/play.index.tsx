@@ -14,7 +14,14 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/site/AppShell";
 import { useI18n } from "@/lib/i18n";
-import { listGames, type GameIconKey } from "@/lib/games";
+import { listGames, type GameIconKey, type GameMode } from "@/lib/games";
+
+import imgWordSearch from "@/assets/game-word-search.jpg";
+import imgWordGuess from "@/assets/game-word-guess.jpg";
+import imgWhoAmI from "@/assets/game-who-am-i.jpg";
+import imgFinishVerse from "@/assets/game-finish-the-verse.jpg";
+import imgUnscramble from "@/assets/game-unscramble.jpg";
+import imgDaily from "@/assets/game-daily.jpg";
 
 // The games library — rendered entirely from the shared game registry, so a
 // mode ships here by flipping its availability, never by editing this page.
