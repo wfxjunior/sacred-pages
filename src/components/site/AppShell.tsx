@@ -30,6 +30,7 @@ export function AppShell({
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [collapsed, setCollapsed] = useState(false);
+  const headerHidden = useHideOnScroll();
 
   useEffect(() => {
     try {
