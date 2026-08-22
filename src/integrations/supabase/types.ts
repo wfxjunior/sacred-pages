@@ -698,6 +698,33 @@ export type Database = {
           },
         ]
       }
+      gift_contacts: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          session_id: string | null
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name?: string | null
+          session_id?: string | null
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          session_id?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
       journey_progress: {
         Row: {
           best_duration_ms: number | null
