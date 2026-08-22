@@ -317,11 +317,12 @@ export function UnscrambleGame({
         </p>
       )}
 
-      <div className="flex flex-wrap items-center justify-center gap-2">
+      <div className={gameToolbarClass}>
         <Button onClick={submit} className={gamePrimaryClass}>
           <Check className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t("unscr.submit")}
         </Button>
+        <div className={gamePillGridClass}>
         <button
           type="button"
           onClick={() => setState((s) => removeLastUnscrambleLetter(s))}
@@ -337,6 +338,7 @@ export function UnscrambleGame({
         >
           {t("ui.clear")}
         </button>
+
         {settings.hintAvailable && (
           <button
             type="button"
