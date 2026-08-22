@@ -4,6 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
 import { LumenaLogo } from "./LumenaLogo";
 import { LegalConsent } from "./LegalConsent";
+import authSide from "@/assets/auth-side.jpg.asset.json";
 
 export function AuthLayout({
   title,
