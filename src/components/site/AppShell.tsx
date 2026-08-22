@@ -133,8 +133,14 @@ export function AppShell({
           </div>
         </aside>
         <div className="flex min-w-0 flex-1 flex-col">
-          <header className="flex items-center justify-between border-b border-border/60 px-6 py-4 md:hidden">
-            <Link to="/my-journey" className="flex items-center">
+          {/* Compact app header: fixed height, blurred, slides away on scroll
+              down and returns on the first upward gesture. */}
+          <header
+            className={`app-topbar sticky top-0 z-40 flex h-14 items-center justify-between px-5 md:hidden ${
+              headerHidden ? "app-topbar--hidden" : ""
+            }`}
+          >
+            <Link to="/my-journey" className="tap-scale flex items-center">
               <LumenaLogo size="sm" />
             </Link>
             <div className="flex items-center gap-2">
@@ -142,10 +148,13 @@ export function AppShell({
               <NotificationsMenu />
             </div>
           </header>
-          <main className={`min-w-0 flex-1 px-6 py-8 md:px-10 md:py-12 ${mainClassName ?? ""}`}>
+          <main
+            className={`app-page-transition min-w-0 flex-1 px-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-6 md:px-10 md:py-12 md:pb-12 ${mainClassName ?? ""}`}
+            key={pathname}
+          >
             {children}
           </main>
-          <nav className="sticky bottom-0 grid grid-cols-5 border-t border-border/60 bg-background md:hidden">
+          <nav className="app-tabbar fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 md:hidden">
             {mobileItems.map((i) => {
               const active = pathname === i.to || pathname.startsWith(`${i.to}/`);
               const Icon = i.icon;
@@ -153,12 +162,20 @@ export function AppShell({
                 <Link
                   key={i.to}
                   to={i.to}
-                  className={`flex flex-col items-center gap-1 py-2.5 text-[10px] ${
+                  onClick={() => haptics.tap()}
+                  aria-current={active ? "page" : undefined}
+                  className={`tap-scale relative flex min-h-[52px] flex-col items-center justify-center gap-1 text-[10px] transition-colors ${
                     active ? "text-primary" : "text-muted-foreground"
                   }`}
                 >
-                  <Icon className="h-4 w-4" />
-                  {i.label}
+                  <span
+                    className={`grid h-7 w-12 place-items-center rounded-full transition-all duration-200 ${
+                      active ? "scale-100 bg-primary/12" : "scale-90 bg-transparent"
+                    }`}
+                  >
+                    <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2 : 1.5} />
+                  </span>
+                  <span className="truncate leading-none">{i.label}</span>
                 </Link>
               );
             })}
