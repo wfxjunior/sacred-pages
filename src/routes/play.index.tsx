@@ -103,6 +103,7 @@ function PlayPage() {
           {games.map((game, index) => {
             const Icon = ICONS[game.iconKey];
             const active = game.availability === "active" && game.route;
+            const image = IMAGES[game.id];
             const body = (
               <>
                 {/* Archival linen spine, matching the collection volumes */}
