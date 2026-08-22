@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
+import { PullToRefresh } from "@/components/site/PullToRefresh";
 import { HeroPreview } from "@/components/site/HeroPreview";
 import { Button } from "@/components/ui/button";
 import { MILESTONES, TODAY } from "@/lib/mock-data";
@@ -32,6 +33,7 @@ function MyJourney() {
   const week = useConsistencyWindow(7);
   return (
     <AppShell>
+      <PullToRefresh onRefresh={() => window.location.reload()}>
       <div className="space-y-12">
         <header>
           <p className="text-xs uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
@@ -131,6 +133,7 @@ function MyJourney() {
           </ul>
         </section>
       </div>
+      </PullToRefresh>
     </AppShell>
   );
 }
