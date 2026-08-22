@@ -5,6 +5,20 @@ export type Locale = "en" | "pt" | "es";
 type Dict = Record<string, string>;
 
 const en: Dict = {
+  "nav.donate": "Give",
+  "donate.eyebrow": "Support Lumena",
+  "donate.title": "Keep Scripture open to everyone.",
+  "donate.sub": "Lumena is built by a small team. A one-time gift helps keep the daily journeys free for readers in every language.",
+  "donate.chooseAmount": "Choose an amount",
+  "donate.custom": "Custom",
+  "donate.customLabel": "Your amount (USD)",
+  "donate.range": "Enter an amount between $5 and $5,000.",
+  "donate.cta": "Give now",
+  "donate.secure": "Secure one-time payment. No account required.",
+  "donate.error": "We could not open the payment page. Please try again.",
+  "donate.use1": "Keeps the daily devotional and word search free.",
+  "donate.use2": "Funds new collections and translations.",
+  "donate.use3": "Pays for hosting, so no ads ever appear.",
   // The brand is Lumena; Word Journeys is the experience it presents. Both are
   // product names, so they are intentionally not translated — pt and es fall
   // back to these entries, which is why they appear only in the English dict.
@@ -603,6 +617,20 @@ const en: Dict = {
 };
 
 const pt: Dict = {
+  "nav.donate": "Doar",
+  "donate.eyebrow": "Apoie a Lumena",
+  "donate.title": "Mantenha a Palavra ao alcance de todos.",
+  "donate.sub": "A Lumena é feita por uma equipe pequena. Uma doação única ajuda a manter as jornadas diárias gratuitas para leitores em todos os idiomas.",
+  "donate.chooseAmount": "Escolha um valor",
+  "donate.custom": "Outro",
+  "donate.customLabel": "Seu valor (USD)",
+  "donate.range": "Informe um valor entre $5 e $5.000.",
+  "donate.cta": "Doar agora",
+  "donate.secure": "Pagamento único e seguro. Não é preciso ter conta.",
+  "donate.error": "Não conseguimos abrir a página de pagamento. Tente novamente.",
+  "donate.use1": "Mantém o devocional e o caça-palavras diários gratuitos.",
+  "donate.use2": "Financia novas coleções e traduções.",
+  "donate.use3": "Paga a hospedagem, para que nunca haja anúncios.",
   ...en,
   "brand.tagline": "Sua jornada diária pela Palavra de Deus.",
   "nav.home": "Início",
@@ -1203,6 +1231,20 @@ Object.assign(pt, {
 });
 
 const es: Dict = {
+  "nav.donate": "Donar",
+  "donate.eyebrow": "Apoya a Lumena",
+  "donate.title": "Mantén la Palabra al alcance de todos.",
+  "donate.sub": "Lumena la construye un equipo pequeño. Una donación única ayuda a mantener gratuitas las jornadas diarias en todos los idiomas.",
+  "donate.chooseAmount": "Elige un monto",
+  "donate.custom": "Otro",
+  "donate.customLabel": "Tu monto (USD)",
+  "donate.range": "Ingresa un monto entre $5 y $5.000.",
+  "donate.cta": "Donar ahora",
+  "donate.secure": "Pago único y seguro. No necesitas cuenta.",
+  "donate.error": "No pudimos abrir la página de pago. Inténtalo de nuevo.",
+  "donate.use1": "Mantiene gratis el devocional y la sopa de letras diarios.",
+  "donate.use2": "Financia nuevas colecciones y traducciones.",
+  "donate.use3": "Paga el alojamiento, para que nunca haya anuncios.",
   ...en,
   "brand.tagline": "Tu jornada diaria por la Palabra de Dios.",
   "nav.home": "Inicio",

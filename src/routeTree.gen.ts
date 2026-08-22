@@ -27,6 +27,7 @@ import { Route as MyJourneyRouteImport } from './routes/my-journey'
 import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as DonateRouteImport } from './routes/donate'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -149,6 +150,11 @@ const FeaturesRoute = FeaturesRouteImport.update({
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonateRoute = DonateRouteImport.update({
+  id: '/donate',
+  path: '/donate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiesRoute = CookiesRouteImport.update({
@@ -323,6 +329,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cookies': typeof CookiesRoute
+  '/donate': typeof DonateRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -376,6 +383,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cookies': typeof CookiesRoute
+  '/donate': typeof DonateRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -430,6 +438,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cookies': typeof CookiesRoute
+  '/donate': typeof DonateRoute
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
@@ -485,6 +494,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cookies'
+    | '/donate'
     | '/favorites'
     | '/features'
     | '/forgot'
@@ -538,6 +548,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cookies'
+    | '/donate'
     | '/favorites'
     | '/features'
     | '/forgot'
@@ -591,6 +602,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cookies'
+    | '/donate'
     | '/favorites'
     | '/features'
     | '/forgot'
@@ -645,6 +657,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CookiesRoute: typeof CookiesRoute
+  DonateRoute: typeof DonateRoute
   FavoritesRoute: typeof FavoritesRoute
   FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
@@ -820,6 +833,13 @@ declare module '@tanstack/react-router' {
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donate': {
+      id: '/donate'
+      path: '/donate'
+      fullPath: '/donate'
+      preLoaderRoute: typeof DonateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookies': {
@@ -1072,6 +1092,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CookiesRoute: CookiesRoute,
+  DonateRoute: DonateRoute,
   FavoritesRoute: FavoritesRoute,
   FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,

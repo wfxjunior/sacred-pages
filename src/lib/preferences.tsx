@@ -52,10 +52,12 @@ export const DEFAULT_PREFERENCES: Preferences = {
 
 const STORAGE_KEY = "lumena.preferences.v1";
 
+// A multiplier rather than a pixel size: the base size itself is set in CSS and
+// is deliberately larger on phones, so a fixed px here would undo that.
 const FONT_SCALE: Record<FontSize, string> = {
-  small: "15px",
-  medium: "16px",
-  large: "18px",
+  small: "0.94",
+  medium: "1",
+  large: "1.12",
 };
 
 function load(): Preferences {
@@ -73,7 +75,7 @@ function load(): Preferences {
 function apply(prefs: Preferences) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  root.style.fontSize = FONT_SCALE[prefs.fontSize];
+  root.style.setProperty("--font-scale", FONT_SCALE[prefs.fontSize]);
   root.classList.toggle("reduce-motion", prefs.reduceMotion);
   root.classList.toggle("high-contrast", prefs.highContrast);
   root.classList.toggle("dyslexia-friendly", prefs.dyslexiaFont);

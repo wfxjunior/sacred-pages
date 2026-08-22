@@ -58,6 +58,7 @@ export function Header() {
     // another route, where a bare "#living-journal" would go nowhere.
     { href: "/#living-journal", label: t("nav.livingJournal"), type: "hash" },
     { href: "/pricing", label: t("nav.pricing"), type: "route" },
+    { href: "/donate", label: t("nav.donate"), type: "route" },
   ];
 
   const label = (n: NavItem) =>
