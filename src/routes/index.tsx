@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown, ArrowRight, Globe, Smartphone } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
+import { StartPlanBand, TrustStrip } from "@/components/site/landing/TrustAndStart";
 import {
   ProductOverview,
   HowItWorks,
@@ -184,6 +185,7 @@ function Landing() {
         <CatalogGrid limit={6} />
       </LandingSection>
 
+      <StartPlanBand />
       <Personalization />
       <JourneyTogether />
       <ProgressShowcase />
@@ -194,6 +196,7 @@ function Landing() {
         ask, widening from "your journey" to "others are quietly walking it too".
       */}
       <LivingJournalSection />
+      <TrustStrip />
       <PricingPreview />
       <FAQ />
       <FinalCTA />
