@@ -672,23 +672,6 @@ export function PricingPreview() {
       featured: true,
     },
   ];
-  const compare: { label: string; free: boolean | string; premium: boolean | string }[] = [
-    { label: t("compare.row.dailyJourney"), free: true, premium: true },
-    { label: t("compare.row.selectedCollections"), free: true, premium: true },
-    { label: t("compare.row.fullLibrary"), free: false, premium: true },
-    { label: t("compare.row.allCollections"), free: false, premium: true },
-    { label: t("compare.row.personalization"), free: t("compare.val.limited"), premium: t("compare.val.complete") },
-    { label: t("compare.row.progressHistory"), free: t("compare.val.basic"), premium: t("compare.val.advanced") },
-    { label: t("compare.row.darkMode"), free: true, premium: true },
-    { label: t("compare.row.languages"), free: true, premium: true },
-    { label: t("compare.row.favorites"), free: true, premium: true },
-    { label: t("compare.row.exclusive"), free: false, premium: true },
-    { label: t("compare.row.milestones"), free: false, premium: true },
-    { label: t("compare.row.together"), free: t("compare.val.viewOnly"), premium: t("compare.val.upTo5") },
-    { label: t("compare.row.offline"), free: false, premium: true },
-    { label: t("compare.row.family"), free: false, premium: t("compare.val.comingSoon") },
-    { label: t("compare.row.support"), free: false, premium: true },
-  ];
   return (
     <LandingSection id="pricing" title={t("pricing.title")}>
       <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
