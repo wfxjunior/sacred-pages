@@ -58,7 +58,6 @@ function DonatePage() {
       <section className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-6 sm:py-20">
         <header className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-            <Heart className="h-3.5 w-3.5" style={{ color: "var(--gold, #B88A3B)" }} />
             {t("donate.eyebrow")}
           </span>
           <h1 className="mt-5 font-serif text-3xl leading-tight text-foreground sm:text-5xl">
