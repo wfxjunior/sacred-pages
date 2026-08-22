@@ -1,5 +1,9 @@
 import { CheckCircle2, Eye, RefreshCw } from "lucide-react";
-import { gamePrimaryClass, gameSecondaryClass } from "@/components/games/controlStyles";
+import {
+  gameActionsClass,
+  gameActionPrimaryClass,
+  gameActionSecondaryClass,
+} from "@/components/games/controlStyles";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
@@ -36,12 +40,12 @@ export function WordGuessCompletion({
       <div className="mx-auto max-w-md rounded-2xl border border-border/60 bg-card p-6 text-center">
         <p className="font-serif text-xl">{t("wordguess.failedTitle")}</p>
         <p className="mt-2 text-[13px] text-muted-foreground">{t("wordguess.failedBody")}</p>
-        <div className="mt-5 flex flex-wrap justify-center gap-2">
-          <Button onClick={onTryAgain} variant="outline" className={gameSecondaryClass}>
+        <div className={`mt-5 ${gameActionsClass}`}>
+          <Button onClick={onTryAgain} variant="outline" className={gameActionSecondaryClass}>
             <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
             {t("wordguess.tryAgain")}
           </Button>
-          <Button onClick={onRevealAnswer} variant="outline" className={gameSecondaryClass}>
+          <Button onClick={onRevealAnswer} variant="outline" className={gameActionSecondaryClass}>
             <Eye className="mr-1.5 h-4 w-4" aria-hidden="true" />
             {t("wordguess.revealAnswer")}
           </Button>
@@ -94,14 +98,14 @@ export function WordGuessCompletion({
         </div>
       </dl>
 
-      <div className="mt-6 flex flex-wrap justify-center gap-2">
-        <Button onClick={onContinue} className={gamePrimaryClass}>
+      <div className={`mt-6 ${gameActionsClass}`}>
+        <Button onClick={onContinue} className={gameActionPrimaryClass}>
           {t("ui.continue")}
         </Button>
-        <Button onClick={onTryAnother} variant="outline" className={gameSecondaryClass}>
+        <Button onClick={onTryAnother} variant="outline" className={gameActionSecondaryClass}>
           {t("wordguess.tryAnother")}
         </Button>
-        <Button asChild variant="ghost" className={gameSecondaryClass}>
+        <Button asChild variant="ghost" className={gameActionSecondaryClass}>
           <Link to="/today">{t("wordguess.backToJourney")}</Link>
         </Button>
       </div>

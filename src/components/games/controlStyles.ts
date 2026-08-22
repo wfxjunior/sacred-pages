@@ -12,3 +12,13 @@ export const gamePrimaryClass = "h-11 rounded-full px-5 sm:h-10";
 
 /** Secondary Button beside a primary (Try another, Try again, Reveal). */
 export const gameSecondaryClass = "h-11 rounded-full px-4 sm:h-10";
+
+// Completion / end-of-round actions. One column of equal-width buttons on a
+// phone (Continue must never look smaller than the option below it), a
+// centered row from sm up.
+export const gameActionsClass =
+  "mx-auto flex w-full max-w-[300px] flex-col items-stretch gap-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center";
+
+export const gameActionPrimaryClass = `${gamePrimaryClass} w-full sm:w-auto sm:min-w-[168px]`;
+
+export const gameActionSecondaryClass = `${gameSecondaryClass} w-full sm:w-auto sm:min-w-[168px]`;

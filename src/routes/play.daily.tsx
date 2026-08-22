@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { gamePrimaryClass, gameSecondaryClass } from "@/components/games/controlStyles";
+import {
+  gameActionsClass,
+  gameActionPrimaryClass,
+  gameActionSecondaryClass,
+} from "@/components/games/controlStyles";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Calendar, CheckCircle2, ChevronRight, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/site/AppShell";
@@ -84,13 +88,13 @@ function DailyChallengePage() {
             <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
               {t("daily.wordSearchBody")}
             </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-2">
-              <Button asChild className={gamePrimaryClass}>
+            <div className={`mt-6 ${gameActionsClass}`}>
+              <Button asChild className={gameActionPrimaryClass}>
                 <Link to="/today">
                   {t("nav.today")} <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="ghost" className={gameSecondaryClass} onClick={finish}>
+              <Button variant="ghost" className={gameActionSecondaryClass} onClick={finish}>
                 {t("daily.markDone")}
               </Button>
             </div>
@@ -133,8 +137,8 @@ function DailyChallengeDone() {
           {t(encouragementKey(summary))}
         </p>
       )}
-      <div className="mt-6 flex flex-wrap justify-center gap-2">
-        <Button asChild variant="outline" className={gameSecondaryClass}>
+      <div className={`mt-6 ${gameActionsClass}`}>
+        <Button asChild variant="outline" className={gameActionSecondaryClass}>
           <Link to="/play">{t("games.hub.title")}</Link>
         </Button>
         <Button asChild className="rounded-full">
