@@ -3,7 +3,6 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { HeroJournal } from "@/components/site/HeroJournal";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { ChevronDown, ArrowRight, Globe, Smartphone } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
@@ -51,8 +50,6 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   const { t, locale } = useI18n();
-  // The landing verse rotates every two days (UTC-derived, SSR-stable).
-  const verse = getHeroVerse(locale);
   return (
     <SiteLayout>
       {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
