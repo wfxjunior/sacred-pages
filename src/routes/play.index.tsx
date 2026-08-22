@@ -200,6 +200,7 @@ function PlayPage() {
                       </span>
                     </span>
                   )}
+                  </span>
                 </span>
               </>
             );
