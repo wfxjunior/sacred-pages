@@ -556,29 +556,3 @@ function Pricing() {
   );
 }
 
-function CellMark({ v, highlight }: { v: PlanAvailability; highlight?: boolean }) {
-  if (v === "included") {
-    return (
-      <Check
-        className="h-4.5 w-4.5"
-        style={{ color: highlight ? "var(--brand)" : "var(--sage)" }}
-        strokeWidth={2.2}
-      />
-    );
-  }
-  if (v === "soon") {
-    return (
-      <span
-        className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em]"
-        style={{
-          borderColor: "color-mix(in oklab, var(--dusty-blue) 35%, transparent)",
-          color: "var(--dusty-blue)",
-          background: "color-mix(in oklab, var(--dusty-blue) 10%, transparent)",
-        }}
-      >
-        Soon
-      </span>
-    );
-  }
-  return <Minus className="h-4 w-4 text-muted-foreground/50" />;
-}
