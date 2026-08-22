@@ -40,9 +40,7 @@ export function WordGuessControls({
     state.status === "completed" || state.status === "revealed" || state.status === "failed";
 
   return (
-    <div
-      className={`mx-auto max-w-[320px] sm:max-w-none ${gamePillGridClass} sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-2`}
-    >
+    <div className="mx-auto grid w-full max-w-[320px] grid-cols-2 gap-2 [&>*:last-child:nth-child(odd)]:col-span-2 sm:flex sm:max-w-none sm:flex-wrap sm:items-center sm:justify-center">
       {settings.hintAvailable && (
         <button
           type="button"
