@@ -6,6 +6,7 @@ import { usePreferences } from "@/lib/preferences";
 import { useI18n } from "@/lib/i18n";
 import { GameDevotionalMoment } from "@/components/games/GameDevotionalMoment";
 import { celebrateCompletion } from "@/lib/confetti";
+import { haptics } from "@/lib/mobile/haptics";
 import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
 import {
   Check,
