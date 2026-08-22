@@ -2,9 +2,12 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, Settings, User, X } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { authService } from "@/lib/auth/service";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 type NavItem = {
   href: string;
