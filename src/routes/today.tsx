@@ -35,6 +35,11 @@ import {
   Maximize2,
   Minimize2,
 } from "lucide-react";
+import {
+  gameActionsClass,
+  gameActionPrimaryClass,
+  gameActionSecondaryClass,
+} from "@/components/games/controlStyles";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Library, RefreshCw } from "lucide-react";
@@ -945,23 +950,36 @@ function Completion({ onReset, onNext }: { onReset: () => void; onNext: () => vo
           </footer>
         </blockquote>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <div className={`mt-10 ${gameActionsClass}`}>
           {canFavorite && (
-            <Button variant="outline" onClick={favorite}>
+            <Button
+              variant="outline"
+              onClick={favorite}
+              className={gameActionSecondaryClass}
+            >
               {t("complete.favorite")}
             </Button>
           )}
-          <Button variant="outline" onClick={share}>
+          <Button
+            variant="outline"
+            onClick={share}
+            className={gameActionSecondaryClass}
+          >
             {t("complete.share")}
           </Button>
-          <Button asChild variant="outline">
+          <Button asChild variant="outline" className={gameActionSecondaryClass}>
             <Link to="/collections">{t("complete.another")}</Link>
           </Button>
-          <Button variant="ghost" onClick={onReset}>
+          <Button
+            variant="ghost"
+            onClick={onReset}
+            className={gameActionSecondaryClass}
+          >
             {t("ui.back")}
           </Button>
-          <Button onClick={onNext}>
-            {t("complete.nextPuzzle")} <ChevronRight className="ml-1.5 h-4 w-4" />
+          <Button onClick={onNext} className={gameActionPrimaryClass}>
+            {t("complete.nextPuzzle")}{" "}
+            <ChevronRight className="ml-1.5 h-4 w-4" />
           </Button>
         </div>
       </div>
