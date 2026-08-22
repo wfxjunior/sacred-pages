@@ -303,14 +303,17 @@ function FilterGroup({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex min-w-0 items-center gap-2">
-      <span className="shrink-0 uppercase tracking-wider" style={{ color: "var(--walnut)" }}>
-        {label}:
+    <label className="flex min-w-0 flex-col gap-1.5">
+      <span
+        className="text-[10px] font-semibold uppercase tracking-[0.18em]"
+        style={{ color: "var(--walnut)" }}
+      >
+        {label}
       </span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="min-w-0 flex-1 rounded-md border border-border bg-background px-2 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 sm:flex-none"
+        className="h-11 w-full min-w-0 appearance-none rounded-xl border border-border bg-background px-3 text-[14px] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
         aria-label={label}
       >
         {options.map((o) => (
@@ -319,8 +322,9 @@ function FilterGroup({
           </option>
         ))}
       </select>
-    </div>
+    </label>
   );
+
 }
 
 function CardSkeleton() {
