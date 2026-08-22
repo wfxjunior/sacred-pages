@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/site/AppShell";
+import { GameStage } from "@/components/games/GameStage";
 import { WordGuessGame } from "@/components/games/word-guess/WordGuessGame";
 import { useI18n } from "@/lib/i18n";
 import { GameDifficultyPicker } from "@/components/games/GameDifficultyPicker";
 import { useGamePosition } from "@/lib/games/useGamePosition";
 import { wordGuessPool } from "@/lib/word-guess/pool";
 import { dateKey } from "@/lib/content/word-history";
-import type { WordGuessDifficulty } from "@/lib/word-guess/types";
+import { GAME_REGISTRY } from "@/lib/games";
 
 // Word Guess lives under /play — a sibling experience to the Today word
 // search, deliberately absent from primary navigation while the mode matures.
@@ -27,7 +28,7 @@ export const Route = createFileRoute("/play/word-guess")({
   component: WordGuessPage,
 });
 
-const DIFFICULTIES: WordGuessDifficulty[] = ["gentle", "balanced", "challenging", "expert"];
+const GAME = GAME_REGISTRY.word_guess;
 
 function WordGuessPage() {
   const { t, locale } = useI18n();
@@ -44,7 +45,7 @@ function WordGuessPage() {
 
   return (
     <AppShell>
-      <div className="mx-auto w-full max-w-3xl px-1 py-6 sm:py-10">
+      <GameStage>
         <header className="mb-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: "var(--walnut)" }}>
             {t("wordguess.eyebrow")}
@@ -58,7 +59,7 @@ function WordGuessPage() {
 
           <GameDifficultyPicker
             value={difficulty}
-            options={DIFFICULTIES}
+            options={GAME.supportedDifficulties}
             onChange={chooseDifficulty}
           />
 
@@ -73,7 +74,7 @@ function WordGuessPage() {
           onContinue={() => setCursor((c) => c + 1)}
           onTryAnother={() => setCursor((c) => c + Math.max(1, Math.floor(pool.length / 2)))}
         />
-      </div>
+      </GameStage>
     </AppShell>
   );
 }
