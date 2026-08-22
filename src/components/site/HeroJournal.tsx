@@ -27,21 +27,32 @@ const MARK = "#B9A882";
 const GridCell = memo(function GridCell({
   letter,
   hit,
+  selected,
+  onSelect,
 }: {
   letter: string;
   hit: boolean;
+  selected: boolean;
+  onSelect: () => void;
 }) {
   return (
-    <div className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]">
+    <button
+      type="button"
+      tabIndex={-1}
+      onClick={onSelect}
+      className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]"
+      style={{ background: selected ? "rgba(185,168,130,0.28)" : "transparent" }}
+    >
       <span
         className="relative z-10 font-['Crimson_Pro',serif] font-medium uppercase leading-none tracking-[0.02em] transition-colors duration-500"
-        style={{ color: hit ? INK : "rgba(31,29,27,0.62)", fontSize: "4.6cqw" }}
+        style={{ color: hit || selected ? INK : "rgba(31,29,27,0.62)", fontSize: "4.6cqw" }}
       >
         {letter}
       </span>
-    </div>
+    </button>
   );
 });
+
 
 /**
  * Found-word marks.
