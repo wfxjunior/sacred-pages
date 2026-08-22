@@ -5,7 +5,10 @@ import {
   gameActionPrimaryClass,
   gameActionSecondaryClass,
   gamePrimaryClass,
+  gameToolbarClass,
+  gamePillGridClass,
 } from "@/components/games/controlStyles";
+
 import { Link } from "@tanstack/react-router";
 import { BookOpen, CheckCircle2, Delete, Eye, Lightbulb, RefreshCw, Check } from "lucide-react";
 import {
