@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { buildRenderablePuzzle } from "@/lib/puzzle/render";
 import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS, WORD_COLORS } from "@/lib/mock-data";
@@ -141,6 +142,9 @@ export function WordSearch({
   const [elapsedMs, setElapsedMs] = useState(0);
   const [bestTimeMs, setBestTimeMs] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
+  // Portal target only exists in the browser; render the overlay after hydration.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
   const expandedGridRef = useRef<HTMLDivElement | null>(null);
@@ -530,7 +534,7 @@ export function WordSearch({
         onKeyDown={handleKeyDown}
         className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-2" : "p-3"} ${
           isExpanded
-            ? "mx-auto w-full max-w-[min(100%,68vh)] flex-none self-center lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-7rem))]"
+            ? "mx-auto w-full max-w-[min(100%,calc(100dvh-17rem))] flex-none self-center sm:max-w-[min(100%,68vh)] lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-8rem))]"
             : ""
         }`}
         style={{
@@ -606,13 +610,15 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square min-h-0 rounded-sm font-serif font-medium uppercase leading-none tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  isCompact
-                    ? "text-[11px] xs:text-[13px] sm:text-[15px]"
-                    : stacked && mode === "normal"
-                      ? size >= 16
-                        ? "text-[11px] sm:text-[12px] xl:text-[14px]"
-                        : "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
-                      : "text-[13px] sm:text-[15px]"
+                  isExpanded
+                    ? "text-[clamp(12px,3.2vw,22px)]"
+                    : isCompact
+                      ? "text-[11px] xs:text-[13px] sm:text-[15px]"
+                      : stacked && mode === "normal"
+                        ? size >= 16
+                          ? "text-[11px] sm:text-[12px] xl:text-[14px]"
+                          : "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
+                        : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
@@ -1360,33 +1366,65 @@ export function WordSearch({
         </div>
       )}
 
-      {/* Focus mode overlay — rendered in the DOM at all times so it can enter
-          and leave with a smooth fade/scale transition instead of snapping. */}
-      <div
-        className={`fixed inset-0 z-[80] flex flex-col gap-3 overflow-y-auto bg-[var(--ivory)] p-3 pt-12 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:p-5 sm:pt-14 lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:overflow-hidden lg:p-6 lg:pt-14 ${
-          expanded
-            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
-        }`}
-        role="dialog"
-        aria-modal="true"
-        aria-hidden={!expanded}
-      >
-        <button
-          type="button"
-          onClick={() => setExpanded(false)}
-          aria-label={t("wordsearch.collapse")}
-          className="fixed right-3 top-3 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full sm:h-8 sm:w-8 border border-border/70 bg-card text-muted-foreground shadow-sm transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
-        >
-          <X className="h-4 w-4" />
-        </button>
+      {/* Focus mode overlay — portalled to the body so no ancestor stacking
+          context (header, sticky panels) can paint over it, and kept mounted
+          so it fades in and out instead of snapping.
+          On mobile it behaves like a native full-screen sheet: fixed top bar,
+          grid sized to the free height, word list scrolling underneath. */}
+      {mounted &&
+        createPortal(
+          <div
+            className={`fixed inset-0 z-[100] flex flex-col bg-[var(--ivory)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              expanded
+                ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
+            }`}
+            style={{
+              paddingTop: "env(safe-area-inset-top)",
+              paddingBottom: "env(safe-area-inset-bottom)",
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-hidden={!expanded}
+          >
+            {/* Top bar: identity, progress and exit — always reachable. */}
+            <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border/50 px-3 sm:px-5">
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <span className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  {journeyLabel ?? t("wordsearch.wordsToFind")}
+                </span>
+                <span className="hidden h-1 min-w-10 flex-1 overflow-hidden rounded-full bg-secondary sm:block">
+                  <span
+                    className="block h-full rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
+                  />
+                </span>
+              </div>
+              <span className="shrink-0 text-xs font-medium tabular-nums text-muted-foreground">
+                {found.length}/{playableWords.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                aria-label={t("wordsearch.collapse")}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-card text-muted-foreground shadow-sm transition active:scale-95 hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)]"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </header>
 
-        {renderGrid(expandedGridRef, "expanded")}
+            <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
+              {renderGrid(expandedGridRef, "expanded")}
 
-        <div className="w-full lg:w-[240px] lg:flex-none lg:max-h-[calc(100dvh-5rem)] lg:self-center lg:overflow-y-auto">
-          {focusPanel()}
-        </div>
-      </div>
+              <div className="w-full shrink-0 pb-6 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
+                {focusPanel()}
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+
+
     </div>
   );
 }
