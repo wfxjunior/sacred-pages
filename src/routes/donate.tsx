@@ -89,7 +89,7 @@ function DonatePage() {
                       : "border-border/70 bg-background text-foreground hover:bg-secondary"
                   }`}
                 >
-                  <span className="font-serif text-2xl leading-none">{value}</span>
+                  <span className="font-serif text-2xl leading-none">${value}</span>
                 </button>
               );
             })}
