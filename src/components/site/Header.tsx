@@ -298,58 +298,72 @@ export function Header() {
               );
             })}
 
-            <div className="mt-4 flex flex-col gap-2 border-t border-border/50 pt-4">
+            <div className="mt-2 flex flex-col">
               {signedIn ? (
                 <>
-                  <Button
-                    asChild
-                    variant="ghost"
-                    size="default"
-                    className="justify-start gap-3 rounded-xl px-4 text-base text-muted-foreground hover:text-foreground"
-                  >
-                    <Link to="/profile" onClick={() => setOpen(false)}>
-                      <User className="h-5 w-5" />
-                      {t("nav.profile")}
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="ghost"
-                    size="default"
-                    className="justify-start gap-3 rounded-xl px-4 text-base text-muted-foreground hover:text-foreground"
-                  >
-                    <Link to="/settings" onClick={() => setOpen(false)}>
-                      <Settings className="h-5 w-5" />
-                      {t("nav.settings")}
-                    </Link>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="default"
-                    onClick={() => void handleSignOut()}
-                    className="justify-start gap-3 rounded-xl px-4 text-base text-muted-foreground hover:text-foreground"
-                  >
-                    <LogOut className="h-5 w-5" />
-                    {t("auth.signOut")}
-                  </Button>
+                  <div className="-mx-5 sm:-mx-6">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="default"
+                      className="h-12 w-full justify-start gap-3 rounded-none px-5 text-base text-muted-foreground hover:text-foreground sm:px-6"
+                    >
+                      <Link to="/profile" onClick={() => setOpen(false)}>
+                        <User className="h-5 w-5" />
+                        {t("nav.profile")}
+                      </Link>
+                    </Button>
+                    <div className="h-px bg-border/30" />
+                  </div>
+                  <div className="-mx-5 sm:-mx-6">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="default"
+                      className="h-12 w-full justify-start gap-3 rounded-none px-5 text-base text-muted-foreground hover:text-foreground sm:px-6"
+                    >
+                      <Link to="/settings" onClick={() => setOpen(false)}>
+                        <Settings className="h-5 w-5" />
+                        {t("nav.settings")}
+                      </Link>
+                    </Button>
+                    <div className="h-px bg-border/30" />
+                  </div>
+                  <div className="-mx-5 sm:-mx-6">
+                    <Button
+                      variant="ghost"
+                      size="default"
+                      onClick={() => void handleSignOut()}
+                      className="h-12 w-full justify-start gap-3 rounded-none px-5 text-base text-muted-foreground hover:text-foreground sm:px-6"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      {t("auth.signOut")}
+                    </Button>
+                    <div className="h-px bg-border/30" />
+                  </div>
                 </>
               ) : (
                 <>
-                  <Button
-                    asChild
-                    size="default"
-                    className="h-12 w-full rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
-                  >
-                    <Link to="/signup">{t("cta.startFree")}</Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="ghost"
-                    size="default"
-                    className="h-11 w-full text-base text-muted-foreground hover:text-foreground"
-                  >
-                    <Link to="/signin">{t("cta.signin")}</Link>
-                  </Button>
+                  <div className="-mx-5 px-5 py-2 sm:-mx-6 sm:px-6">
+                    <Button
+                      asChild
+                      size="default"
+                      className="h-12 w-full rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
+                    >
+                      <Link to="/signup">{t("cta.startFree")}</Link>
+                    </Button>
+                  </div>
+                  <div className="-mx-5 sm:-mx-6">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="default"
+                      className="h-12 w-full text-base text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    >
+                      <Link to="/signin">{t("cta.signin")}</Link>
+                    </Button>
+                    <div className="h-px bg-border/30" />
+                  </div>
                 </>
               )}
             </div>
