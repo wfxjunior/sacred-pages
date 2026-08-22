@@ -1413,10 +1413,10 @@ export function WordSearch({
               </button>
             </header>
 
-            <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
+            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-2 py-2 sm:px-4 sm:py-3 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
               {renderGrid(expandedGridRef, "expanded")}
 
-              <div className="w-full shrink-0 pb-6 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
+              <div className="w-full shrink-0 pb-4 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
                 {focusPanel()}
               </div>
             </div>
