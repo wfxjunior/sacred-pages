@@ -5,13 +5,26 @@
 
 /** Secondary in-game action (Clear, Reveal, hints): pill outline. */
 export const gamePillClass =
-  "inline-flex h-11 items-center gap-1.5 rounded-full border border-border px-3.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:pointer-events-none disabled:opacity-40 sm:h-9 sm:px-3";
+  "inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full border border-border px-3.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:pointer-events-none disabled:opacity-40 sm:h-9 sm:w-auto sm:px-3";
+
+/**
+ * In-game toolbar: primary action on its own full-width row on a phone, then a
+ * tidy two-column grid of pills (a lone last pill spans both columns). From sm
+ * up everything collapses into one centered row.
+ */
+export const gameToolbarClass =
+  "mx-auto flex w-full max-w-[320px] flex-col items-stretch gap-2 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center";
+
+/** Wrapper for the pill cluster inside gameToolbarClass. */
+export const gamePillGridClass =
+  "grid w-full grid-cols-2 gap-2 [&>*:last-child:nth-child(odd)]:col-span-2 sm:contents";
 
 /** Primary action (Check word, Continue): pass to Button's className. */
-export const gamePrimaryClass = "h-11 rounded-full px-5 sm:h-10";
+export const gamePrimaryClass = "h-11 w-full rounded-full px-5 sm:h-10 sm:w-auto sm:min-w-[168px]";
 
 /** Secondary Button beside a primary (Try another, Try again, Reveal). */
-export const gameSecondaryClass = "h-11 rounded-full px-4 sm:h-10";
+export const gameSecondaryClass = "h-11 w-full rounded-full px-4 sm:h-10 sm:w-auto";
+
 
 // Completion / end-of-round actions. One column of equal-width buttons on a
 // phone (Continue must never look smaller than the option below it), a

@@ -5,7 +5,10 @@ import {
   gameActionPrimaryClass,
   gameActionSecondaryClass,
   gamePrimaryClass,
+  gameToolbarClass,
+  gamePillGridClass,
 } from "@/components/games/controlStyles";
+
 import { Link } from "@tanstack/react-router";
 import { BookOpen, CheckCircle2, Delete, Eye, Lightbulb, RefreshCw, Check } from "lucide-react";
 import {
@@ -127,7 +130,8 @@ export function UnscrambleGame({
                   setState(resetUnscramble(round));
                 }}
                 variant="outline"
-                className="rounded-full"
+                className={gameActionSecondaryClass}
+
               >
                 <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
                 {t("games.tryAgain")}
@@ -135,7 +139,7 @@ export function UnscrambleGame({
               <Button
                 onClick={() => setState((s) => revealUnscramble(s, round))}
                 variant="outline"
-                className="rounded-full"
+                className={gameActionSecondaryClass}
               >
                 <Eye className="mr-1.5 h-4 w-4" aria-hidden="true" />
                 {t("games.revealAnswer")}
@@ -317,11 +321,12 @@ export function UnscrambleGame({
         </p>
       )}
 
-      <div className="flex flex-wrap items-center justify-center gap-2">
+      <div className={gameToolbarClass}>
         <Button onClick={submit} className={gamePrimaryClass}>
           <Check className="mr-1.5 h-4 w-4" aria-hidden="true" />
           {t("unscr.submit")}
         </Button>
+        <div className={gamePillGridClass}>
         <button
           type="button"
           onClick={() => setState((s) => removeLastUnscrambleLetter(s))}
@@ -337,6 +342,7 @@ export function UnscrambleGame({
         >
           {t("ui.clear")}
         </button>
+
         {settings.hintAvailable && (
           <button
             type="button"
@@ -370,7 +376,9 @@ export function UnscrambleGame({
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        </div>
       </div>
+
     </div>
   );
 }
