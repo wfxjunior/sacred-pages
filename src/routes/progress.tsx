@@ -3,6 +3,7 @@ import { AppShell } from "@/components/site/AppShell";
 import { MILESTONES } from "@/lib/mock-data";
 import { useI18n } from "@/lib/i18n";
 import { useConsistency, useConsistencyWindow, useProgressStats } from "@/lib/journey/hooks";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/progress")({
   head: () => ({
@@ -11,9 +12,14 @@ export const Route = createFileRoute("/progress")({
       { name: "description", content: "A calm view of your consistency in Scripture." },
       { property: "og:title", content: "My Progress — Lumena" },
       { property: "og:description", content: "See your streak, journeys, and quiet milestones over time." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: ProgressPage,
+  component: () => (
+    <RequireAuth>
+      <ProgressPage />
+    </RequireAuth>
+  ),
 });
 
 function ProgressPage() {

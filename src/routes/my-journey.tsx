@@ -10,6 +10,7 @@ import { useCurrentUser } from "@/lib/auth/useCurrentUser";
 import { useConsistency, useConsistencyWindow } from "@/lib/journey/hooks";
 import { useDayPart } from "@/lib/time/useDayPart";
 import { Puzzle } from "lucide-react";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/my-journey")({
   head: () => ({
@@ -18,9 +19,14 @@ export const Route = createFileRoute("/my-journey")({
       { name: "description", content: "Your personal home inside Scripture — today's journey, streak, and collections." },
       { property: "og:title", content: "My Journey — Lumena" },
       { property: "og:description", content: "Your personal Scripture home." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: MyJourney,
+  component: () => (
+    <RequireAuth>
+      <MyJourney />
+    </RequireAuth>
+  ),
 });
 
 function MyJourney() {

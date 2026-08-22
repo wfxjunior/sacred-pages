@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import { isCategoryVisible, useNotifPrefs } from "@/lib/notification-preferences";
 import { Settings2, BellOff } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 const FILTER_KEYS = ["all", "unread", "daily", "companion", "milestone", "collection"] as const;
 
@@ -18,9 +19,14 @@ export const Route = createFileRoute("/notifications")({
       { name: "description", content: "A quiet place to catch up — daily journeys, companions, and milestones." },
       { property: "og:title", content: "Notifications — Lumena" },
       { property: "og:description", content: "A quiet notification center." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: NotificationsPage,
+  component: () => (
+    <RequireAuth>
+      <NotificationsPage />
+    </RequireAuth>
+  ),
 });
 
 function NotificationsPage() {

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Search, BookOpen, Quote, Feather, Library, Sparkles, Heart } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/favorites")({
   head: () => ({
@@ -13,9 +14,14 @@ export const Route = createFileRoute("/favorites")({
       { name: "description", content: "Journeys, verses, devotionals and reflections you've saved." },
       { property: "og:title", content: "Favorites — Lumena" },
       { property: "og:description", content: "Your saved Scripture moments." },
+      PRIVATE_ROUTE_META,
     ],
   }),
-  component: Favorites,
+  component: () => (
+    <RequireAuth>
+      <Favorites />
+    </RequireAuth>
+  ),
 });
 
 const KIND_META: Record<FavoriteKind, { icon: typeof BookOpen; color: string; labelKey: string }> = {
