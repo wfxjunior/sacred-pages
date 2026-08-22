@@ -11,6 +11,7 @@ import {
 } from '@react-email/components'
 
 import { EmailFooter } from './EmailFooter'
+import { EmailLogo } from './EmailLogo'
 
 interface ReauthenticationEmailProps {
   token: string
@@ -22,6 +23,7 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
     <Preview>Your verification code</Preview>
     <Body style={main}>
       <Container style={container}>
+        <EmailLogo />
         <Heading style={h1}>Confirm reauthentication</Heading>
         <Text style={text}>Use the code below to confirm your identity:</Text>
         <Text style={codeStyle}>{token}</Text>
@@ -41,13 +43,13 @@ const main = {
   backgroundColor: '#ffffff',
   fontFamily: "Georgia, 'Times New Roman', serif",
   margin: 0,
-  padding: '24px 0',
+  padding: '32px 0',
 }
 const container = {
   backgroundColor: '#FCFBF8',
   border: '1px solid #EDE8DE',
   borderRadius: '14px',
-  padding: '36px 34px',
+  padding: '44px 40px 40px',
   maxWidth: '560px',
   margin: '0 auto',
 }
@@ -57,7 +59,7 @@ const h1 = {
   fontWeight: 'bold' as const,
   color: '#202124',
   letterSpacing: '-0.01em',
-  margin: '0 0 14px',
+  margin: '0 0 18px',
 }
 const text = {
   fontFamily: 'Helvetica, Arial, sans-serif',
