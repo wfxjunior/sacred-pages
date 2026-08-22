@@ -532,9 +532,9 @@ export function WordSearch({
         aria-rowcount={size}
         aria-colcount={size}
         onKeyDown={handleKeyDown}
-        className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-2" : "p-3"} ${
+        className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-1.5" : "p-2 sm:p-3"} ${
           isExpanded
-            ? "mx-auto w-full max-w-[min(100%,calc(100dvh-17rem))] flex-none self-center sm:max-w-[min(100%,68vh)] lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-8rem))]"
+            ? "mx-auto w-full max-w-[min(100%,calc(100dvh-12rem))] flex-none self-center sm:max-w-[min(100%,72vh)] lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-8rem))]"
             : ""
         }`}
         style={{
@@ -611,14 +611,14 @@ export function WordSearch({
                 data-c={c}
                 className={`aspect-square min-h-0 rounded-sm font-serif font-medium uppercase leading-none tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
                   isExpanded
-                    ? "text-[clamp(12px,3.2vw,22px)]"
+                    ? "text-[clamp(10px,2.6vw,18px)]"
                     : isCompact
-                      ? "text-[11px] xs:text-[13px] sm:text-[15px]"
+                      ? "text-[10px] xs:text-[12px] sm:text-[14px]"
                       : stacked && mode === "normal"
                         ? size >= 16
-                          ? "text-[11px] sm:text-[12px] xl:text-[14px]"
-                          : "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
-                        : "text-[13px] sm:text-[15px]"
+                          ? "text-[10px] sm:text-[11px] xl:text-[13px]"
+                          : "text-[13px] sm:text-[13px] lg:text-[14px] xl:text-[17px]"
+                        : "text-[12px] sm:text-[14px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
@@ -699,7 +699,7 @@ export function WordSearch({
             <li
               key={w}
               aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-              className={`flex min-h-9 min-w-0 items-center gap-2 rounded-lg px-3 py-1.5 font-serif text-sm uppercase tracking-[0.14em] transition ${
+              className={`flex min-h-8 min-w-0 items-center gap-2 rounded-lg px-2.5 py-1 font-serif text-[10px] uppercase tracking-[0.12em] transition sm:text-[11px] ${
                 done ? "line-through opacity-70" : "text-foreground"
               }`}
               style={{
@@ -1268,7 +1268,7 @@ export function WordSearch({
       {useStacked && stackedLayout}
 
       {!useStacked && (
-        <div className="mx-auto flex w-full max-w-[min(460px,58vh)] min-w-0 justify-center lg:mx-0 lg:max-w-none lg:flex-1">
+        <div className="mx-auto flex w-full max-w-[min(100%,58vh)] min-w-0 justify-center px-1 sm:px-0 lg:mx-0 lg:max-w-none lg:flex-1">
           <div className="w-full lg:max-w-[min(100%,calc(100dvh-13rem))]">
             {renderGrid(gridRef, "normal")}
           </div>
@@ -1344,7 +1344,7 @@ export function WordSearch({
                 <li
                   key={w}
                   aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                  className={`flex min-h-11 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1.5 text-[10px] sm:min-h-0 font-medium uppercase tracking-wider transition ${
+                  className={`flex min-h-10 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1 text-[9px] sm:min-h-0 font-medium uppercase tracking-wider transition ${
                     done
                       ? "border-transparent line-through"
                       : "border-border/60 bg-background/70 text-muted-foreground"
@@ -1413,10 +1413,10 @@ export function WordSearch({
               </button>
             </header>
 
-            <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
+            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-2 py-2 sm:px-4 sm:py-3 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
               {renderGrid(expandedGridRef, "expanded")}
 
-              <div className="w-full shrink-0 pb-6 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
+              <div className="w-full shrink-0 pb-4 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
                 {focusPanel()}
               </div>
             </div>
