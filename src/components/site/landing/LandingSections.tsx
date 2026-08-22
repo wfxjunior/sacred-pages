@@ -155,14 +155,23 @@ export function HowItWorks() {
 
 export function Personalization() {
   const { t } = useI18n();
+  // The purple that used to sit at the end of this row belonged to no other
+  // surface in the product. The swatches now quote the actual puzzle palette.
+  const swatches = [
+    { key: "gold", color: "var(--gold)", label: t("personalize.value.gold") },
+    { key: "sage", color: "var(--sage)", label: t("personalize.value.sage") },
+    { key: "blue", color: "var(--dusty-blue)", label: t("personalize.value.blue") },
+    { key: "rose", color: "#B76E79", label: t("personalize.value.rose") },
+    { key: "walnut", color: "var(--walnut)", label: t("personalize.value.walnut") },
+  ];
+  const [active, setActive] = React.useState(swatches[0]);
   const controls = [
-    { label: t("settings.color"), value: t("personalize.value.gold") },
+    { label: t("settings.color"), value: active.label, dot: active.color },
     { label: t("settings.difficulty"), value: t("diff.balanced") },
     { label: t("settings.fontSize"), value: t("settings.medium") },
     { label: t("settings.theme"), value: t("settings.light") },
     { label: t("settings.language"), value: t("personalize.value.english") },
   ];
-  const swatches = ["var(--gold)", "var(--sage)", "var(--dusty-blue)", "#B76E79", "#7E5BEF"];
   return (
     <LandingSection>
       <div className="grid items-center gap-14 md:grid-cols-2">
@@ -179,19 +188,39 @@ export function Personalization() {
           <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
             {t("personalize.sub")}
           </p>
-          <div className="mt-8 flex items-center gap-3">
-            {swatches.map((c) => (
-              <span
-                key={c}
-                className="h-7 w-7 rounded-full border border-border/60"
-                style={{ background: c }}
-                aria-hidden
-              />
-            ))}
+          {/* Tapping a swatch updates the card beside it — the section
+              demonstrates personalization instead of describing it. */}
+          <div className="mt-8 flex items-center gap-3" role="group">
+            {swatches.map((s) => {
+              const on = s.key === active.key;
+              return (
+                <button
+                  key={s.key}
+                  type="button"
+                  onClick={() => setActive(s)}
+                  aria-pressed={on}
+                  aria-label={s.label}
+                  className="grid h-9 w-9 place-items-center rounded-full border transition-all active:scale-[0.94]"
+                  style={{
+                    borderColor: on ? "var(--walnut)" : "transparent",
+                    background: on ? "color-mix(in oklab, var(--walnut) 6%, transparent)" : "transparent",
+                  }}
+                >
+                  <span
+                    className="block rounded-full border border-border/50 transition-all"
+                    style={{
+                      background: s.color,
+                      height: on ? "1.375rem" : "1.625rem",
+                      width: on ? "1.375rem" : "1.625rem",
+                    }}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
         <div className="rounded-2xl border border-border/60 bg-card p-3 shadow-[0_30px_80px_-50px_rgba(43,43,43,0.35)]">
-          <div className="rounded-xl bg-[color:var(--surface-2)] p-5">
+          <div className="rounded-xl border border-border/40 bg-[color:var(--parchment,var(--surface-2))] p-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               {t("settings.title")}
             </p>
@@ -199,13 +228,20 @@ export function Personalization() {
               {controls.map((c) => (
                 <div
                   key={c.label}
-                  className="flex items-center justify-between py-3.5"
+                  className="flex items-center justify-between gap-4 py-3.5"
                 >
                   <span className="text-sm">{c.label}</span>
                   <span
-                    className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium"
+                    className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium"
                     style={{ color: "var(--walnut)" }}
                   >
+                    {c.dot ? (
+                      <span
+                        aria-hidden
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{ background: c.dot }}
+                      />
+                    ) : null}
                     {c.value}
                   </span>
                 </div>
@@ -217,6 +253,7 @@ export function Personalization() {
     </LandingSection>
   );
 }
+
 
 /* ---------- Journey Together preview ---------- */
 
