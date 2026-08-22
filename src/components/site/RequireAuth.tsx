@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { rememberIntendedPath } from "@/lib/auth/redirect";
 
 /**
  * Account-only pages (profile, settings, progress…) render nothing for a
@@ -18,11 +19,8 @@ export function RequireAuth({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (user.loading || user.userId) return;
-    void navigate({
-      to: "/signin",
-      search: { redirect: href },
-      replace: true,
-    });
+    rememberIntendedPath(href);
+    void navigate({ to: "/signin", replace: true });
   }, [user.loading, user.userId, href, navigate]);
 
   if (user.loading || !user.userId) {
