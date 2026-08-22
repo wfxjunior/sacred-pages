@@ -87,7 +87,7 @@ function Landing() {
                 </span>
               </div>
 
-              <h1 className="mt-5 font-serif text-[clamp(2.75rem,11vw,3.75rem)] font-medium leading-[1.03] tracking-tight text-[#1F1D1B] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.5rem)] lg:text-[clamp(3.5rem,4.6vw,4.75rem)] lg:leading-[1.02]">
+              <h1 className="mt-5 font-serif text-[clamp(2.35rem,9.4vw,3.2rem)] font-medium leading-[1.04] tracking-tight text-[#1F1D1B] sm:mt-6 sm:text-[clamp(2.75rem,6.4vw,3.85rem)] lg:text-[clamp(3rem,3.9vw,4rem)] lg:leading-[1.03]">
                 {/* The hero headline names the experience, not the brand —
                     the Lumena mark in the header supplies the brand. */}
                 {t("brand.experience")}
@@ -95,13 +95,14 @@ function Landing() {
 
               {/* Functional sub-label: the headline is evocative, this line
                   says plainly what the product is for search-minded readers. */}
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#78866B]">
+              <p className="mt-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#5C6B50] sm:text-[12.5px]">
                 {t("hero.kicker")}
               </p>
 
-              <p className="mx-auto mt-4 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-5 sm:text-[18px] lg:mx-0 lg:text-[19px]">
+              <p className="mx-auto mt-4 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-5 sm:text-[17px] lg:mx-0 lg:text-[18px]">
                 {t("hero.promise")}
               </p>
+
 
               <div className="mt-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-8 lg:justify-start">
                 <Button
