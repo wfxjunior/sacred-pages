@@ -151,9 +151,15 @@ function WordSearchPage() {
 
   const [foundCount, setFoundCount] = useState(0);
   const [fading, setFading] = useState(false);
+  // Playable sample: once the visitor taps a letter, the demo hands the grid
+  // over and stops auto-solving. Finding one word before signing up is the
+  // strongest thing this hero can do.
+  const [played, setPlayed] = useState(false);
+  const [anchor, setAnchor] = useState<{ r: number; c: number } | null>(null);
+  const [userFound, setUserFound] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || played) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setFoundCount(WORDS.length);
@@ -189,10 +195,36 @@ function WordSearchPage() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [played]);
+
+  const selectCell = (r: number, c: number) => {
+    if (!played) {
+      setPlayed(true);
+      setFading(false);
+      setUserFound(new Set());
+    }
+    if (!anchor) {
+      setAnchor({ r, c });
+      return;
+    }
+    const match = placements.find((p) => {
+      const span = p.word.length - 1;
+      const er = p.row + p.dr * span;
+      const ec = p.col + p.dc * span;
+      const a = anchor;
+      return (
+        (a.r === p.row && a.c === p.col && r === er && c === ec) ||
+        (a.r === er && a.c === ec && r === p.row && c === p.col)
+      );
+    });
+    if (match) {
+      setUserFound((prev) => new Set(prev).add(match.word));
+    }
+    setAnchor(null);
+  };
 
   const { foundWords, highlighted } = useMemo(() => {
-    const set = new Set(WORDS.slice(0, foundCount));
+    const set = played ? userFound : new Set(WORDS.slice(0, foundCount));
     const cells = new Set<string>();
     for (const p of placements) {
       if (!set.has(p.word)) continue;
@@ -201,7 +233,8 @@ function WordSearchPage() {
       }
     }
     return { foundWords: set, highlighted: cells };
-  }, [foundCount, placements]);
+  }, [foundCount, placements, played, userFound]);
+
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 py-6 sm:px-8 sm:py-8 lg:px-6 lg:py-5 xl:px-8 xl:py-6">
