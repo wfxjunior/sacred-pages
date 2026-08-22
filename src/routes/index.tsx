@@ -49,7 +49,7 @@ export const Route = createFileRoute("/")({
 
 
 function Landing() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   return (
     <SiteLayout>
       {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
