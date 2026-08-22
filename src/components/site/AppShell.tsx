@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
 import { NotificationsMenu } from "./NotificationsMenu";
+import { haptics } from "@/lib/mobile/haptics";
+import { useHideOnScroll } from "@/lib/mobile/useHideOnScroll";
 
 const COLLAPSE_KEY = "lumena:sidebar:collapsed";
 
