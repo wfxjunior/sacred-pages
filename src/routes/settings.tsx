@@ -28,7 +28,6 @@ import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { getSubscriptionStatus, createBillingPortalSession } from "@/lib/stripe/billing.functions";
 import { deleteMyAccount } from "@/lib/account/account.functions";
 import {
-import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
   User,
   Palette,
   BookOpen,
@@ -42,6 +41,7 @@ import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
   Sparkles,
   Loader2,
 } from "lucide-react";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({

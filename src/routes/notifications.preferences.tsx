@@ -14,7 +14,6 @@ import { RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import {
-import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -24,6 +23,7 @@ import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { RequireAuth, PRIVATE_ROUTE_META } from "@/components/site/RequireAuth";
 
 export const Route = createFileRoute("/notifications/preferences")({
   head: () => ({
