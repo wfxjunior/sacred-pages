@@ -190,7 +190,7 @@ export function Personalization() {
           </p>
           {/* Tapping a swatch updates the card beside it — the section
               demonstrates personalization instead of describing it. */}
-          <div className="mt-8 flex items-center gap-3" role="group">
+          <div className="mt-8 flex items-center justify-center gap-3 sm:justify-start" role="group">
             {swatches.map((s) => {
               const on = s.key === active.key;
               return (
