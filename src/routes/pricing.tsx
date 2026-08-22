@@ -320,56 +320,31 @@ function Pricing() {
         </div>
       </section>
 
-      {/* Comparison table */}
+      {/* Comparison bottom sheet */}
       <section className="border-t border-border/60 bg-[color:var(--surface-2)]">
-        <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 md:py-28">
-          <div className="mb-12 max-w-2xl">
-            <p
-              className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
-              style={{ color: "var(--brand)" }}
-            >
-              Compare plans
-            </p>
-            <h2 className="font-serif text-3xl leading-tight md:text-[44px]">
-              A clear look at what's included.
-            </h2>
-          </div>
-
-          <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
-            <div className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border/60 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:px-8">
-              <span>Feature</span>
-              <span className="text-center" style={{ color: "var(--sage)" }}>
-                Free
-              </span>
-              <span className="text-center" style={{ color: "var(--brand)" }}>
-                Premium
-              </span>
-            </div>
-            {PLAN_FEATURE_GROUPS.map((group) => (
-              <div key={group}>
-                <div
-                  className="border-b border-border/60 bg-[color:var(--surface-2)] px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] sm:px-8"
-                  style={{ color: "var(--walnut)" }}
-                >
-                  {t(PLAN_GROUP_LABEL_KEYS[group])}
-                </div>
-                {featuresForGroup(group).map((r) => (
-                  <div
-                    key={r.id}
-                    className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border/50 px-5 py-3.5 text-[14px] last:border-b-0 sm:px-8"
-                  >
-                    <span>{t(r.labelKey)}</span>
-                    <span className="flex justify-center">
-                      <CellMark v={r.free} />
-                    </span>
-                    <span className="flex justify-center">
-                      <CellMark v={r.premium} highlight />
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+        <div className="mx-auto max-w-5xl px-5 py-20 text-center sm:px-6 md:py-28">
+          <p
+            className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em]"
+            style={{ color: "var(--brand)" }}
+          >
+            Compare plans
+          </p>
+          <h2 className="mx-auto max-w-2xl font-serif text-3xl leading-tight md:text-[44px]">
+            A clear look at what's included.
+          </h2>
+          <ComparePlansSheet
+            variant="detailed"
+            showCta={false}
+            trigger={
+              <Button
+                variant="editorialOutline"
+                className="mt-8 h-12 px-8 text-[15px]"
+              >
+                Compare all features
+                <ArrowRight className="ml-1.5 h-4 w-4" />
+              </Button>
+            }
+          />
         </div>
       </section>
 
