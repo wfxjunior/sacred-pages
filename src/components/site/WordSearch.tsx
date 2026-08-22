@@ -1362,11 +1362,34 @@ export function WordSearch({
         </div>
       )}
 
-      {/* Focus mode overlay — rendered in the DOM at all times so it can enter
-          and leave with a smooth fade/scale transition instead of snapping.
+      {/* Focus mode overlay — portalled to the body so no ancestor stacking
+          context (header, sticky panels) can paint over it, and kept mounted
+          so it fades in and out instead of snapping.
           On mobile it behaves like a native full-screen sheet: fixed top bar,
           grid sized to the free height, word list scrolling underneath. */}
+      {mounted &&
+        createPortal(
+          <div
+            className={`fixed inset-0 z-[100] flex flex-col bg-[var(--ivory)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              expanded
+                ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 scale-[0.98] translate-y-2 pointer-events-none"
+            }`}
+            style={{
+              paddingTop: "env(safe-area-inset-top)",
+              paddingBottom: "env(safe-area-inset-bottom)",
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-hidden={!expanded}
+          >
+            <FocusOverlayBody />
+          </div>,
+          document.body,
+        )}
+      {false && (
       <div
+
         className={`fixed inset-0 z-[100] flex flex-col bg-[var(--ivory)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           expanded
             ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
