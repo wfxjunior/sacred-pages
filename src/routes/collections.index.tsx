@@ -133,61 +133,78 @@ function CollectionsPage() {
 
   return (
     <SiteLayout>
-      <div className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <p
-          className="text-xs font-medium uppercase tracking-[0.2em]"
-          style={{ color: "var(--walnut)" }}
-        >
-          {t("coll.library")}
-        </p>
-        <h1 className="mt-3 font-serif text-4xl md:text-5xl">{t("collections.title")}</h1>
-        <p className="mt-4 max-w-2xl text-base text-muted-foreground">{t("collections.sub")}</p>
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 md:py-20">
+        <header className="max-w-2xl">
+          <p
+            className="text-[11px] font-semibold uppercase tracking-[0.22em]"
+            style={{ color: "var(--walnut)" }}
+          >
+            {t("coll.library")}
+          </p>
+          <h1 className="mt-3 font-serif text-[clamp(2rem,8vw,2.75rem)] leading-[1.08] md:text-5xl">
+            {t("collections.title")}
+          </h1>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground md:mt-4 md:text-base">
+            {t("collections.sub")}
+          </p>
+        </header>
 
-        <div className="mt-10 flex flex-col gap-4">
-          <div className="relative max-w-md">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={qInput}
-              onChange={(e) => setQInput(e.target.value)}
-              placeholder={t("coll.searchPh")}
-              className="pl-9 pr-9"
-              aria-label={t("coll.searchPh")}
-            />
-            {q && (
-              <button
-                type="button"
-                onClick={() => {
-                  setQInput("");
-                  updateSearch({ q: undefined });
-                }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
-                aria-label={t("coll.clearSearch")}
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((f) => {
-              const active = f.slug === category;
-              return (
+        {/* Toolbar — search, category strip and selects read as one editorial panel */}
+        <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-card md:mt-10">
+          <div className="border-b border-border p-3 sm:p-4">
+            <div className="relative w-full md:max-w-md">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={qInput}
+                onChange={(e) => setQInput(e.target.value)}
+                placeholder={t("coll.searchPh")}
+                className="h-11 rounded-xl pl-9 pr-9 text-[15px]"
+                aria-label={t("coll.searchPh")}
+              />
+              {q && (
                 <button
-                  key={f.label}
                   type="button"
-                  onClick={() => updateSearch({ category: f.slug ?? undefined })}
-                  aria-pressed={active}
-                  className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-wider transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 ${
-                    active
-                      ? "border-transparent bg-foreground text-background"
-                      : "border-border text-muted-foreground hover:text-foreground"
-                  }`}
+                  onClick={() => {
+                    setQInput("");
+                    updateSearch({ q: undefined });
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
+                  aria-label={t("coll.clearSearch")}
                 >
-                  {f.label}
+                  <X className="h-4 w-4" />
                 </button>
-              );
-            })}
+              )}
+            </div>
           </div>
-          <div className="grid grid-cols-1 gap-3 text-xs text-muted-foreground sm:flex sm:flex-wrap sm:gap-4">
+
+          {/*
+            On phones the chips scroll horizontally in a single row instead of
+            wrapping into a ragged five-line block; from md they wrap normally.
+          */}
+          <div className="-mx-px overflow-x-auto border-b border-border [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex w-max gap-2 p-3 sm:p-4 md:w-full md:flex-wrap">
+              {categories.map((f) => {
+                const active = f.slug === category;
+                return (
+                  <button
+                    key={f.label}
+                    type="button"
+                    onClick={() => updateSearch({ category: f.slug ?? undefined })}
+                    aria-pressed={active}
+                    className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 ${
+                      active
+                        ? "border-transparent bg-foreground text-background"
+                        : "border-border text-muted-foreground hover:border-[color:var(--gold)] hover:text-foreground"
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 p-3 sm:grid-cols-3 sm:p-4">
             <FilterGroup
               label={t("coll.filter.difficulty")}
               value={difficulty}
@@ -211,6 +228,7 @@ function CollectionsPage() {
             />
           </div>
         </div>
+
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
           <p className="text-sm text-muted-foreground">
@@ -285,14 +303,17 @@ function FilterGroup({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex min-w-0 items-center gap-2">
-      <span className="shrink-0 uppercase tracking-wider" style={{ color: "var(--walnut)" }}>
-        {label}:
+    <label className="flex min-w-0 flex-col gap-1.5">
+      <span
+        className="text-[10px] font-semibold uppercase tracking-[0.18em]"
+        style={{ color: "var(--walnut)" }}
+      >
+        {label}
       </span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="min-w-0 flex-1 rounded-md border border-border bg-background px-2 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50 sm:flex-none"
+        className="h-11 w-full min-w-0 appearance-none rounded-xl border border-border bg-background px-3 text-[14px] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]/50"
         aria-label={label}
       >
         {options.map((o) => (
@@ -301,8 +322,9 @@ function FilterGroup({
           </option>
         ))}
       </select>
-    </div>
+    </label>
   );
+
 }
 
 function CardSkeleton() {
