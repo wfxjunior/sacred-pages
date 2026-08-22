@@ -51,7 +51,7 @@ export function EmailAuthForm({ mode }: { mode: "signin" | "signup" }) {
       setAwaitingConfirmation(true);
       return;
     }
-    navigate({ to: "/my-journey" });
+    navigate({ to: takeIntendedPath() });
   }
 
   if (awaitingConfirmation) {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable";
+import { takeIntendedPath } from "@/lib/auth/redirect";
 
 export function GoogleAuthButton({ label }: { label: string }) {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export function GoogleAuthButton({ label }: { label: string }) {
         return;
       }
       if (result.redirected) return;
-      navigate({ to: "/my-journey" });
+      navigate({ to: takeIntendedPath() });
     } catch {
       toast.error("Could not sign in with Google. Please try again.");
       setLoading(false);
