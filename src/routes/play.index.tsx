@@ -14,7 +14,14 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/site/AppShell";
 import { useI18n } from "@/lib/i18n";
-import { listGames, type GameIconKey } from "@/lib/games";
+import { listGames, type GameIconKey, type GameMode } from "@/lib/games";
+
+import imgWordSearch from "@/assets/game-word-search.jpg";
+import imgWordGuess from "@/assets/game-word-guess.jpg";
+import imgWhoAmI from "@/assets/game-who-am-i.jpg";
+import imgFinishVerse from "@/assets/game-finish-the-verse.jpg";
+import imgUnscramble from "@/assets/game-unscramble.jpg";
+import imgDaily from "@/assets/game-daily.jpg";
 
 // The games library — rendered entirely from the shared game registry, so a
 // mode ships here by flipping its availability, never by editing this page.
@@ -32,6 +39,16 @@ const ICONS: Record<GameIconKey, typeof Search> = {
   timeline: Clock,
   memory: Copy,
   daily: Calendar,
+};
+
+/** Miniature storybook plates, in the same painted style as the collections. */
+const IMAGES: Partial<Record<GameMode, string>> = {
+  word_search: imgWordSearch,
+  word_guess: imgWordGuess,
+  who_am_i: imgWhoAmI,
+  finish_the_verse: imgFinishVerse,
+  unscramble: imgUnscramble,
+  daily_challenge: imgDaily,
 };
 
 const ROMAN: [number, string][] = [
@@ -86,6 +103,7 @@ function PlayPage() {
           {games.map((game, index) => {
             const Icon = ICONS[game.iconKey];
             const active = game.availability === "active" && game.route;
+            const image = IMAGES[game.id];
             const body = (
               <>
                 {/* Archival linen spine, matching the collection volumes */}
@@ -116,7 +134,32 @@ function PlayPage() {
                   </span>
                 </span>
 
-                <span className="flex min-w-0 flex-1 flex-col p-6">
+                <span className="flex min-w-0 flex-1 flex-col">
+                  {image && (
+                    <span className="relative block h-36 overflow-hidden bg-[#F5F3EF]">
+                      <img
+                        src={image}
+                        alt=""
+                        loading="lazy"
+                        width={1024}
+                        height={640}
+                        className={`h-full w-full object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-105 ${
+                          active ? "" : "opacity-60 saturate-50"
+                        }`}
+                      />
+                      {/* Painted paper grain, same treatment as the collection plates */}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 block opacity-40 mix-blend-multiply"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/></svg>")`,
+                          backgroundSize: "220px 220px",
+                        }}
+                      />
+                    </span>
+                  )}
+
+                  <span className="flex min-w-0 flex-1 flex-col p-6">
                   <span
                     className="grid h-11 w-11 place-items-center rounded-sm border border-black/[0.04]"
                     style={{
@@ -158,6 +201,7 @@ function PlayPage() {
                       </span>
                     </span>
                   )}
+                  </span>
                 </span>
               </>
             );
