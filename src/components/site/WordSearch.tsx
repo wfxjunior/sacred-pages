@@ -534,7 +534,7 @@ export function WordSearch({
         onKeyDown={handleKeyDown}
         className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-1.5" : "p-2 sm:p-3"} ${
           isExpanded
-            ? "mx-auto w-full max-w-[min(100%,calc(100dvh-12rem))] flex-none self-center sm:max-w-[min(100%,72vh)] lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-8rem))]"
+            ? "h-full max-h-full w-auto max-w-full flex-none place-self-center"
             : ""
         }`}
         style={{
@@ -543,7 +543,7 @@ export function WordSearch({
           // explicit 1fr rows plus an aspect ratio keep every track square
           // even when the flex column stretches the box or a cell's text
           // min-height would otherwise inflate its row (large expert grids).
-          ...(stacked && !isCompact && !isExpanded
+          ...((stacked && !isCompact && !isExpanded) || isExpanded
             ? {
                 aspectRatio: `${grid.cells[0]?.length ?? 1} / ${Math.max(grid.cells.length, 1)}`,
                 gridTemplateRows: `repeat(${Math.max(grid.cells.length, 1)}, minmax(0, 1fr))`,
@@ -554,6 +554,7 @@ export function WordSearch({
           WebkitTouchCallout: "none",
           overscrollBehavior: "contain",
         }}
+
         onMouseLeave={() => {
           setStart(null);
           setEnd(null);
