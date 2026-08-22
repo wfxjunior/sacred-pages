@@ -38,6 +38,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Library, RefreshCw } from "lucide-react";
+import { useDragDismiss } from "@/lib/mobile/useDragDismiss";
 
 const todaySearchSchema = z.object({
   journey: z.string().optional().catch(undefined),
