@@ -443,31 +443,31 @@
   --shadow-lg: 0 12px 32px -8px rgba(16, 24, 40, 0.10), 0 4px 8px -2px rgba(16, 24, 40, 0.05);
 }
 
-/* Journey scope — warmer, calmer, gold accents. Applied on AppShell. */
+/* Journey scope — calmer, gold accents, cooled ivory. Applied on AppShell. */
 .journey-warm {
-  --background: #FDFCF9;       /* light warm ivory */
+  --background: #FAFBF9;       /* light neutral ivory, less yellow */
   --card: #FFFFFF;
-  --secondary: #F3F1EA;
-  --muted: #F3F1EA;
+  --secondary: #F2F1ED;
+  --muted: #F2F1ED;
   --muted-foreground: #6B665C;
-  --accent: #EFE7D3;
+  --accent: #EDE9DD;
   --accent-foreground: #6B4E14;
-  --border: #E8E5DC;
-  --input: #E8E5DC;
+  --border: #E5E3DC;
+  --input: #E5E3DC;
   --primary: #C89F4F;          /* warm gold primary inside journey */
   --primary-foreground: #1B1A17;
   --ring: #C89F4F;
-  --sidebar: #FBFAF6;
-  --sidebar-accent: #F3F1EA;
-  --sidebar-border: #E8E5DC;
+  --sidebar: #F8F9F6;
+  --sidebar-accent: #F2F1ED;
+  --sidebar-border: #E5E3DC;
   --sidebar-primary: #C89F4F;
   --sidebar-ring: #C89F4F;
   --brand: #C89F4F;
   --brand-hover: #B0873A;
   --brand-soft: #F1E7CE;
-  --parchment: #EDEAE2;
-  --ivory: #F8F6F0;
-  --surface-2: #EDEAE2;
+  --parchment: #EBE9E4;
+  --ivory: #F8F9F6;
+  --surface-2: #EBE9E4;
   --ink: #2B2B2B;
   --ink-2: #6B665C;
 }
