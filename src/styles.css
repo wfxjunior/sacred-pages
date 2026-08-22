@@ -556,11 +556,21 @@
      footer" bug. The pull-to-refresh guard is overscroll-behavior, not
      overflow. */
   html {
+    /* Base type. Phones get a slightly larger base so body copy, labels and
+       buttons read comfortably at arm's length; --font-scale carries the
+       reader's own small/medium/large preference on top of it. */
+    font-size: calc(var(--font-base, 16px) * var(--font-scale, 1));
     min-height: 100%;
     scroll-behavior: smooth;
     /* Disable the browser's pull-to-refresh: a downward drag started next to
        the puzzle used to reload the page mid-game on mobile. */
     overscroll-behavior-y: contain;
+  }
+
+  @media (max-width: 767px) {
+    html {
+      --font-base: 17.5px;
+    }
   }
 
   body {

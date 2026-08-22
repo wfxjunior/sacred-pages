@@ -75,7 +75,7 @@ function load(): Preferences {
 function apply(prefs: Preferences) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
-  root.style.fontSize = FONT_SCALE[prefs.fontSize];
+  root.style.setProperty("--font-scale", FONT_SCALE[prefs.fontSize]);
   root.classList.toggle("reduce-motion", prefs.reduceMotion);
   root.classList.toggle("high-contrast", prefs.highContrast);
   root.classList.toggle("dyslexia-friendly", prefs.dyslexiaFont);
