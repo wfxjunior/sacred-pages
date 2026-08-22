@@ -67,9 +67,18 @@ export function AppShell({
   // tap away inside My Journey (which already shows the streak), and Together
   // and Favorites stay in the sidebar and the profile page.
   const mobileOrder = ["/my-journey", "/today", "/play", "/collections", "/profile"];
+  // Phone labels are shortened so five tabs never wrap or truncate.
+  const shortLabels: Record<string, string> = {
+    "/my-journey": t("nav.short.myJourney"),
+    "/today": t("nav.short.today"),
+    "/play": t("nav.short.play"),
+    "/collections": t("nav.short.collections"),
+    "/profile": t("nav.short.profile"),
+  };
   const mobileItems = mobileOrder
     .map((to) => items.find((i) => i.to === to))
-    .filter((i): i is (typeof items)[number] => Boolean(i));
+    .filter((i): i is (typeof items)[number] => Boolean(i))
+    .map((i) => ({ ...i, label: shortLabels[i.to] ?? i.label }));
 
   return (
     <div className="journey-warm min-h-screen bg-background">
