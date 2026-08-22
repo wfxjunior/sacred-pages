@@ -35,6 +35,11 @@ import {
   Maximize2,
   Minimize2,
 } from "lucide-react";
+import {
+  gameActionsClass,
+  gameActionPrimaryClass,
+  gameActionSecondaryClass,
+} from "@/components/games/controlStyles";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Library, RefreshCw } from "lucide-react";
