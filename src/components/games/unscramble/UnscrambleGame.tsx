@@ -372,7 +372,9 @@ export function UnscrambleGame({
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        </div>
       </div>
+
     </div>
   );
 }
