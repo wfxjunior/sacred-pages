@@ -69,18 +69,24 @@ function DonatePage() {
         </figure>
 
         <header className="mt-8 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-            {t("donate.eyebrow")}
-          </span>
-          <h1 className="mt-5 font-serif text-3xl leading-tight text-foreground sm:text-5xl">
+          <h1 className="font-serif text-3xl leading-tight text-foreground sm:text-5xl">
             {t("donate.title")}
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             {t("donate.sub")}
           </p>
+          <button
+            type="button"
+            onClick={() => {
+              document.getElementById("donate-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="tap-scale mt-6 inline-flex items-center gap-2 rounded-full bg-[#2B2B2B] px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-[#2B2B2B]/90"
+          >
+            {t("donate.now")}
+          </button>
         </header>
 
-        <div className="mt-9 rounded-3xl border border-border/70 bg-card p-5 shadow-sm sm:p-8">
+        <div id="donate-form" className="mt-9 rounded-3xl border border-border/70 bg-card p-5 shadow-sm sm:p-8">
           <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
             {t("donate.chooseAmount")}
           </p>
