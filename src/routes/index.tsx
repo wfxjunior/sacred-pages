@@ -3,7 +3,6 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { HeroJournal } from "@/components/site/HeroJournal";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
-import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
 import { ChevronDown, ArrowRight, Globe, Smartphone } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
@@ -50,9 +49,7 @@ export const Route = createFileRoute("/")({
 
 
 function Landing() {
-  const { t, locale } = useI18n();
-  // The landing verse rotates every two days (UTC-derived, SSR-stable).
-  const verse = getHeroVerse(locale);
+  const { t } = useI18n();
   return (
     <SiteLayout>
       {/* Hero — Reading room: cotton paper, soft daylight, quiet warmth */}
@@ -87,7 +84,7 @@ function Landing() {
                 </span>
               </div>
 
-              <h1 className="mt-5 font-serif text-[clamp(2.75rem,11vw,3.75rem)] font-medium leading-[1.03] tracking-tight text-[#1F1D1B] sm:mt-6 sm:text-[clamp(3.25rem,7.5vw,4.5rem)] lg:text-[clamp(3.5rem,4.6vw,4.75rem)] lg:leading-[1.02]">
+              <h1 className="mt-5 font-serif text-[clamp(2.35rem,9.4vw,3.2rem)] font-medium leading-[1.04] tracking-tight text-[#1F1D1B] sm:mt-6 sm:text-[clamp(2.75rem,6.4vw,3.85rem)] lg:text-[clamp(3rem,3.9vw,4rem)] lg:leading-[1.03]">
                 {/* The hero headline names the experience, not the brand —
                     the Lumena mark in the header supplies the brand. */}
                 {t("brand.experience")}
@@ -95,13 +92,14 @@ function Landing() {
 
               {/* Functional sub-label: the headline is evocative, this line
                   says plainly what the product is for search-minded readers. */}
-              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#78866B]">
+              <p className="mt-3.5 text-[12px] font-semibold uppercase tracking-[0.2em] text-[#5C6B50] sm:text-[12.5px]">
                 {t("hero.kicker")}
               </p>
 
-              <p className="mx-auto mt-4 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-5 sm:text-[18px] lg:mx-0 lg:text-[19px]">
+              <p className="mx-auto mt-4 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-5 sm:text-[17px] lg:mx-0 lg:text-[18px]">
                 {t("hero.promise")}
               </p>
+
 
               <div className="mt-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-8 lg:justify-start">
                 <Button
@@ -119,37 +117,32 @@ function Landing() {
                 */}
                 <a
                   href="#features"
-                  className="group inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-transparent pb-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F]"
+                  className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-[#2B2B2B]/20 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F] hover:bg-[#C89F4F]/[0.07]"
                 >
                   {t("hero.ctaExplore")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
 
-              <div className="mt-7 flex flex-col gap-1.5">
+              <div className="mt-7 flex flex-col gap-2">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B88A3B]">
                   {t("hero.freeNote")}
                 </p>
-                {/* Language and install signals: a Spanish or Portuguese
-                    reader must see support before scrolling to the footer. */}
+                {/* Language and install signals on a single line: a Spanish or
+                    Portuguese reader must see support before scrolling. */}
                 <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] text-[#2D2926]/55 lg:justify-start">
                   <span className="inline-flex items-center gap-1.5">
                     <Globe className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
                     {t("hero.langNote")}
                   </span>
-                  <span aria-hidden className="hidden sm:inline">
-                    ·
-                  </span>
+                  <span aria-hidden>·</span>
                   <span className="inline-flex items-center gap-1.5">
                     <Smartphone className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
                     {t("hero.installNote")}
                   </span>
                 </div>
-                {/* The verse supports the promise now instead of competing with it. */}
-                <p className="mt-1 font-serif text-[13px] italic leading-[1.5] text-[#2D2926]/50">
-                  &ldquo;{verse.text}&rdquo; &mdash; {verse.ref}
-                </p>
               </div>
+
 
             </div>
 
@@ -168,7 +161,7 @@ function Landing() {
 
         <a
           href="#features"
-          className="absolute bottom-1.5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-0.5 text-[10px] tracking-widest text-[#6B665C]/60 transition hover:text-[#6B665C] sm:bottom-2 sm:flex sm:text-[11px]"
+          className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-0.5 text-[10px] uppercase tracking-[0.22em] text-[#6B665C]/85 transition hover:text-[#2B2B2B] sm:bottom-5 sm:flex sm:text-[10.5px]"
           aria-label={t("hero.scrollAria")}
         >
           {t("hero.scrollHint")}
