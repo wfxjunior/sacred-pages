@@ -38,14 +38,14 @@ const COMPARE_ROWS = [
   { labelKey: "compare.row.support", free: false, premium: true },
 ] as const;
 
-function CompareValue({ value }: { value: boolean | string }) {
+function CompareValue({ value, t }: { value: boolean | string; t: (key: string) => string }) {
   if (value === true) {
     return <Check className="h-4 w-4" style={{ color: "var(--brand)" }} strokeWidth={2.5} />;
   }
   if (value === false) {
     return <X className="h-4 w-4 text-muted-foreground/40" strokeWidth={2} />;
   }
-  return <span className="text-xs font-medium">{value}</span>;
+  return <span className="text-xs font-medium">{t(value)}</span>;
 }
 
 function CellMark({ v, highlight }: { v: PlanAvailability; highlight?: boolean }) {
