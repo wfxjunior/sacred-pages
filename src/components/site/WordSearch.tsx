@@ -699,7 +699,7 @@ export function WordSearch({
             <li
               key={w}
               aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-              className={`flex min-h-9 min-w-0 items-center gap-2 rounded-lg px-3 py-1.5 font-serif text-sm uppercase tracking-[0.14em] transition ${
+              className={`flex min-h-8 min-w-0 items-center gap-2 rounded-lg px-2.5 py-1 font-serif text-[10px] uppercase tracking-[0.12em] transition sm:text-[11px] ${
                 done ? "line-through opacity-70" : "text-foreground"
               }`}
               style={{
