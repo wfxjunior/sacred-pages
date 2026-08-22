@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { buildRenderablePuzzle } from "@/lib/puzzle/render";
 import { validateSelection } from "@/lib/puzzle/validation-service";
 import { SELECTION_COLORS, WORD_COLORS } from "@/lib/mock-data";
@@ -141,6 +142,9 @@ export function WordSearch({
   const [elapsedMs, setElapsedMs] = useState(0);
   const [bestTimeMs, setBestTimeMs] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
+  // Portal target only exists in the browser; render the overlay after hydration.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [announcement, setAnnouncement] = useState("");
   const gridRef = useRef<HTMLDivElement | null>(null);
   const expandedGridRef = useRef<HTMLDivElement | null>(null);
