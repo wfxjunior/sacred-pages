@@ -274,11 +274,13 @@ export function WordSearch({
           return null;
         });
         celebrateCompletion();
+        haptics.success();
         if (!completionNotifiedRef.current) {
           completionNotifiedRef.current = true;
           window.setTimeout(() => onComplete?.(), 900);
         }
       } else {
+        haptics.light();
         setStartedAt((begin) => begin ?? Date.now());
       }
       // `next` holds normalized forms; the reader is shown their own spelling.
