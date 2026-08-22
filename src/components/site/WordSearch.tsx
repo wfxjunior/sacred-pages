@@ -196,31 +196,93 @@ export function WordSearch({
     } catch {
       saved = null;
     }
-    const savedFound = Array.isArray(saved?.found) ? saved!.found! : [];
+    const savedFound = Array.isArray(saved?.found)
+      ? saved!.found!.filter((w): w is string => typeof w === "string")
+      : [];
     prevFoundRef.current = savedFound;
     // Falls back to the session seed, never 0: a fresh session must lay the
     // words out differently, and 0 would replay the default layout.
     setShuffleNonce(typeof saved?.nonce === "number" ? saved!.nonce! : seedFromSession(sessionKey));
     setFound(savedFound);
     setRevealed(saved?.revealed === true);
-    setElapsedMs(typeof saved?.elapsedMs === "number" ? saved.elapsedMs : 0);
-    setStartedAt(typeof saved?.startedAt === "number" ? saved.startedAt : null);
+    const savedElapsed =
+      typeof saved?.elapsedMs === "number" && Number.isFinite(saved.elapsedMs)
+        ? Math.max(0, saved.elapsedMs)
+        : 0;
+    setElapsedMs(savedElapsed);
+    // A clock left running when the tab was closed must not keep ticking while
+    // the app was away: it is folded in on hide, so on restore it starts over
+    // from the saved total and only counts fresh play.
+    setStartedAt(null);
     setBestTimeMs(getLocalBest(storageKey));
     setHydratedKey(storageKey);
   }, [storageKey, wordsKey, hydratedKey, sessionKey]);
 
+  // One writer for every persistence path (the render-driven effect and the
+  // synchronous flush below), so both can never disagree about the shape.
+  const persist = useCallback(
+    (state: {
+      nonce: number;
+      found: string[];
+      revealed: boolean;
+      elapsedMs: number;
+      startedAt: number | null;
+    }) => {
+      if (!wordsKey) return;
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify(state));
+      } catch {
+        /* storage unavailable — progress simply is not persisted */
+      }
+    },
+    [storageKey, wordsKey],
+  );
+
+  // Latest committed state, readable from event handlers that fire after the
+  // last render (pagehide/visibilitychange) without re-subscribing them.
+  const latestRef = useRef({ shuffleNonce, found, revealed, elapsedMs, startedAt });
+  latestRef.current = { shuffleNonce, found, revealed, elapsedMs, startedAt };
+
   useEffect(() => {
-    if (!wordsKey) return;
     if (hydratedKey !== storageKey) return;
-    try {
-      window.localStorage.setItem(
-        storageKey,
-        JSON.stringify({ nonce: shuffleNonce, found, revealed, elapsedMs, startedAt }),
-      );
-    } catch {
-      /* storage unavailable — progress simply is not persisted */
-    }
-  }, [storageKey, wordsKey, hydratedKey, shuffleNonce, found, revealed, elapsedMs, startedAt]);
+    persist({ nonce: shuffleNonce, found, revealed, elapsedMs, startedAt });
+  }, [persist, storageKey, hydratedKey, shuffleNonce, found, revealed, elapsedMs, startedAt]);
+
+  // Mobile browsers and installed PWAs can be frozen or killed without any
+  // further React commit, so the final state is written the moment the page is
+  // backgrounded — with the running clock folded into the total.
+  useEffect(() => {
+    if (hydratedKey !== storageKey) return;
+    const flush = () => {
+      const s = latestRef.current;
+      const total = s.startedAt != null ? s.elapsedMs + (Date.now() - s.startedAt) : s.elapsedMs;
+      persist({
+        nonce: s.shuffleNonce,
+        found: s.found,
+        revealed: s.revealed,
+        elapsedMs: total,
+        startedAt: null,
+      });
+    };
+    const onVisibility = () => {
+      if (document.visibilityState !== "hidden") return;
+      flush();
+      // Keep UI and storage in step: the clock restarts on the next find.
+      setElapsedMs((ms) => (latestRef.current.startedAt != null ? ms : ms));
+      const s = latestRef.current;
+      if (s.startedAt != null) {
+        setElapsedMs(s.elapsedMs + (Date.now() - s.startedAt));
+        setStartedAt(null);
+      }
+    };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onVisibility);
+      flush();
+    };
+  }, [persist, storageKey, hydratedKey]);
 
   const shuffleGrid = useCallback(() => {
     onShuffleWords?.();
