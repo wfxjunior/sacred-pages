@@ -510,6 +510,7 @@ function DevotionalDock() {
   const { t } = useI18n();
   const TODAY = useTodayContent();
   const [expanded, setExpanded] = useState(false);
+  const sheet = useDragDismiss(() => setExpanded(false));
 
   useEffect(() => {
     if (!expanded || typeof document === "undefined") return;
