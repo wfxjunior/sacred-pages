@@ -16,54 +16,77 @@ const BRAND_TILE_PALETTE = [
   { bg: '#E9DCC3', border: '#C8AC76', fg: '#3F3625' },
 ]
 
-const SITE_URL = 'https://lumenadaily.com'
-const SIZE = 30
+/** Subtle, single-tone palette used for the small footer mark. */
+const MONOCHROME_TILE = { bg: '#F6F4EF', border: '#D6CFBE', fg: '#8A8578' }
 
-export const EmailLogo = ({ href = SITE_URL }: { href?: string }) => (
-  <Section style={wrap}>
-    <Link href={href} style={{ textDecoration: 'none' }}>
-      <table role="presentation" cellPadding={0} cellSpacing={0} border={0} style={table}>
-        <tbody>
-          <tr>
-            {'LUMENA'.split('').map((letter, i) => {
-              const tone = BRAND_TILE_PALETTE[i % BRAND_TILE_PALETTE.length]!
-              return (
-                <td key={`${letter}-${i}`} style={{ padding: '0 3px 0 0' }}>
-                  <table role="presentation" cellPadding={0} cellSpacing={0} border={0}>
-                    <tbody>
-                      <tr>
-                        <td
-                          align="center"
-                          style={{
-                            width: `${SIZE}px`,
-                            height: `${SIZE}px`,
-                            backgroundColor: tone.bg,
-                            border: `2px solid ${tone.border}`,
-                            borderRadius: '6px',
-                            color: tone.fg,
-                            fontFamily: 'Helvetica, Arial, sans-serif',
-                            fontSize: '15px',
-                            fontWeight: 'bold' as const,
-                            lineHeight: `${SIZE}px`,
-                            textAlign: 'center' as const,
-                          }}
-                        >
-                          {letter}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              )
-            })}
-          </tr>
-        </tbody>
-      </table>
-    </Link>
-  </Section>
-)
+const SITE_URL = 'https://lumenadaily.com'
+const DEFAULT_SIZE = 30
+
+interface EmailLogoProps {
+  href?: string
+  /** Tile size in px. */
+  size?: number
+  /** Renders a soft, one-colour version ideal for the footer corner. */
+  monochrome?: boolean
+  /** Extra breathing room above the mark. */
+  topSpacing?: number
+}
+
+export const EmailLogo = ({
+  href = SITE_URL,
+  size = DEFAULT_SIZE,
+  monochrome = false,
+  topSpacing = 0,
+}: EmailLogoProps) => {
+  const palette = monochrome
+    ? Array.from({ length: 6 }, () => MONOCHROME_TILE)
+    : BRAND_TILE_PALETTE
+
+  return (
+    <Section style={{ margin: `${topSpacing}px 0 34px` }}>
+      <Link href={href} style={{ textDecoration: 'none' }}>
+        <table role="presentation" cellPadding={0} cellSpacing={0} border={0} style={table}>
+          <tbody>
+            <tr>
+              {'LUMENA'.split('').map((letter, i) => {
+                const tone = palette[i]!
+                return (
+                  <td key={`${letter}-${i}`} style={{ padding: '0 3px 0 0' }}>
+                    <table role="presentation" cellPadding={0} cellSpacing={0} border={0}>
+                      <tbody>
+                        <tr>
+                          <td
+                            align="center"
+                            style={{
+                              width: `${size}px`,
+                              height: `${size}px`,
+                              backgroundColor: tone.bg,
+                              border: `2px solid ${tone.border}`,
+                              borderRadius: '6px',
+                              color: tone.fg,
+                              fontFamily: 'Helvetica, Arial, sans-serif',
+                              fontSize: `${Math.round(size * 0.5)}px`,
+                              fontWeight: 'bold' as const,
+                              lineHeight: `${size}px`,
+                              textAlign: 'center' as const,
+                            }}
+                          >
+                            {letter}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                )
+              })}
+            </tr>
+          </tbody>
+        </table>
+      </Link>
+    </Section>
+  )
+}
 
 export default EmailLogo
 
-const wrap = { margin: '0 0 34px' }
 const table = { borderCollapse: 'separate' as const }
