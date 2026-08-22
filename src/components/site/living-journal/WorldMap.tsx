@@ -25,7 +25,7 @@ interface WorldMapProps {
 }
 
 const CELL = 6;
-const DOT_R = 2.1;
+const DOT_R = 2.35;
 const W = DOT_GRID_COLS * CELL;
 const H = DOT_GRID_ROWS * CELL;
 
@@ -181,13 +181,13 @@ export function WorldMap({
                 onMouseLeave={handleLeave}
               >
                 {isActive && !reducedMotion && (
-                  <circle r="13" fill="var(--gold)" opacity="0.22" className="lj-map-pulse" />
+                  <circle r="15" fill="var(--gold)" opacity="0.24" className="lj-map-pulse" />
                 )}
-                <circle r="9" fill="transparent" />
+                <circle r="11" fill="transparent" />
                 <circle
-                  r={isActive ? 5 : 2.8}
+                  r={isActive ? 5.5 : 3}
                   fill={isActive ? "var(--gold)" : "var(--walnut)"}
-                  opacity={isActive ? 1 : 0.45}
+                  opacity={isActive ? 1 : 0.5}
                   filter={isActive ? "url(#dot-glow)" : undefined}
                 />
               </g>

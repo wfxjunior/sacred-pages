@@ -39,7 +39,7 @@ export function JournalEntryCard({
       />
 
       <div className="relative">
-        <header className="flex items-baseline justify-between gap-4">
+        <header className="flex flex-wrap items-baseline justify-between gap-3">
           {entry.dateLabel && (
             <p className="font-serif text-[13px] tracking-wide" style={{ color: "var(--walnut)" }}>
               {entry.dateLabel}
@@ -48,20 +48,27 @@ export function JournalEntryCard({
 
           {/* Writing status — quiet, and never a chat "sent" receipt. */}
           <p
-            className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em]"
+            className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.16em]"
             style={{ color: "var(--walnut)" }}
           >
             {phase === "complete" ? (
               <>
                 <Check
-                  className="h-3 w-3"
+                  className="h-3.5 w-3.5"
                   style={{ color: "color-mix(in oklab, var(--sage) 85%, transparent)" }}
                   aria-hidden
                 />
                 Entry complete
               </>
             ) : (
-              <>{entry.firstName} is writing</>
+              <>
+                <span
+                  aria-hidden
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ background: "var(--gold)" }}
+                />
+                {entry.firstName} is writing
+              </>
             )}
           </p>
         </header>
@@ -101,19 +108,22 @@ export function JournalEntryCard({
           )}
         </blockquote>
 
-        <footer className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-[#E4E0D6]/80 pt-4 dark:border-border/50">
-          <p className="text-[14px] text-foreground">
+        <footer className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-2 border-t border-[#E4E0D6]/80 pt-5 dark:border-border/50">
+          <p
+            className="font-serif text-[17px] font-medium"
+            style={{ color: "var(--walnut)" }}
+          >
             <span aria-hidden>— </span>
             {entry.firstName}
           </p>
           {entry.location && (
-            <p className="text-[12px]" style={{ color: "var(--walnut)" }}>
+            <p className="text-[13px]" style={{ color: "color-mix(in oklab, var(--walnut) 80%, transparent)" }}>
               {entry.location}
             </p>
           )}
           {entry.journeyLabel && (
             <p
-              className="ml-auto text-[10px] uppercase tracking-[0.16em]"
+              className="ml-auto text-[10px] font-medium uppercase tracking-[0.16em]"
               style={{ color: "color-mix(in oklab, var(--walnut) 85%, transparent)" }}
             >
               {entry.journeyLabel}
