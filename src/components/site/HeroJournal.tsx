@@ -286,8 +286,11 @@ function WordSearchPage() {
                   key={`${r}-${c}`}
                   letter={letter}
                   hit={highlighted.has(`${r},${c}`)}
+                  selected={anchor?.r === r && anchor?.c === c}
+                  onSelect={() => selectCell(r, c)}
                 />
               )),
+
             )}
             <FoundMarks placements={placements} foundWords={foundWords} size={size} />
           </div>
