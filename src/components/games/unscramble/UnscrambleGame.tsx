@@ -130,7 +130,8 @@ export function UnscrambleGame({
                   setState(resetUnscramble(round));
                 }}
                 variant="outline"
-                className="rounded-full"
+                className={gameActionSecondaryClass}
+
               >
                 <RefreshCw className="mr-1.5 h-4 w-4" aria-hidden="true" />
                 {t("games.tryAgain")}
