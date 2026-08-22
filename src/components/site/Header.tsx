@@ -2,9 +2,11 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, Settings, User, X } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
 import { useCurrentUser } from "@/lib/auth/useCurrentUser";
+import { authService } from "@/lib/auth/service";
+import { useQueryClient } from "@tanstack/react-query";
 
 type NavItem = {
   href: string;
@@ -18,10 +20,24 @@ export function Header() {
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const user = useCurrentUser();
   const signedIn = !!user.userId;
+
+  async function handleSignOut() {
+    try {
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      await authService.signOut();
+    } catch {
+      // Ignore: the session is cleared locally even if the network call fails.
+    } finally {
+      setOpen(false);
+      await navigate({ to: "/", replace: true });
+    }
+  }
 
   const isHero = pathname === "/";
 
@@ -230,6 +246,38 @@ export function Header() {
       {open && (
         <div className="border-t border-border/50 bg-background lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-5 sm:px-6">
+            {signedIn && (
+              <div className="mb-3 rounded-2xl border border-border/60 bg-secondary/30 p-4">
+                <div className="flex items-center gap-3">
+                  <span
+                    className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-full text-[15px] font-semibold text-white"
+                    style={{ background: "var(--walnut)" }}
+                  >
+                    {user.avatarUrl ? (
+                      <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      user.initial
+                    )}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-base font-semibold text-foreground">
+                      {user.displayName ?? t("nav.profile")}
+                    </p>
+                    <p className="truncate text-sm text-muted-foreground">{user.email}</p>
+                  </div>
+                </div>
+                <Button
+                  asChild
+                  size="default"
+                  className="mt-4 w-full rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
+                >
+                  <Link to="/today" onClick={() => setOpen(false)}>
+                    {t("nav.today")}
+                  </Link>
+                </Button>
+              </div>
+            )}
+
             {nav.map((n) => {
               const active = n.type === "route" && pathname === n.href;
               return renderLink(
@@ -242,35 +290,58 @@ export function Header() {
                 () => setOpen(false),
               );
             })}
-            <div className="mt-4 flex items-center gap-3 border-t border-border/50 pt-4">
+
+            <div className="mt-4 flex flex-col gap-2 border-t border-border/50 pt-4">
               {signedIn ? (
                 <>
-                  <Button asChild variant="ghost" size="default" className="flex-1 text-base">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="default"
+                    className="justify-start gap-3 rounded-xl px-4 text-base text-muted-foreground hover:text-foreground"
+                  >
                     <Link to="/profile" onClick={() => setOpen(false)}>
-                      {user.displayName ?? t("nav.profile")}
+                      <User className="h-5 w-5" />
+                      {t("nav.profile")}
                     </Link>
                   </Button>
                   <Button
                     asChild
+                    variant="ghost"
                     size="default"
-                    className="flex-1 rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
+                    className="justify-start gap-3 rounded-xl px-4 text-base text-muted-foreground hover:text-foreground"
                   >
-                    <Link to="/today" onClick={() => setOpen(false)}>
-                      {t("nav.today")}
+                    <Link to="/settings" onClick={() => setOpen(false)}>
+                      <Settings className="h-5 w-5" />
+                      {t("nav.settings")}
                     </Link>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="default"
+                    onClick={() => void handleSignOut()}
+                    className="justify-start gap-3 rounded-xl px-4 text-base text-muted-foreground hover:text-foreground"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    {t("auth.signOut")}
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button asChild variant="ghost" size="default" className="flex-1 text-base">
-                    <Link to="/signin">{t("cta.signin")}</Link>
-                  </Button>
                   <Button
                     asChild
                     size="default"
-                    className="flex-1 rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
+                    className="h-12 w-full rounded-full bg-[#2B2B2B] text-base text-white hover:bg-[#2B2B2B]/90"
                   >
                     <Link to="/signup">{t("cta.startFree")}</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="default"
+                    className="h-11 w-full text-base text-muted-foreground hover:text-foreground"
+                  >
+                    <Link to="/signin">{t("cta.signin")}</Link>
                   </Button>
                 </>
               )}
