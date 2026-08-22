@@ -606,13 +606,15 @@ export function WordSearch({
                 data-r={r}
                 data-c={c}
                 className={`aspect-square min-h-0 rounded-sm font-serif font-medium uppercase leading-none tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  isCompact
-                    ? "text-[11px] xs:text-[13px] sm:text-[15px]"
-                    : stacked && mode === "normal"
-                      ? size >= 16
-                        ? "text-[11px] sm:text-[12px] xl:text-[14px]"
-                        : "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
-                      : "text-[13px] sm:text-[15px]"
+                  isExpanded
+                    ? "text-[clamp(12px,3.2vw,22px)]"
+                    : isCompact
+                      ? "text-[11px] xs:text-[13px] sm:text-[15px]"
+                      : stacked && mode === "normal"
+                        ? size >= 16
+                          ? "text-[11px] sm:text-[12px] xl:text-[14px]"
+                          : "text-[15px] sm:text-[14px] lg:text-[15px] xl:text-[19px]"
+                        : "text-[13px] sm:text-[15px]"
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
