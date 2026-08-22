@@ -282,14 +282,19 @@ export function Header() {
 
             {nav.map((n) => {
               const active = n.type === "route" && pathname === n.href;
-              return renderLink(
-                n,
-                `rounded-lg px-4 py-3.5 text-base transition ${
-                  active
-                    ? "bg-secondary/60 font-medium text-foreground"
-                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                }`,
-                () => setOpen(false),
+              return (
+                <div key={n.href} className="-mx-5 sm:-mx-6">
+                  {renderLink(
+                    n,
+                    `block rounded-lg px-4 py-3.5 text-base transition ${
+                      active
+                        ? "bg-secondary/60 font-medium text-foreground"
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    }`,
+                    () => setOpen(false),
+                  )}
+                  <div className="h-px bg-border/30" />
+                </div>
               );
             })}
 
