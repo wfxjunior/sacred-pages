@@ -34,6 +34,17 @@ function systemDark(): boolean {
 function apply(resolved: "light" | "dark") {
   if (typeof document === "undefined") return;
   document.documentElement.classList.toggle("dark", resolved === "dark");
+  // Installed-app status bar follows the active theme, the way a native app's
+  // chrome does. Media-scoped tags are left alone; we drive a single override.
+  const color = resolved === "dark" ? "#0E0E10" : "#FDFCFA";
+  let tag = document.querySelector<HTMLMetaElement>('meta[name="theme-color"][data-dynamic="1"]');
+  if (!tag) {
+    tag = document.createElement("meta");
+    tag.name = "theme-color";
+    tag.dataset["dynamic"] = "1";
+    document.head.appendChild(tag);
+  }
+  tag.content = color;
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

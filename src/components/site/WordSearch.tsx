@@ -6,6 +6,7 @@ import { usePreferences } from "@/lib/preferences";
 import { useI18n } from "@/lib/i18n";
 import { GameDevotionalMoment } from "@/components/games/GameDevotionalMoment";
 import { celebrateCompletion } from "@/lib/confetti";
+import { haptics } from "@/lib/mobile/haptics";
 import { getLocalBest, recordCompletion } from "@/lib/puzzle/best-times";
 import {
   Check,
@@ -274,11 +275,13 @@ export function WordSearch({
           return null;
         });
         celebrateCompletion();
+        haptics.success();
         if (!completionNotifiedRef.current) {
           completionNotifiedRef.current = true;
           window.setTimeout(() => onComplete?.(), 900);
         }
       } else {
+        haptics.light();
         setStartedAt((begin) => begin ?? Date.now());
       }
       // `next` holds normalized forms; the reader is shown their own spelling.
