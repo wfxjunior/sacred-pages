@@ -133,7 +133,32 @@ function PlayPage() {
                   </span>
                 </span>
 
-                <span className="flex min-w-0 flex-1 flex-col p-6">
+                <span className="flex min-w-0 flex-1 flex-col">
+                  {image && (
+                    <span className="relative block h-36 overflow-hidden bg-[#F5F3EF]">
+                      <img
+                        src={image}
+                        alt=""
+                        loading="lazy"
+                        width={1024}
+                        height={640}
+                        className={`h-full w-full object-cover object-center transition-transform duration-[900ms] ease-out group-hover:scale-105 ${
+                          active ? "" : "opacity-60 saturate-50"
+                        }`}
+                      />
+                      {/* Painted paper grain, same treatment as the collection plates */}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 block opacity-40 mix-blend-multiply"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/></svg>")`,
+                          backgroundSize: "220px 220px",
+                        }}
+                      />
+                    </span>
+                  )}
+
+                  <span className="flex min-w-0 flex-1 flex-col p-6">
                   <span
                     className="grid h-11 w-11 place-items-center rounded-sm border border-black/[0.04]"
                     style={{
