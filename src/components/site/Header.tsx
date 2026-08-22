@@ -21,10 +21,25 @@ export function Header() {
   const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const user = useCurrentUser();
   const signedIn = !!user.userId;
+
+  async function handleSignOut() {
+    try {
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      await authService.signOut();
+      toast.success(t("auth.signOut"));
+    } catch {
+      // Ignore: the session is cleared locally even if the network call fails.
+    } finally {
+      setOpen(false);
+      await navigate({ to: "/", replace: true });
+    }
+  }
 
   const isHero = pathname === "/";
 
