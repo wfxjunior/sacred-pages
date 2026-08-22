@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { Hr, Link, Text } from '@react-email/components'
+import { EmailLogo } from './EmailLogo'
 
 const SITE_URL = 'https://lumenadaily.com'
 
@@ -28,10 +29,23 @@ export const EmailFooter = ({ siteName = 'Lumena' }: { siteName?: string }) => (
         Cookies
       </Link>
     </Text>
-    <Text style={legal}>
-      You are receiving this email because an account action was requested for this
-      address on {siteName}. © {new Date().getFullYear()} {siteName}. All rights reserved.
-    </Text>
+
+    <table role="presentation" cellPadding={0} cellSpacing={0} border={0} width="100%">
+      <tbody>
+        <tr>
+          <td style={{ verticalAlign: 'middle' }}>
+            <Text style={legal}>
+              You are receiving this email because an account action was requested for this
+              address on {siteName}. © {new Date().getFullYear()} {siteName}. All rights reserved.
+            </Text>
+          </td>
+          <td width="18" style={{ width: '18px' }} />
+          <td style={{ verticalAlign: 'middle', textAlign: 'right' as const }}>
+            <EmailLogo size={18} monochrome topSpacing={0} />
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </>
 )
 
