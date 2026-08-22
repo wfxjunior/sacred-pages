@@ -104,10 +104,10 @@ export function ComparePlansSheet({
                   >
                     <span className="font-medium text-foreground/90">{t(row.labelKey)}</span>
                     <span className="flex justify-center text-center text-muted-foreground">
-                      <CompareValue value={row.free} />
+                      <CompareValue value={row.free} t={t} />
                     </span>
                     <span className="flex justify-center text-center">
-                      <CompareValue value={row.premium} />
+                      <CompareValue value={row.premium} t={t} />
                     </span>
                   </li>
                 ))}
