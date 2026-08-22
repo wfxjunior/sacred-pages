@@ -1394,7 +1394,7 @@ export function WordSearch({
                 <span className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   {journeyLabel ?? t("wordsearch.wordsToFind")}
                 </span>
-                <span className="hidden h-1 min-w-10 flex-1 overflow-hidden rounded-full bg-secondary sm:block">
+                <span className="h-1 min-w-10 flex-1 overflow-hidden rounded-full bg-secondary">
                   <span
                     className="block h-full rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${progress * 100}%`, background: "var(--gold)" }}
@@ -1414,13 +1414,67 @@ export function WordSearch({
               </button>
             </header>
 
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-2 py-2 sm:px-4 sm:py-3 lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:overflow-hidden lg:px-8">
-              {renderGrid(expandedGridRef, "expanded")}
+            <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:px-8">
+              {/* The grid owns all leftover height and squares itself to it,
+                  so it always renders at the maximum resolution available. */}
+              <div className="grid min-h-0 flex-1 place-items-center overflow-hidden px-2 py-2 sm:px-4 sm:py-3">
+                {renderGrid(expandedGridRef, "expanded")}
+              </div>
 
-              <div className="w-full shrink-0 pb-4 lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
+              {/* Mobile: a compact word dock pinned under the grid. */}
+              <div className="shrink-0 border-t border-border/50 bg-[color-mix(in_oklab,var(--card)_70%,transparent)] px-3 pb-3 pt-2 backdrop-blur lg:hidden">
+                <div className="mb-1.5 flex items-center justify-between gap-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    {t("wordsearch.wordsToFind")}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setRevealed((v) => !v)}
+                    aria-pressed={revealed}
+                    className="inline-flex h-7 items-center gap-1 rounded-full border border-border px-2.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground transition active:scale-95"
+                  >
+                    {revealed ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                    {revealed ? t("wordsearch.hide") : t("wordsearch.reveal")}
+                  </button>
+                </div>
+                <ul
+                  className="flex max-h-[4.5rem] flex-wrap gap-1.5 overflow-y-auto"
+                  aria-label={`${t("wordsearch.wordsListLabel")} — ${found.length}/${playableWords.length}`}
+                >
+                  {playableWords.map(({ display: w, normalized }) => {
+                    const done = found.includes(normalized);
+                    const color = wordColor.get(normalized);
+                    return (
+                      <li
+                        key={`dock-${w}`}
+                        className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 font-serif text-[11px] uppercase tracking-[0.1em] transition ${
+                          done ? "line-through opacity-70" : "border-border/60 text-foreground"
+                        }`}
+                        style={{
+                          background: done
+                            ? `color-mix(in oklab, ${color} 16%, transparent)`
+                            : undefined,
+                          borderColor: done
+                            ? `color-mix(in oklab, ${color} 45%, transparent)`
+                            : undefined,
+                          textDecorationColor: done ? color : undefined,
+                        }}
+                      >
+                        {done && (
+                          <Check className="h-3 w-3 shrink-0" style={{ color }} aria-hidden="true" />
+                        )}
+                        {w}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              <div className="hidden w-full shrink-0 pb-4 lg:block lg:w-[260px] lg:flex-none lg:max-h-[calc(100dvh-7rem)] lg:self-center lg:overflow-y-auto lg:pb-0">
                 {focusPanel()}
               </div>
             </div>
+
           </div>,
           document.body,
         )}
