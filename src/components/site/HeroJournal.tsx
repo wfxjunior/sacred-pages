@@ -298,7 +298,13 @@ function WordSearchPage() {
       </div>
 
       <div className="mt-4 flex-none lg:mt-3">
-        <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
+          <p className="text-[9px] font-medium italic sm:text-[10px]" style={{ color: MUTED }}>
+            {t("hero.tapHint")}
+          </p>
+        </div>
+
         <div className="mt-2 flex flex-wrap gap-1.5">
           {WORDS.map((w) => {
             const found = foundWords.has(w);
