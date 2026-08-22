@@ -198,7 +198,7 @@ export function WorldMap({
 
       {tooltip && (
         <div
-          className="pointer-events-none fixed z-50 rounded-md border border-[#E4E0D6]/70 bg-[#FBFAF6] px-3 py-2 shadow-lg dark:border-border/50 dark:bg-card"
+          className="pointer-events-none fixed z-50 rounded-md border border-[#E4E0D6]/70 bg-[#F8F9FA] px-3 py-2 shadow-lg dark:border-border/50 dark:bg-card"
           style={{
             left: tooltip.x,
             top: tooltip.y - 44,

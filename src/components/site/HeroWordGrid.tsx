@@ -187,7 +187,7 @@ export function HeroWordGrid() {
             <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6B665C]">
               {t("hero.grid.title")}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F1EC] px-2 py-1 text-[10px] font-medium text-[#2B2B2B] tabular-nums">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F1F0ED] px-2 py-1 text-[10px] font-medium text-[#2B2B2B] tabular-nums">
               <span className="h-1.5 w-1.5 rounded-full bg-[#78866B]" />
               {foundCount}/{WORDS.length} {t("hero.grid.found")}
             </span>
