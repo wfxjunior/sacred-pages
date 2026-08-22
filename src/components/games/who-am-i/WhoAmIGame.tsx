@@ -139,7 +139,7 @@ export function WhoAmIGame({
             </p>
           )}
 
-          <div className="flex justify-center">
+          <div className="mx-auto w-full max-w-[320px] sm:max-w-none sm:flex sm:justify-center">
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <button type="button" className={gamePillClass}>
