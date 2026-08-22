@@ -85,18 +85,11 @@ function DonatePage() {
                   aria-pressed={active}
                   className={`tap-scale flex min-h-[68px] flex-col items-center justify-center rounded-2xl border px-4 py-3 transition ${
                     active
-                      ? "border-foreground bg-foreground text-background shadow-sm"
+                      ? "border-[var(--walnut)] bg-[var(--walnut)] text-white shadow-sm"
                       : "border-border/70 bg-background text-foreground hover:bg-secondary"
                   }`}
                 >
-                  <span className="font-serif text-2xl leading-none">${value}</span>
-                  <span
-                    className={`mt-1.5 text-[11px] uppercase tracking-[0.12em] ${
-                      active ? "opacity-70" : "text-muted-foreground"
-                    }`}
-                  >
-                    USD
-                  </span>
+                  <span className="font-serif text-2xl leading-none">{value}</span>
                 </button>
               );
             })}
@@ -107,7 +100,7 @@ function DonatePage() {
               aria-pressed={selected === "custom"}
               className={`tap-scale flex min-h-[68px] flex-col items-center justify-center rounded-2xl border px-4 py-3 transition ${
                 selected === "custom"
-                  ? "border-foreground bg-foreground text-background shadow-sm"
+                  ? "border-[var(--walnut)] bg-[var(--walnut)] text-white shadow-sm"
                   : "border-border/70 bg-background text-foreground hover:bg-secondary"
               }`}
             >
