@@ -41,6 +41,16 @@ const ICONS: Record<GameIconKey, typeof Search> = {
   daily: Calendar,
 };
 
+/** Miniature storybook plates, in the same painted style as the collections. */
+const IMAGES: Partial<Record<GameMode, string>> = {
+  word_search: imgWordSearch,
+  word_guess: imgWordGuess,
+  who_am_i: imgWhoAmI,
+  finish_the_verse: imgFinishVerse,
+  unscramble: imgUnscramble,
+  daily_challenge: imgDaily,
+};
+
 const ROMAN: [number, string][] = [
   [10, "X"],
   [9, "IX"],
