@@ -32,7 +32,7 @@ export async function createDonationCheckout({ amount }: DonationInput) {
         },
       },
     ],
-    success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${origin}/checkout/success?kind=gift&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/donate`,
     billing_address_collection: "auto",
     metadata: { kind: "donation" },

@@ -7,6 +7,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { createDonationSession } from "@/lib/stripe/donation.functions";
+import giftIllustration from "@/assets/donate-illustration.jpg";
 
 export const Route = createFileRoute("/donate")({
   head: () => ({
@@ -56,7 +57,18 @@ function DonatePage() {
   return (
     <SiteLayout>
       <section className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-6 sm:py-20">
-        <header className="text-center">
+        <figure className="overflow-hidden rounded-3xl border border-border/70 bg-card shadow-sm">
+          <img
+            src={giftIllustration}
+            alt="An open Bible on a table beside a warm cup of coffee"
+            width={1280}
+            height={720}
+            decoding="async"
+            className="h-auto w-full"
+          />
+        </figure>
+
+        <header className="mt-8 text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
             {t("donate.eyebrow")}
           </span>
