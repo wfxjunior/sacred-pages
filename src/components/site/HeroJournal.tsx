@@ -258,7 +258,7 @@ function WordSearchPage() {
           className="shrink-0 rounded-full px-2.5 py-1 text-[9px] font-medium tabular-nums sm:text-[10px]"
           style={{ background: PAPER_WARM, color: "#6B665C" }}
         >
-          {foundCount}/{WORDS.length} {t("hero.grid.found")}
+          {foundWords.size}/{WORDS.length} {t("hero.grid.found")}
         </span>
       </div>
 
