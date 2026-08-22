@@ -532,9 +532,9 @@ export function WordSearch({
         aria-rowcount={size}
         aria-colcount={size}
         onKeyDown={handleKeyDown}
-        className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-2" : "p-3"} ${
+        className={`${gridBaseClass} ${isCompact ? "w-full flex-none content-start p-1.5" : "p-2 sm:p-3"} ${
           isExpanded
-            ? "mx-auto w-full max-w-[min(100%,calc(100dvh-17rem))] flex-none self-center sm:max-w-[min(100%,68vh)] lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-8rem))]"
+            ? "mx-auto w-full max-w-[min(100%,calc(100dvh-12rem))] flex-none self-center sm:max-w-[min(100%,72vh)] lg:mx-0 lg:max-w-[min(56vw,calc(100dvh-8rem))]"
             : ""
         }`}
         style={{
