@@ -411,6 +411,7 @@ export function JourneyTogether() {
                       src={m.photo}
                       alt={m.name}
                       loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                     />
                   </span>
@@ -615,6 +616,7 @@ export function Testimonials() {
                 src={it.photo}
                 alt={it.name}
                 loading="lazy"
+                      decoding="async"
                 className="h-10 w-10 rounded-full object-cover ring-2 ring-border/60 transition-all duration-300 group-hover:ring-[var(--brand)]/60"
               />
               <div>

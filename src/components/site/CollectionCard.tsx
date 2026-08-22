@@ -79,6 +79,7 @@ export function CollectionCard({ c }: { c: Collection }) {
                 src={c.image}
                 alt={c.title}
                 loading="lazy"
+                decoding="async"
                 width={1024}
                 height={1024}
                 onLoad={() => setLoaded(true)}
