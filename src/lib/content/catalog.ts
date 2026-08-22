@@ -4,13 +4,13 @@ import { getSupabaseClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { publicContent, type PublicCollection, type PublicJourney } from "./public-repository";
 import type { Collection } from "@/lib/mock-data";
 
-import colJesus from "@/assets/col-jesus-walking.svg";
+import colJesus from "@/assets/col-jesus.jpg";
 import colPsalms from "@/assets/col-psalms.jpg";
 import colFamily from "@/assets/col-family.jpg";
 import colProverbs from "@/assets/col-proverbs.jpg";
 import colFaith from "@/assets/col-faith.jpg";
 import colWomen from "@/assets/col-women.jpg";
-import colMen from "@/assets/col-men-dawn.svg";
+import colMen from "@/assets/col-men.jpg";
 import colPrayer from "@/assets/col-prayer.jpg";
 import colPurpose from "@/assets/col-purpose.jpg";
 import colEverydayMan from "@/assets/col-everyday-man.jpg";
