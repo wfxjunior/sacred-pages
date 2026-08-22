@@ -52,10 +52,12 @@ export const DEFAULT_PREFERENCES: Preferences = {
 
 const STORAGE_KEY = "lumena.preferences.v1";
 
+// A multiplier rather than a pixel size: the base size itself is set in CSS and
+// is deliberately larger on phones, so a fixed px here would undo that.
 const FONT_SCALE: Record<FontSize, string> = {
-  small: "15px",
-  medium: "16px",
-  large: "18px",
+  small: "0.94",
+  medium: "1",
+  large: "1.12",
 };
 
 function load(): Preferences {
