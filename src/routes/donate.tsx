@@ -117,7 +117,7 @@ function DonatePage() {
               aria-pressed={selected === "custom"}
               className={`tap-scale flex min-h-[68px] flex-col items-center justify-center rounded-2xl border px-4 py-3 transition ${
                 selected === "custom"
-                  ? "border-[var(--walnut)] bg-[var(--walnut)] text-white shadow-sm"
+                  ? "border-[var(--walnut)] bg-[color-mix(in_oklab,var(--walnut)_12%,transparent)] text-[var(--walnut)] shadow-sm"
                   : "border-border/70 bg-background text-foreground hover:bg-secondary"
               }`}
             >
