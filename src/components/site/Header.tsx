@@ -277,6 +277,7 @@ export function Header() {
                   </Link>
                 </Button>
               </div>
+              <div className="-mx-5 mb-3 h-px bg-border/30 sm:-mx-6" />
             )}
 
             {nav.map((n) => {
