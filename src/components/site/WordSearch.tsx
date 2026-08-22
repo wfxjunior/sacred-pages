@@ -1414,6 +1414,27 @@ export function WordSearch({
               </button>
             </header>
 
+            {/* Mobile toast: the desktop panel is hidden here, so feedback
+                floats over the grid instead of being lost. */}
+            {toast && (
+              <div
+                role="status"
+                aria-live="polite"
+                className="pointer-events-none absolute left-1/2 top-16 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium shadow-sm lg:hidden"
+                style={{
+                  background: "var(--ink)",
+                  color: "var(--ivory)",
+                  animation: "toast-in 0.25s ease-out",
+                }}
+              >
+                {toast.all ? <Trophy className="h-4 w-4" /> : <Check className="h-4 w-4" />}
+                {toast.all
+                  ? `${t("wordsearch.foundAll")} · ${completedTime}`
+                  : `${toast.word} — ${t("wordsearch.found")}`}
+              </div>
+            )}
+
+
             <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row lg:items-center lg:justify-center lg:gap-8 lg:px-8">
               {/* The grid owns all leftover height and squares itself to it,
                   so it always renders at the maximum resolution available. */}
