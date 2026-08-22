@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame, X, ArrowRight } from "lucide-react";
+import { BookOpen, Compass, Heart, Sparkles, Check, Users, Flame, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useI18n } from "@/lib/i18n";
+import { ComparePlansSheet } from "@/components/site/ComparePlansSheet";
 
 /* ---------- Section shell ---------- */
 
@@ -671,23 +672,6 @@ export function PricingPreview() {
       featured: true,
     },
   ];
-  const compare: { label: string; free: boolean | string; premium: boolean | string }[] = [
-    { label: t("compare.row.dailyJourney"), free: true, premium: true },
-    { label: t("compare.row.selectedCollections"), free: true, premium: true },
-    { label: t("compare.row.fullLibrary"), free: false, premium: true },
-    { label: t("compare.row.allCollections"), free: false, premium: true },
-    { label: t("compare.row.personalization"), free: t("compare.val.limited"), premium: t("compare.val.complete") },
-    { label: t("compare.row.progressHistory"), free: t("compare.val.basic"), premium: t("compare.val.advanced") },
-    { label: t("compare.row.darkMode"), free: true, premium: true },
-    { label: t("compare.row.languages"), free: true, premium: true },
-    { label: t("compare.row.favorites"), free: true, premium: true },
-    { label: t("compare.row.exclusive"), free: false, premium: true },
-    { label: t("compare.row.milestones"), free: false, premium: true },
-    { label: t("compare.row.together"), free: t("compare.val.viewOnly"), premium: t("compare.val.upTo5") },
-    { label: t("compare.row.offline"), free: false, premium: true },
-    { label: t("compare.row.family"), free: false, premium: t("compare.val.comingSoon") },
-    { label: t("compare.row.support"), free: false, premium: true },
-  ];
   return (
     <LandingSection id="pricing" title={t("pricing.title")}>
       <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
@@ -746,58 +730,30 @@ export function PricingPreview() {
         ))}
       </div>
 
-      {/* Comparison table */}
-      <div className="mx-auto mt-16 max-w-4xl">
-        <div className="mb-6 text-center">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            {t("pricing.compare.eyebrow")}
-          </p>
-          <h3 className="mt-2 font-serif text-2xl sm:text-3xl">
-            {t("pricing.compare.title")}
-          </h3>
-        </div>
-        <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
-          <div className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 border-b border-border/60 bg-[color-mix(in_oklab,var(--brand)_5%,transparent)] px-5 py-4 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-8">
-            <span>{t("pricing.compare.feature")}</span>
-            <span className="text-center">{t("pricing.compare.free")}</span>
-            <span className="text-center" style={{ color: "var(--brand)" }}>
-              {t("pricing.compare.premium")}
-            </span>
-          </div>
-          <ul className="divide-y divide-border/60">
-            {compare.map((row) => (
-              <li
-                key={row.label}
-                className="grid grid-cols-[1.4fr_1fr_1fr] items-center gap-4 px-5 py-3.5 text-sm transition-colors hover:bg-[color-mix(in_oklab,var(--brand)_4%,transparent)] sm:px-8"
-              >
-                <span className="font-medium text-foreground/90">{row.label}</span>
-                <span className="flex justify-center text-center text-muted-foreground">
-                  {row.free === true ? (
-                    <Check className="h-4 w-4" style={{ color: "var(--brand)" }} strokeWidth={2.5} />
-                  ) : row.free === false ? (
-                    <X className="h-4 w-4 text-muted-foreground/40" strokeWidth={2} />
-                  ) : (
-                    <span className="text-xs">{row.free}</span>
-                  )}
-                </span>
-                <span className="flex justify-center text-center">
-                  {row.premium === true ? (
-                    <Check className="h-4 w-4" style={{ color: "var(--brand)" }} strokeWidth={2.5} />
-                  ) : row.premium === false ? (
-                    <X className="h-4 w-4 text-muted-foreground/40" strokeWidth={2} />
-                  ) : (
-                    <span className="text-xs font-medium" style={{ color: "var(--brand)" }}>
-                      {row.premium}
-                    </span>
-                  )}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {/* Compare plans bottom sheet */}
+      <div className="mx-auto mt-14 max-w-4xl text-center">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+          {t("pricing.compare.eyebrow")}
+        </p>
+        <h3 className="mt-2 font-serif text-2xl sm:text-3xl">
+          {t("pricing.compare.title")}
+        </h3>
+        <ComparePlansSheet
+          trigger={
+            <Button
+              variant="editorialOutline"
+              className="mt-6 h-12 px-7 text-[15px]"
+            >
+              {t("pricing.compare.eyebrow")}
+              <ArrowRight className="ml-1.5 h-4 w-4" />
+            </Button>
+          }
+        />
+      </div>
 
-        {/* CTA below comparison */}
-        <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-[color-mix(in_oklab,var(--brand)_6%,transparent)] px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
+      {/* CTA below comparison */}
+      <div className="mx-auto mt-14 max-w-4xl">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-[color-mix(in_oklab,var(--brand)_6%,transparent)] px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
             <p className="font-serif text-xl sm:text-2xl">
               {t("pricing.compare.ctaTitle")}
