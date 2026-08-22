@@ -130,10 +130,10 @@ export function ComparePlansSheet({
                     >
                       <span>{t(r.labelKey)}</span>
                       <span className="flex justify-center">
-                        <CellMark v={r.free} />
+                        <CellMark v={r.free} t={t} />
                       </span>
                       <span className="flex justify-center">
-                        <CellMark v={r.premium} highlight />
+                        <CellMark v={r.premium} highlight t={t} />
                       </span>
                     </div>
                   ))}
