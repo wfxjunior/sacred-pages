@@ -120,37 +120,32 @@ function Landing() {
                 */}
                 <a
                   href="#features"
-                  className="group inline-flex items-center gap-2 whitespace-nowrap border-b-2 border-transparent pb-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F]"
+                  className="group inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-[#2B2B2B]/20 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#2B2B2B] transition-colors hover:border-[#C89F4F] hover:bg-[#C89F4F]/[0.07]"
                 >
                   {t("hero.ctaExplore")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
 
-              <div className="mt-7 flex flex-col gap-1.5">
+              <div className="mt-7 flex flex-col gap-2">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B88A3B]">
                   {t("hero.freeNote")}
                 </p>
-                {/* Language and install signals: a Spanish or Portuguese
-                    reader must see support before scrolling to the footer. */}
+                {/* Language and install signals on a single line: a Spanish or
+                    Portuguese reader must see support before scrolling. */}
                 <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] text-[#2D2926]/55 lg:justify-start">
                   <span className="inline-flex items-center gap-1.5">
                     <Globe className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
                     {t("hero.langNote")}
                   </span>
-                  <span aria-hidden className="hidden sm:inline">
-                    ·
-                  </span>
+                  <span aria-hidden>·</span>
                   <span className="inline-flex items-center gap-1.5">
                     <Smartphone className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
                     {t("hero.installNote")}
                   </span>
                 </div>
-                {/* The verse supports the promise now instead of competing with it. */}
-                <p className="mt-1 font-serif text-[13px] italic leading-[1.5] text-[#2D2926]/50">
-                  &ldquo;{verse.text}&rdquo; &mdash; {verse.ref}
-                </p>
               </div>
+
 
             </div>
 
