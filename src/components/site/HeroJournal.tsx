@@ -27,21 +27,32 @@ const MARK = "#B9A882";
 const GridCell = memo(function GridCell({
   letter,
   hit,
+  selected,
+  onSelect,
 }: {
   letter: string;
   hit: boolean;
+  selected: boolean;
+  onSelect: () => void;
 }) {
   return (
-    <div className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]">
+    <button
+      type="button"
+      tabIndex={-1}
+      onClick={onSelect}
+      className="relative flex h-full w-full items-center justify-center border-b border-r border-[#1F1D1B]/[0.05]"
+      style={{ background: selected ? "rgba(185,168,130,0.28)" : "transparent" }}
+    >
       <span
         className="relative z-10 font-['Crimson_Pro',serif] font-medium uppercase leading-none tracking-[0.02em] transition-colors duration-500"
-        style={{ color: hit ? INK : "rgba(31,29,27,0.62)", fontSize: "4.6cqw" }}
+        style={{ color: hit || selected ? INK : "rgba(31,29,27,0.62)", fontSize: "4.6cqw" }}
       >
         {letter}
       </span>
-    </div>
+    </button>
   );
 });
+
 
 /**
  * Found-word marks.
@@ -140,9 +151,15 @@ function WordSearchPage() {
 
   const [foundCount, setFoundCount] = useState(0);
   const [fading, setFading] = useState(false);
+  // Playable sample: once the visitor taps a letter, the demo hands the grid
+  // over and stops auto-solving. Finding one word before signing up is the
+  // strongest thing this hero can do.
+  const [played, setPlayed] = useState(false);
+  const [anchor, setAnchor] = useState<{ r: number; c: number } | null>(null);
+  const [userFound, setUserFound] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || played) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setFoundCount(WORDS.length);
@@ -178,10 +195,36 @@ function WordSearchPage() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [played]);
+
+  const selectCell = (r: number, c: number) => {
+    if (!played) {
+      setPlayed(true);
+      setFading(false);
+      setUserFound(new Set());
+    }
+    if (!anchor) {
+      setAnchor({ r, c });
+      return;
+    }
+    const match = placements.find((p) => {
+      const span = p.word.length - 1;
+      const er = p.row + p.dr * span;
+      const ec = p.col + p.dc * span;
+      const a = anchor;
+      return (
+        (a.r === p.row && a.c === p.col && r === er && c === ec) ||
+        (a.r === er && a.c === ec && r === p.row && c === p.col)
+      );
+    });
+    if (match) {
+      setUserFound((prev) => new Set(prev).add(match.word));
+    }
+    setAnchor(null);
+  };
 
   const { foundWords, highlighted } = useMemo(() => {
-    const set = new Set(WORDS.slice(0, foundCount));
+    const set = played ? userFound : new Set(WORDS.slice(0, foundCount));
     const cells = new Set<string>();
     for (const p of placements) {
       if (!set.has(p.word)) continue;
@@ -190,7 +233,8 @@ function WordSearchPage() {
       }
     }
     return { foundWords: set, highlighted: cells };
-  }, [foundCount, placements]);
+  }, [foundCount, placements, played, userFound]);
+
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden px-6 py-6 sm:px-8 sm:py-8 lg:px-6 lg:py-5 xl:px-8 xl:py-6">
@@ -214,7 +258,7 @@ function WordSearchPage() {
           className="shrink-0 rounded-full px-2.5 py-1 text-[9px] font-medium tabular-nums sm:text-[10px]"
           style={{ background: PAPER_WARM, color: "#6B665C" }}
         >
-          {foundCount}/{WORDS.length} {t("hero.grid.found")}
+          {foundWords.size}/{WORDS.length} {t("hero.grid.found")}
         </span>
       </div>
 
@@ -242,8 +286,11 @@ function WordSearchPage() {
                   key={`${r}-${c}`}
                   letter={letter}
                   hit={highlighted.has(`${r},${c}`)}
+                  selected={anchor?.r === r && anchor?.c === c}
+                  onSelect={() => selectCell(r, c)}
                 />
               )),
+
             )}
             <FoundMarks placements={placements} foundWords={foundWords} size={size} />
           </div>
@@ -251,7 +298,13 @@ function WordSearchPage() {
       </div>
 
       <div className="mt-4 flex-none lg:mt-3">
-        <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <PageLabel>{t("hero.notebook.wordsToSeek")}</PageLabel>
+          <p className="text-[9px] font-medium italic sm:text-[10px]" style={{ color: MUTED }}>
+            {t("hero.tapHint")}
+          </p>
+        </div>
+
         <div className="mt-2 flex flex-wrap gap-1.5">
           {WORDS.map((w) => {
             const found = foundWords.has(w);

@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { getHeroVerse } from "@/lib/hero-verses";
 import { CatalogGrid } from "@/components/site/CatalogGrid";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown, ArrowRight, Globe, Smartphone } from "lucide-react";
 import { LivingJournalSection } from "@/components/site/living-journal/LivingJournalSection";
+import { StartPlanBand, TrustStrip } from "@/components/site/landing/TrustAndStart";
 import {
   ProductOverview,
   HowItWorks,
@@ -71,10 +72,18 @@ function Landing() {
           <div className="grid grid-cols-1 items-center gap-12 pb-16 pt-6 sm:pb-20 sm:pt-8 md:pb-24 md:pt-10 lg:grid-cols-12 lg:gap-10 lg:pb-20 lg:pt-6 xl:gap-14">
             {/* Text column */}
             <div className="w-full text-center lg:col-span-5 xl:col-span-4 lg:text-left">
-              <div className="flex items-center justify-center gap-3 lg:justify-start">
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 lg:justify-start">
                 <span aria-hidden className="h-px w-8 bg-[#C89F4F]" />
                 <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#78866B]">
                   {t("hero.socialProof")}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <span aria-hidden className="text-[12px] leading-none text-[#C89F4F]">
+                    ★★★★★
+                  </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#2D2926]/55">
+                    {t("hero.rating")}
+                  </span>
                 </span>
               </div>
 
@@ -84,7 +93,13 @@ function Landing() {
                 {t("brand.experience")}
               </h1>
 
-              <p className="mx-auto mt-5 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-6 sm:text-[18px] lg:mx-0 lg:text-[19px]">
+              {/* Functional sub-label: the headline is evocative, this line
+                  says plainly what the product is for search-minded readers. */}
+              <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#78866B]">
+                {t("hero.kicker")}
+              </p>
+
+              <p className="mx-auto mt-4 max-w-lg text-[16px] leading-[1.6] text-[#2D2926]/80 sm:mt-5 sm:text-[18px] lg:mx-0 lg:text-[19px]">
                 {t("hero.promise")}
               </p>
 
@@ -115,11 +130,27 @@ function Landing() {
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#B88A3B]">
                   {t("hero.freeNote")}
                 </p>
+                {/* Language and install signals: a Spanish or Portuguese
+                    reader must see support before scrolling to the footer. */}
+                <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[11px] text-[#2D2926]/55 lg:justify-start">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Globe className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
+                    {t("hero.langNote")}
+                  </span>
+                  <span aria-hidden className="hidden sm:inline">
+                    ·
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Smartphone className="h-3.5 w-3.5" strokeWidth={1.7} aria-hidden />
+                    {t("hero.installNote")}
+                  </span>
+                </div>
                 {/* The verse supports the promise now instead of competing with it. */}
-                <p className="font-serif text-[13px] italic leading-[1.5] text-[#2D2926]/50">
+                <p className="mt-1 font-serif text-[13px] italic leading-[1.5] text-[#2D2926]/50">
                   &ldquo;{verse.text}&rdquo; &mdash; {verse.ref}
                 </p>
               </div>
+
             </div>
 
             {/* Open magazine spread — the product, visible above the fold */}
@@ -154,6 +185,7 @@ function Landing() {
         <CatalogGrid limit={6} />
       </LandingSection>
 
+      <StartPlanBand />
       <Personalization />
       <JourneyTogether />
       <ProgressShowcase />
@@ -164,6 +196,7 @@ function Landing() {
         ask, widening from "your journey" to "others are quietly walking it too".
       */}
       <LivingJournalSection />
+      <TrustStrip />
       <PricingPreview />
       <FAQ />
       <FinalCTA />
