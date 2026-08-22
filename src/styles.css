@@ -254,26 +254,26 @@
 .aurora-blob-3 { animation: aurora-drift-3 44s ease-in-out infinite; }
 
 /* -------- Premium journal surfaces -------- */
-/* Soft cotton paper — subtle grain, invisible unless you look for it. */
+/* Soft cotton paper — subtle grain, cooled down so it reads as neutral paper. */
 @utility paper-texture {
-  background-color: #FBFAF6;
+  background-color: #F8F9FA;
   background-image:
-    radial-gradient(1200px 800px at 20% -10%, rgba(200,159,79,0.055), transparent 60%),
-    radial-gradient(1000px 700px at 110% 110%, rgba(46,92,158,0.045), transparent 60%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/></svg>");
+    radial-gradient(1200px 800px at 20% -10%, rgba(200,159,79,0.045), transparent 60%),
+    radial-gradient(1000px 700px at 110% 110%, rgba(46,92,158,0.04), transparent 60%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.15 0 0 0 0 0.14 0 0 0 0.32 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/></svg>");
   background-blend-mode: multiply;
 }
 
-/* Page — a single sheet with warm daylight highlight and quiet edge shadow. */
+/* Page — a single sheet with cool daylight highlight and quiet edge shadow. */
 @utility paper-page {
   background:
-    radial-gradient(120% 60% at 50% -10%, rgba(255,252,244,0.9), transparent 55%),
-    linear-gradient(180deg, #FBFAF6 0%, #F6F3EB 100%);
+    radial-gradient(120% 60% at 50% -10%, rgba(255,255,255,0.92), transparent 55%),
+    linear-gradient(180deg, #F8F9FA 0%, #F0F1F3 100%);
   box-shadow:
     0 1px 0 rgba(255,255,255,0.9) inset,
-    0 -1px 0 rgba(31,29,27,0.04) inset,
-    0 30px 60px -30px rgba(43,41,38,0.22),
-    0 8px 20px -14px rgba(43,41,38,0.18);
+    0 -1px 0 rgba(31,29,27,0.03) inset,
+    0 30px 60px -30px rgba(43,41,38,0.20),
+    0 8px 20px -14px rgba(43,41,38,0.16);
 }
 
 /* Stitched linen spine — refined book binding, quiet not playful. */
