@@ -5,6 +5,7 @@ import { publicContent, type PublicCollection, type PublicJourney } from "./publ
 import type { Collection } from "@/lib/mock-data";
 
 import colJesus from "@/assets/col-jesus.jpg";
+import colParables from "@/assets/col-parables.jpg";
 import colPsalms from "@/assets/col-psalms.jpg";
 import colFamily from "@/assets/col-family.jpg";
 import colProverbs from "@/assets/col-proverbs.jpg";
@@ -22,6 +23,7 @@ import colEverydayMan from "@/assets/col-everyday-man.jpg";
 const IMAGE_RULES: [RegExp, string][] = [
   [/proverbs-everyday-man|everyday-man/, colEverydayMan],
   [/women/, colWomen],
+  [/parable/, colParables],
   [/jesus|christ|gospel/, colJesus],
   [/psalm/, colPsalms],
   [/proverb|wisdom/, colProverbs],
