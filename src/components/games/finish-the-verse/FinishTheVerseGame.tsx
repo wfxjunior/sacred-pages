@@ -5,6 +5,9 @@ import {
   gameActionPrimaryClass,
   gameActionSecondaryClass,
   gamePrimaryClass,
+  gameToolbarClass,
+  gamePillGridClass,
+
 } from "@/components/games/controlStyles";
 import { Link } from "@tanstack/react-router";
 import {
