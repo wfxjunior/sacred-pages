@@ -1344,7 +1344,7 @@ export function WordSearch({
                 <li
                   key={w}
                   aria-label={`${w}${done ? `, ${t("wordsearch.cellFound")}` : ""}`}
-                  className={`flex min-h-11 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1.5 text-[10px] sm:min-h-0 font-medium uppercase tracking-wider transition ${
+                  className={`flex min-h-10 min-w-0 items-center justify-center gap-1 rounded-full border px-2 py-1 text-[9px] sm:min-h-0 font-medium uppercase tracking-wider transition ${
                     done
                       ? "border-transparent line-through"
                       : "border-border/60 bg-background/70 text-muted-foreground"
