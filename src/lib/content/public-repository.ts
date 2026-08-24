@@ -258,7 +258,7 @@ export const publicContent = {
     const client = getSupabaseClient();
     const { data, error } = await publishedJourneys(
       `${PUBLIC_JOURNEY_COLUMNS}, journey_translations(*), ` +
-        `scripture_references(*), puzzle_templates(*)`,
+        `scripture_references(*, scripture_sources(language_code)), puzzle_templates(*)`,
     )
       .eq("slug", slug)
       .maybeSingle();
@@ -267,9 +267,10 @@ export const publicContent = {
     if (!data) throw contentErrors.notFound("Journey", slug);
 
     const row = data as unknown as JourneyWithTranslations & {
-      scripture_references: ScriptureReferenceRow[];
+      scripture_references: ScriptureReferenceWithSource[];
       puzzle_templates: PuzzleTemplateRow[] | null;
     };
+
 
     const mapped = mapJourney(row, locale);
     if (!mapped) throw contentErrors.translationMissing(locale);
