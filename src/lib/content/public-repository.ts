@@ -174,6 +174,32 @@ function mapJourney(row: JourneyWithTranslations, locale: Locale): PublicJourney
   };
 }
 
+// Verses are stored once per public-domain edition (WEB, ARC, RVR), so the
+// reader's locale picks the edition. English is the documented fallback, the
+// same rule the translated text fields follow.
+type ScriptureReferenceWithSource = ScriptureReferenceRow & {
+  scripture_sources?: { language_code: string } | { language_code: string }[] | null;
+};
+
+function sourceLanguage(row: ScriptureReferenceWithSource): string | null {
+  const source = Array.isArray(row.scripture_sources)
+    ? row.scripture_sources[0]
+    : row.scripture_sources;
+  return source?.language_code ?? null;
+}
+
+function scriptureForLocale(
+  rows: readonly ScriptureReferenceWithSource[],
+  locale: Locale,
+): ScriptureReferenceRow[] {
+  const ordered = [...rows].sort((a, b) => a.position - b.position);
+  const inLocale = ordered.filter((row) => sourceLanguage(row) === locale);
+  const chosen = inLocale.length
+    ? inLocale
+    : ordered.filter((row) => sourceLanguage(row) === "en" || sourceLanguage(row) === null);
+  return (chosen.length ? chosen : ordered).map(({ scripture_sources: _s, ...rest }) => rest);
+}
+
 // The published/visible predicate shared by every public query. Written once
 // per entity so TypeScript infers the concrete PostgREST builder type instead
 // of recursing through a generic self-referential constraint.
@@ -258,7 +284,7 @@ export const publicContent = {
     const client = getSupabaseClient();
     const { data, error } = await publishedJourneys(
       `${PUBLIC_JOURNEY_COLUMNS}, journey_translations(*), ` +
-        `scripture_references(*), puzzle_templates(*)`,
+        `scripture_references(*, scripture_sources(language_code)), puzzle_templates(*)`,
     )
       .eq("slug", slug)
       .maybeSingle();
@@ -267,9 +293,10 @@ export const publicContent = {
     if (!data) throw contentErrors.notFound("Journey", slug);
 
     const row = data as unknown as JourneyWithTranslations & {
-      scripture_references: ScriptureReferenceRow[];
+      scripture_references: ScriptureReferenceWithSource[];
       puzzle_templates: PuzzleTemplateRow[] | null;
     };
+
 
     const mapped = mapJourney(row, locale);
     if (!mapped) throw contentErrors.translationMissing(locale);
@@ -306,7 +333,7 @@ export const publicContent = {
 
     return {
       ...mapped,
-      scripture: (row.scripture_references ?? []).sort((a, b) => a.position - b.position),
+      scripture: scriptureForLocale(row.scripture_references ?? [], locale),
       words: (
         (wordRows ?? []) as Pick<
           JourneyWordTranslationRow,
