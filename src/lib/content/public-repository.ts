@@ -307,7 +307,7 @@ export const publicContent = {
 
     return {
       ...mapped,
-      scripture: (row.scripture_references ?? []).sort((a, b) => a.position - b.position),
+      scripture: scriptureForLocale(row.scripture_references ?? [], locale),
       words: (
         (wordRows ?? []) as Pick<
           JourneyWordTranslationRow,
