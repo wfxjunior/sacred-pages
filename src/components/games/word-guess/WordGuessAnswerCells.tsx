@@ -48,26 +48,34 @@ export function WordGuessAnswerCells({
     })
     .join(", ");
 
+  // The longest single word decides the tile size: a word may never be broken,
+  // so on a phone an eleven-letter answer must shrink its tiles rather than
+  // spill off the screen. Capped at the comfortable desktop size.
+  const longest = words.reduce((max, word) => Math.max(max, word.length), 1);
+  const cellSize = `min(2.75rem, calc((100vw - 6.5rem - ${(longest - 1) * 4}px) / ${longest}))`;
+
   return (
-    <div>
+    <div style={{ ["--wg-cell" as string]: cellSize }}>
+
       <p className="sr-only" aria-live="off">
         {t("wordguess.a11y.currentAnswer")}: {spoken}
       </p>
       <div
         key={nudge}
         aria-hidden="true"
-        className={`flex flex-wrap items-center justify-center gap-x-4 gap-y-3 ${
+        className={`flex flex-wrap items-center justify-center gap-x-3 gap-y-2 sm:gap-x-4 sm:gap-y-3 ${
           nudge > 0 && !solved ? "motion-safe:animate-[wg-nudge_0.35s_ease-in-out]" : ""
         }`}
       >
         {words.map((word, wordIndex) => (
-          <div key={wordIndex} className="flex items-center gap-1.5 sm:gap-2">
+          <div key={wordIndex} className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
             {word.map((cell) => {
               if (cell.kind === "punctuation") {
                 return (
                   <span
                     key={cell.index}
-                    className="font-serif text-xl text-muted-foreground sm:text-2xl"
+                    className="font-serif text-muted-foreground"
+                    style={{ fontSize: "calc(var(--wg-cell) * 0.6)" }}
                   >
                     {cell.char}
                   </span>
@@ -79,10 +87,13 @@ export function WordGuessAnswerCells({
               return (
                 <span
                   key={cell.index}
-                  className={`grid h-10 w-9 place-items-center rounded-lg border font-serif text-lg uppercase transition sm:h-12 sm:w-11 sm:text-xl ${
+                  className={`grid place-items-center rounded-lg border font-serif uppercase leading-none transition ${
                     revealed && !solved ? "" : "bg-card"
                   } ${solved && !revealed ? "motion-safe:animate-[cell-pop_0.3s_ease-out]" : ""}`}
                   style={{
+                    width: "var(--wg-cell)",
+                    height: "calc(var(--wg-cell) * 1.16)",
+                    fontSize: "calc(var(--wg-cell) * 0.5)",
                     borderColor: isNext
                       ? "color-mix(in oklab, var(--gold) 70%, transparent)"
                       : "color-mix(in oklab, var(--border) 80%, transparent)",
@@ -99,7 +110,7 @@ export function WordGuessAnswerCells({
                     : (typed ?? (
                         <span
                           aria-hidden
-                          className="mb-1 inline-block h-px w-4 bg-current opacity-40"
+                          className="inline-block h-px w-1/2 bg-current opacity-40"
                         />
                       ))}
                 </span>
@@ -108,6 +119,7 @@ export function WordGuessAnswerCells({
           </div>
         ))}
       </div>
+
     </div>
   );
 }

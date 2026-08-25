@@ -5,7 +5,7 @@
 
 /** Secondary in-game action (Clear, Reveal, hints): pill outline. */
 export const gamePillClass =
-  "inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full border border-border px-3.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:pointer-events-none disabled:opacity-40 sm:h-9 sm:w-auto sm:px-3";
+  "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-full border border-border px-3 py-2 text-center text-[11px] font-medium uppercase leading-tight tracking-[0.08em] text-muted-foreground transition hover:border-[color:var(--gold)] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] disabled:pointer-events-none disabled:opacity-40 sm:min-h-9 sm:w-auto sm:px-3 sm:tracking-[0.12em]";
 
 /**
  * In-game toolbar: primary action on its own full-width row on a phone, then a
