@@ -684,20 +684,24 @@ export function WordSearch({
                 } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
                 style={{
                   touchAction: "none",
+                  color:
+                    isFound || inActive
+                      ? "var(--foreground)"
+                      : "color-mix(in oklab, var(--foreground) 72%, transparent)",
                   background: isFound
-                    ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 40 : 22}%, transparent)`
+                    ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 34 : 18}%, transparent)`
                     : inActive
-                      ? `color-mix(in oklab, ${selectionColor} 32%, transparent)`
+                      ? `color-mix(in oklab, ${selectionColor} 26%, transparent)`
                       : revealColorValue
-                        ? `color-mix(in oklab, ${revealColorValue} 10%, transparent)`
-                        : "color-mix(in oklab, var(--card) 92%, white)",
+                        ? `color-mix(in oklab, ${revealColorValue} 8%, transparent)`
+                        : "transparent",
                   outline: inActive
-                    ? `2px solid color-mix(in oklab, ${selectionColor} 75%, transparent)`
+                    ? `1.5px solid color-mix(in oklab, ${selectionColor} 60%, transparent)`
                     : isFound
-                      ? `1px solid color-mix(in oklab, ${foundColorValue} 55%, transparent)`
+                      ? `1px solid color-mix(in oklab, ${foundColorValue} 40%, transparent)`
                       : revealColorValue
-                        ? `1px dashed color-mix(in oklab, ${revealColorValue} 60%, transparent)`
-                        : `1px solid color-mix(in oklab, var(--border) 60%, transparent)`,
+                        ? `1px dashed color-mix(in oklab, ${revealColorValue} 45%, transparent)`
+                        : `1px solid color-mix(in oklab, var(--border) 30%, transparent)`,
                   outlineOffset: inActive ? "-1px" : undefined,
                 }}
               >
