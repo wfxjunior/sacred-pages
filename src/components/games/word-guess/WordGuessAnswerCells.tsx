@@ -48,8 +48,15 @@ export function WordGuessAnswerCells({
     })
     .join(", ");
 
+  // The longest single word decides the tile size: a word may never be broken,
+  // so on a phone an eleven-letter answer must shrink its tiles rather than
+  // spill off the screen. Capped at the comfortable desktop size.
+  const longest = words.reduce((max, word) => Math.max(max, word.length), 1);
+  const cellSize = `min(2.75rem, calc((100vw - 6.5rem - ${(longest - 1) * 4}px) / ${longest}))`;
+
   return (
-    <div>
+    <div style={{ ["--wg-cell" as string]: cellSize }}>
+
       <p className="sr-only" aria-live="off">
         {t("wordguess.a11y.currentAnswer")}: {spoken}
       </p>
