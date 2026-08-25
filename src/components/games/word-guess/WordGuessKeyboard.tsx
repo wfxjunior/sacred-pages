@@ -64,7 +64,7 @@ export function WordGuessKeyboard({
     <div
       role="group"
       aria-label={t("wordguess.keyboardLabel")}
-      className="-mx-1.5 flex w-auto flex-col gap-1 sm:mx-auto sm:w-full sm:max-w-xl sm:gap-1.5"
+      className="-mx-2 flex w-auto flex-col gap-1 sm:mx-auto sm:w-full sm:max-w-xl sm:gap-1.5"
     >
       <div className="flex gap-[3px] sm:gap-1.5">{Array.from(ROWS[0]).map(renderLetter)}</div>
       <div className="flex gap-[3px] px-[3%] sm:gap-1.5 sm:px-[4%]">
