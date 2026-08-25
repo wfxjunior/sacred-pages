@@ -671,7 +671,7 @@ export function WordSearch({
                 }}
                 data-r={r}
                 data-c={c}
-                className={`aspect-square min-h-0 rounded-sm font-serif font-medium uppercase leading-none tracking-[0.06em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
+                className={`aspect-square min-h-0 rounded-sm font-serif font-normal uppercase leading-none tracking-[0.04em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
                   isExpanded
                     ? "text-[clamp(11px,3.2vmin,26px)]"
                     : isCompact
