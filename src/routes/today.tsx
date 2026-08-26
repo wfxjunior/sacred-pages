@@ -210,7 +210,11 @@ function Today() {
         </header>
 
         {/* Reading spread — puzzle as the hero, scripture panel beside it */}
-        <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-8">
+        <div
+          className={`grid min-h-0 flex-1 gap-5 xl:gap-8 ${
+            panelHidden ? "xl:grid-cols-1" : "xl:grid-cols-[minmax(0,1fr)_minmax(430px,520px)]"
+          }`}
+        >
           <div className="flex min-h-0 min-w-0 justify-center overflow-y-auto">
             <WordSearch
               key={`${puzzleSession}:${difficulty}`}
@@ -227,10 +231,22 @@ function Today() {
             />
           </div>
 
-          <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col">
-            <DevotionalPanel />
-          </div>
+          {panelHidden ? (
+            <button
+              type="button"
+              onClick={() => setPanelHidden(false)}
+              className="fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground shadow-[0_10px_30px_-18px_rgba(43,43,43,0.6)] transition hover:border-[color:var(--gold)] hover:text-foreground xl:inline-flex"
+            >
+              <ChevronRight className="h-3.5 w-3.5 rotate-180" />
+              {t("today.showPanel")}
+            </button>
+          ) : (
+            <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col">
+              <DevotionalPanel onHide={() => setPanelHidden(true)} />
+            </div>
+          )}
         </div>
+
 
         <div className="flex-none xl:hidden">
           <DevotionalDock />
