@@ -118,6 +118,8 @@ function Today() {
   const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
+  const [panelHidden, setPanelHidden] = useState(false);
+
   const sizes = { gentle: 12, balanced: 14, challenging: 16, expert: 18 } as const;
 
   // Recording the finished journey is what turns today into a real active day
