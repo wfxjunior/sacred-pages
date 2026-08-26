@@ -677,15 +677,35 @@ function JourneyTabsContent() {
           </TabsTrigger>
         ))}
       </TabsList>
-      <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-6">
-        <TabsContent
-          value="devotional"
-          className="mt-0 text-sm leading-relaxed text-foreground/90 md:text-base"
-        >
-          {TODAY.devotional}
+      <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-7">
+        <TabsContent value="devotional" className="mt-0">
+          <p
+            className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+            style={{ color: "var(--walnut)" }}
+          >
+            {t("journey.story")}
+          </p>
+          <div className="mt-3 space-y-4 font-serif text-[15px] leading-[1.85] text-foreground/90 md:text-[17px] md:leading-[1.9]">
+            {(TODAY.devotional || "")
+              .split(/\n{1,}/)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((paragraph, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === 0
+                      ? "first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-[46px] first-letter:leading-[0.85] first-letter:text-[color:var(--walnut)]"
+                      : undefined
+                  }
+                >
+                  {paragraph}
+                </p>
+              ))}
+          </div>
         </TabsContent>
         <TabsContent value="reflection" className="mt-0 flex h-full flex-col gap-4">
-          <p className="text-sm leading-relaxed text-foreground/90 md:text-base">
+          <p className="font-serif text-[15px] leading-[1.85] text-foreground/90 md:text-[17px]">
             {TODAY.reflection}
           </p>
           <textarea
@@ -693,10 +713,11 @@ function JourneyTabsContent() {
             className="min-h-32 w-full flex-1 rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
           />
         </TabsContent>
-        <TabsContent value="prayer" className="mt-0 font-serif text-lg leading-relaxed">
+        <TabsContent value="prayer" className="mt-0 font-serif text-[17px] leading-[1.9] md:text-lg">
           {TODAY.prayer}
         </TabsContent>
       </div>
+
     </Tabs>
   );
 }
