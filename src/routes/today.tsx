@@ -454,7 +454,7 @@ function JourneyTabs() {
   return <JourneyTabsContent />;
 }
 
-function DevotionalPanel() {
+function DevotionalPanel({ onHide }: { onHide?: () => void }) {
   const { t } = useI18n();
   const TODAY = useTodayContent();
   const [expanded, setExpanded] = useState(false);
@@ -486,16 +486,30 @@ function DevotionalPanel() {
           >
             {TODAY.reference}
           </p>
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className={toggleClass}
-            title={t("wordsearch.expand")}
-          >
-            <Maximize2 className="h-3.5 w-3.5" />
-            {t("wordsearch.expand")}
-          </button>
+          <div className="flex flex-none items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className={toggleClass}
+              title={t("wordsearch.expand")}
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+              {t("wordsearch.expand")}
+            </button>
+            {onHide && (
+              <button
+                type="button"
+                onClick={onHide}
+                className={`${toggleClass} px-2`}
+                title={t("today.hidePanel")}
+                aria-label={t("today.hidePanel")}
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
         </div>
+
         <div className="min-h-0 flex-1 overflow-hidden">
           <JourneyTabsContent />
         </div>
