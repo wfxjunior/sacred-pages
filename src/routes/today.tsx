@@ -118,6 +118,8 @@ function Today() {
   const TODAY = useTodayContent(difficulty, wordVariant);
   const loading = useTodayLoading();
   const [complete, setComplete] = useState(false);
+  const [panelHidden, setPanelHidden] = useState(false);
+
   const sizes = { gentle: 12, balanced: 14, challenging: 16, expert: 18 } as const;
 
   // Recording the finished journey is what turns today into a real active day
@@ -210,7 +212,11 @@ function Today() {
         </header>
 
         {/* Reading spread — puzzle as the hero, scripture panel beside it */}
-        <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-8">
+        <div
+          className={`grid min-h-0 flex-1 gap-5 xl:gap-8 ${
+            panelHidden ? "xl:grid-cols-1" : "xl:grid-cols-[minmax(0,1fr)_minmax(430px,520px)]"
+          }`}
+        >
           <div className="flex min-h-0 min-w-0 justify-center overflow-y-auto">
             <WordSearch
               key={`${puzzleSession}:${difficulty}`}
@@ -227,10 +233,22 @@ function Today() {
             />
           </div>
 
-          <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col">
-            <DevotionalPanel />
-          </div>
+          {panelHidden ? (
+            <button
+              type="button"
+              onClick={() => setPanelHidden(false)}
+              className="fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground shadow-[0_10px_30px_-18px_rgba(43,43,43,0.6)] transition hover:border-[color:var(--gold)] hover:text-foreground xl:inline-flex"
+            >
+              <ChevronRight className="h-3.5 w-3.5 rotate-180" />
+              {t("today.showPanel")}
+            </button>
+          ) : (
+            <div className="hidden min-h-0 xl:flex xl:min-h-0 xl:flex-col">
+              <DevotionalPanel onHide={() => setPanelHidden(true)} />
+            </div>
+          )}
         </div>
+
 
         <div className="flex-none xl:hidden">
           <DevotionalDock />
@@ -436,7 +454,7 @@ function JourneyTabs() {
   return <JourneyTabsContent />;
 }
 
-function DevotionalPanel() {
+function DevotionalPanel({ onHide }: { onHide?: () => void }) {
   const { t } = useI18n();
   const TODAY = useTodayContent();
   const [expanded, setExpanded] = useState(false);
@@ -468,16 +486,30 @@ function DevotionalPanel() {
           >
             {TODAY.reference}
           </p>
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className={toggleClass}
-            title={t("wordsearch.expand")}
-          >
-            <Maximize2 className="h-3.5 w-3.5" />
-            {t("wordsearch.expand")}
-          </button>
+          <div className="flex flex-none items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className={toggleClass}
+              title={t("wordsearch.expand")}
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+              {t("wordsearch.expand")}
+            </button>
+            {onHide && (
+              <button
+                type="button"
+                onClick={onHide}
+                className={`${toggleClass} px-2`}
+                title={t("today.hidePanel")}
+                aria-label={t("today.hidePanel")}
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
         </div>
+
         <div className="min-h-0 flex-1 overflow-hidden">
           <JourneyTabsContent />
         </div>
@@ -645,15 +677,35 @@ function JourneyTabsContent() {
           </TabsTrigger>
         ))}
       </TabsList>
-      <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-6">
-        <TabsContent
-          value="devotional"
-          className="mt-0 text-sm leading-relaxed text-foreground/90 md:text-base"
-        >
-          {TODAY.devotional}
+      <div className="min-h-0 flex-1 overflow-y-auto p-5 md:p-7">
+        <TabsContent value="devotional" className="mt-0">
+          <p
+            className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+            style={{ color: "var(--walnut)" }}
+          >
+            {t("journey.story")}
+          </p>
+          <div className="mt-3 space-y-4 font-serif text-[15px] leading-[1.85] text-foreground/90 md:text-[17px] md:leading-[1.9]">
+            {(TODAY.devotional || "")
+              .split(/\n{1,}/)
+              .map((p) => p.trim())
+              .filter(Boolean)
+              .map((paragraph, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === 0
+                      ? "first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-[46px] first-letter:leading-[0.85] first-letter:text-[color:var(--walnut)]"
+                      : undefined
+                  }
+                >
+                  {paragraph}
+                </p>
+              ))}
+          </div>
         </TabsContent>
         <TabsContent value="reflection" className="mt-0 flex h-full flex-col gap-4">
-          <p className="text-sm leading-relaxed text-foreground/90 md:text-base">
+          <p className="font-serif text-[15px] leading-[1.85] text-foreground/90 md:text-[17px]">
             {TODAY.reflection}
           </p>
           <textarea
@@ -661,10 +713,11 @@ function JourneyTabsContent() {
             className="min-h-32 w-full flex-1 rounded-md border border-border bg-background p-3 text-sm outline-none focus:border-primary"
           />
         </TabsContent>
-        <TabsContent value="prayer" className="mt-0 font-serif text-lg leading-relaxed">
+        <TabsContent value="prayer" className="mt-0 font-serif text-[17px] leading-[1.9] md:text-lg">
           {TODAY.prayer}
         </TabsContent>
       </div>
+
     </Tabs>
   );
 }
