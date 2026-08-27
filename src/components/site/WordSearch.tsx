@@ -610,6 +610,7 @@ export function WordSearch({
                 gridTemplateRows: `repeat(${Math.max(grid.cells.length, 1)}, minmax(0, 1fr))`,
               }
             : {}),
+          containerType: "inline-size",
           touchAction: "none",
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
@@ -671,39 +672,36 @@ export function WordSearch({
                 }}
                 data-r={r}
                 data-c={c}
-                className={`aspect-square min-h-0 rounded-sm font-serif font-normal uppercase leading-none tracking-[0.04em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
-                  isExpanded
-                    ? "text-[clamp(11px,3.2vmin,26px)]"
-                    : isCompact
-                      ? "text-[10px] xs:text-[12px] sm:text-[14px]"
-                      : stacked && mode === "normal"
-                        ? size >= 16
-                          ? "text-[10px] sm:text-[11px] xl:text-[13px]"
-                          : "text-[13px] sm:text-[13px] lg:text-[14px] xl:text-[17px]"
-                        : "text-[12px] sm:text-[14px]"
-                } ${recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""}`}
+                className={`flex aspect-square min-h-0 items-center justify-center rounded-[3px] font-serif font-normal uppercase leading-none tracking-[0.03em] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-offset-1 focus-visible:ring-offset-[var(--card)] focus-visible:z-10 focus-visible:relative ${
+                  recently && !reducedMotion ? "animate-[cell-pop_0.4s_ease-out]" : ""
+                }`}
                 style={{
                   touchAction: "none",
+                  // The letter is sized from the grid's own width, so it always
+                  // sits at roughly half a cell — square boxes with breathing
+                  // room, like the notebook on the home page.
+                  fontSize: `clamp(9px, ${(46 / size).toFixed(2)}cqw, 30px)`,
                   color:
                     isFound || inActive
                       ? "var(--foreground)"
-                      : "color-mix(in oklab, var(--foreground) 72%, transparent)",
+                      : "color-mix(in oklab, var(--foreground) 70%, transparent)",
                   background: isFound
                     ? `color-mix(in oklab, ${foundColorValue} ${inActive ? 34 : 18}%, transparent)`
                     : inActive
                       ? `color-mix(in oklab, ${selectionColor} 26%, transparent)`
                       : revealColorValue
                         ? `color-mix(in oklab, ${revealColorValue} 8%, transparent)`
-                        : "transparent",
+                        : "color-mix(in oklab, var(--card) 55%, transparent)",
                   outline: inActive
                     ? `1.5px solid color-mix(in oklab, ${selectionColor} 60%, transparent)`
                     : isFound
-                      ? `1px solid color-mix(in oklab, ${foundColorValue} 40%, transparent)`
+                      ? `1px solid color-mix(in oklab, ${foundColorValue} 45%, transparent)`
                       : revealColorValue
                         ? `1px dashed color-mix(in oklab, ${revealColorValue} 45%, transparent)`
-                        : `1px solid color-mix(in oklab, var(--border) 30%, transparent)`,
+                        : `1px solid color-mix(in oklab, var(--border) 75%, transparent)`,
                   outlineOffset: inActive ? "-1px" : undefined,
                 }}
+
               >
                 {letter}
               </button>
