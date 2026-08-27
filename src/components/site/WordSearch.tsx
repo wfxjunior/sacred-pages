@@ -610,6 +610,7 @@ export function WordSearch({
                 gridTemplateRows: `repeat(${Math.max(grid.cells.length, 1)}, minmax(0, 1fr))`,
               }
             : {}),
+          containerType: "inline-size",
           touchAction: "none",
           WebkitUserSelect: "none",
           WebkitTouchCallout: "none",
