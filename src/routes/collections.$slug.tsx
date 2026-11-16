@@ -28,7 +28,7 @@ export const Route = createFileRoute("/collections/$slug")({
       ],
     };
   },
-  notFoundComponent: CollectionNotFound,
+  notFoundComponent: () => <CollectionNotFound />,
   component: CollectionDetail,
 });
 
