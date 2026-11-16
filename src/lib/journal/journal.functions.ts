@@ -14,6 +14,13 @@ const entrySchema = z.object({
 
 const LANG = { en: "English", pt: "Brazilian Portuguese", es: "Spanish" } as const;
 
+// Bible edition per app language — the same public-domain editions the app uses for journey verses.
+export const BIBLE_EDITION = {
+  en: { name: "World English Bible", abbr: "WEB", sample: "Psalm 23:1" },
+  pt: { name: "Almeida Revista e Corrigida", abbr: "ARC", sample: "Salmo 23:1" },
+  es: { name: "Reina-Valera 1909", abbr: "RVR1909", sample: "Salmo 23:1" },
+} as const;
+
 export const listJournalEntries = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -42,7 +49,10 @@ export const createJournalEntry = createServerFn({ method: "POST" })
           "acknowledge their state honestly, connect it to one fitting Bible passage (cite the reference), " +
           "and close with one practical next step for tomorrow and a one-line prayer. " +
           "No clichés, no medical or clinical advice; if they mention self-harm, gently encourage reaching out to a trusted person or local crisis line. " +
-          `Write entirely in ${LANG[data.locale]}. Plain text, no markdown headings.`,
+          `Write entirely in ${LANG[data.locale]}, including the prayer. ` +
+          `Quote the verse word-for-word from the ${BIBLE_EDITION[data.locale].name} and cite it with book names in ${LANG[data.locale]} ` +
+          `followed by the edition abbreviation (e.g. "${BIBLE_EDITION[data.locale].sample} (${BIBLE_EDITION[data.locale].abbr})"). ` +
+          "Never mix languages or editions. Plain text, no markdown headings.",
         input: `Journey: ${data.journeyTitle || "(not specified)"}\nState: ${data.state}\nProgress: ${data.progress}%\nNotes:\n${data.notes}`,
       });
       const r = res as { output_text?: string; output?: Array<{ content?: Array<{ type: string; text?: string }> }> };
