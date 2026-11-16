@@ -40,7 +40,7 @@ function DonatePage() {
   const [loading, setLoading] = useState(false);
 
   const amount = selected === "custom" ? Math.floor(Number(custom) || 0) : selected;
-  const valid = amount >= 5 && amount <= 5000;
+  const valid = amount >= 5 && amount <= 1000;
 
   async function submit() {
     if (!valid || loading) return;
@@ -139,7 +139,7 @@ function DonatePage() {
                   type="number"
                   inputMode="numeric"
                   min={5}
-                  max={5000}
+                  max={1000}
                   value={custom}
                   onChange={(e) => setCustom(e.target.value)}
                   placeholder="25"

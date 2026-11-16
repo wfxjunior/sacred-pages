@@ -144,14 +144,9 @@ let packHealAttempted = false;
 async function healMissingPacks(): Promise<boolean> {
   if (packHealAttempted || typeof window === "undefined") return false;
   packHealAttempted = true;
-  try {
-    const response = await fetch("/api/public/content-packs", { method: "POST" });
-    if (!response.ok) return false;
-    const report = (await response.json()) as { installed?: string[] };
-    return (report.installed?.length ?? 0) > 0;
-  } catch {
-    return false;
-  }
+  // Installing packs is a publication action, so it is no longer triggered by
+  // visitors — publication staff install them from Content Studio → Collections.
+  return false;
 }
 
 export function useCatalogCollections() {

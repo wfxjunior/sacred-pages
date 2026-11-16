@@ -58,7 +58,6 @@ import { Route as AdminCollectionsNewRouteImport } from './routes/admin.collecti
 import { Route as AdminJourneysIndexRouteImport } from './routes/admin.journeys.index'
 import { Route as AdminJourneysJourneyIdRouteImport } from './routes/admin.journeys.$journeyId'
 import { Route as AdminJourneysNewRouteImport } from './routes/admin.journeys.new'
-import { Route as ApiPublicContentPacksRouteImport } from './routes/api/public/content-packs'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -310,11 +309,6 @@ const AdminJourneysNewRoute = AdminJourneysNewRouteImport.update({
   path: '/admin/journeys/new',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicContentPacksRoute = ApiPublicContentPacksRouteImport.update({
-  id: '/api/public/content-packs',
-  path: '/api/public/content-packs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
   id: '/api/public/stripe-webhook',
   path: '/api/public/stripe-webhook',
@@ -379,7 +373,6 @@ export interface FileRoutesByFullPath {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
-  '/api/public/content-packs': typeof ApiPublicContentPacksRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
@@ -434,7 +427,6 @@ export interface FileRoutesByTo {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
-  '/api/public/content-packs': typeof ApiPublicContentPacksRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/journeys': typeof AdminJourneysIndexRoute
@@ -490,7 +482,6 @@ export interface FileRoutesById {
   '/admin/collections/new': typeof AdminCollectionsNewRoute
   '/admin/journeys/$journeyId': typeof AdminJourneysJourneyIdRoute
   '/admin/journeys/new': typeof AdminJourneysNewRoute
-  '/api/public/content-packs': typeof ApiPublicContentPacksRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/journeys/': typeof AdminJourneysIndexRoute
@@ -547,7 +538,6 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
-    | '/api/public/content-packs'
     | '/api/public/stripe-webhook'
     | '/admin/collections/'
     | '/admin/journeys/'
@@ -602,7 +592,6 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
-    | '/api/public/content-packs'
     | '/api/public/stripe-webhook'
     | '/admin/collections'
     | '/admin/journeys'
@@ -657,7 +646,6 @@ export interface FileRouteTypes {
     | '/admin/collections/new'
     | '/admin/journeys/$journeyId'
     | '/admin/journeys/new'
-    | '/api/public/content-packs'
     | '/api/public/stripe-webhook'
     | '/admin/collections/'
     | '/admin/journeys/'
@@ -712,7 +700,6 @@ export interface RootRouteChildren {
   AdminCollectionsNewRoute: typeof AdminCollectionsNewRoute
   AdminJourneysJourneyIdRoute: typeof AdminJourneysJourneyIdRoute
   AdminJourneysNewRoute: typeof AdminJourneysNewRoute
-  ApiPublicContentPacksRoute: typeof ApiPublicContentPacksRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminJourneysIndexRoute: typeof AdminJourneysIndexRoute
@@ -1065,13 +1052,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminJourneysNewRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/content-packs': {
-      id: '/api/public/content-packs'
-      path: '/api/public/content-packs'
-      fullPath: '/api/public/content-packs'
-      preLoaderRoute: typeof ApiPublicContentPacksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/stripe-webhook': {
       id: '/api/public/stripe-webhook'
       path: '/api/public/stripe-webhook'
@@ -1155,7 +1135,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCollectionsNewRoute: AdminCollectionsNewRoute,
   AdminJourneysJourneyIdRoute: AdminJourneysJourneyIdRoute,
   AdminJourneysNewRoute: AdminJourneysNewRoute,
-  ApiPublicContentPacksRoute: ApiPublicContentPacksRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminJourneysIndexRoute: AdminJourneysIndexRoute,
