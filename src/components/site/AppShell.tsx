@@ -12,6 +12,7 @@ import {
   Sparkles,
   User,
   Users,
+  Feather,
 } from "lucide-react";
 import { LumenaLogo } from "./LumenaLogo";
 import { NotificationsMenu } from "./NotificationsMenu";
@@ -59,6 +60,7 @@ export function AppShell({
     { to: "/collections", label: t("nav.collections"), icon: BookOpen },
     { to: "/together", label: t("nav.together"), icon: Users },
     { to: "/progress", label: t("nav.progress"), icon: Compass },
+    { to: "/journal", label: t("nav.journal"), icon: Feather },
     { to: "/favorites", label: t("nav.favorites"), icon: Heart },
     { to: "/profile", label: t("nav.profile"), icon: User },
   ];

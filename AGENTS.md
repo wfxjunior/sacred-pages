@@ -68,3 +68,4 @@ reformat files you did not otherwise change, as it buries real diffs.
 Supabase values (project id, URL, and the `sb_publishable_` key, which is safe to
 expose because RLS is enabled on every table). Never add a service-role key, JWT
 secret, or database password to it — the repository is not a safe place for them.
+- AI features call the Lovable AI Gateway SDK only from server functions (`src/lib/**/*.functions.ts`); prompts never ship to the browser.

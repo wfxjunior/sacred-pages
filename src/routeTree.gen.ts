@@ -16,6 +16,7 @@ import { Route as DonateRouteImport } from './routes/donate'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as ForgotRouteImport } from './routes/forgot'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as MyJourneyRouteImport } from './routes/my-journey'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
@@ -95,6 +96,11 @@ const FeaturesRoute = FeaturesRouteImport.update({
 const ForgotRoute = ForgotRouteImport.update({
   id: '/forgot',
   path: '/forgot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MyJourneyRoute = MyJourneyRouteImport.update({
@@ -333,6 +339,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
+  '/journal': typeof JournalRoute
   '/my-journey': typeof MyJourneyRoute
   '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
@@ -387,6 +394,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
+  '/journal': typeof JournalRoute
   '/my-journey': typeof MyJourneyRoute
   '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
@@ -442,6 +450,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/features': typeof FeaturesRoute
   '/forgot': typeof ForgotRoute
+  '/journal': typeof JournalRoute
   '/my-journey': typeof MyJourneyRoute
   '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
@@ -498,6 +507,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/features'
     | '/forgot'
+    | '/journal'
     | '/my-journey'
     | '/notifications'
     | '/onboarding'
@@ -552,6 +562,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/features'
     | '/forgot'
+    | '/journal'
     | '/my-journey'
     | '/notifications'
     | '/onboarding'
@@ -606,6 +617,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/features'
     | '/forgot'
+    | '/journal'
     | '/my-journey'
     | '/notifications'
     | '/onboarding'
@@ -661,6 +673,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   FeaturesRoute: typeof FeaturesRoute
   ForgotRoute: typeof ForgotRoute
+  JournalRoute: typeof JournalRoute
   MyJourneyRoute: typeof MyJourneyRoute
   NotificationsRoute: typeof NotificationsRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
@@ -756,6 +769,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot'
       fullPath: '/forgot'
       preLoaderRoute: typeof ForgotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/my-journey': {
@@ -1096,6 +1116,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   FeaturesRoute: FeaturesRoute,
   ForgotRoute: ForgotRoute,
+  JournalRoute: JournalRoute,
   MyJourneyRoute: MyJourneyRoute,
   NotificationsRoute: NotificationsRouteWithChildren,
   OnboardingRoute: OnboardingRoute,

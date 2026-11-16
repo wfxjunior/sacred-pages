@@ -725,6 +725,42 @@ export type Database = {
         }
         Relationships: []
       }
+      journey_log_entries: {
+        Row: {
+          created_at: string
+          id: string
+          journey_title: string
+          locale: string
+          notes: string
+          progress: number
+          reflection: string | null
+          state: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          journey_title?: string
+          locale?: string
+          notes: string
+          progress?: number
+          reflection?: string | null
+          state?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          journey_title?: string
+          locale?: string
+          notes?: string
+          progress?: number
+          reflection?: string | null
+          state?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       journey_progress: {
         Row: {
           best_duration_ms: number | null
