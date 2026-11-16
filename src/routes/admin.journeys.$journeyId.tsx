@@ -6,6 +6,7 @@ import { StatusBadge, TranslationStatusBadge } from "@/components/admin/StatusBa
 import { SaveState, useUnsavedChangesWarning, type SaveStatus } from "@/components/admin/SaveState";
 import { FormField } from "@/components/admin/FormField";
 import { WordListEditor } from "@/components/admin/WordListEditor";
+import { ScriptureTab } from "@/components/admin/ScriptureTab";
 import { WorkflowActions } from "@/components/admin/WorkflowActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -136,6 +137,7 @@ function JourneyEditor() {
       <Tabs defaultValue="content" className="space-y-6">
         <TabsList className="flex-wrap">
           <TabsTrigger value="content">Content</TabsTrigger>
+          <TabsTrigger value="scripture">Verses</TabsTrigger>
           <TabsTrigger value="words">Words</TabsTrigger>
           <TabsTrigger value="puzzle">Puzzle</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
@@ -163,6 +165,10 @@ function JourneyEditor() {
             </div>
           </div>
           <TranslationEditor journeyId={journeyId} locale={locale} />
+        </TabsContent>
+
+        <TabsContent value="scripture">
+          <ScriptureTab journeyId={journeyId} references={data.scripture_references} />
         </TabsContent>
 
         <TabsContent value="words">

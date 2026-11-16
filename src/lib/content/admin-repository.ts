@@ -422,6 +422,37 @@ export const adminJourneys = {
     return data as unknown as ScriptureReferenceRow;
   },
 
+  async updateScriptureReference(id: string, input: ScriptureReferenceInput) {
+    const parsed = parseOrThrow(scriptureReferenceSchema, input);
+    const { data, error } = await client()
+      .from("scripture_references")
+      .update({
+        source_id: parsed.sourceId,
+        book_code: parsed.bookCode,
+        chapter: parsed.chapter,
+        verse_start: parsed.verseStart,
+        verse_end: parsed.verseEnd ?? null,
+        display_reference: parsed.displayReference,
+        stored_text: parsed.storedText ?? null,
+        position: parsed.position,
+      })
+      .eq("id", id)
+      .select()
+      .single();
+    if (error) throw fromPostgrestError(error);
+    return data as unknown as ScriptureReferenceRow;
+  },
+
+  async listScriptureSources() {
+    const { data, error } = await client()
+      .from("scripture_sources")
+      .select("id, translation_code, translation_name, language_code")
+      .eq("is_active", true)
+      .order("language_code");
+    if (error) throw fromPostgrestError(error);
+    return data ?? [];
+  },
+
   async deleteScriptureReference(id: string) {
     const { error } = await client().from("scripture_references").delete().eq("id", id);
     if (error) throw fromPostgrestError(error);
