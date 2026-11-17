@@ -3,4 +3,4 @@
 - [x] Restrict invitation email sending and verify authorization.
 - [x] Secure subscription, donation and billing return destinations.
 - [x] Run regression tests and record resolved warnings.
-- [ ] Deploy fixes to the published site.
+- [ ] Deploy fixes to the published site — awaiting explicit publication request; code changes do not update the live deployment automatically.
