@@ -56,6 +56,8 @@ export async function sendCompanionInviteEmail(
       subject: `${inviterName} invited you to walk together on ${SITE_NAME}`,
       html,
       text,
+      purpose: "transactional",
+      idempotency_key: `companion-invite-${invitation.id}`,
     },
     { apiKey, idempotencyKey: `companion-invite-${invitation.id}` },
   );
