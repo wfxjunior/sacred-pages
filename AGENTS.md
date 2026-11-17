@@ -71,3 +71,4 @@ secret, or database password to it — the repository is not a safe place for th
 - AI features call the Lovable AI Gateway SDK only from server functions (`src/lib/**/*.functions.ts`); prompts never ship to the browser.
 - Stripe return origins use the shared exact-origin allowlist with the canonical live origin as fallback, so caller headers cannot redirect payments off-site.
 - Invitation email delivery requires a server-verified super-admin role and an owned, pending, unexpired invitation; use its ID for provider idempotency to prevent duplicate sends. Other accounts share invitation links without email delivery.
+- Subscription administration reads Stripe subscriptions and paid invoices directly after a caller-scoped super-admin check; deduplicate paying customers and paginate invoice history so reporting works independently of webhook synchronization.

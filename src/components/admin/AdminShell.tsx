@@ -11,6 +11,7 @@ import {
   ScrollText,
   Grid3x3,
   Timer,
+  CreditCard,
 } from "lucide-react";
 import { LumenaLogo } from "@/components/site/LumenaLogo";
 import { useAdminSession } from "@/lib/auth/useAdminSession";
@@ -31,6 +32,7 @@ type NavItem = {
     | "/admin/translations"
     | "/admin/media"
     | "/admin/engagement"
+    | "/admin/subscriptions"
     | "/admin/audit";
   label: string;
   icon: typeof LayoutDashboard;
@@ -47,6 +49,7 @@ const NAV: readonly NavItem[] = [
   { to: "/admin/translations", label: "Translations", icon: Languages },
   { to: "/admin/media", label: "Media", icon: Image },
   { to: "/admin/engagement", label: "Engagement", icon: Timer },
+  { to: "/admin/subscriptions", label: "Subscriptions", icon: CreditCard },
   { to: "/admin/audit", label: "Audit log", icon: ScrollText },
 ];
 
