@@ -38,6 +38,7 @@ import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 import { Route as AdminEngagementRouteImport } from './routes/admin.engagement'
 import { Route as AdminMediaRouteImport } from './routes/admin.media'
 import { Route as AdminReviewRouteImport } from './routes/admin.review'
+import { Route as AdminSubscriptionsRouteImport } from './routes/admin.subscriptions'
 import { Route as AdminTemplatesRouteImport } from './routes/admin.templates'
 import { Route as AdminTranslationsRouteImport } from './routes/admin.translations'
 import { Route as CheckoutCancelRouteImport } from './routes/checkout/cancel'
@@ -207,6 +208,11 @@ const AdminReviewRoute = AdminReviewRouteImport.update({
   path: '/admin/review',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSubscriptionsRoute = AdminSubscriptionsRouteImport.update({
+  id: '/admin/subscriptions',
+  path: '/admin/subscriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminTemplatesRoute = AdminTemplatesRouteImport.update({
   id: '/admin/templates',
   path: '/admin/templates',
@@ -354,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/admin/engagement': typeof AdminEngagementRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/review': typeof AdminReviewRoute
+  '/admin/subscriptions': typeof AdminSubscriptionsRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
@@ -408,6 +415,7 @@ export interface FileRoutesByTo {
   '/admin/engagement': typeof AdminEngagementRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/review': typeof AdminReviewRoute
+  '/admin/subscriptions': typeof AdminSubscriptionsRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
@@ -463,6 +471,7 @@ export interface FileRoutesById {
   '/admin/engagement': typeof AdminEngagementRoute
   '/admin/media': typeof AdminMediaRoute
   '/admin/review': typeof AdminReviewRoute
+  '/admin/subscriptions': typeof AdminSubscriptionsRoute
   '/admin/templates': typeof AdminTemplatesRoute
   '/admin/translations': typeof AdminTranslationsRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
@@ -519,6 +528,7 @@ export interface FileRouteTypes {
     | '/admin/engagement'
     | '/admin/media'
     | '/admin/review'
+    | '/admin/subscriptions'
     | '/admin/templates'
     | '/admin/translations'
     | '/checkout/cancel'
@@ -573,6 +583,7 @@ export interface FileRouteTypes {
     | '/admin/engagement'
     | '/admin/media'
     | '/admin/review'
+    | '/admin/subscriptions'
     | '/admin/templates'
     | '/admin/translations'
     | '/checkout/cancel'
@@ -627,6 +638,7 @@ export interface FileRouteTypes {
     | '/admin/engagement'
     | '/admin/media'
     | '/admin/review'
+    | '/admin/subscriptions'
     | '/admin/templates'
     | '/admin/translations'
     | '/checkout/cancel'
@@ -682,6 +694,7 @@ export interface RootRouteChildren {
   AdminEngagementRoute: typeof AdminEngagementRoute
   AdminMediaRoute: typeof AdminMediaRoute
   AdminReviewRoute: typeof AdminReviewRoute
+  AdminSubscriptionsRoute: typeof AdminSubscriptionsRoute
   AdminTemplatesRoute: typeof AdminTemplatesRoute
   AdminTranslationsRoute: typeof AdminTranslationsRoute
   CheckoutCancelRoute: typeof CheckoutCancelRoute
@@ -912,6 +925,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/subscriptions': {
+      id: '/admin/subscriptions'
+      path: '/admin/subscriptions'
+      fullPath: '/admin/subscriptions'
+      preLoaderRoute: typeof AdminSubscriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/templates': {
       id: '/admin/templates'
       path: '/admin/templates'
@@ -1117,6 +1137,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminEngagementRoute: AdminEngagementRoute,
   AdminMediaRoute: AdminMediaRoute,
   AdminReviewRoute: AdminReviewRoute,
+  AdminSubscriptionsRoute: AdminSubscriptionsRoute,
   AdminTemplatesRoute: AdminTemplatesRoute,
   AdminTranslationsRoute: AdminTranslationsRoute,
   CheckoutCancelRoute: CheckoutCancelRoute,
