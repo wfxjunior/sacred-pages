@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { trustedReturnOrigin } from "./return-origin";
 
 let cached: Stripe | undefined;
 
@@ -28,24 +29,8 @@ export function getStripePublishableKey(): string {
   return process.env["STRIPE_PUBLISHABLE_KEY"] ?? "";
 }
 
-/**
- * The origin Stripe should send the reader back to. VITE_SITE_URL wins when
- * set; otherwise the incoming request's own origin — a localhost fallback in
- * production would strand readers after checkout.
- */
+/** Checkout, gifts and billing share the same exact-origin allowlist. */
 export function resolveReturnOrigin(request: Request | undefined): string {
-  const configured = process.env["VITE_SITE_URL"];
-  if (configured) return configured;
-  const fromRequest = request?.headers.get("origin");
-  if (fromRequest) return fromRequest;
-  const referer = request?.headers.get("referer");
-  if (referer) {
-    try {
-      return new URL(referer).origin;
-    } catch {
-      /* fall through */
-    }
-  }
-  return "http://localhost:8080";
+  return trustedReturnOrigin(request, process.env["VITE_SITE_URL"]);
 }
 

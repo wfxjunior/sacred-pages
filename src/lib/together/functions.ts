@@ -28,7 +28,7 @@ export const createCompanionInvitation = createServerFn({ method: "POST" })
     let emailSent = false;
     try {
       const { sendCompanionInviteEmail } = await import("./email.service");
-      await sendCompanionInviteEmail(invitation, context.userId);
+      await sendCompanionInviteEmail(invitation, context.userId, context.supabase);
       emailSent = true;
     } catch {
       emailSent = false;
@@ -108,6 +108,6 @@ export const resendCompanionInvitation = createServerFn({ method: "POST" })
       throw new Error("Invitation not found");
     }
     const { sendCompanionInviteEmail } = await import("./email.service");
-    await sendCompanionInviteEmail(invitation, context.userId);
+    await sendCompanionInviteEmail(invitation, context.userId, context.supabase);
     return { sent: true };
   });

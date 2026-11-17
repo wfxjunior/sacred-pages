@@ -2142,7 +2142,7 @@ const APP_EN: Dict = {
   "together.invite.success": "Invitation sent",
   "together.invite.created": "Invitation created",
   "together.invite.emailFailed":
-    "We could not send the email just now — share the link below and it works the same.",
+    "The email was not sent. Only administrators can send invitation emails; you can share the invitation link directly.",
   "together.invite.cancelled": "Invitation cancelled.",
   "together.invite.cancelError": "Could not cancel it just now — try again.",
   "together.groupsSoonTitle": "Small groups are coming",
@@ -2530,7 +2530,7 @@ const APP_PT: Dict = {
   "together.invite.success": "Convite enviado",
   "together.invite.created": "Convite criado",
   "together.invite.emailFailed":
-    "Não conseguimos enviar o e-mail agora — compartilhe o link abaixo e funciona igual.",
+    "O e-mail não foi enviado. Apenas administradores podem enviar e-mails de convite; você pode compartilhar o link diretamente.",
   "together.invite.cancelled": "Convite cancelado.",
   "together.invite.cancelError": "Não foi possível cancelar agora — tente de novo.",
   "together.groupsSoonTitle": "Pequenos grupos estão a caminho",
@@ -2919,7 +2919,7 @@ const APP_ES: Dict = {
   "together.invite.success": "Invitación enviada",
   "together.invite.created": "Invitación creada",
   "together.invite.emailFailed":
-    "No pudimos enviar el correo ahora — comparte el enlace de abajo y funciona igual.",
+    "El correo no fue enviado. Solo los administradores pueden enviar correos de invitación; puedes compartir el enlace directamente.",
   "together.invite.cancelled": "Invitación cancelada.",
   "together.invite.cancelError": "No se pudo cancelar ahora — inténtalo de nuevo.",
   "together.groupsSoonTitle": "Los grupos pequeños están en camino",

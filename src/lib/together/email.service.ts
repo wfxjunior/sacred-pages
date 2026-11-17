@@ -1,10 +1,11 @@
 import * as React from "react";
 import { sendLovableEmail } from "@lovable.dev/email-js";
 import { render } from "@react-email/render";
-import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { CompanionInviteEmail } from "@/lib/email-templates/CompanionInviteEmail";
 import type { Database } from "@/integrations/supabase/types";
 import type { Companionship } from "./types";
+import { assertInvitationEmailAllowed } from "./invitation-email-policy";
 
 const SITE_NAME = "lumenadaily";
 const ROOT_DOMAIN = "lumenadaily.com";
@@ -14,19 +15,18 @@ const SITE_URL = `https://${ROOT_DOMAIN}`;
 export async function sendCompanionInviteEmail(
   invitation: Companionship,
   inviterUserId: string,
+  supabase: SupabaseClient<Database>,
 ): Promise<void> {
+  const { data: isAdmin, error } = await supabase.rpc("has_role", {
+    uid: inviterUserId,
+    r: "super_admin",
+  });
+  if (error) throw new Error("Could not verify email permission");
+  assertInvitationEmailAllowed(invitation, inviterUserId, isAdmin === true);
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
 
-  const supabaseUrl = process.env["SUPABASE_URL"];
-  const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
-  if (!supabaseUrl || !publishableKey) throw new Error("Missing Supabase env");
-
-  const supabasePublic = createClient<Database>(supabaseUrl, publishableKey, {
-    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-  });
-
-  const { data: inviter } = await supabasePublic
+  const { data: inviter } = await supabase
     .from("profiles")
     .select("display_name")
     .eq("id", inviterUserId)
@@ -57,6 +57,6 @@ export async function sendCompanionInviteEmail(
       html,
       text,
     },
-    { apiKey },
+    { apiKey, idempotencyKey: `companion-invite-${invitation.id}` },
   );
 }

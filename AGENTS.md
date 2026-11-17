@@ -69,3 +69,5 @@ Supabase values (project id, URL, and the `sb_publishable_` key, which is safe t
 expose because RLS is enabled on every table). Never add a service-role key, JWT
 secret, or database password to it — the repository is not a safe place for them.
 - AI features call the Lovable AI Gateway SDK only from server functions (`src/lib/**/*.functions.ts`); prompts never ship to the browser.
+- Stripe return origins use the shared exact-origin allowlist with the canonical live origin as fallback, so caller headers cannot redirect payments off-site.
+- Invitation email delivery requires a server-verified super-admin role and an owned, pending, unexpired invitation; use its ID for provider idempotency to prevent duplicate sends. Other accounts share invitation links without email delivery.
