@@ -36,17 +36,16 @@ function DonatePage() {
   const { t } = useI18n();
   const donate = useServerFn(createDonationSession);
   const [selected, setSelected] = useState<number | "custom">(10);
-  const [custom, setCustom] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const amount = selected === "custom" ? Math.floor(Number(custom) || 0) : selected;
-  const valid = amount >= 5 && amount <= 1000;
+  const amount = selected === "custom" ? 0 : selected;
+  const valid = selected === "custom" || (amount >= 5 && amount <= 1000);
 
   async function submit() {
     if (!valid || loading) return;
     setLoading(true);
     try {
-      const { url } = await donate({ data: { amount } });
+      const { url } = await donate({ data: { tier: selected === "custom" ? "custom" : (String(selected) as "5" | "10" | "30" | "50" | "100") } });
       window.location.href = url;
     } catch {
       toast.error(t("donate.error"));
@@ -129,27 +128,7 @@ function DonatePage() {
           </div>
 
           {selected === "custom" && (
-            <label className="mt-4 block">
-              <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                {t("donate.customLabel")}
-              </span>
-              <div className="mt-2 flex items-center gap-2 rounded-2xl border border-border/70 bg-background px-4 py-3">
-                <span className="font-serif text-xl text-muted-foreground">$</span>
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  min={5}
-                  max={1000}
-                  value={custom}
-                  onChange={(e) => setCustom(e.target.value)}
-                  placeholder="25"
-                  className="w-full bg-transparent text-lg outline-none"
-                />
-              </div>
-              {!valid && custom !== "" && (
-                <p className="mt-2 text-xs text-muted-foreground">{t("donate.range")}</p>
-              )}
-            </label>
+            <p className="mt-4 text-sm text-muted-foreground">{t("donate.range")}</p>
           )}
 
           <Button
@@ -163,7 +142,7 @@ function DonatePage() {
             ) : (
               <>
                 {t("donate.cta")}
-                {valid ? ` · $${amount}` : ""}
+                {valid && selected !== "custom" ? ` · $${amount}` : ""}
               </>
             )}
           </Button>
