@@ -309,7 +309,7 @@ function MobileHeader({
         <p className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "var(--walnut)" }}>
           {TODAY.reference}
         </p>
-        <h1 className="mt-0.5 truncate font-serif text-lg leading-tight">{TODAY.title}</h1>
+        <p className="mt-0.5 truncate font-serif text-lg leading-tight">{TODAY.title}</p>
         <p className="mt-0.5 text-[10px] text-muted-foreground">
           {wordCount} {t(wordCount === 1 ? "today.word" : "today.words")} · {difficultyLabel}
         </p>
@@ -322,6 +322,8 @@ function MobileHeader({
           variant="outline"
           size="icon"
           className="h-11 w-11 sm:h-9 sm:w-9"
+          aria-label={t("complete.markDone")}
+          title={t("complete.markDone")}
         >
           <CheckCircle2 className="h-4 w-4" />
         </Button>

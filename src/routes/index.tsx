@@ -43,6 +43,21 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "https://www.lumenadaily.com/og-image.png" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify([
+          { "@context": "https://schema.org", "@type": "WebSite", name: "Lumena", url: "https://lumenadaily.com/" },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Lumena",
+            url: "https://lumenadaily.com/",
+            logo: "https://lumenadaily.com/icon-512.png",
+          },
+        ]),
+      },
+    ],
   }),
   component: Landing,
 });

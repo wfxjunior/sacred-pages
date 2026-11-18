@@ -26,6 +26,19 @@ export const Route = createFileRoute("/collections/$slug")({
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            headline: readable,
+            description,
+            url: `https://lumenadaily.com/collections/${params.slug}`,
+            author: { "@type": "Organization", name: "Lumena" },
+          }),
+        },
+      ],
     };
   },
   notFoundComponent: () => <CollectionNotFound />,

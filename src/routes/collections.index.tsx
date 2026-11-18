@@ -39,6 +39,18 @@ export const Route = createFileRoute("/collections/")({
         content: "Curated Bible journeys organized by people, books, and themes.",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Collections — Lumena",
+          description: "A curated library of Bible journeys organized by people, books, and themes.",
+          url: "https://lumenadaily.com/collections",
+        }),
+      },
+    ],
   }),
   component: CollectionsPage,
 });
