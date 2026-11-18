@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "";
+const BASE_URL = "https://lumenadaily.com";
 
 interface SitemapEntry {
   path: string;
@@ -19,6 +19,17 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/collections", changefreq: "weekly", priority: "0.8" },
           { path: "/pricing", changefreq: "monthly", priority: "0.7" },
           { path: "/about", changefreq: "monthly", priority: "0.6" },
+          { path: "/features", changefreq: "monthly", priority: "0.7" },
+          { path: "/donate", changefreq: "monthly", priority: "0.6" },
+          { path: "/play", changefreq: "weekly", priority: "0.7" },
+          { path: "/play/daily", changefreq: "daily", priority: "0.6" },
+          { path: "/play/word-guess", changefreq: "weekly", priority: "0.5" },
+          { path: "/play/unscramble", changefreq: "weekly", priority: "0.5" },
+          { path: "/play/who-am-i", changefreq: "weekly", priority: "0.5" },
+          { path: "/play/finish-the-verse", changefreq: "weekly", priority: "0.5" },
+          { path: "/privacy", changefreq: "yearly", priority: "0.2" },
+          { path: "/terms", changefreq: "yearly", priority: "0.2" },
+          { path: "/cookies", changefreq: "yearly", priority: "0.2" },
           { path: "/signin", changefreq: "yearly", priority: "0.3" },
           { path: "/signup", changefreq: "yearly", priority: "0.5" },
         ];
